@@ -93,12 +93,11 @@ export const plugins: Plugin[] = [
   }),
   payloadCloudPlugin(),
   vercelBlobStorage({
-    enabled: true, // Optional, defaults to true
+    enabled: true,
     // Specify which collections should use Vercel Blob
     collections: {
       media: true,
     },
-    // Token provided by Vercel once Blob storage is added to your Vercel project
     token: process.env.VERCEL_BLOB_READ_WRITE_TOKEN,
   }),
 ]
