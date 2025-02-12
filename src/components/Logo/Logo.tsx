@@ -23,6 +23,7 @@ export const Logo = (props: Props) => {
       fetchPriority={priority}
       decoding="async"
       className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
+      // TODO replace with dynamic domain based on environment
       src="https://preview.forwardlabs.ch/api/media/file/forward-logo-white.svg"
     />
   )
