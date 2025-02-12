@@ -107,6 +107,9 @@ const config = {
           to: { height: '0' },
         },
       },
+      fontFamily: {
+        fustat: ['var(--font-fustat)'],
+      },
       typography: () => ({
         DEFAULT: {
           css: [
