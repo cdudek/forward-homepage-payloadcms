@@ -23,7 +23,7 @@ export const Logo = (props: Props) => {
       fetchPriority={priority}
       decoding="async"
       className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-      src="https://storage.cloud.google.com/forwardlabs.ch/storage/media/forward-logo-white.svg"
+      src="https://storage.googleapis.com/forwardlabs.ch/storage/media/forward-logo-white.svg"
     />
   )
 }
