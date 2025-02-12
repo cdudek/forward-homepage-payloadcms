@@ -18,6 +18,7 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+
 // import { resendAdapter } from '@payloadcms/email-resend'
 
 const filename = fileURLToPath(import.meta.url)
