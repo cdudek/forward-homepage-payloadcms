@@ -9,9 +9,31 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 })
 
+const eslintIgnores = [
+  '**/.temp',
+  '**/.*', // ignore all dotfiles
+  '**/.git',
+  '**/.hg',
+  '**/.pnp.*',
+  '**/.svn',
+  '**/playwright.config.ts',
+  '**/jest.config.js',
+  '**/tsconfig.tsbuildinfo',
+  '**/README.md',
+  '**/eslint.config.js',
+  '**/payload-types.ts',
+  '**/dist/',
+  '.next',
+  '**/.yarn/',
+  '**/build/',
+  '**/node_modules/',
+  '**/temp/',
+]
+
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
+    ignores: eslintIgnores,
     rules: {
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-empty-object-type': 'warn',
