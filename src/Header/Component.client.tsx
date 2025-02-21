@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+// import { usePathname } from 'next/navigation'
 import React from 'react'
 
 import type { Header } from '@/payload-types'
@@ -13,7 +13,7 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  const pathname = usePathname()
+  // const pathname = usePathname()
 
   return (
     <header className="container relative z-20">

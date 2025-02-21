@@ -11,8 +11,6 @@ import type { Props as MediaProps } from '../types'
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
 
-import type { Media } from '@payload-types'
-
 const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
