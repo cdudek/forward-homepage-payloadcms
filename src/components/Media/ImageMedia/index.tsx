@@ -11,6 +11,8 @@ import type { Props as MediaProps } from '../types'
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
 
+import type { Media } from '@payload-types'
+
 const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
@@ -33,13 +35,21 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let height: number | undefined
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
+  let blurhash: string | null | undefined = placeholderBlur
 
   if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+    const {
+      alt: altFromResource,
+      height: fullHeight,
+      url,
+      width: fullWidth,
+      blurhash: blurhashFromResource,
+    } = resource
 
     width = fullWidth!
     height = fullHeight!
     alt = altFromResource || ''
+    blurhash = blurhashFromResource
 
     const cacheTag = resource.updatedAt
 
@@ -62,8 +72,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         className={cn(imgClassName)}
         fill={fill}
         height={!fill ? height : undefined}
-        placeholder="blur"
-        blurDataURL={placeholderBlur}
+        placeholder={blurhash ? 'blur' : 'empty'}
+        blurDataURL={blurhash || undefined}
         priority={priority}
         quality={100}
         loading={loading}

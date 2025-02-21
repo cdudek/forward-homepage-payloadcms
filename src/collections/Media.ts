@@ -14,6 +14,8 @@ import { authenticated } from '../access/authenticated'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+import { generateBlurHash } from '@/hooks/generateBlurhash'
+
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
@@ -36,6 +38,15 @@ export const Media: CollectionConfig = {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
         },
       }),
+    },
+    {
+      name: 'blurhash',
+      type: 'text',
+      admin: {
+        hidden: false,
+        disableListColumn: true,
+        disableListFilter: true,
+      },
     },
   ],
   upload: {
@@ -76,5 +87,8 @@ export const Media: CollectionConfig = {
         crop: 'center',
       },
     ],
+  },
+  hooks: {
+    beforeValidate: [generateBlurHash],
   },
 }

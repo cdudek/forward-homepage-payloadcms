@@ -275,6 +275,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  blurhash?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -288,6 +289,7 @@ export interface Media {
   focalY?: number | null;
   sizes?: {
     thumbnail?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -296,6 +298,7 @@ export interface Media {
       filename?: string | null;
     };
     square?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -304,6 +307,7 @@ export interface Media {
       filename?: string | null;
     };
     small?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -312,6 +316,7 @@ export interface Media {
       filename?: string | null;
     };
     medium?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -320,6 +325,7 @@ export interface Media {
       filename?: string | null;
     };
     large?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -328,6 +334,7 @@ export interface Media {
       filename?: string | null;
     };
     xlarge?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -336,6 +343,7 @@ export interface Media {
       filename?: string | null;
     };
     og?: {
+      blurhash?: string | null;
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -1152,6 +1160,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  blurhash?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1169,6 +1178,7 @@ export interface MediaSelect<T extends boolean = true> {
         thumbnail?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1179,6 +1189,7 @@ export interface MediaSelect<T extends boolean = true> {
         square?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1189,6 +1200,7 @@ export interface MediaSelect<T extends boolean = true> {
         small?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1199,6 +1211,7 @@ export interface MediaSelect<T extends boolean = true> {
         medium?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1209,6 +1222,7 @@ export interface MediaSelect<T extends boolean = true> {
         large?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1219,6 +1233,7 @@ export interface MediaSelect<T extends boolean = true> {
         xlarge?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
@@ -1229,6 +1244,7 @@ export interface MediaSelect<T extends boolean = true> {
         og?:
           | T
           | {
+              blurhash?: T;
               url?: T;
               width?: T;
               height?: T;
