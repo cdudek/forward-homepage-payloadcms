@@ -1,8 +1,12 @@
 import { APIError, CollectionBeforeValidateHook } from 'payload'
 import { getPlaiceholder } from 'plaiceholder'
-// import { MediaType } from '../payload-types'
+import { Media } from '../payload-types'
 
-export const generateBlurHash: CollectionBeforeValidateHook = async ({ data, operation, req }) => {
+export const generateBlurHash: CollectionBeforeValidateHook<Media> = async ({
+  data,
+  operation,
+  req,
+}) => {
   if (operation !== 'create' && operation !== 'update') return data
 
   try {
