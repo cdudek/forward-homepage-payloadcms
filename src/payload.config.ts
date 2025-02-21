@@ -76,7 +76,6 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
     blurHash({
       enabled: true,
       collections: ['media'],
