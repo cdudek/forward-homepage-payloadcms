@@ -16,7 +16,6 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { blurHash } from '@zapal/payload-blurhash-plugin'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
