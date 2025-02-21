@@ -9,7 +9,6 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [tailwindcssAnimate, typography],
   prefix: '',
   safelist: [
@@ -94,8 +93,7 @@ const config = {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        fustat: ['var(--font-fustat)'],
       },
       keyframes: {
         'accordion-down': {
@@ -106,9 +104,6 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-      },
-      fontFamily: {
-        fustat: ['var(--font-fustat)'],
       },
       typography: () => ({
         DEFAULT: {
@@ -140,9 +135,15 @@ const config = {
           css: [
             {
               h1: {
-                fontSize: '3.5rem',
+                fontSize: '5.0rem',
               },
               h2: {
+                fontSize: '3.0rem',
+              },
+              h3: {
+                fontSize: '2.2rem',
+              },
+              h4: {
                 fontSize: '1.5rem',
               },
             },
