@@ -59,9 +59,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.0.7)(react@19.0.0)
-      '@zapal/payload-blurhash-plugin':
-        specifier: ^1.0.7
-        version: 1.0.7(payload@3.24.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.7.3)(utf-8-validate@6.0.5))(sharp@0.32.6)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -2042,12 +2039,6 @@ packages:
     resolution: {integrity: sha512-WiI2g3+ce2g1u1gP41MoDj2DsMuQQ+us7vHobysRixKECGaLHpfTI7DuVZmHU087ozRAGr3GocSyqmWLLo+fig==}
     engines: {node: '>=14.6'}
 
-  '@zapal/payload-blurhash-plugin@1.0.7':
-    resolution: {integrity: sha512-vaXxvPE8ylYK8tv4rDA14haeoozR4c/AZ3VlHhxtUHAjzHkJIixzSfZBkgqNpGtqqnRSP4ijM0nSVdAeXNp+Iw==}
-    peerDependencies:
-      payload: ^1.7.2 || ^2.0.0
-      sharp: ^0.31 || ^0.32
-
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2218,9 +2209,6 @@ packages:
 
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
-
-  blurhash@2.0.5:
-    resolution: {integrity: sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==}
 
   body-scroll-lock@4.0.0-beta.0:
     resolution: {integrity: sha512-a7tP5+0Mw3YlUJcGAKUqIBkYYGlYxk2fnCasq/FUph1hadxlTRjF+gAcZksxANnaMnALjxEddmSi/H3OR8ugcQ==}
@@ -7235,12 +7223,6 @@ snapshots:
       utf-8-validate: 6.0.5
       ws: 8.18.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
 
-  '@zapal/payload-blurhash-plugin@1.0.7(payload@3.24.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.7.3)(utf-8-validate@6.0.5))(sharp@0.32.6)':
-    dependencies:
-      blurhash: 2.0.5
-      payload: 3.24.0(bufferutil@4.0.9)(graphql@16.10.0)(typescript@5.7.3)(utf-8-validate@6.0.5)
-      sharp: 0.32.6
-
   acorn-jsx@5.3.2(acorn@8.14.0):
     dependencies:
       acorn: 8.14.0
@@ -7438,8 +7420,6 @@ snapshots:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.2
-
-  blurhash@2.0.5: {}
 
   body-scroll-lock@4.0.0-beta.0: {}
 
