@@ -177,7 +177,7 @@ const config = {
                 fontWeight: 200,
               },
               a: {
-                fontWeight: 900,
+                fontWeight: 300,
               },
             },
           ],
