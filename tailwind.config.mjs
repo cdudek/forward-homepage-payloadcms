@@ -70,6 +70,7 @@ const config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         foreground: 'hsl(var(--foreground))',
+
         input: 'hsl(var(--input))',
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -95,6 +96,7 @@ const config = {
       fontFamily: {
         fustat: ['var(--font-fustat)'],
       },
+
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -112,7 +114,7 @@ const config = {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': 'var(--text)',
               h1: {
-                fontWeight: 'normal',
+                // fontWeight: 'normal',
                 marginBottom: '0.25em',
               },
             },
@@ -123,10 +125,26 @@ const config = {
             {
               h1: {
                 fontSize: '2.5rem',
+                fontWeight: 300,
               },
               h2: {
                 fontSize: '1.25rem',
-                fontWeight: 600,
+                fontWeight: 300,
+              },
+              h3: {
+                fontWeight: 300,
+              },
+              h4: {
+                fontWeight: 300,
+              },
+              p: {
+                fontWeight: 200,
+              },
+              div: {
+                fontWeight: 200,
+              },
+              a: {
+                fontWeight: 300,
               },
             },
           ],
@@ -136,15 +154,30 @@ const config = {
             {
               h1: {
                 fontSize: '5.0rem',
+                fontWeight: 300,
               },
               h2: {
                 fontSize: '3.0rem',
+                fontWeight: 300,
               },
               h3: {
                 fontSize: '2.2rem',
+                fontWeight: 400,
               },
               h4: {
                 fontSize: '1.5rem',
+                fontWeight: 300,
+              },
+              p: {
+                fontSize: '1.125rem',
+                fontWeight: 200,
+              },
+              div: {
+                fontSize: '1.125rem',
+                fontWeight: 200,
+              },
+              a: {
+                fontWeight: 900,
               },
             },
           ],

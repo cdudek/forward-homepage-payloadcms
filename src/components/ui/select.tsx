@@ -91,7 +91,7 @@ const SelectLabel: React.FC<
   { ref?: React.Ref<HTMLDivElement> } & React.ComponentProps<typeof SelectPrimitive.Label>
 > = ({ className, ref, ...props }) => (
   <SelectPrimitive.Label
-    className={cn('py-1.5 pl-8 pr-2 text-sm font-semibold', className)}
+    className={cn('py-1.5 pl-8 pr-2 text-sm font-medium', className)}
     ref={ref}
     {...props}
   />
