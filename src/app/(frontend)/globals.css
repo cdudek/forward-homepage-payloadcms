@@ -60,11 +60,14 @@
     @apply border-border;
     /* font-weight: 200; */
   }
+  body {
+    @apply flex min-h-[100vh] flex-col bg-background text-foreground;
+  }
   p {
     font-weight: 200;
   }
-  body {
-    @apply flex min-h-[100vh] flex-col bg-background text-foreground;
+  h3 a {
+    font-weight: 300;
   }
 }
 
