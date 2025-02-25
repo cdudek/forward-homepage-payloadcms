@@ -64,6 +64,13 @@ export const Pages: CollectionConfig<'pages'> = {
       required: true,
     },
     {
+      name: 'headerColor',
+      type: 'select',
+      label: 'Header Color',
+      options: ['light', 'dark'],
+      defaultValue: 'light',
+    },
+    {
       type: 'tabs',
       tabs: [
         {
