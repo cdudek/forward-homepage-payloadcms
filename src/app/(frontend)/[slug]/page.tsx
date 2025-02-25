@@ -58,7 +58,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   if (!page && slug === 'home') {
     page = homeStatic
   }
-  console.log(page)
 
   if (!page) {
     return <PayloadRedirects url={url} />
@@ -69,7 +68,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     // <article className="pt-16 pb-24">
     <>
-      <Header color={page.headerColor} />
+      <Header color={page.headerColor || 'light'} />
       <article className="">
         <PageClient />
         {/* Allows redirects for valid pages too */}

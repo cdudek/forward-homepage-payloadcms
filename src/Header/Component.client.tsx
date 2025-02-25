@@ -14,7 +14,6 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
-  // const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Tailwind classes for each color variant
@@ -23,26 +22,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
     dark: 'bg-black/30 text-white backdrop-blur-sm',
   }
 
-  // Desktop scroll listener
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const viewportTransition = window.innerHeight * 0.1
-  //     setIsScrolled(window.scrollY > viewportTransition)
-  //   }
-
-  //   // Only activate the scroll listener if we're on desktop (≥ md)
-  //   if (window.innerWidth >= 768) {
-  //     window.addEventListener('scroll', handleScroll)
-  //     handleScroll()
-  //   }
-
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [])
-
-  // Decide the desktop color. If scrolled (on desktop), we go dark.
-  // const desktopColor = isScrolled ? 'dark' : color
   const desktopColor = color
 
   // Handler for burger menu click
@@ -51,7 +30,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
     // implement the actual mobile menu later
   }
 
-  // MOBILE HEADER — absolute so it doesn’t push content
+  // MOBILE HEADER — absolute so it doesn't push content
   // We do NOT apply scroll logic here; mobile uses the prop directly.
   const mobileHeader = (
     <header
@@ -64,15 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" />
         </Link>
-        <button
-          onClick={toggleMobileMenu}
-          className={clsx(
-            'p-2 text-white',
-            // If mobile color is dark, text is white, else text is dark
-            // color === 'dark' ? 'text-white' : 'text-gray-900',
-          )}
-          aria-label="Toggle menu"
-        >
+        <button onClick={toggleMobileMenu} className="p-2 text-white" aria-label="Toggle menu">
           <Menu size={24} />
         </button>
       </div>
@@ -107,7 +78,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
     <>
       {mobileHeader}
       {desktopHeader}
-      {/* Ensure your main content has top padding or margin so it isn't hidden by the absolute/fixed headers. */}
+      {/* Mobile menu will be implemented later */}
     </>
   )
 }
