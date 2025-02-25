@@ -12,7 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-
+import { Header } from '@/Header/Component'
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -58,6 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   if (!page && slug === 'home') {
     page = homeStatic
   }
+  console.log(page)
 
   if (!page) {
     return <PayloadRedirects url={url} />
@@ -67,16 +68,19 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     // <article className="pt-16 pb-24">
-    <article className="">
-      <PageClient />
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
+    <>
+      <Header color={page.headerColor} />
+      <article className="">
+        <PageClient />
+        {/* Allows redirects for valid pages too */}
+        <PayloadRedirects disableNotFound url={url} />
 
-      {draft && <LivePreviewListener />}
+        {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
-    </article>
+        <RenderHero {...hero} />
+        <RenderBlocks blocks={layout} />
+      </article>
+    </>
   )
 }
 
