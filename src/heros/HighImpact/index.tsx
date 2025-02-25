@@ -8,11 +8,11 @@ import RichText from '@/components/RichText'
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   return (
     <div className="relative flex items-center justify-center text-white">
-      <div className="container relative z-10 mb-8 flex sm:items-center sm:justify-center md:items-start md:justify-start">
-        <div className="sm:text-center md:max-w-[80%] md:text-left">
+      <div className="container relative z-10 mb-8 flex flex-col items-center text-center sm:items-center sm:text-center md:items-start md:text-left">
+        <div className="w-full sm:items-center sm:text-center md:max-w-[80%] md:text-left">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex gap-4 sm:justify-center md:justify-start">
+            <ul className="flex justify-center gap-4 sm:justify-center md:justify-start">
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
