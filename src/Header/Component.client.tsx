@@ -53,7 +53,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
   // DESKTOP HEADER — fixed at the top, color changes when scrolled
   const desktopHeader = (
     <header className="absolute left-0 right-0 top-0 z-50 hidden py-6 md:block">
-      <div className="container mx-auto md:px-4 lg:px-4 xl:px-0 2xl:px-0">
+      <div className="container mx-auto md:px-2 lg:px-2 xl:px-0 2xl:px-0">
         <div
           className={clsx(
             'grid grid-cols-3 items-center rounded-full p-4 transition-all duration-300',
