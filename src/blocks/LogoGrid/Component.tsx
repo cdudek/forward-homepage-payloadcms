@@ -155,7 +155,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
       <div className="grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
         {currentLogos.map((logo, index) => (
           <div
-            key={`logo-${logo.image.id || index}`}
+            key={`logo-${index}-${logo.image.id || 'unknown'}`}
             className="flex w-full items-center justify-center rounded bg-white"
             style={{
               opacity: fadingIndex === index ? 0 : 1,
