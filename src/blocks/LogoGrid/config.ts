@@ -1,4 +1,11 @@
-import type { Block, FieldHook } from 'payload'
+import type { Block } from 'payload'
+
+import {
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 
 export const LogoGridBlock: Block = {
   slug: 'logoGrid',
@@ -10,12 +17,22 @@ export const LogoGridBlock: Block = {
   fields: [
     {
       name: 'title',
-      type: 'richText',
+      type: 'text',
     },
     {
-      name: 'size',
-      type: 'number',
-      defaultValue: 5,
+      name: 'header',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures, defaultFeatures }) => {
+          return [
+            ...rootFeatures,
+            ...defaultFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ]
+        },
+      }),
     },
     {
       name: 'logos',
