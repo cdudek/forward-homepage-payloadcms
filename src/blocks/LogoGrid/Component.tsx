@@ -131,8 +131,13 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
   useEffect(() => {
     if (logos.length <= GRID_SIZE) return
 
-    const initialDisplayed = currentLogos.map((logo) => logo.image.id)
-    unusedLogos.current = logos.filter((logo) => !initialDisplayed.includes(logo.image.id))
+    const initialDisplayed = currentLogos
+      .filter((logo) => logo && logo.image)
+      .map((logo) => logo.image.id)
+
+    unusedLogos.current = logos.filter(
+      (logo) => logo && logo.image && !initialDisplayed.includes(logo.image.id),
+    )
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
