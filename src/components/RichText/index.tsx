@@ -12,7 +12,7 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
-import { LogoGridBlock, LogoGridBlockProps } from '@/blocks/LogoGrid/Component'
+import { LogoGridBlock, LogoGridBlockProps, Logo } from '@/blocks/LogoGrid/Component'
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
@@ -53,7 +53,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
-    logoGrid: ({ node }) => <LogoGridBlock className="col-start-2" {...node.fields} />,
+    logoGrid: ({ node }: { node: SerializedBlockNode<LogoGridBlockProps> }) => (
+      <LogoGridBlock {...node.fields} />
+    ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
   },
