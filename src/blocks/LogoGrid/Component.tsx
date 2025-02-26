@@ -6,9 +6,9 @@ import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
 
-const FADE_DURATION = 750
+const FADE_DURATION = 1000
 const MIN_INTERVAL = 3000
-const MAX_INTERVAL = 6000
+const MAX_INTERVAL = 5000
 const POSITIONS_MEMORY = 2
 
 const GRID_SIZE = 6
@@ -78,8 +78,13 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
     if (logos.length <= GRID_SIZE) return
 
     if (unusedLogos.current.length === 0) {
-      const displayed = currentLogos.map((logo) => logo.image.id)
-      unusedLogos.current = logos.filter((logo) => !displayed.includes(logo.image.id))
+      const displayed = currentLogos
+        .filter((logo) => logo && logo.image)
+        .map((logo) => logo.image.id)
+
+      unusedLogos.current = logos.filter(
+        (logo) => logo && logo.image && !displayed.includes(logo.image.id),
+      )
     }
 
     if (unusedLogos.current.length > 0) {
@@ -97,20 +102,25 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
       trackPosition(replaceIndex)
 
+      // Start fade-out
       setFadingIndex(replaceIndex)
 
+      // Wait for complete fade-out before swapping
       setTimeout(() => {
+        // Get a random logo from unused ones
         const randomLogoIndex = Math.floor(Math.random() * unusedLogos.current.length)
         const newLogo = unusedLogos.current[randomLogoIndex]
 
+        // Remove the selected logo from unused
         unusedLogos.current.splice(randomLogoIndex, 1)
 
+        // Add the replaced logo back to unused
         const replacedLogo = currentLogos[replaceIndex]
-
         if (replacedLogo) {
           unusedLogos.current.push(replacedLogo)
         }
 
+        // Update the current logos (swap happens here)
         setCurrentLogos((prevLogos) => {
           const newLogos = [...prevLogos]
           if (newLogo) {
@@ -119,11 +129,13 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
           return newLogos
         })
 
-        setTimeout(() => {
+        // Start fade-in immediately after state update
+        requestAnimationFrame(() => {
           setFadingIndex(null)
+        })
 
-          timeoutRef.current = setTimeout(rotateLogo, getRandomInterval())
-        }, FADE_DURATION)
+        // Schedule next rotation after a full cycle (fade-out + fade-in) has completed
+        timeoutRef.current = setTimeout(rotateLogo, FADE_DURATION + getRandomInterval())
       }, FADE_DURATION)
     }
   }
@@ -160,19 +172,22 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
       <div className="grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
         {currentLogos.map((logo, index) => (
           <div
-            key={`logo-${index}-${logo.image.id || 'unknown'}`}
+            key={`logo-${index}-${logo.image?.id || 'unknown'}`}
             className="flex w-full items-center justify-center rounded bg-white"
             style={{
               opacity: fadingIndex === index ? 0 : 1,
-              transition: `opacity ${FADE_DURATION}ms ease-in-out`,
+              transform: fadingIndex === index ? 'scale(0.95)' : 'scale(1)',
+              transition: `opacity ${FADE_DURATION}ms ease-in-out, transform ${FADE_DURATION}ms ease-in-out`,
               aspectRatio: '1/1',
             }}
           >
             <div className="flex h-[60%] w-[60%] items-center justify-center">
-              <Media
-                className="h-auto max-h-full w-auto max-w-full object-contain grayscale"
-                resource={logo.image}
-              />
+              {logo && logo.image && (
+                <Media
+                  className="h-auto max-h-full w-auto max-w-full object-contain grayscale"
+                  resource={logo.image}
+                />
+              )}
             </div>
           </div>
         ))}
