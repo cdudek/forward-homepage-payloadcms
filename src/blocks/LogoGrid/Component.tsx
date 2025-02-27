@@ -77,9 +77,39 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
         }
 
         const exitingLogo = prevLogos[replaceIndex]
-        queue.current.push(exitingLogo)
 
-        const newLogo = queue.current.shift() || null
+        // Find a logo from the queue that isn't already displayed
+        const currentIds = prevLogos.map((logo) => logo?.image?.id)
+        let candidateIndex = 0
+        let foundUnique = false
+
+        // Find the first logo in the queue that's not already displayed
+        while (candidateIndex < queue.current.length && !foundUnique) {
+          const candidate = queue.current[candidateIndex]
+          if (!candidate || !candidate.image) {
+            candidateIndex++
+            continue
+          }
+
+          // Check if this logo is already displayed
+          if (!currentIds.includes(candidate.image.id)) {
+            foundUnique = true
+            break
+          }
+          candidateIndex++
+        }
+
+        // If we couldn't find a unique logo, use the first one as fallback
+        if (!foundUnique) {
+          console.warn('⚠️ Could not find a unique logo, using first in queue')
+          candidateIndex = 0
+        }
+
+        // Get the new logo and remove it from the queue
+        const newLogo = queue.current.splice(candidateIndex, 1)[0]
+
+        // Add the exiting logo to the queue
+        queue.current.push(exitingLogo)
 
         if (!newLogo || !newLogo.image) {
           console.error('❌ New logo is null or has no image, skipping update')
@@ -88,19 +118,27 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
         console.log('⬆️ New Logo Added:', newLogo.image.id)
         console.log('🔽 Old Logo Moved to Queue:', exitingLogo?.image?.id || 'null')
+
+        const updatedLogos = [...prevLogos]
+        updatedLogos[replaceIndex] = newLogo
+
+        // Verify no duplicates in the updated logos
+        const updatedIds = updatedLogos.map((logo) => logo?.image?.id)
+        const hasDuplicates = updatedIds.some((id, idx) => updatedIds.indexOf(id) !== idx)
+
+        if (hasDuplicates) {
+          console.warn('⚠️ Duplicate logos detected after rotation! Using existing logos.')
+          return prevLogos
+        }
+
         console.log(
           '📌 Current Logos After Rotation:',
-          [...prevLogos.slice(0, replaceIndex), newLogo, ...prevLogos.slice(replaceIndex + 1)].map(
-            (l) => l?.image?.id || 'null',
-          ),
+          updatedLogos.map((l) => l?.image?.id || 'null'),
         )
         console.log(
           '📋 Queue After Rotation:',
           queue.current.map((l) => l?.image?.id || 'null'),
         )
-
-        const updatedLogos = [...prevLogos]
-        updatedLogos[replaceIndex] = newLogo
 
         return updatedLogos
       })
@@ -116,7 +154,36 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
   useEffect(() => {
     if (logos.length <= GRID_SIZE) return
 
-    queue.current = logos.slice(GRID_SIZE)
+    // Ensure initial logos are unique
+    const uniqueLogos: Logo[] = []
+    const seenIds = new Set<string>()
+
+    // First pass: try to fill with unique logos
+    for (const logo of logos) {
+      if (uniqueLogos.length >= GRID_SIZE) break
+
+      if (logo?.image?.id && !seenIds.has(logo.image.id)) {
+        uniqueLogos.push(logo)
+        seenIds.add(logo.image.id)
+      }
+    }
+
+    // If we don't have enough unique logos, fill with whatever is available
+    if (uniqueLogos.length < GRID_SIZE) {
+      for (const logo of logos) {
+        if (uniqueLogos.length >= GRID_SIZE) break
+        uniqueLogos.push(logo)
+      }
+    }
+
+    setCurrentLogos(uniqueLogos)
+
+    // Set up the queue with remaining logos
+    const remainingLogos = logos.filter(
+      (logo) => !uniqueLogos.some((uLogo) => uLogo?.image?.id === logo?.image?.id),
+    )
+
+    queue.current = remainingLogos.length > 0 ? remainingLogos : logos.slice(0, GRID_SIZE)
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
@@ -139,7 +206,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
       <div className="grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
         {currentLogos.map((logo, index) => (
           <div
-            key={`logo-${index}-${logo.image?.id || 'unknown'}`}
+            key={`logo-${index}-${logo?.image?.id || Math.random().toString(36).substring(7)}`}
             className="relative aspect-square w-full overflow-hidden rounded bg-white"
             style={{
               opacity: fadingIndex === index ? 0 : 1,
