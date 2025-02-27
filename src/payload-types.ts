@@ -732,7 +732,6 @@ export interface Form {
  * via the `definition` "LogoGridBlock".
  */
 export interface LogoGridBlock {
-  title?: string | null;
   header?: {
     root: {
       type: string;
@@ -1154,7 +1153,6 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "LogoGridBlock_select".
  */
 export interface LogoGridBlockSelect<T extends boolean = true> {
-  title?: T;
   header?: T;
   logos?:
     | T

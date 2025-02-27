@@ -16,10 +16,6 @@ export const LogoGridBlock: Block = {
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
-    },
-    {
       name: 'header',
       type: 'richText',
       editor: lexicalEditor({

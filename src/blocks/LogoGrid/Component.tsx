@@ -48,31 +48,15 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
     const replaceIndex = Math.floor(Math.random() * currentLogos.length)
 
-    console.log('🔄 Rotation Started')
-    console.log(
-      '📌 Current Logos Before Rotation:',
-      currentLogos.map((l) => l?.image?.id || 'null'),
-    )
-    console.log(
-      '📋 Queue Before Rotation:',
-      queue.current.map((l) => l?.image?.id || 'null'),
-    )
-
     if (!currentLogos[replaceIndex] || !currentLogos[replaceIndex]?.image) {
-      console.error(`❌ Skipping rotation: Invalid logo at index ${replaceIndex}`)
       return
     }
-
-    console.log(
-      `🎯 Replacing logo at index: ${replaceIndex} (ID: ${currentLogos[replaceIndex].image.id})`,
-    )
 
     setFadingIndex(replaceIndex)
 
     setTimeout(() => {
       setCurrentLogos((prevLogos) => {
         if (queue.current.length === 0) {
-          console.warn('🚨 Queue is empty, skipping rotation')
           return prevLogos
         }
 
@@ -101,7 +85,6 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
         // If we couldn't find a unique logo, use the first one as fallback
         if (!foundUnique) {
-          console.warn('⚠️ Could not find a unique logo, using first in queue')
           candidateIndex = 0
         }
 
@@ -109,15 +92,13 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
         const newLogo = queue.current.splice(candidateIndex, 1)[0]
 
         // Add the exiting logo to the queue
-        queue.current.push(exitingLogo)
-
-        if (!newLogo || !newLogo.image) {
-          console.error('❌ New logo is null or has no image, skipping update')
-          return prevLogos
+        if (exitingLogo) {
+          queue.current.push(exitingLogo)
         }
 
-        console.log('⬆️ New Logo Added:', newLogo.image.id)
-        console.log('🔽 Old Logo Moved to Queue:', exitingLogo?.image?.id || 'null')
+        if (!newLogo || !newLogo.image) {
+          return prevLogos
+        }
 
         const updatedLogos = [...prevLogos]
         updatedLogos[replaceIndex] = newLogo
@@ -127,18 +108,8 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
         const hasDuplicates = updatedIds.some((id, idx) => updatedIds.indexOf(id) !== idx)
 
         if (hasDuplicates) {
-          console.warn('⚠️ Duplicate logos detected after rotation! Using existing logos.')
           return prevLogos
         }
-
-        console.log(
-          '📌 Current Logos After Rotation:',
-          updatedLogos.map((l) => l?.image?.id || 'null'),
-        )
-        console.log(
-          '📋 Queue After Rotation:',
-          queue.current.map((l) => l?.image?.id || 'null'),
-        )
 
         return updatedLogos
       })
