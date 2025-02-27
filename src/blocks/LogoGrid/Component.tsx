@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
@@ -31,7 +31,9 @@ export type LogoGridBlockProps = {
 }
 
 export type Logo = {
-  image: MediaType
+  image: {
+    id: string
+  } & MediaType
 }
 
 export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = [] }) => {
@@ -43,7 +45,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
   const getRandomInterval = () =>
     Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL
 
-  const rotateLogo = () => {
+  const rotateLogo = useCallback(() => {
     if (logos.length <= GRID_SIZE || queue.current.length === 0) return
 
     const replaceIndex = Math.floor(Math.random() * currentLogos.length)
@@ -120,7 +122,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
       timeoutRef.current = setTimeout(rotateLogo, FADE_DURATION + getRandomInterval())
     }, FADE_DURATION)
-  }
+  }, [logos])
 
   useEffect(() => {
     if (logos.length <= GRID_SIZE) return
@@ -167,7 +169,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [logos])
+  }, [logos, rotateLogo])
 
   return (
     <div className="container relative z-10 my-8 md:my-8 lg:my-8">
