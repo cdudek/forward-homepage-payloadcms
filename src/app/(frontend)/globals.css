@@ -50,6 +50,9 @@
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
     --error: 10 100% 86%;
+
+    /* Custom brand colors */
+    --brand-dark: 222 32% 6%; /* #0b0e14 converted to HSL */
   }
 }
 

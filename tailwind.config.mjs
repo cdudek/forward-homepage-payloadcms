@@ -24,6 +24,7 @@ const config = {
     'bg-success/30',
     'border-warning',
     'bg-warning/30',
+    'bg-brand-dark', // Add brand-dark to safelist
   ],
   theme: {
     container: {
@@ -70,7 +71,6 @@ const config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         foreground: 'hsl(var(--foreground))',
-
         input: 'hsl(var(--input))',
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -92,11 +92,14 @@ const config = {
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
+        // Add brand colors
+        brand: {
+          dark: 'hsl(var(--brand-dark))',
+        },
       },
       fontFamily: {
         fustat: ['var(--font-fustat)'],
       },
-
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

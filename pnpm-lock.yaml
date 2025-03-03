@@ -74,6 +74,9 @@ importers:
       graphql:
         specifier: ^16.10.0
         version: 16.10.0
+      lexical:
+        specifier: ^0.25.0
+        version: 0.25.0
       lucide-react:
         specifier: ^0.378.0
         version: 0.378.0(react@19.0.0)
@@ -3364,6 +3367,9 @@ packages:
 
   lexical@0.21.0:
     resolution: {integrity: sha512-Dxc5SCG4kB+wF+Rh55ism3SuecOKeOtCtGHFGKd6pj2QKVojtjkxGTQPMt7//2z5rMSue4R+hmRM0pCEZflupA==}
+
+  lexical@0.25.0:
+    resolution: {integrity: sha512-yZNfC+3Df/qGAbGD1Lsh+dkG0COJKGuDlT1e/t0qS9F1jaKvoz7Fm0tACQ3eRTbOYncJiaJveLiT9GADac2hrA==}
 
   lib0@0.2.99:
     resolution: {integrity: sha512-vwztYuUf1uf/1zQxfzRfO5yzfNKhTtgOByCruuiQQxWQXnPb8Itaube5ylofcV0oM0aKal9Mv+S1s1Ky0UYP1w==}
@@ -8689,6 +8695,8 @@ snapshots:
       type-check: 0.4.0
 
   lexical@0.21.0: {}
+
+  lexical@0.25.0: {}
 
   lib0@0.2.99:
     dependencies:

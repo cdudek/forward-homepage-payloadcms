@@ -11,7 +11,6 @@ const MAX_INTERVAL = 5000
 const GRID_SIZE = 6
 
 export type LogoGridBlockProps = {
-  title?: string
   header?: {
     root: {
       type: string
