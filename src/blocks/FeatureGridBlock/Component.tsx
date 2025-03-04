@@ -230,7 +230,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
           ].join(' ')
 
           const headerContainerClasses = [
-            'w-full mb-4',
+            'w-full',
             getAlignmentClasses(header.horizontalAlignment),
             getVerticalAlignmentClasses(header.verticalAlignment),
             header.equalHeight ? 'flex flex-col h-full' : '',
