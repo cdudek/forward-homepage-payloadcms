@@ -188,23 +188,41 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       const { start, mid, end, angle, midPos } = icon.gradientValues
 
       return (
-        <div className="relative">
-          {/* Base SVG - made black to accept gradient overlay */}
-          <div className={getIconImageSizeClasses(icon.size)}>
+        <div className={getIconImageSizeClasses(icon.size)}>
+          <div className="relative h-full w-full">
+            {/* Create a mask using the icon */}
             <img
               src={icon.media.url || ''}
               alt={icon.media.alt || ''}
-              className="h-full w-full brightness-0"
+              className="absolute h-full w-full brightness-0"
+              style={{
+                WebkitMaskImage: `url(${icon.media.url})`,
+                maskImage: `url(${icon.media.url})`,
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+              }}
+            />
+
+            {/* Gradient that will be masked by the icon shape */}
+            <div
+              className="h-full w-full"
+              style={{
+                background: `linear-gradient(${angle}, ${start} 0%, ${mid} ${midPos}%, ${end} 100%)`,
+                WebkitMaskImage: `url(${icon.media.url})`,
+                maskImage: `url(${icon.media.url})`,
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+              }}
             />
           </div>
-
-          {/* Gradient overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 mix-blend-screen"
-            style={{
-              background: `linear-gradient(${angle}, ${start} 0%, ${mid} ${midPos}%, ${end} 100%)`,
-            }}
-          />
         </div>
       )
     }
