@@ -5,7 +5,18 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  BlockquoteFeature,
+  ParagraphFeature,
+  AlignFeature,
+  IndentFeature,
+  ItalicFeature,
+  BoldFeature,
+  StrikethroughFeature,
+  UnderlineFeature,
+  LinkFeature,
+  BlocksFeature,
 } from '@payloadcms/richtext-lexical'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
 
 import { link } from '@/fields/link'
 
@@ -42,8 +53,18 @@ const columnFields: Field[] = [
           ...rootFeatures,
           ...defaultFeatures,
           HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          BlocksFeature({ blocks: [ColoredTextBlock] }),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
+          BlockquoteFeature(),
+          AlignFeature(),
+          IndentFeature(),
+          ParagraphFeature(),
+          ItalicFeature(),
+          BoldFeature(),
+          StrikethroughFeature(),
+          UnderlineFeature(),
+          LinkFeature(),
         ]
       },
     }),
@@ -67,12 +88,100 @@ export const Content: Block = {
   interfaceName: 'ContentBlock',
   fields: [
     {
-      name: 'columns',
-      type: 'array',
-      admin: {
-        initCollapsed: true,
-      },
-      fields: columnFields,
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'columns',
+              type: 'array',
+              fields: columnFields,
+            },
+          ],
+        },
+        {
+          label: 'Layout',
+          fields: [
+            {
+              name: 'sectionHeight',
+              type: 'select',
+              defaultValue: 'none',
+              label: 'Section Height',
+              options: [
+                {
+                  label: 'Auto',
+                  value: 'none',
+                },
+                {
+                  label: 'Full Viewport',
+                  value: 'full',
+                },
+                {
+                  label: '75% Viewport',
+                  value: '75',
+                },
+                {
+                  label: '50% Viewport',
+                  value: '50',
+                },
+              ],
+            },
+            {
+              name: 'padding',
+              type: 'group',
+              fields: [
+                {
+                  name: 'x',
+                  type: 'select',
+                  defaultValue: 'none',
+                  options: [
+                    {
+                      label: 'None',
+                      value: 'none',
+                    },
+                    {
+                      label: 'Small',
+                      value: 'small',
+                    },
+                    {
+                      label: 'Medium',
+                      value: 'medium',
+                    },
+                    {
+                      label: 'Large',
+                      value: 'large',
+                    },
+                  ],
+                },
+                {
+                  name: 'y',
+                  type: 'select',
+                  defaultValue: 'none',
+                  options: [
+                    {
+                      label: 'None',
+                      value: 'none',
+                    },
+                    {
+                      label: 'Small',
+                      value: 'small',
+                    },
+                    {
+                      label: 'Medium',
+                      value: 'medium',
+                    },
+                    {
+                      label: 'Large',
+                      value: 'large',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 }

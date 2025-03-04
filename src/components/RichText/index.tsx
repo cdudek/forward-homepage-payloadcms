@@ -12,11 +12,13 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
-import { LogoGridBlock, LogoGridBlockProps, Logo } from '@/blocks/LogoGrid/Component'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
+
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
+  ColoredTextBlock as ColoredTextBlockProps,
 } from '@/payload-types'
 
 import { BannerBlock } from '@/blocks/Banner/Component'
@@ -26,7 +28,12 @@ import { cn } from '@/utilities/ui'
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps | LogoGridBlockProps
+      | CTABlockProps
+      | MediaBlockProps
+      | BannerBlockProps
+      | CodeBlockProps
+      | ColoredTextBlockProps
+      | FeatureGridProps
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -53,11 +60,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
-    logoGrid: ({ node }: { node: SerializedBlockNode<LogoGridBlockProps> }) => (
-      <LogoGridBlock {...node.fields} />
-    ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    coloredTextBlock: ({ node }) => <ColoredTextBlock {...node.fields} />,
   },
 })
 

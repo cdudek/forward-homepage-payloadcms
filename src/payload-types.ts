@@ -191,7 +191,15 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | LogoGridBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | LogoGridBlock
+    | FeatureGridBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -480,6 +488,11 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
+  sectionHeight?: ('none' | 'full' | '75' | '50') | null;
+  padding?: {
+    x?: ('none' | 'small' | 'medium' | 'large') | null;
+    y?: ('none' | 'small' | 'medium' | 'large') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -756,6 +769,72 @@ export interface LogoGridBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'logoGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock".
+ */
+export interface FeatureGridBlock {
+  columns: 'oneThird' | 'oneQuarter';
+  features?:
+    | {
+        icon: {
+          media: number | Media;
+          style?: ('round' | 'square') | null;
+          size?: ('small' | 'medium' | 'large') | null;
+          colorType?: ('default' | 'gradient' | 'color') | null;
+          colorValue?: string | null;
+          gradientValues?: {
+            start?: string | null;
+            mid?: string | null;
+            end?: string | null;
+            angle?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
+            midPos?: number | null;
+          };
+          background?: string | null;
+          alignment?: ('left' | 'center' | 'right') | null;
+        };
+        header?: {
+          content?: {
+            root: {
+              type: string;
+              children: {
+                type: string;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          horizontalAlignment?: ('left' | 'center' | 'right') | null;
+          verticalAlignment?: ('top' | 'middle' | 'bottom') | null;
+          equalHeight?: boolean | null;
+        };
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureGridBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1049,6 +1128,7 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         logoGrid?: T | LogoGridBlockSelect<T>;
+        featureGridBlock?: T | FeatureGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1111,6 +1191,13 @@ export interface ContentBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  sectionHeight?: T;
+  padding?:
+    | T
+    | {
+        x?: T;
+        y?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1158,6 +1245,49 @@ export interface LogoGridBlockSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock_select".
+ */
+export interface FeatureGridBlockSelect<T extends boolean = true> {
+  columns?: T;
+  features?:
+    | T
+    | {
+        icon?:
+          | T
+          | {
+              media?: T;
+              style?: T;
+              size?: T;
+              colorType?: T;
+              colorValue?: T;
+              gradientValues?:
+                | T
+                | {
+                    start?: T;
+                    mid?: T;
+                    end?: T;
+                    angle?: T;
+                    midPos?: T;
+                  };
+              background?: T;
+              alignment?: T;
+            };
+        header?:
+          | T
+          | {
+              content?: T;
+              horizontalAlignment?: T;
+              verticalAlignment?: T;
+              equalHeight?: T;
+            };
+        content?: T;
         id?: T;
       };
   id?: T;
@@ -1770,6 +1900,58 @@ export interface TaskSchedulePublish {
     user?: (number | null) | User;
   };
   output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColoredTextBlock".
+ */
+export interface ColoredTextBlock {
+  textElements?:
+    | {
+        text: string;
+        /**
+         * When checked, this text element will be rendered with the color effect
+         */
+        useColor?: boolean | null;
+        /**
+         * Convert spaces to non-breaking spaces to preserve formatting
+         */
+        preserveSpaces?: boolean | null;
+        /**
+         * Add a line break after this text element
+         */
+        addLineBreak?: boolean | null;
+        /**
+         * Wrap this text element in its own container
+         */
+        wrapInContainer?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  typographyType?: ('h1' | 'h2' | 'h3' | 'h4' | 'p') | null;
+  colorType: 'default' | 'gradient' | 'color';
+  /**
+   * Enter a valid hex color code (e.g., #FF5500)
+   */
+  colorValue?: string | null;
+  gradientValues?: {
+    startColor?: string | null;
+    midColor?: string | null;
+    endColor?: string | null;
+    direction?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
+    /**
+     * Position of the middle color in the gradient (as percentage)
+     */
+    midPosition?: number | null;
+  };
+  alignment?: ('left' | 'center' | 'right' | 'justify') | null;
+  margins?: {
+    top?: ('none' | 'small' | 'medium' | 'large') | null;
+    bottom?: ('none' | 'small' | 'medium' | 'large') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'coloredTextBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

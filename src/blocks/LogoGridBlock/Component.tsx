@@ -5,29 +5,12 @@ import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
 
+import { LogoGridBlock as LogoGridBlockProps } from '@/payload-types'
+
 const FADE_DURATION = 1000
 const MIN_INTERVAL = 3000
 const MAX_INTERVAL = 5000
 const GRID_SIZE = 6
-
-export type LogoGridBlockProps = {
-  header?: {
-    root: {
-      type: string
-      children: {
-        type: string
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  }
-  logos?: Logo[]
-}
 
 export type Logo = {
   image: {
