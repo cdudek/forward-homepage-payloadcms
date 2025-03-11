@@ -72,22 +72,22 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   const getGridColsClasses = () => {
     switch (columns) {
       case 'oneThird':
-        return 'grid-cols-4 lg:grid-cols-12'
+        return 'grid-cols-3 lg:grid-cols-3'
       case 'oneQuarter':
-        return 'grid-cols-4 lg:grid-cols-12'
+        return 'grid-cols-2 lg:grid-cols-4'
       default:
-        return 'grid-cols-4 lg:grid-cols-12'
+        return 'grid-cols-3 lg:grid-cols-3'
     }
   }
 
   const getColSpanClasses = () => {
     switch (columns) {
       case 'oneThird':
-        return 'col-span-4 md:col-span-2 lg:col-span-4'
+        return 'col-span-3 lg:col-span-1'
       case 'oneQuarter':
-        return 'col-span-4 md:col-span-2 lg:col-span-3'
+        return 'col-span-1 lg:col-span-1'
       default:
-        return 'col-span-4 md:col-span-2 lg:col-span-4'
+        return 'col-span-3 lg:col-span-1'
     }
   }
 

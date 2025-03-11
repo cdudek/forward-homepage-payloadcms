@@ -1,0 +1,1 @@
+- [ ] try out tailwind material https://www.material-tailwind.com/docs/react/installation

@@ -10,6 +10,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { LogoGridBlock } from '@/blocks/LogoGridBlock/Component'
 import { FeatureGridBlock } from '@/blocks/FeatureGridBlock/Component'
 import { NumberGridBlock } from '@/blocks/NumberGridBlock/Component'
+import { ActionTilesBlock } from '@/blocks/ActionTilesBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,6 +21,7 @@ const blockComponents = {
   logoGrid: LogoGridBlock,
   featureGridBlock: FeatureGridBlock,
   numberGridBlock: NumberGridBlock,
+  actionTilesBlock: ActionTilesBlock,
 }
 
 export const RenderBlocks: React.FC<{

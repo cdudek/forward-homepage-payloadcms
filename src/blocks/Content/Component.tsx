@@ -15,6 +15,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     half: '6',
     oneThird: '4',
     twoThirds: '8',
+    centeredThree: 'col-start-2',
   }
 
   const paddingX = {
@@ -40,9 +41,9 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
 
   return (
     <SlopedEdgeWrapper
-      enabled={slope?.enabled}
-      position={slope?.position}
-      backgroundColor={enableBackground ? backgroundColor : undefined}
+      enabled={slope?.enabled ?? false}
+      position={slope?.position ?? undefined}
+      backgroundColor={enableBackground ? (backgroundColor ?? undefined) : undefined}
       className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
     >
       <div
@@ -52,7 +53,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
           paddingY[padding?.y || 'medium'],
         )}
       >
-        <div className="grid w-full grid-cols-4 gap-x-16 gap-y-8 lg:grid-cols-12">
+        <div className="grid w-full gap-x-8 gap-y-8 lg:grid-cols-5 lg:gap-x-8">
           {columns &&
             columns.length > 0 &&
             columns.map((col, index) => {
@@ -60,13 +61,13 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
 
               return (
                 <div
-                  className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {
-                    'md:col-span-2': size !== 'full',
+                  className={cn('col-span-3', {
+                    [`lg:${colsSpanClasses[size!]}`]: size === 'centeredThree',
+                    [`lg:col-span-${colsSpanClasses[size!]}`]: size !== 'centeredThree',
                   })}
                   key={index}
                 >
                   {richText && <RichText data={richText} enableGutter={false} />}
-
                   {enableLink && <CMSLink {...link} />}
                 </div>
               )

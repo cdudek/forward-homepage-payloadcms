@@ -201,6 +201,7 @@ export interface Page {
     | LogoGridBlock
     | FeatureGridBlock
     | NumberGridBlock
+    | ActionTilesBlock
   )[];
   meta?: {
     title?: string | null;
@@ -451,7 +452,7 @@ export interface CallToActionBlock {
 export interface ContentBlock {
   columns?:
     | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        size?: ('oneThird' | 'half' | 'twoThirds' | 'full' | 'centeredThree') | null;
         richText?: {
           root: {
             type: string;
@@ -918,6 +919,38 @@ export interface NumberGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActionTilesBlock".
+ */
+export interface ActionTilesBlock {
+  tiles?:
+    | {
+        title: string;
+        description: string;
+        backgroundImage: number | Media;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'actionTilesBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1211,6 +1244,7 @@ export interface PagesSelect<T extends boolean = true> {
         logoGrid?: T | LogoGridBlockSelect<T>;
         featureGridBlock?: T | FeatureGridBlockSelect<T>;
         numberGridBlock?: T | NumberGridBlockSelect<T>;
+        actionTilesBlock?: T | ActionTilesBlockSelect<T>;
       };
   meta?:
     | T
@@ -1429,6 +1463,31 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
               equalHeight?: T;
             };
         content?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActionTilesBlock_select".
+ */
+export interface ActionTilesBlockSelect<T extends boolean = true> {
+  tiles?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        backgroundImage?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
         id?: T;
       };
   id?: T;

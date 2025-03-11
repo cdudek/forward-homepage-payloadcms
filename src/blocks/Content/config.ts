@@ -42,6 +42,10 @@ const columnFields: Field[] = [
         label: 'Full',
         value: 'full',
       },
+      {
+        label: 'Centered Three Columns',
+        value: 'centeredThree',
+      },
     ],
   },
   {
@@ -52,7 +56,7 @@ const columnFields: Field[] = [
         return [
           ...rootFeatures,
           ...defaultFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
           BlocksFeature({ blocks: [ColoredTextBlock] }),
           FixedToolbarFeature(),
           InlineToolbarFeature(),

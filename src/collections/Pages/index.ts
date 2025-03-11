@@ -10,6 +10,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { LogoGridBlock } from '../../blocks/LogoGridBlock/config'
 import { FeatureGridBlock } from '../../blocks/FeatureGridBlock/config'
 import { NumberGridBlock } from '../../blocks/NumberGridBlock/config'
+import { ActionTilesBlock } from '../../blocks/ActionTilesBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -94,6 +95,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 LogoGridBlock,
                 FeatureGridBlock,
                 NumberGridBlock,
+                ActionTilesBlock,
               ],
               required: true,
               admin: {
