@@ -170,6 +170,10 @@ export const Content: Block = {
                       label: 'Bottom',
                       value: 'bottom',
                     },
+                    {
+                      label: 'Both',
+                      value: 'both',
+                    },
                   ],
                 },
               ],

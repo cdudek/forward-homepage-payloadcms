@@ -4,7 +4,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-import { cn } from '@/utilities/ui'
+import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({
   links,
@@ -13,13 +13,10 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
   hasAngledCorner,
 }) => {
   return (
-    <div
-      className="relative flex min-h-screen items-center justify-center text-white"
-      style={
-        hasAngledCorner
-          ? { clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)' }
-          : undefined
-      }
+    <SlopedEdgeWrapper
+      enabled={hasAngledCorner}
+      position="bottom"
+      className="flex min-h-screen items-center justify-center text-white"
     >
       <div className="container relative z-10 mb-8 flex flex-col items-center text-center sm:items-center sm:text-center md:items-start md:text-left">
         <div className="w-full sm:items-center sm:text-center md:max-w-[80%] md:text-left">
@@ -42,7 +39,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
           <Media fill imgClassName="object-cover" priority resource={media} />
         )}
       </div>
-    </div>
+    </SlopedEdgeWrapper>
   )
 }
 

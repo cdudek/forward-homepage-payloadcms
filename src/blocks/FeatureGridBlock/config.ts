@@ -1,5 +1,15 @@
 import { Block } from 'payload'
 
+/**
+ * IMPORTANT: dbName fields are required to prevent database identifier length issues
+ * PostgreSQL has a 63 character limit for identifiers (table/column names)
+ * Without dbName, the generated names would exceed this limit, causing errors like:
+ * "Exceeded max identifier length for table or enum name of 63 characters"
+ * Example problematic name: enum_pages_blocks_feature_grid_block_features_icon_gradient_values_angle
+ *
+ * DO NOT REMOVE dbName fields even if TypeScript shows errors
+ */
+
 import {
   lexicalEditor,
   FixedToolbarFeature,
@@ -26,17 +36,6 @@ export const FeatureGridBlock: Block = {
         {
           label: 'Content',
           fields: [
-            {
-              name: 'columns',
-              type: 'select',
-              dbName: 'grid_cols',
-              required: true,
-              defaultValue: 'oneThird',
-              options: [
-                { label: 'One Third', value: 'oneThird' },
-                { label: 'One Quarter', value: 'oneQuarter' },
-              ],
-            },
             {
               name: 'features',
               type: 'array',
@@ -234,6 +233,76 @@ export const FeatureGridBlock: Block = {
                     },
                   }),
                   label: false,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Layout',
+          fields: [
+            {
+              name: 'columns',
+              type: 'select',
+              dbName: 'grid_cols',
+              required: true,
+              defaultValue: 'oneThird',
+              options: [
+                { label: 'One Third', value: 'oneThird' },
+                { label: 'One Quarter', value: 'oneQuarter' },
+              ],
+              admin: {
+                width: '50%',
+              },
+            },
+            {
+              name: 'enableBackground',
+              type: 'checkbox',
+              label: 'Enable Background Color',
+              defaultValue: false,
+            },
+            {
+              name: 'backgroundColor',
+              type: 'text',
+              label: 'Background Color',
+              defaultValue: '#FCFAFA',
+              admin: {
+                condition: (_, { enableBackground }) => Boolean(enableBackground),
+              },
+            },
+            {
+              name: 'slope',
+              type: 'group',
+              label: 'Sloped Edge',
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Enable sloped edge',
+                  defaultValue: false,
+                },
+                {
+                  name: 'position',
+                  type: 'select',
+                  defaultValue: 'bottom',
+                  label: 'Slope Position',
+                  admin: {
+                    condition: (_, { enabled }) => Boolean(enabled),
+                  },
+                  options: [
+                    {
+                      label: 'Top',
+                      value: 'top',
+                    },
+                    {
+                      label: 'Bottom',
+                      value: 'bottom',
+                    },
+                    {
+                      label: 'Both',
+                      value: 'both',
+                    },
+                  ],
                 },
               ],
             },

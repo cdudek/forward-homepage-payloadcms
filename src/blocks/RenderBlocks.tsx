@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+import { cn } from '@/utilities/ui'
 import type { Page } from '@/payload-types'
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
@@ -34,18 +34,24 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block
+          const hasBackground = 'enableBackground' in block && block.enableBackground
+          const hasSlope = 'slope' in block && block.slope?.enabled
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
 
-            if (Block) {
-              return (
-                <div className="my-16" key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
-                </div>
-              )
-            }
+            return (
+              <div
+                className={cn({
+                  'my-16': !hasBackground && !hasSlope,
+                  'py-0': hasBackground || hasSlope,
+                })}
+                key={index}
+              >
+                {/* @ts-expect-error there may be some mismatch between the expected types here */}
+                <Block {...block} />
+              </div>
+            )
           }
           return null
         })}

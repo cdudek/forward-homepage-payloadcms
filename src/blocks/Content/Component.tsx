@@ -1,6 +1,7 @@
 import { cn } from '@/utilities/ui'
 import React from 'react'
 import RichText from '@/components/RichText'
+import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
@@ -37,37 +38,18 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     '50': 'min-h-[50vh]',
   }
 
-  const getStyles = () => {
-    const styles: Record<string, string> = {}
-
-    if (enableBackground && backgroundColor) {
-      styles.backgroundColor = backgroundColor
-    }
-
-    if (slope?.enabled) {
-      styles.clipPath =
-        slope.position === 'top'
-          ? 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
-          : 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
-    }
-
-    return styles
-  }
-
   return (
-    <div
-      className={cn('relative flex w-full items-center', heightClasses[sectionHeight || 'none'])}
-      style={getStyles()}
+    <SlopedEdgeWrapper
+      enabled={slope?.enabled}
+      position={slope?.position}
+      backgroundColor={enableBackground ? backgroundColor : undefined}
+      className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
     >
       <div
         className={cn(
           'container w-full',
           paddingX[padding?.x || 'medium'],
           paddingY[padding?.y || 'medium'],
-          {
-            'pt-[calc(5vw+2rem)]': slope?.enabled && slope.position === 'top',
-            'pb-[calc(5vw+2rem)]': slope?.enabled && slope.position === 'bottom',
-          },
         )}
       >
         <div className="grid w-full grid-cols-4 gap-x-16 gap-y-8 lg:grid-cols-12">
@@ -91,6 +73,6 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
             })}
         </div>
       </div>
-    </div>
+    </SlopedEdgeWrapper>
   )
 }

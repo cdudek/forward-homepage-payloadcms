@@ -495,7 +495,7 @@ export interface ContentBlock {
   backgroundColor?: string | null;
   slope?: {
     enabled?: boolean | null;
-    position?: ('top' | 'bottom') | null;
+    position?: ('top' | 'bottom' | 'both') | null;
   };
   padding?: {
     x?: ('none' | 'small' | 'medium' | 'large') | null;
@@ -783,7 +783,6 @@ export interface LogoGridBlock {
  * via the `definition` "FeatureGridBlock".
  */
 export interface FeatureGridBlock {
-  columns: 'oneThird' | 'oneQuarter';
   features?:
     | {
         icon: {
@@ -840,6 +839,13 @@ export interface FeatureGridBlock {
         id?: string | null;
       }[]
     | null;
+  columns: 'oneThird' | 'oneQuarter';
+  enableBackground?: boolean | null;
+  backgroundColor?: string | null;
+  slope?: {
+    enabled?: boolean | null;
+    position?: ('top' | 'bottom' | 'both') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'featureGridBlock';
@@ -1339,7 +1345,6 @@ export interface LogoGridBlockSelect<T extends boolean = true> {
  * via the `definition` "FeatureGridBlock_select".
  */
 export interface FeatureGridBlockSelect<T extends boolean = true> {
-  columns?: T;
   features?:
     | T
     | {
@@ -1373,6 +1378,15 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
             };
         content?: T;
         id?: T;
+      };
+  columns?: T;
+  enableBackground?: T;
+  backgroundColor?: T;
+  slope?:
+    | T
+    | {
+        enabled?: T;
+        position?: T;
       };
   id?: T;
   blockName?: T;

@@ -4,6 +4,7 @@ import React from 'react'
 import type { SerializedEditorState, SerializedLexicalNode } from 'lexical'
 import { Media } from '@/payload-types'
 import RichText from '@/components/RichText'
+import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 import { cn } from '@/utilities/ui'
 import Image from 'next/image'
 
@@ -52,10 +53,16 @@ export type FeatureGridBlockType = {
   blockName?: string
   columns: ColumnSize
   features: Feature[]
+  slope?: {
+    enabled?: boolean
+    position?: 'top' | 'bottom'
+  }
+  enableBackground?: boolean
+  backgroundColor?: string
 }
 
 export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
-  const { columns, features } = props
+  const { columns, features, slope, enableBackground, backgroundColor } = props
 
   // Check if features exist and have the expected structure
   if (!features || features.length === 0) {
@@ -247,51 +254,58 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   }
 
   return (
-    <div className="// container px-0 py-8">
-      <div className={cn('grid w-full gap-x-8 gap-y-8', getGridColsClasses())}>
-        {features.map((feature, index) => {
-          const { icon, header, content } = feature
+    <SlopedEdgeWrapper
+      enabled={slope?.enabled}
+      position={slope?.position}
+      backgroundColor={enableBackground ? backgroundColor : undefined}
+      className="w-full"
+    >
+      <div className="container px-0 py-8">
+        <div className={cn('grid w-full gap-x-8 gap-y-8', getGridColsClasses())}>
+          {features.map((feature, index) => {
+            const { icon, header, content } = feature
 
-          const iconContainerClasses = [
-            'flex justify-center items-center mb-6',
-            getIconSizeClasses(icon.size),
-            getIconStyleClasses(icon.style),
-          ].join(' ')
+            const iconContainerClasses = [
+              'flex justify-center items-center mb-6',
+              getIconSizeClasses(icon.size),
+              getIconStyleClasses(icon.style),
+            ].join(' ')
 
-          const headerContainerClasses = [
-            'w-full',
-            getAlignmentClasses(header.horizontalAlignment),
-            getVerticalAlignmentClasses(header.verticalAlignment),
-            header.equalHeight ? 'flex flex-col h-full' : '',
-          ].join(' ')
+            const headerContainerClasses = [
+              'w-full',
+              getAlignmentClasses(header.horizontalAlignment),
+              getVerticalAlignmentClasses(header.verticalAlignment),
+              header.equalHeight ? 'flex flex-col h-full' : '',
+            ].join(' ')
 
-          const featureClasses = [
-            'flex flex-col',
-            getAlignmentClasses(icon.alignment),
-            getColSpanClasses(),
-          ].join(' ')
+            const featureClasses = [
+              'flex flex-col',
+              getAlignmentClasses(icon.alignment),
+              getColSpanClasses(),
+            ].join(' ')
 
-          return (
-            <div key={index} className={featureClasses}>
-              <div
-                className={iconContainerClasses}
-                style={{ backgroundColor: icon.background || 'transparent' }}
-              >
-                <IconWithColor feature={feature} />
+            return (
+              <div key={index} className={featureClasses}>
+                <div
+                  className={iconContainerClasses}
+                  style={{ backgroundColor: icon.background || 'transparent' }}
+                >
+                  <IconWithColor feature={feature} />
+                </div>
+
+                <div className={headerContainerClasses}>
+                  <RichText data={header.content} />
+                </div>
+
+                <div className="prose prose-sm w-full max-w-none">
+                  <RichText data={content} />
+                </div>
               </div>
-
-              <div className={headerContainerClasses}>
-                <RichText data={header.content} />
-              </div>
-
-              <div className="prose prose-sm w-full max-w-none">
-                <RichText data={content} />
-              </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </SlopedEdgeWrapper>
   )
 }
 
