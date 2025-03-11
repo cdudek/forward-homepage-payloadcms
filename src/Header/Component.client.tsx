@@ -7,22 +7,30 @@ import { clsx } from 'clsx'
 import type { Header } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { useHeaderColor } from './HeaderColorContext'
 
 interface HeaderClientProps {
   data: Header
-  color: 'light' | 'dark'
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [hasAdminBar, setHasAdminBar] = useState(false)
+  const { color } = useHeaderColor()
+
+  useEffect(() => {
+    // Check if AdminBar is present
+    const adminBar = document.querySelector('[data-payload-admin-bar]')
+    setHasAdminBar(!!adminBar)
+  }, [])
 
   // Tailwind classes for each color variant
   const headerColor = {
-    light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
-    dark: 'bg-black/30 text-white backdrop-blur-sm',
+    light: 'text-gray-900',
+    dark: 'text-white backdrop-blur-sm',
+    // light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
+    // dark: 'bg-black/30 text-white backdrop-blur-sm',
   }
-
-  const desktopColor = color
 
   // Handler for burger menu click
   const toggleMobileMenu = () => {
@@ -30,12 +38,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
     // implement the actual mobile menu later
   }
 
+  // Common header positioning classes
+  const headerPositioning = clsx('left-0 right-0 z-50 w-full', hasAdminBar ? 'top-10' : 'top-0')
+
   // MOBILE HEADER — absolute so it doesn't push content
   // We do NOT apply scroll logic here; mobile uses the prop directly.
   const mobileHeader = (
     <header
       className={clsx(
-        'absolute left-0 right-0 top-0 z-50 py-2 md:hidden',
+        headerPositioning,
+        'absolute py-2 md:hidden',
         color === 'dark' ? headerColor.dark : headerColor.light,
       )}
     >
@@ -43,7 +55,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" />
         </Link>
-        <button onClick={toggleMobileMenu} className="p-2 text-white" aria-label="Toggle menu">
+        <button onClick={toggleMobileMenu} className="p-2" aria-label="Toggle menu">
           <Menu size={24} />
         </button>
       </div>
@@ -52,12 +64,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
 
   // DESKTOP HEADER — fixed at the top, color changes when scrolled
   const desktopHeader = (
-    <header className="absolute left-0 right-0 top-0 z-50 hidden py-6 md:block">
+    <header className={clsx(headerPositioning, 'absolute hidden py-6 md:block')}>
       <div className="container mx-auto md:px-2 lg:px-2 xl:px-0 2xl:px-0">
         <div
           className={clsx(
             'grid grid-cols-3 items-center rounded-full p-4 transition-all duration-300',
-            desktopColor === 'dark' ? headerColor.dark : headerColor.light,
+            color === 'dark' ? headerColor.dark : headerColor.light,
           )}
         >
           <div className="justify-self-start px-4">
@@ -78,7 +90,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, color }) => {
     <>
       {mobileHeader}
       {desktopHeader}
-      {/* Mobile menu will be implemented later */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-white md:hidden">{/* Mobile menu content */}</div>
+      )}
     </>
   )
 }

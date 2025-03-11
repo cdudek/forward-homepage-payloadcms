@@ -13,6 +13,8 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Header } from '@/Header/Component'
+import { HeaderColorSetter } from '@/Header/HeaderColorSetter'
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -66,9 +68,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, layout } = page
 
   return (
-    // <article className="pt-16 pb-24">
     <>
-      <Header color={page.headerColor || 'light'} />
       <article className="">
         <PageClient />
         {/* Allows redirects for valid pages too */}
@@ -76,6 +76,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
         {draft && <LivePreviewListener />}
 
+        <HeaderColorSetter color={page.headerColor || 'light'} />
         <RenderHero {...hero} />
         <RenderBlocks blocks={layout} />
       </article>

@@ -50,10 +50,10 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
               >
                 <div
                   className={cn(
-                    'relative overflow-hidden rounded-3xl p-12',
+                    'relative overflow-hidden rounded-2xl p-12',
                     'transform transition-all duration-500 ease-out group-hover:-translate-y-2',
                     'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
-                    'after:absolute after:inset-[1px] after:rounded-3xl after:border after:border-white/0 after:transition-all after:duration-500',
+                    'after:absolute after:inset-[1px] after:rounded-2xl after:border after:border-white/0 after:transition-all after:duration-500',
                     'group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.2)]',
                     isTwoTiles && 'aspect-[1.618/1]',
                   )}

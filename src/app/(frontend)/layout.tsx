@@ -3,12 +3,14 @@ import localFont from 'next/font/local'
 import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
-// import { Header } from '@/Header/Component'
+import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { clsx } from 'clsx'
+import { HeaderColorProvider } from '@/Header/HeaderColorContext'
 
 const fustat = localFont({
   src: './Fustat.ttf',
@@ -26,14 +28,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-          {/* <Header /> */}
-          {children}
-          <Footer />
+          <HeaderColorProvider>
+            <AdminBar
+              adminBarProps={{
+                preview: isEnabled,
+              }}
+            />
+            <div
+              className={clsx(
+                'relative min-h-screen',
+                isEnabled && 'pt-10', // Add padding when AdminBar is present
+              )}
+            >
+              {/* @ts-expect-error Async Server Component */}
+              <Header />
+              {children}
+              <Footer />
+            </div>
+          </HeaderColorProvider>
         </Providers>
       </body>
     </html>
