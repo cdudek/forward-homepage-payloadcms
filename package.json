@@ -19,6 +19,8 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@payloadcms/db-vercel-postgres": "^3.24.0",
     "@payloadcms/email-nodemailer": "^3.24.0",
     "@payloadcms/live-preview-react": "^3.24.0",
