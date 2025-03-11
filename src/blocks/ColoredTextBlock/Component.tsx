@@ -1,16 +1,16 @@
 import React from 'react'
 import { ColoredTextBlock as ColoredTextBlockProps } from '@/payload-types'
 
+type ColorType = 'default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white'
+
 export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
   textElements,
   typographyType = 'h1',
   colorType,
-  colorValue,
-  gradientValues,
   alignment = 'left',
   margins = { top: 'none', bottom: 'none' },
 }) => {
-  const getMarginValue = (margin: string) => {
+  const getMarginValue = (margin: string | null | undefined) => {
     switch (margin) {
       case 'small':
         return 'my-8' // 2rem
@@ -23,24 +23,44 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
     }
   }
 
-  const getTextStyle = (useColor: boolean = false) => {
-    if (!useColor) return {}
+  const getColor = (type: ColorType) => {
+    const colorMap = {
+      purple: 'text-purple',
+      red: 'text-red',
+      orange: 'text-orange',
+      lightGrey: 'text-grey-300',
+      darkGrey: 'text-grey-700',
+      black: 'text-black',
+      white: 'text-white',
 
-    if (colorType === 'color' && colorValue) {
-      return { color: colorValue }
+      gradient:
+        'linear-gradient(90deg, hsl(var(--brand-gradient-start)), hsl(var(--brand-gradient-middle)), hsl(var(--brand-gradient-end)))',
     }
 
-    if (colorType === 'gradient' && gradientValues) {
-      const { startColor, midColor, endColor, direction, midPosition } = gradientValues
+    return type === 'default' ? undefined : colorMap[type as keyof typeof colorMap]
+  }
+
+  const getTextStyle = (useColor: boolean = false) => {
+    if (!useColor) return { style: {}, className: undefined }
+
+    const color = getColor(colorType)
+
+    if (colorType === 'gradient') {
       return {
-        backgroundImage: `linear-gradient(${direction}, ${startColor} 0%, ${midColor} ${midPosition}%, ${endColor} 100%)`,
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
+        style: {
+          backgroundImage: color,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        },
+        className: undefined,
       }
     }
 
-    return {}
+    return {
+      style: {},
+      className: color,
+    }
   }
 
   if (!textElements?.length) return null
@@ -56,7 +76,7 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
       }[alignment]
     : 'text-left'
 
-  const marginClasses = `${getMarginValue(margins.top)} ${getMarginValue(margins.bottom)}`
+  const marginClasses = `${getMarginValue(margins?.top)} ${getMarginValue(margins?.bottom)}`
 
   const renderTextElement = (element: any, index: number) => {
     let text = element.text
@@ -65,8 +85,9 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
       text = text.replace(/ /g, '\u00A0')
     }
 
+    const textStyle = getTextStyle(element.useColor)
     const content = (
-      <span key={index} style={getTextStyle(element.useColor)}>
+      <span key={index} style={textStyle.style} className={textStyle.className}>
         {text}
       </span>
     )

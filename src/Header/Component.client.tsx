@@ -26,8 +26,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   // Tailwind classes for each color variant
   const headerColor = {
-    light: 'text-gray-900',
-    dark: 'text-white backdrop-blur-sm',
+    light: 'text-black',
+    dark: 'text-white',
     // light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
     // dark: 'bg-black/30 text-white backdrop-blur-sm',
   }

@@ -91,7 +91,7 @@ export const ColoredTextBlock: Block = {
       ],
     },
     {
-      name: 'colorType',
+      name: 'color',
       type: 'select',
       label: 'Color Style',
       defaultValue: 'default',
@@ -101,135 +101,44 @@ export const ColoredTextBlock: Block = {
           value: 'default',
         },
         {
-          label: 'Gradient',
+          label: 'Brand Gradient',
           value: 'gradient',
         },
         {
-          label: 'Custom Color',
-          value: 'color',
-        },
-      ],
-      required: true,
-    },
-    {
-      name: 'colorValue',
-      type: 'text',
-      label: 'Color Value',
-      defaultValue: '#9FA2A6',
-      admin: {
-        description: 'Enter a valid hex color code (e.g., #FF5500)',
-        condition: (_, { colorType } = {}) => colorType === 'color',
-      },
-      validate: (value: string | null | undefined) => {
-        if (
-          value &&
-          typeof value === 'string' &&
-          !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)
-        ) {
-          return 'Please enter a valid hex color code'
-        }
-        return true
-      },
-      required: true,
-    },
-    {
-      name: 'gradientValues',
-      type: 'group',
-      label: 'Gradient Settings',
-      admin: {
-        condition: (_, { colorType } = {}) => colorType === 'gradient',
-      },
-      fields: [
-        {
-          name: 'startColor',
-          type: 'text',
-          label: 'Start Color',
-          defaultValue: '#772583',
-          validate: (value: string | null | undefined) => {
-            if (
-              value &&
-              typeof value === 'string' &&
-              !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)
-            ) {
-              return 'Please enter a valid hex color code'
-            }
-            return true
-          },
+          label: 'Purple',
+          value: 'purple',
         },
         {
-          name: 'midColor',
-          type: 'text',
-          label: 'Middle Color',
-          defaultValue: '#DB2845',
-          validate: (value: string | null | undefined) => {
-            if (
-              value &&
-              typeof value === 'string' &&
-              !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)
-            ) {
-              return 'Please enter a valid hex color code'
-            }
-            return true
-          },
+          label: 'Red',
+          value: 'red',
         },
         {
-          name: 'endColor',
-          type: 'text',
-          label: 'End Color',
-          defaultValue: '#FF6A39',
-          validate: (value: string | null | undefined) => {
-            if (
-              value &&
-              typeof value === 'string' &&
-              !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)
-            ) {
-              return 'Please enter a valid hex color code'
-            }
-            return true
-          },
+          label: 'Orange',
+          value: 'orange',
         },
         {
-          name: 'direction',
-          type: 'select',
-          label: 'Direction',
-          defaultValue: '90deg',
-          options: [
-            {
-              label: 'Left to Right',
-              value: '90deg',
-            },
-            {
-              label: 'Right to Left',
-              value: '270deg',
-            },
-            {
-              label: 'Top to Bottom',
-              value: '180deg',
-            },
-            {
-              label: 'Bottom to Top',
-              value: '0deg',
-            },
-            {
-              label: 'Diagonal (Top-Left to Bottom-Right)',
-              value: '135deg',
-            },
-            {
-              label: 'Diagonal (Bottom-Right to Top-Left)',
-              value: '315deg',
-            },
-          ],
+          label: 'Black',
+          value: 'black',
         },
         {
-          name: 'midPosition',
-          type: 'number',
-          label: 'Middle Color Position (%)',
-          defaultValue: 50,
-          min: 1,
-          max: 99,
-          admin: {
-            description: 'Position of the middle color in the gradient (as percentage)',
-          },
+          label: 'White',
+          value: 'white',
+        },
+        {
+          label: 'Grey Lightest',
+          value: 'grey-50',
+        },
+        {
+          label: 'Grey Light',
+          value: 'grey-100',
+        },
+        {
+          label: 'Grey Dark',
+          value: 'grey-500',
+        },
+        {
+          label: 'Grey Darkest',
+          value: 'grey-900',
         },
       ],
     },

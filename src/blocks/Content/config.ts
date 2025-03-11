@@ -111,6 +111,7 @@ export const Content: Block = {
               name: 'sectionHeight',
               type: 'select',
               defaultValue: 'none',
+              dbName: 'content_section_height',
               label: 'Section Height',
               options: [
                 {
@@ -139,9 +140,40 @@ export const Content: Block = {
             },
             {
               name: 'backgroundColor',
-              type: 'text',
+              type: 'select',
+              dbName: 'content_bg_color',
               label: 'Background Color',
-              defaultValue: '#FCFAFA',
+              defaultValue: 'default',
+              options: [
+                {
+                  label: 'Default',
+                  value: 'default',
+                },
+                {
+                  label: 'White',
+                  value: 'white',
+                },
+                {
+                  label: 'Black',
+                  value: 'black',
+                },
+                {
+                  label: 'Grey 50',
+                  value: 'grey-50',
+                },
+                {
+                  label: 'Grey 100',
+                  value: 'grey-100',
+                },
+                {
+                  label: 'Grey 500',
+                  value: 'grey-500',
+                },
+                {
+                  label: 'Grey 900',
+                  value: 'grey-900',
+                },
+              ],
               admin: {
                 condition: (_, { enableBackground }) => Boolean(enableBackground),
               },
@@ -161,6 +193,7 @@ export const Content: Block = {
                   name: 'position',
                   type: 'select',
                   defaultValue: 'bottom',
+                  dbName: 'content_slope_position',
                   label: 'Slope Position',
                   admin: {
                     condition: (_, { enabled }) => Boolean(enabled),
@@ -189,6 +222,7 @@ export const Content: Block = {
                 {
                   name: 'x',
                   type: 'select',
+                  dbName: 'content_padding_x',
                   defaultValue: 'none',
                   options: [
                     {
@@ -212,6 +246,7 @@ export const Content: Block = {
                 {
                   name: 'y',
                   type: 'select',
+                  dbName: 'content_padding_y',
                   defaultValue: 'none',
                   options: [
                     {

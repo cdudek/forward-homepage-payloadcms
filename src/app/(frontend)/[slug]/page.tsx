@@ -12,7 +12,6 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { Header } from '@/Header/Component'
 import { HeaderColorSetter } from '@/Header/HeaderColorSetter'
 
 export async function generateStaticParams() {

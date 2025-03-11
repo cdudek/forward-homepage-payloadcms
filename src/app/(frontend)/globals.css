@@ -17,52 +17,137 @@
     --font-fustat: 'Fustat', sans-serif;
     --font-weight: 200;
 
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Semantic Colors */
+    --semantic-background-primary: 0 0% 100%;
+    --semantic-background-secondary: 0 0% 96%;
+    --semantic-background-tertiary: 220 33% 6%;
 
-    --card: 240 5% 96%;
-    --card-foreground: 222.2 84% 4.9%;
+    --semantic-border-primary: 240 6% 80%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --semantic-text-primary: 220 33% 6%;
+    --semantic-text-secondary: 220 9% 46%;
+    --semantic-text-tertiary: 220 9% 66%;
+    --semantic-text-inactive: 220 9% 76%;
+    --semantic-text-alternate-primary: 0 0% 0%;
+    --semantic-text-alternate-secondary: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 240 6% 80%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --ring: var(--semantic-text-primary);
     --radius: 0.2rem;
+
+    /* System Colors */
+    --color-success: 153 71% 33%; /* #027A48 */
+    --color-success-light: 153 71% 94%; /* #ECFDF3 */
+    --color-error: 0 69% 51%; /* #B42318 */
+    --color-error-light: 0 69% 94%; /* #FEF3F2 */
 
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
     --error: 10 100% 86%;
 
-    /* Custom brand colors */
-    --brand-dark: 222 32% 6%; /* #0b0e14 converted to HSL */
+    --gradient-start: var(--color-purple);
+    --gradient-middle: var(--color-red);
+    --gradient-end: var(--color-orange);
+
+    --brand-dark: var(--semantic-background-tertiary);
+
+    /* Legacy variables mapped to semantic colors */
+
+    --card: var(--semantic-background-secondary);
+    --card-foreground: var(--semantic-text-primary);
+
+    --popover: var(--semantic-background-primary);
+    --popover-foreground: var(--semantic-text-primary);
+    --muted: var(--semantic-background-secondary);
+    --muted-foreground: var(--semantic-text-tertiary);
+    --accent: var(--semantic-background-secondary);
+    --accent-foreground: var(--semantic-text-primary);
+    --border: var(--semantic-border-primary);
+
+    /* New tailwind compliant colors */
+    --color-fwd-purple: var(--color-purple-800);
+    --color-fwd-purple-50: oklch(97.81% 0.01 318.7);
+    --color-fwd-purple-100: oklch(95.36% 0.03 317.25);
+    --color-fwd-purple-200: oklch(90.62% 0.06 317.66);
+    --color-fwd-purple-300: oklch(83.48% 0.1 319.46);
+    --color-fwd-purple-400: oklch(74.3% 0.17 319.96);
+    --color-fwd-purple-500: oklch(64.81% 0.21 319.8);
+    --color-fwd-purple-600: oklch(56.35% 0.22 320.72);
+    --color-fwd-purple-700: oklch(49.23% 0.19 321.83);
+    --color-fwd-purple-800: oklch(43.09% 0.16 322.3); /* #772583; */
+    --color-fwd-purple-900: oklch(38.55% 0.13 323.16);
+    --color-fwd-purple-950: oklch(27.63% 0.11 323.37);
+
+    --color-fwd-orange: var(--color-orange-400);
+    --color-fwd-orange-50: oklch(97.19% 0.02 48.56);
+    --color-fwd-orange-100: oklch(93.67% 0.04 52.69);
+    --color-fwd-orange-200: oklch(86.82% 0.08 47.81);
+    --color-fwd-orange-300: oklch(78.72% 0.13 44.58);
+    --color-fwd-orange-400: oklch(70.36% 0.19 38.04); /* #FF6A39; */
+    --color-fwd-orange-500: oklch(65.63% 0.23 33.91);
+    --color-fwd-orange-600: oklch(61.12% 0.23 31.29);
+    --color-fwd-orange-700: oklch(52.69% 0.21 30.09);
+    --color-fwd-orange-800: oklch(44.71% 0.17 29.15);
+    --color-fwd-orange-900: oklch(38.62% 0.14 28.88);
+    --color-fwd-orange-950: oklch(25.05% 0.09 27.06);
+
+    --color-fwd-red: var(--color-red-600);
+    --color-fwd-red-50: oklch(97.25% 0.01 23.7);
+    --color-fwd-red-100: oklch(94.24% 0.03 14.88);
+    --color-fwd-red-200: oklch(89.37% 0.05 15.14);
+    --color-fwd-red-300: oklch(81.09% 0.1 14.74);
+    --color-fwd-red-400: oklch(71.84% 0.16 16.08);
+    --color-fwd-red-500: oklch(63.88% 0.2 18.85);
+    --color-fwd-red-600: oklch(58.04% 0.21 19.16); /* #DB2845; */
+    --color-fwd-red-700: oklch(50.32% 0.19 19.08);
+    --color-fwd-red-800: oklch(44.65% 0.16 16.43);
+    --color-fwd-red-900: oklch(40.44% 0.14 12.48);
+    --color-fwd-red-950: oklch(26.65% 0.09 15.12);
+
+    --color-fwd-black: var(--color-fwd-black-950); /* Same as black-950 as default */
+    --color-fwd-black-50: oklch(97.3% 0.01 268.55);
+    --color-fwd-black-100: oklch(94.49% 0.01 262.38);
+    --color-fwd-black-200: oklch(88.14% 0.03 257.03);
+    --color-fwd-black-300: oklch(77.78% 0.05 254.72);
+    --color-fwd-black-400: oklch(65.65% 0.08 253.66);
+    --color-fwd-black-500: oklch(56.09% 0.1 253.9);
+    --color-fwd-black-600: oklch(47.57% 0.09 257.23);
+    --color-fwd-black-700: oklch(41.14% 0.08 258.28);
+    --color-fwd-black-800: oklch(37.25% 0.06 257.42);
+    --color-fwd-black-900: oklch(34.17% 0.05 257.53);
+    --color-fwd-black-950: oklch(16.31% 0.02 261.49);
+
+    --color-fwd-grey: #fcfafa;
+    --color-fwd-grey-50: oklch(97.91% 0 0);
+    --color-fwd-grey-100: oklch(95.51% 0 0);
+    --color-fwd-grey-200: oklch(91.74% 0 17.2);
+    --color-fwd-grey-300: oklch(85.69% 0 17.22);
+    --color-fwd-grey-400: oklch(76.77% 0.01 17.28);
+    --color-fwd-grey-500: oklch(68.06% 0.01 17.3);
+    --color-fwd-grey-600: oklch(59.84% 0.01 17.36);
+    --color-fwd-grey-700: oklch(52.19% 0.01 17.36);
+    --color-fwd-grey-800: oklch(46.41% 0.01 17.34);
+    --color-fwd-grey-900: oklch(42.04% 0.01 17.37);
+    --color-fwd-grey-950: oklch(27.19% 0 17.43);
+
+    --color-fwd-white: #ffffff;
+    --color-fwd-white-50: oklch(97.91% 0 0);
+    --color-fwd-white-100: oklch(95.51% 0 0);
+    --color-fwd-white-200: oklch(91.74% 0 17.2);
+    --color-fwd-white-300: oklch(85.69% 0 17.22);
+    --color-fwd-white-400: oklch(76.77% 0.01 17.28);
+    --color-fwd-white-500: oklch(68.06% 0.01 17.3);
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
-    /* font-weight: 200; */
+    @apply border-semantic-border-primary;
   }
   body {
-    @apply flex min-h-[100vh] flex-col bg-background text-foreground;
+    @apply flex min-h-[100vh] flex-col bg-semantic-background-primary text-semantic-text-primary;
   }
   p {
     font-weight: 200;

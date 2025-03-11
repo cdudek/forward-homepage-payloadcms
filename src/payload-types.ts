@@ -185,7 +185,7 @@ export interface Page {
             /**
              * Choose how the link should be rendered.
              */
-            appearance?: ('default' | 'outline') | null;
+            appearance?: 'outline' | null;
           };
           id?: string | null;
         }[]
@@ -436,7 +436,7 @@ export interface CallToActionBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: 'outline' | null;
         };
         id?: string | null;
       }[]
@@ -486,14 +486,14 @@ export interface ContentBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: 'outline' | null;
         };
         id?: string | null;
       }[]
     | null;
   sectionHeight?: ('none' | 'full' | '75' | '50') | null;
   enableBackground?: boolean | null;
-  backgroundColor?: string | null;
+  backgroundColor?: ('default' | 'white' | 'black' | 'grey-50' | 'grey-100' | 'grey-500' | 'grey-900') | null;
   slope?: {
     enabled?: boolean | null;
     position?: ('top' | 'bottom' | 'both') | null;
@@ -790,16 +790,8 @@ export interface FeatureGridBlock {
           media: number | Media;
           style?: ('round' | 'square') | null;
           size?: ('small' | 'medium' | 'large') | null;
-          colorType?: ('default' | 'gradient' | 'color') | null;
-          colorValue?: string | null;
-          gradientValues?: {
-            start?: string | null;
-            mid?: string | null;
-            end?: string | null;
-            angle?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
-            midPos?: number | null;
-          };
-          background?: string | null;
+          colorType?: ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white') | null;
+          background?: ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white') | null;
           alignment?: ('left' | 'center' | 'right') | null;
         };
         header?: {
@@ -864,15 +856,21 @@ export interface NumberGridBlock {
           prefix?: string | null;
           suffix?: string | null;
           size?: ('small' | 'medium' | 'large') | null;
-          colorType?: ('default' | 'gradient' | 'color') | null;
-          colorValue?: string | null;
-          gradientValues?: {
-            start?: string | null;
-            mid?: string | null;
-            end?: string | null;
-            angle?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
-            midPos?: number | null;
-          };
+          colorType?:
+            | (
+                | 'default'
+                | 'gradient'
+                | 'purple'
+                | 'red'
+                | 'orange'
+                | 'black'
+                | 'white'
+                | 'grey-100'
+                | 'grey-50'
+                | 'grey-500'
+                | 'grey-900'
+              )
+            | null;
           alignment?: ('left' | 'center' | 'right') | null;
         };
         header?: {
@@ -1389,16 +1387,6 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
               style?: T;
               size?: T;
               colorType?: T;
-              colorValue?: T;
-              gradientValues?:
-                | T
-                | {
-                    start?: T;
-                    mid?: T;
-                    end?: T;
-                    angle?: T;
-                    midPos?: T;
-                  };
               background?: T;
               alignment?: T;
             };
@@ -1442,16 +1430,6 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
               suffix?: T;
               size?: T;
               colorType?: T;
-              colorValue?: T;
-              gradientValues?:
-                | T
-                | {
-                    start?: T;
-                    mid?: T;
-                    end?: T;
-                    angle?: T;
-                    midPos?: T;
-                  };
               alignment?: T;
             };
         header?:
@@ -2129,21 +2107,21 @@ export interface ColoredTextBlock {
       }[]
     | null;
   typographyType?: ('h1' | 'h2' | 'h3' | 'h4' | 'p') | null;
-  colorType: 'default' | 'gradient' | 'color';
-  /**
-   * Enter a valid hex color code (e.g., #FF5500)
-   */
-  colorValue?: string | null;
-  gradientValues?: {
-    startColor?: string | null;
-    midColor?: string | null;
-    endColor?: string | null;
-    direction?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
-    /**
-     * Position of the middle color in the gradient (as percentage)
-     */
-    midPosition?: number | null;
-  };
+  color?:
+    | (
+        | 'default'
+        | 'gradient'
+        | 'purple'
+        | 'red'
+        | 'orange'
+        | 'black'
+        | 'white'
+        | 'grey-50'
+        | 'grey-100'
+        | 'grey-500'
+        | 'grey-900'
+      )
+    | null;
   alignment?: ('left' | 'center' | 'right' | 'justify') | null;
   margins?: {
     top?: ('none' | 'small' | 'medium' | 'large') | null;

@@ -11,16 +11,15 @@ import Image from 'next/image'
 type NumberSize = 'small' | 'medium' | 'large'
 type Alignment = 'left' | 'center' | 'right'
 type VerticalAlignment = 'top' | 'middle' | 'bottom'
-type ColorType = 'default' | 'gradient' | 'color'
-type GradientAngle = '0deg' | '90deg' | '180deg' | '270deg' | '135deg' | '315deg'
-
-type GradientValues = {
-  start?: string | null
-  mid?: string | null
-  end?: string | null
-  angle?: GradientAngle | null
-  midPos?: number | null
-}
+type ColorType =
+  | 'default'
+  | 'gradient'
+  | 'purple'
+  | 'red'
+  | 'orange'
+  | 'black'
+  | 'white'
+  | 'primary-background'
 
 type NumberStyle = {
   value: string
@@ -28,8 +27,6 @@ type NumberStyle = {
   suffix?: string | null
   size?: NumberSize | null
   colorType?: ColorType | null
-  colorValue?: string | null
-  gradientValues?: GradientValues
   alignment?: Alignment | null
 }
 
@@ -124,51 +121,45 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
 
   // Number with color or gradient
   const StyledNumber: React.FC<{ numberStyle: NumberStyle }> = ({ numberStyle }) => {
-    const { value, prefix, suffix, colorType, colorValue, gradientValues } = numberStyle
+    const { value, prefix, suffix, colorType } = numberStyle
 
-    // For solid color
-    if (colorType === 'color' && colorValue) {
-      return (
-        <div className="flex items-center">
-          <span style={{ color: colorValue }}>
-            {prefix && <span className="mr-1">{prefix}</span>}
-            <span>{value}</span>
-            {suffix && <span className="ml-1">{suffix}</span>}
-          </span>
-        </div>
-      )
+    const getColor = (type: ColorType) => {
+      const colorMap = {
+        purple: 'hsl(var(--color-purple))',
+        red: 'hsl(var(--color-red))',
+        orange: 'hsl(var(--color-orange))',
+        black: 'hsl(var(--color-black))',
+        white: 'hsl(var(--color-white))',
+        'primary-background': 'hsl(var(--semantic-background-primary))',
+        gradient:
+          'linear-gradient(90deg, hsl(var(--brand-gradient-start)), hsl(var(--brand-gradient-middle)), hsl(var(--brand-gradient-end)))',
+      }
+
+      return type === 'default' ? undefined : colorMap[type as keyof typeof colorMap]
     }
 
-    // For gradient
-    if (colorType === 'gradient' && gradientValues) {
-      const { start, mid, end, angle, midPos } = gradientValues
+    const getStyle = () => {
+      if (!colorType || colorType === 'default') return {}
 
-      // Only proceed if all required values are present
-      if (start && mid && end && angle && midPos !== undefined) {
-        const gradientStyle = {
-          background: `linear-gradient(${angle}, ${start} 0%, ${mid} ${midPos}%, ${end} 100%)`,
+      const color = getColor(colorType)
+      if (!color) return {}
+
+      if (colorType === 'gradient') {
+        return {
+          background: color,
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
           color: 'transparent',
         }
-
-        return (
-          <div className="flex items-center">
-            <span style={gradientStyle}>
-              {prefix && <span className="mr-1">{prefix}</span>}
-              <span>{value}</span>
-              {suffix && <span className="ml-1">{suffix}</span>}
-            </span>
-          </div>
-        )
       }
+
+      return { color }
     }
 
-    // Default - just show the number as is
     return (
       <div className="flex items-center">
-        <span>
+        <span style={getStyle()}>
           {prefix && <span className="mr-1">{prefix}</span>}
           <span>{value}</span>
           {suffix && <span className="ml-1">{suffix}</span>}

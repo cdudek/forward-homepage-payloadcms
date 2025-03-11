@@ -5,7 +5,16 @@ type SlopedEdgeWrapperProps = {
   children: React.ReactNode
   enabled?: boolean
   position?: 'top' | 'bottom' | 'both'
-  backgroundColor?: string
+  backgroundColor?:
+    | 'default'
+    | 'black'
+    | 'white'
+    | 'grey-50'
+    | 'grey-100'
+    | 'grey-500'
+    | 'grey-900'
+    | undefined
+    | null
   className?: string
   flex?: boolean
   minHeight?: string
@@ -22,10 +31,6 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
 }) => {
   const getStyles = () => {
     const styles: Record<string, string> = {}
-
-    if (backgroundColor) {
-      styles.backgroundColor = backgroundColor
-    }
 
     if (enabled) {
       switch (position) {
@@ -58,7 +63,7 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
     >
       <div className="container mx-auto">
         <div
-          className={cn('w-full', {
+          className={cn('w-full', `bg-${backgroundColor}`, {
             'pt-[calc(5vw+2rem)]': enabled && (position === 'top' || position === 'both'),
             'pb-[calc(5vw+2rem)]': enabled && (position === 'bottom' || position === 'both'),
             'pb-16': enabled && position === 'top',

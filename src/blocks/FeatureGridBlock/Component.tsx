@@ -10,28 +10,28 @@ import Image from 'next/image'
 
 type IconStyle = 'round' | 'square'
 type IconSize = 'small' | 'medium' | 'large'
-type ColorType = 'default' | 'gradient' | 'color'
+type ColorType =
+  | 'default'
+  | 'gradient'
+  | 'purple'
+  | 'red'
+  | 'orange'
+  | 'black'
+  | 'white'
+  | 'grey-50'
+  | 'grey-100'
+  | 'grey-500'
+  | 'grey-900'
 type Alignment = 'left' | 'center' | 'right'
 type VerticalAlignment = 'top' | 'middle' | 'bottom'
-type GradientAngle = '0deg' | '90deg' | '180deg' | '270deg' | '135deg' | '315deg'
 type ColumnSize = 'oneThird' | 'oneQuarter'
-
-type GradientValues = {
-  start: string
-  mid: string
-  end: string
-  angle: GradientAngle
-  midPos: number
-}
 
 type Icon = {
   media: Media | null
   style: IconStyle
   size: IconSize
   colorType: ColorType
-  colorValue?: string
-  gradientValues?: GradientValues
-  background: string
+  background: ColorType
   alignment: Alignment
 }
 
@@ -72,22 +72,22 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   const getGridColsClasses = () => {
     switch (columns) {
       case 'oneThird':
-        return 'grid-cols-3 lg:grid-cols-3'
+        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
       case 'oneQuarter':
-        return 'grid-cols-2 lg:grid-cols-4'
+        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
       default:
-        return 'grid-cols-3 lg:grid-cols-3'
+        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
     }
   }
 
   const getColSpanClasses = () => {
     switch (columns) {
       case 'oneThird':
-        return 'col-span-3 lg:col-span-1'
+        return 'col-span-1'
       case 'oneQuarter':
-        return 'col-span-1 lg:col-span-1'
+        return 'col-span-1'
       default:
-        return 'col-span-3 lg:col-span-1'
+        return 'col-span-1'
     }
   }
 
@@ -147,108 +147,79 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
   }
 
-  // Get gradient style based on angle
-  const getGradientDirection = (angle: GradientAngle) => {
-    switch (angle) {
-      case '0deg':
-        return 'bg-gradient-to-t'
-      case '90deg':
-        return 'bg-gradient-to-r'
-      case '180deg':
-        return 'bg-gradient-to-b'
-      case '270deg':
-        return 'bg-gradient-to-l'
-      case '135deg':
-        return 'bg-gradient-to-br'
-      case '315deg':
-        return 'bg-gradient-to-tl'
-      default:
-        return 'bg-gradient-to-r'
-    }
-  }
-
   // Simple component to render icon with color or gradient
   const IconWithColor: React.FC<{ feature: Feature }> = ({ feature }) => {
     const { icon } = feature
 
-    if (!icon.media) return null
+    if (!icon.media?.url) return null
+    const iconUrl = icon.media.url
 
-    // For solid color
-    if (icon.colorType === 'color' && icon.colorValue) {
-      return (
-        <div className={getIconImageSizeClasses(icon.size)}>
-          <Image
-            src={icon.media.url || ''}
-            alt={icon.media.alt || ''}
-            width={100}
-            height={100}
-            className="h-full w-full"
-            style={{
-              filter: 'brightness(0)',
-              WebkitFilter: 'brightness(0)',
-              color: icon.colorValue,
-            }}
-          />
-        </div>
-      )
+    const getColor = (type: ColorType) => {
+      const colorMap = {
+        purple: 'text-purple',
+        red: 'text-red',
+        orange: 'text-orange',
+        lightGrey: 'text-grey-300',
+        darkGrey: 'text-grey-700',
+        black: 'text-black',
+        white: 'text-white',
+
+        gradient:
+          'linear-gradient(90deg, hsl(var(--brand-gradient-start)), hsl(var(--brand-gradient-middle)), hsl(var(--brand-gradient-end)))',
+      }
+
+      return type === 'default' ? undefined : colorMap[type as keyof typeof colorMap]
     }
 
-    // For gradient
-    if (icon.colorType === 'gradient' && icon.gradientValues) {
-      const { start, mid, end, angle, midPos } = icon.gradientValues
+    const getIconStyle = () => {
+      if (icon.colorType === 'default') return {}
 
-      return (
-        <div className={getIconImageSizeClasses(icon.size)}>
-          <div className="relative h-full w-full">
-            {/* Create a mask using the icon */}
+      const color = getColor(icon.colorType)
+      if (!color) return {}
+
+      const isGradient = icon.colorType === 'gradient'
+      return {
+        WebkitMaskImage: `url(${iconUrl})`,
+        maskImage: `url(${iconUrl})`,
+        WebkitMaskSize: 'contain',
+        maskSize: 'contain',
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        WebkitMaskPosition: 'center',
+        maskPosition: 'center',
+        ...(isGradient ? { background: color } : { backgroundColor: color }),
+      }
+    }
+
+    const getBackgroundStyle = () => {
+      if (icon.background === 'default') return {}
+
+      const color = getColor(icon.background)
+      if (!color) return {}
+
+      return icon.background === 'gradient' ? { background: color } : { backgroundColor: color }
+    }
+
+    return (
+      <div className={getIconImageSizeClasses(icon.size)}>
+        <div
+          className={cn(getIconStyleClasses(icon.style), 'flex items-center justify-center')}
+          style={getBackgroundStyle()}
+        >
+          {icon.colorType === 'default' ? (
             <Image
-              src={icon.media.url || ''}
+              src={iconUrl}
               alt={icon.media.alt || ''}
               width={100}
               height={100}
-              className="absolute h-full w-full brightness-0"
-              style={{
-                WebkitMaskImage: `url(${icon.media.url})`,
-                maskImage: `url(${icon.media.url})`,
-                WebkitMaskSize: 'contain',
-                maskSize: 'contain',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-              }}
-            />
-
-            {/* Gradient that will be masked by the icon shape */}
-            <div
               className="h-full w-full"
-              style={{
-                background: `linear-gradient(${angle}, ${start} 0%, ${mid} ${midPos}%, ${end} 100%)`,
-                WebkitMaskImage: `url(${icon.media.url})`,
-                maskImage: `url(${icon.media.url})`,
-                WebkitMaskSize: 'contain',
-                maskSize: 'contain',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-              }}
             />
-          </div>
+          ) : (
+            <div className="relative h-full w-full">
+              <div className="h-full w-full" style={getIconStyle()} />
+            </div>
+          )}
         </div>
-      )
-    }
-
-    // Default - just show the icon as is
-    return (
-      <div className={getIconImageSizeClasses(icon.size)}>
-        <Image
-          src={icon.media.url || ''}
-          alt={icon.media.alt || ''}
-          width={100}
-          height={100}
-          className="h-full w-full"
-        />
       </div>
     )
   }

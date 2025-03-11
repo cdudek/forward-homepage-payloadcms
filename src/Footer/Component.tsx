@@ -12,7 +12,7 @@ export async function Footer() {
   const legalLinks = footerData?.legalLinks || []
 
   return (
-    <footer className="bg-brand-dark mt-auto border-t border-border text-white">
+    <footer className="bg-fwd-black-950 mt-auto border-t border-border text-white">
       <div className="container py-6 sm:py-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-6">
           <div className="col-span-1 sm:col-span-1 md:col-span-1">

@@ -29,7 +29,7 @@ export const NumberGridBlock: Block = {
             {
               name: 'columns',
               type: 'select',
-              dbName: 'grid_cols',
+              dbName: 'ngr_grid_cols',
               required: true,
               defaultValue: 'oneThird',
               options: [
@@ -66,7 +66,7 @@ export const NumberGridBlock: Block = {
                     {
                       name: 'size',
                       type: 'select',
-                      dbName: 'number_size',
+                      dbName: 'ngr_size',
                       defaultValue: 'medium',
                       options: [
                         { label: 'Small', value: 'small' },
@@ -77,72 +77,59 @@ export const NumberGridBlock: Block = {
                     {
                       name: 'colorType',
                       type: 'select',
-                      dbName: 'number_color_type',
+                      dbName: 'ngr_color_type',
                       defaultValue: 'default',
                       options: [
-                        { label: 'Default', value: 'default' },
-                        { label: 'Gradient', value: 'gradient' },
-                        { label: 'Custom Color', value: 'color' },
-                      ],
-                    },
-                    {
-                      name: 'colorValue',
-                      type: 'text',
-                      dbName: 'number_color_value',
-                      admin: {
-                        condition: (_, { colorType }) => colorType === 'color',
-                      },
-                    },
-                    {
-                      name: 'gradientValues',
-                      type: 'group',
-                      admin: {
-                        condition: (_, { colorType }) => colorType === 'gradient',
-                      },
-                      fields: [
                         {
-                          name: 'start',
-                          type: 'text',
-                          defaultValue: '#772583',
+                          label: 'Default',
+                          value: 'default',
                         },
                         {
-                          name: 'mid',
-                          type: 'text',
-                          defaultValue: '#DB2845',
+                          label: 'Brand Gradient',
+                          value: 'gradient',
                         },
                         {
-                          name: 'end',
-                          type: 'text',
-                          defaultValue: '#FF6A39',
+                          label: 'Purple',
+                          value: 'purple',
                         },
                         {
-                          name: 'angle',
-                          type: 'select',
-                          dbName: 'gradient_angle',
-                          defaultValue: '90deg',
-                          options: [
-                            { label: 'Left to Right', value: '90deg' },
-                            { label: 'Right to Left', value: '270deg' },
-                            { label: 'Top to Bottom', value: '180deg' },
-                            { label: 'Bottom to Top', value: '0deg' },
-                            { label: 'Diagonal (↘)', value: '135deg' },
-                            { label: 'Diagonal (↖)', value: '315deg' },
-                          ],
+                          label: 'Red',
+                          value: 'red',
                         },
                         {
-                          name: 'midPos',
-                          type: 'number',
-                          dbName: 'gradient_mid_pos',
-                          defaultValue: 50,
-                          min: 1,
-                          max: 99,
+                          label: 'Orange',
+                          value: 'orange',
+                        },
+                        {
+                          label: 'Black',
+                          value: 'black',
+                        },
+                        {
+                          label: 'White',
+                          value: 'white',
+                        },
+                        {
+                          label: 'Grey Light',
+                          value: 'grey-100',
+                        },
+                        {
+                          label: 'Grey Lightest',
+                          value: 'grey-50',
+                        },
+                        {
+                          label: 'Grey Dark',
+                          value: 'grey-500',
+                        },
+                        {
+                          label: 'Grey Darkest',
+                          value: 'grey-900',
                         },
                       ],
                     },
                     {
                       name: 'alignment',
                       type: 'select',
-                      dbName: 'number_align',
+                      dbName: 'ngr_align',
                       defaultValue: 'center',
                       options: [
                         { label: 'Left', value: 'left' },

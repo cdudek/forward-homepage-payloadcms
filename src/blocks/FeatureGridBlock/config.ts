@@ -5,7 +5,7 @@ import { Block } from 'payload'
  * PostgreSQL has a 63 character limit for identifiers (table/column names)
  * Without dbName, the generated names would exceed this limit, causing errors like:
  * "Exceeded max identifier length for table or enum name of 63 characters"
- * Example problematic name: enum_pages_blocks_feature_grid_block_features_icon_gradient_values_angle
+ * Example problematic name: fg_block_features_fg_icon_gradient_values_angle
  *
  * DO NOT REMOVE dbName fields even if TypeScript shows errors
  */
@@ -55,7 +55,7 @@ export const FeatureGridBlock: Block = {
                     {
                       name: 'style',
                       type: 'select',
-                      dbName: 'icon_style',
+                      dbName: 'fg_icon_style',
                       defaultValue: 'round',
                       options: [
                         { label: 'Round', value: 'round' },
@@ -65,7 +65,7 @@ export const FeatureGridBlock: Block = {
                     {
                       name: 'size',
                       type: 'select',
-                      dbName: 'icon_size',
+                      dbName: 'fg_icon_size',
                       defaultValue: 'medium',
                       options: [
                         { label: 'Small', value: 'small' },
@@ -76,78 +76,37 @@ export const FeatureGridBlock: Block = {
                     {
                       name: 'colorType',
                       type: 'select',
-                      dbName: 'icon_color_type',
+                      dbName: 'fg_icon_color_type',
                       defaultValue: 'default',
                       options: [
                         { label: 'Default', value: 'default' },
-                        { label: 'Gradient', value: 'gradient' },
-                        { label: 'Custom Color', value: 'color' },
-                      ],
-                    },
-                    {
-                      name: 'colorValue',
-                      type: 'text',
-                      dbName: 'icon_color_value',
-                      admin: {
-                        condition: (_, { colorType }) => colorType === 'color',
-                      },
-                    },
-                    {
-                      name: 'gradientValues',
-                      type: 'group',
-                      admin: {
-                        condition: (_, { colorType }) => colorType === 'gradient',
-                      },
-                      fields: [
-                        {
-                          name: 'start',
-                          type: 'text',
-                          defaultValue: '#772583',
-                        },
-                        {
-                          name: 'mid',
-                          type: 'text',
-                          defaultValue: '#DB2845',
-                        },
-                        {
-                          name: 'end',
-                          type: 'text',
-                          defaultValue: '#FF6A39',
-                        },
-                        {
-                          name: 'angle',
-                          type: 'select',
-                          dbName: 'gradient_angle',
-                          defaultValue: '90deg',
-                          options: [
-                            { label: 'Left to Right', value: '90deg' },
-                            { label: 'Right to Left', value: '270deg' },
-                            { label: 'Top to Bottom', value: '180deg' },
-                            { label: 'Bottom to Top', value: '0deg' },
-                            { label: 'Diagonal (↘)', value: '135deg' },
-                            { label: 'Diagonal (↖)', value: '315deg' },
-                          ],
-                        },
-                        {
-                          name: 'midPos',
-                          type: 'number',
-                          dbName: 'gradient_mid_pos',
-                          defaultValue: 50,
-                          min: 1,
-                          max: 99,
-                        },
+                        { label: 'Brand Gradient', value: 'gradient' },
+                        { label: 'Purple', value: 'purple' },
+                        { label: 'Red', value: 'red' },
+                        { label: 'Orange', value: 'orange' },
+                        { label: 'Black', value: 'black' },
+                        { label: 'White', value: 'white' },
                       ],
                     },
                     {
                       name: 'background',
-                      type: 'text',
-                      dbName: 'icon_bg',
-                      defaultValue: '#F5F5F5',
+                      type: 'select',
+                      dbName: 'fg_icon_background',
+                      defaultValue: 'default',
+                      options: [
+                        { label: 'Default', value: 'default' },
+                        { label: 'Brand Gradient', value: 'gradient' },
+                        { label: 'Purple', value: 'purple' },
+                        { label: 'Red', value: 'red' },
+                        { label: 'Orange', value: 'orange' },
+                        { label: 'Black', value: 'black' },
+                        { label: 'White', value: 'white' },
+                      ],
                     },
                     {
                       name: 'alignment',
                       type: 'select',
-                      dbName: 'icon_align',
+                      dbName: 'fg_icon_align',
                       defaultValue: 'center',
                       options: [
                         { label: 'Left', value: 'left' },
@@ -186,7 +145,7 @@ export const FeatureGridBlock: Block = {
                     {
                       name: 'horizontalAlignment',
                       type: 'select',
-                      dbName: 'header_h_align',
+                      dbName: 'fg_header_h_align',
                       defaultValue: 'center',
                       options: [
                         { label: 'Left', value: 'left' },
@@ -197,7 +156,7 @@ export const FeatureGridBlock: Block = {
                     {
                       name: 'verticalAlignment',
                       type: 'select',
-                      dbName: 'header_v_align',
+                      dbName: 'fg_header_v_align',
                       defaultValue: 'top',
                       options: [
                         { label: 'Top', value: 'top' },
@@ -244,7 +203,7 @@ export const FeatureGridBlock: Block = {
             {
               name: 'columns',
               type: 'select',
-              dbName: 'grid_cols',
+              dbName: 'fg_grid_cols',
               required: true,
               defaultValue: 'oneThird',
               options: [
@@ -264,8 +223,55 @@ export const FeatureGridBlock: Block = {
             {
               name: 'backgroundColor',
               type: 'text',
+              dbName: 'fg_bg_color',
               label: 'Background Color',
-              defaultValue: '#FCFAFA',
+              defaultValue: 'default',
+              options: [
+                {
+                  label: 'Default',
+                  value: 'default',
+                },
+                {
+                  label: 'Brand Gradient',
+                  value: 'gradient',
+                },
+                {
+                  label: 'Purple',
+                  value: 'purple',
+                },
+                {
+                  label: 'Red',
+                  value: 'red',
+                },
+                {
+                  label: 'Orange',
+                  value: 'orange',
+                },
+                {
+                  label: 'Black',
+                  value: 'black',
+                },
+                {
+                  label: 'White',
+                  value: 'white',
+                },
+                {
+                  label: 'Grey Light',
+                  value: 'grey-100',
+                },
+                {
+                  label: 'Grey Lightest',
+                  value: 'grey-50',
+                },
+                {
+                  label: 'Grey Dark',
+                  value: 'grey-500',
+                },
+                {
+                  label: 'Grey Darkest',
+                  value: 'grey-900',
+                },
+              ],
               admin: {
                 condition: (_, { enableBackground }) => Boolean(enableBackground),
               },

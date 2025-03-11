@@ -7,15 +7,28 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
 
+type backgroundColorType =
+  | 'default'
+  | 'black'
+  | 'white'
+  | 'grey-50'
+  | 'grey-100'
+  | 'grey-500'
+  | 'grey-900'
+  | undefined
+  | null
+
+type ColumnSize = 'full' | 'half' | 'oneThird' | 'twoThirds' | 'centeredThree'
+
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns, sectionHeight, padding, slope, enableBackground, backgroundColor } = props
 
-  const colsSpanClasses = {
-    full: '12',
-    half: '6',
-    oneThird: '4',
-    twoThirds: '8',
-    centeredThree: 'col-start-2',
+  const colsSpanClasses: Record<ColumnSize, string> = {
+    full: 'col-span-12',
+    half: 'col-span-6',
+    oneThird: 'col-span-4',
+    twoThirds: 'col-span-8',
+    centeredThree: 'col-span-12',
   }
 
   const paddingX = {
@@ -39,11 +52,13 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     '50': 'min-h-[50vh]',
   }
 
+  const color = backgroundColor === 'default' ? undefined : backgroundColor
+
   return (
     <SlopedEdgeWrapper
       enabled={slope?.enabled ?? false}
       position={slope?.position ?? undefined}
-      backgroundColor={enableBackground ? (backgroundColor ?? undefined) : undefined}
+      backgroundColor={enableBackground ? color : undefined}
       className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
     >
       <div
@@ -53,7 +68,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
           paddingY[padding?.y || 'medium'],
         )}
       >
-        <div className="grid w-full gap-x-8 gap-y-8 lg:grid-cols-5 lg:gap-x-8">
+        <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8">
           {columns &&
             columns.length > 0 &&
             columns.map((col, index) => {
@@ -61,9 +76,8 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
 
               return (
                 <div
-                  className={cn('col-span-3', {
-                    [`lg:${colsSpanClasses[size!]}`]: size === 'centeredThree',
-                    [`lg:col-span-${colsSpanClasses[size!]}`]: size !== 'centeredThree',
+                  className={cn('col-span-12', {
+                    [colsSpanClasses[size as ColumnSize]]: size,
                   })}
                   key={index}
                 >
