@@ -493,7 +493,7 @@ export interface ContentBlock {
     | null;
   sectionHeight?: ('none' | 'full' | '75' | '50') | null;
   enableBackground?: boolean | null;
-  backgroundColor?: ('default' | 'white' | 'black' | 'grey-50' | 'grey-100' | 'grey-500' | 'grey-900') | null;
+  backgroundTheme?: ('default' | 'light' | 'dark') | null;
   slope?: {
     enabled?: boolean | null;
     position?: ('top' | 'bottom' | 'both') | null;
@@ -1307,7 +1307,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
       };
   sectionHeight?: T;
   enableBackground?: T;
-  backgroundColor?: T;
+  backgroundTheme?: T;
   slope?:
     | T
     | {

@@ -5,16 +5,7 @@ type SlopedEdgeWrapperProps = {
   children: React.ReactNode
   enabled?: boolean
   position?: 'top' | 'bottom' | 'both'
-  backgroundColor?:
-    | 'default'
-    | 'black'
-    | 'white'
-    | 'grey-50'
-    | 'grey-100'
-    | 'grey-500'
-    | 'grey-900'
-    | undefined
-    | null
+  backgroundTheme?: 'default' | 'light' | 'dark' | undefined | null
   className?: string
   flex?: boolean
   minHeight?: string
@@ -24,7 +15,7 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
   children,
   enabled,
   position = 'bottom',
-  backgroundColor,
+  backgroundTheme,
   className,
   flex,
   minHeight = '10vh',
@@ -49,6 +40,16 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
     return styles
   }
 
+  const backgroundThemeMap = {
+    default: undefined,
+    light: 'bg-white',
+    dark: 'bg-black',
+  }
+
+  const backgroundColor = backgroundTheme
+    ? backgroundThemeMap[backgroundTheme as keyof typeof backgroundThemeMap]
+    : undefined
+
   return (
     <div
       className={cn(
@@ -63,7 +64,7 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
     >
       <div className="container mx-auto">
         <div
-          className={cn('w-full', `bg-${backgroundColor}`, {
+          className={cn('w-full', backgroundColor, {
             'pt-[calc(5vw+2rem)]': enabled && (position === 'top' || position === 'both'),
             'pb-[calc(5vw+2rem)]': enabled && (position === 'bottom' || position === 'both'),
             'pb-16': enabled && position === 'top',

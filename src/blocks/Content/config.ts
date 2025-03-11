@@ -11,7 +11,6 @@ import {
   IndentFeature,
   ItalicFeature,
   BoldFeature,
-  StrikethroughFeature,
   UnderlineFeature,
   LinkFeature,
   BlocksFeature,
@@ -66,7 +65,6 @@ const columnFields: Field[] = [
           ParagraphFeature(),
           ItalicFeature(),
           BoldFeature(),
-          StrikethroughFeature(),
           UnderlineFeature(),
           LinkFeature(),
         ]
@@ -134,13 +132,13 @@ export const Content: Block = {
             {
               name: 'enableBackground',
               type: 'checkbox',
-              label: 'Enable Background Color',
+              label: 'Enable Background',
               defaultValue: false,
             },
             {
-              name: 'backgroundColor',
+              name: 'backgroundTheme',
               type: 'select',
-              label: 'Background Color',
+              label: 'Background Theme',
               defaultValue: 'default',
               options: [
                 {
@@ -148,28 +146,12 @@ export const Content: Block = {
                   value: 'default',
                 },
                 {
-                  label: 'White',
-                  value: 'white',
+                  label: 'Light',
+                  value: 'light',
                 },
                 {
-                  label: 'Black',
-                  value: 'black',
-                },
-                {
-                  label: 'Grey 50',
-                  value: 'grey-50',
-                },
-                {
-                  label: 'Grey 100',
-                  value: 'grey-100',
-                },
-                {
-                  label: 'Grey 500',
-                  value: 'grey-500',
-                },
-                {
-                  label: 'Grey 900',
-                  value: 'grey-900',
+                  label: 'Dark',
+                  value: 'dark',
                 },
               ],
               admin: {

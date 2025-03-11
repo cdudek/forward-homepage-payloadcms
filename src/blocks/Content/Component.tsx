@@ -7,21 +7,19 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
 
-type backgroundColorType =
-  | 'default'
-  | 'black'
-  | 'white'
-  | 'grey-50'
-  | 'grey-100'
-  | 'grey-500'
-  | 'grey-900'
-  | undefined
-  | null
-
 type ColumnSize = 'full' | 'half' | 'oneThird' | 'twoThirds' | 'centeredThree'
 
-export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
-  const { columns, sectionHeight, padding, slope, enableBackground, backgroundColor } = props
+export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
+  // Use optional chaining to safely access properties
+  const {
+    columns = [],
+    sectionHeight,
+    padding,
+    slope,
+    enableBackground = false,
+    // Default to undefined if backgroundTheme doesn't exist
+    backgroundTheme = 'default',
+  } = props || {}
 
   const colsSpanClasses: Record<ColumnSize, string> = {
     full: 'col-span-12',
@@ -52,13 +50,32 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     '50': 'min-h-[50vh]',
   }
 
-  const color = backgroundColor === 'default' ? undefined : backgroundColor
+  // Always default to undefined if backgroundTheme doesn't exist or is default
+  const color = backgroundTheme === 'default' || !backgroundTheme ? undefined : backgroundTheme
+
+  // Function to map payload link appearance to button variant
+  const mapAppearance = (appearance: string | null | undefined) => {
+    switch (appearance) {
+      case 'default':
+        return 'primary'
+      case 'primary':
+        return 'primary'
+      case 'gradient':
+        return 'gradient'
+      case 'secondary':
+        return 'secondary'
+      case 'outline':
+        return 'outline'
+      default:
+        return 'primary' // Default to primary if not specified
+    }
+  }
 
   return (
     <SlopedEdgeWrapper
       enabled={slope?.enabled ?? false}
       position={slope?.position ?? undefined}
-      backgroundColor={enableBackground ? color : undefined}
+      backgroundTheme={enableBackground ? color : undefined}
       className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
     >
       <div
@@ -72,7 +89,8 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
           {columns &&
             columns.length > 0 &&
             columns.map((col, index) => {
-              const { enableLink, link, richText, size } = col
+              // Safely access column properties with defaults
+              const { enableLink = false, link, richText, size } = col || {}
 
               return (
                 <div
@@ -82,7 +100,9 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                   key={index}
                 >
                   {richText && <RichText data={richText} enableGutter={false} />}
-                  {enableLink && <CMSLink {...link} />}
+                  {enableLink && link && (
+                    <CMSLink {...link} appearance={mapAppearance(link.appearance)} />
+                  )}
                 </div>
               )
             })}
