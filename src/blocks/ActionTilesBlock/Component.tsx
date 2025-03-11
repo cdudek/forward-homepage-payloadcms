@@ -42,7 +42,7 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
               : `/${link.reference?.relationTo}/${link.reference?.value}`
 
           return (
-            <div className="pb-6 pt-2" key={i}>
+            <div className="flex items-center justify-center text-white" key={i}>
               <Link
                 href={href || '#'}
                 target={link.newTab ? '_blank' : undefined}
@@ -55,7 +55,6 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                     'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                     'after:absolute after:inset-[1px] after:rounded-3xl after:border after:border-white/0 after:transition-all after:duration-500',
                     'group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.2)]',
-                    'group-hover:after:border-white/20',
                     isTwoTiles && 'aspect-[1.618/1]',
                   )}
                 >
@@ -68,17 +67,7 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                   />
 
                   {/* Gradient overlay for depth and text readability */}
-                  <div
-                    className="absolute inset-0 transition-opacity duration-500 ease-out"
-                    style={{
-                      background:
-                        'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 100%)',
-                      opacity: 0.2,
-                    }}
-                  />
-
-                  {/* Hover gradient effect */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-transparent transition-opacity duration-500 ease-out group-hover:opacity-0" />
 
                   {/* Content */}
                   <div className="relative z-10 flex h-full flex-col">
