@@ -5,6 +5,7 @@ import type { SerializedEditorState, SerializedLexicalNode } from 'lexical'
 import { Media } from '@/payload-types'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
+import Image from 'next/image'
 
 type IconStyle = 'round' | 'square'
 type IconSize = 'small' | 'medium' | 'large'
@@ -169,9 +170,11 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     if (icon.colorType === 'color' && icon.colorValue) {
       return (
         <div className={getIconImageSizeClasses(icon.size)}>
-          <img
+          <Image
             src={icon.media.url || ''}
             alt={icon.media.alt || ''}
+            width={100}
+            height={100}
             className="h-full w-full"
             style={{
               filter: 'brightness(0)',
@@ -191,9 +194,11 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
         <div className={getIconImageSizeClasses(icon.size)}>
           <div className="relative h-full w-full">
             {/* Create a mask using the icon */}
-            <img
+            <Image
               src={icon.media.url || ''}
               alt={icon.media.alt || ''}
+              width={100}
+              height={100}
               className="absolute h-full w-full brightness-0"
               style={{
                 WebkitMaskImage: `url(${icon.media.url})`,
@@ -230,7 +235,13 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     // Default - just show the icon as is
     return (
       <div className={getIconImageSizeClasses(icon.size)}>
-        <img src={icon.media.url || ''} alt={icon.media.alt || ''} className="h-full w-full" />
+        <Image
+          src={icon.media.url || ''}
+          alt={icon.media.alt || ''}
+          width={100}
+          height={100}
+          className="h-full w-full"
+        />
       </div>
     )
   }

@@ -128,6 +128,53 @@ export const Content: Block = {
               ],
             },
             {
+              name: 'enableBackground',
+              type: 'checkbox',
+              label: 'Enable Background Color',
+              defaultValue: false,
+            },
+            {
+              name: 'backgroundColor',
+              type: 'text',
+              label: 'Background Color',
+              defaultValue: '#FCFAFA',
+              admin: {
+                condition: (_, { enableBackground }) => Boolean(enableBackground),
+              },
+            },
+            {
+              name: 'slope',
+              type: 'group',
+              label: 'Sloped Edge',
+              fields: [
+                {
+                  name: 'enabled',
+                  type: 'checkbox',
+                  label: 'Enable sloped edge',
+                  defaultValue: false,
+                },
+                {
+                  name: 'position',
+                  type: 'select',
+                  defaultValue: 'bottom',
+                  label: 'Slope Position',
+                  admin: {
+                    condition: (_, { enabled }) => Boolean(enabled),
+                  },
+                  options: [
+                    {
+                      label: 'Top',
+                      value: 'top',
+                    },
+                    {
+                      label: 'Bottom',
+                      value: 'bottom',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
               name: 'padding',
               type: 'group',
               fields: [

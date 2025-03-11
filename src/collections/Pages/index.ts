@@ -9,6 +9,7 @@ import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { LogoGridBlock } from '../../blocks/LogoGridBlock/config'
 import { FeatureGridBlock } from '../../blocks/FeatureGridBlock/config'
+import { NumberGridBlock } from '../../blocks/NumberGridBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -92,6 +93,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 LogoGridBlock,
                 FeatureGridBlock,
+                NumberGridBlock,
               ],
               required: true,
               admin: {

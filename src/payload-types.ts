@@ -150,6 +150,7 @@ export interface Page {
   headerColor?: ('light' | 'dark') | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    hasAngledCorner?: boolean | null;
     richText?: {
       root: {
         type: string;
@@ -199,6 +200,7 @@ export interface Page {
     | FormBlock
     | LogoGridBlock
     | FeatureGridBlock
+    | NumberGridBlock
   )[];
   meta?: {
     title?: string | null;
@@ -489,6 +491,12 @@ export interface ContentBlock {
       }[]
     | null;
   sectionHeight?: ('none' | 'full' | '75' | '50') | null;
+  enableBackground?: boolean | null;
+  backgroundColor?: string | null;
+  slope?: {
+    enabled?: boolean | null;
+    position?: ('top' | 'bottom') | null;
+  };
   padding?: {
     x?: ('none' | 'small' | 'medium' | 'large') | null;
     y?: ('none' | 'small' | 'medium' | 'large') | null;
@@ -838,6 +846,72 @@ export interface FeatureGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberGridBlock".
+ */
+export interface NumberGridBlock {
+  columns: 'oneThird' | 'oneQuarter';
+  items?:
+    | {
+        number: {
+          value: string;
+          prefix?: string | null;
+          suffix?: string | null;
+          size?: ('small' | 'medium' | 'large') | null;
+          colorType?: ('default' | 'gradient' | 'color') | null;
+          colorValue?: string | null;
+          gradientValues?: {
+            start?: string | null;
+            mid?: string | null;
+            end?: string | null;
+            angle?: ('90deg' | '270deg' | '180deg' | '0deg' | '135deg' | '315deg') | null;
+            midPos?: number | null;
+          };
+          alignment?: ('left' | 'center' | 'right') | null;
+        };
+        header?: {
+          content?: {
+            root: {
+              type: string;
+              children: {
+                type: string;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          horizontalAlignment?: ('left' | 'center' | 'right') | null;
+          verticalAlignment?: ('top' | 'middle' | 'bottom') | null;
+          equalHeight?: boolean | null;
+        };
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'numberGridBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1101,6 +1175,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        hasAngledCorner?: T;
         richText?: T;
         links?:
           | T
@@ -1129,6 +1204,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         logoGrid?: T | LogoGridBlockSelect<T>;
         featureGridBlock?: T | FeatureGridBlockSelect<T>;
+        numberGridBlock?: T | NumberGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1192,6 +1268,14 @@ export interface ContentBlockSelect<T extends boolean = true> {
         id?: T;
       };
   sectionHeight?: T;
+  enableBackground?: T;
+  backgroundColor?: T;
+  slope?:
+    | T
+    | {
+        enabled?: T;
+        position?: T;
+      };
   padding?:
     | T
     | {
@@ -1277,6 +1361,49 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
                     midPos?: T;
                   };
               background?: T;
+              alignment?: T;
+            };
+        header?:
+          | T
+          | {
+              content?: T;
+              horizontalAlignment?: T;
+              verticalAlignment?: T;
+              equalHeight?: T;
+            };
+        content?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberGridBlock_select".
+ */
+export interface NumberGridBlockSelect<T extends boolean = true> {
+  columns?: T;
+  items?:
+    | T
+    | {
+        number?:
+          | T
+          | {
+              value?: T;
+              prefix?: T;
+              suffix?: T;
+              size?: T;
+              colorType?: T;
+              colorValue?: T;
+              gradientValues?:
+                | T
+                | {
+                    start?: T;
+                    mid?: T;
+                    end?: T;
+                    angle?: T;
+                    midPos?: T;
+                  };
               alignment?: T;
             };
         header?:

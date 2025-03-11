@@ -41,6 +41,15 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'hasAngledCorner',
+      type: 'checkbox',
+      label: 'Enable angled corner',
+      defaultValue: false,
+      admin: {
+        condition: (_, { type } = {}) => type === 'highImpact',
+      },
+    },
+    {
       name: 'richText',
       type: 'richText',
       editor: lexicalEditor({
