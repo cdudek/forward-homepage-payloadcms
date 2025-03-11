@@ -111,7 +111,6 @@ export const Content: Block = {
               name: 'sectionHeight',
               type: 'select',
               defaultValue: 'none',
-              dbName: 'content_section_height',
               label: 'Section Height',
               options: [
                 {
@@ -141,7 +140,6 @@ export const Content: Block = {
             {
               name: 'backgroundColor',
               type: 'select',
-              dbName: 'content_bg_color',
               label: 'Background Color',
               defaultValue: 'default',
               options: [
@@ -193,7 +191,6 @@ export const Content: Block = {
                   name: 'position',
                   type: 'select',
                   defaultValue: 'bottom',
-                  dbName: 'content_slope_position',
                   label: 'Slope Position',
                   admin: {
                     condition: (_, { enabled }) => Boolean(enabled),
@@ -222,7 +219,6 @@ export const Content: Block = {
                 {
                   name: 'x',
                   type: 'select',
-                  dbName: 'content_padding_x',
                   defaultValue: 'none',
                   options: [
                     {
@@ -246,7 +242,6 @@ export const Content: Block = {
                 {
                   name: 'y',
                   type: 'select',
-                  dbName: 'content_padding_y',
                   defaultValue: 'none',
                   options: [
                     {

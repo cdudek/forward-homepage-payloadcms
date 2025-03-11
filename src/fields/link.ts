@@ -2,9 +2,13 @@ import type { Field, GroupField } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
 
-export type LinkAppearances = 'outline' | 'primary' | 'gradient' | 'secondary'
+export type LinkAppearances = 'outline' | 'primary' | 'gradient' | 'secondary' | 'default'
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
+  default: {
+    label: 'Default',
+    value: 'default',
+  },
   primary: {
     label: 'Primary',
     value: 'primary',
