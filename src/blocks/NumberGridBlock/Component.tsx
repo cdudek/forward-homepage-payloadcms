@@ -87,7 +87,7 @@ const StyledNumber: React.FC<StyledNumberProps> = ({ number }) => {
   const numberColor = getColor(colorType ?? 'default')
 
   return (
-    <div className="flex items-center sm:prose-md md:prose-md xl:prose-lg">
+    <div className="prose-md flex items-center">
       <span className={numberColor}>
         {prefix && <span className="mr-1">{prefix}</span>}
         <span>{value}</span>
@@ -103,7 +103,7 @@ export const NumberGridBlock: React.FC<Props> = ({ columns, items, subheader }) 
   }
 
   return (
-    <div className="container mx-auto py-8 sm:hidden">
+    <div className="container mx-auto hidden py-8 md:block">
       {subheader && (
         <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 py-12">
           <div className="col-span-12">
@@ -131,7 +131,7 @@ export const NumberGridBlock: React.FC<Props> = ({ columns, items, subheader }) 
                 <StyledNumber number={number} />
               </div>
               {content && (
-                <div className="text-fwd-grey-700 prose w-full max-w-none sm:prose-sm md:prose-md xl:prose-lg prose-p:mt-0">
+                <div className="text-fwd-grey-700 prose prose-sm w-full max-w-none md:prose-md xl:prose-lg prose-p:mt-0">
                   {content && <RichText data={content} />}
                 </div>
               )}

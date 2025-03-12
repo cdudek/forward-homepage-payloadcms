@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react'
-// import RichText from '@/components/RichText'
-import { cn } from '@/utilities/ui'
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
+import RichText from '@/components/RichText'
+import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 // type CompanyName = NonNullable<Props['companyName']>
 // type Logo = NonNullable<Props['logo']>
@@ -12,80 +13,338 @@ import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-
 
 type Props = CaseStudyBlockType
 
-export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({ caseStudies, limit }) => {
-  if (!caseStudies?.length) return null
+// Create a separate component for the case study display to handle the logic
+const CaseStudyDisplay: React.FC<{
+  caseStudies: (number | CaseStudy)[]
+  limit?: number
+}> = ({ caseStudies, limit = 10 }) => {
+  // State for the current active case study
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  // Configurable rotation timing in seconds - increased for smoother transitions
+  const rotationTimingSeconds = 10
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [progressPercent, setProgressPercent] = useState(0)
+  // Fix for initial render - ensure content is visible immediately
+  const [isFirstRender, setIsFirstRender] = useState(true)
 
-  // const heroCaseStudy = caseStudies[0] as CaseStudy
+  // Ensure we only display up to the limit
+  const displayCaseStudies = caseStudies.slice(0, limit)
+  const totalCaseStudies = displayCaseStudies.length
 
-  // const displayCaseStudies = caseStudies.slice(0, displayLimit)
+  // Function to advance to the next case study
+  const goToNextCaseStudy = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % totalCaseStudies)
+    setProgressPercent(0)
+  }
 
-  // const heroQuote = displayCaseStudies[0]
-  // const heroImage = heroQuote?.background?.url
+  // Set isFirstRender to false after component mounts
+  useEffect(() => {
+    setIsFirstRender(false)
+  }, [])
+
+  // Set up rotation timer
+  useEffect(() => {
+    // Reset animation when index changes
+    setProgressPercent(0)
+
+    // Clear any existing intervals
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current)
+    }
+
+    // Only start rotation if not paused and we have multiple case studies
+    if (!isPaused && totalCaseStudies > 1) {
+      const interval = 50 // Update progress every 50ms for smooth progress bar
+      const totalSteps = (rotationTimingSeconds * 1000) / interval
+
+      progressIntervalRef.current = setInterval(() => {
+        setProgressPercent((prev) => {
+          const nextValue = prev + 100 / totalSteps
+
+          // Move to next case study when progress reaches 100%
+          if (nextValue >= 100) {
+            goToNextCaseStudy()
+            return 0
+          }
+
+          return nextValue
+        })
+      }, interval)
+    }
+
+    // Cleanup function
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current)
+      }
+    }
+  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds])
+
+  // Get the current active case study
+  const activeCaseStudy = displayCaseStudies[activeIndex]
+
+  // Handle potential non-populated relationships
+  const currentStudy = typeof activeCaseStudy === 'number' ? null : (activeCaseStudy as CaseStudy)
+  if (!currentStudy) return null
+
+  // Get the next two case studies for the supporting cards
+  const nextIndex = (activeIndex + 1) % totalCaseStudies
+  const secondNextIndex = (activeIndex + 2) % totalCaseStudies
+
+  const nextStudy =
+    typeof displayCaseStudies[nextIndex] === 'number'
+      ? null
+      : (displayCaseStudies[nextIndex] as CaseStudy)
+
+  const secondNextStudy =
+    typeof displayCaseStudies[secondNextIndex] === 'number'
+      ? null
+      : (displayCaseStudies[secondNextIndex] as CaseStudy)
+
+  // Animation variants for the cards - smoother transitions
+  const heroCardVariants = {
+    initial: isFirstRender ? { opacity: 1 } : { opacity: 0, scale: 1.03 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: 'easeInOut' } },
+    exit: { opacity: 0, scale: 0.98, transition: { duration: 0.6, ease: 'easeInOut' } },
+  }
+
+  const supportingCardVariants = {
+    initial: isFirstRender ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2, ease: 'easeOut' } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.6, ease: 'easeInOut' } },
+  }
 
   return (
-    <div className="grid grid-cols-5 py-10">
-      <div className="relative col-span-3"></div>
-      <div className="col-span-2"></div>
+    <div
+      className="container mx-auto py-8"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <div className="grid grid-cols-5 gap-6">
+        <div className="relative col-span-3">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`hero-${activeIndex}`}
+              variants={heroCardVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="relative h-0 w-full pb-[62.5%]" // 16:10 aspect ratio
+            >
+              {/* Hero Case Study Card */}
+              <div className="absolute inset-0 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800">
+                {currentStudy.testimonial?.background && (
+                  <div className="absolute inset-0 z-0">
+                    <Media
+                      resource={currentStudy.testimonial.background}
+                      className="h-full w-full object-cover"
+                    />
+                    {/* Enhanced blur effect in the middle of the card */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-800/50 via-purple-800/70 to-purple-800/50 backdrop-blur-sm" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.2)_0%,transparent_70%)] backdrop-blur-[3px]" />
+                  </div>
+                )}
+
+                <div className="relative z-10 flex h-full flex-col p-8">
+                  {/* Company logo - white color for hero */}
+                  {currentStudy.logo && (
+                    <div className="mb-auto flex h-16 w-40 items-center">
+                      <Media
+                        resource={currentStudy.logo}
+                        className="max-h-full max-w-full object-contain brightness-0 invert"
+                      />
+                    </div>
+                  )}
+
+                  {/* Quote - left aligned */}
+                  <div className="my-auto py-12">
+                    {currentStudy.testimonial?.quote && (
+                      <div className="text-xl font-light text-white md:text-2xl lg:text-3xl">
+                        <RichText data={currentStudy.testimonial.quote} enableProse={false} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Author information - right aligned */}
+                  <div className="mt-auto flex items-end justify-end">
+                    <div className="text-right text-white">
+                      <div className="font-semibold">
+                        - {currentStudy.testimonial?.author || ''}
+                      </div>
+                      <div className="text-sm text-white/80">
+                        {currentStudy.testimonial?.position || ''}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Read story link */}
+                  {currentStudy.url && (
+                    <a
+                      href={currentStudy.url}
+                      className="group absolute bottom-8 left-8 flex items-center text-white"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>Read story</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Progress indicator */}
+              {totalCaseStudies > 1 && (
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
+                  <div
+                    className="h-full bg-white/80 transition-all"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="col-span-2 flex flex-col gap-6">
+          {/* First supporting card - ONLY logo and quote */}
+          {nextStudy && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`supporting-1-${nextIndex}`}
+                variants={supportingCardVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex-1 overflow-hidden rounded-lg border border-gray-400 bg-white p-6"
+              >
+                {/* Logo with fixed height/width container */}
+                {nextStudy.logo && (
+                  <div className="mb-6 flex h-12 w-32 items-center">
+                    <Media
+                      resource={nextStudy.logo}
+                      className="max-h-full max-w-full object-contain opacity-80 grayscale"
+                    />
+                  </div>
+                )}
+
+                {/* Quote only - larger, darker text */}
+                {nextStudy.testimonial?.quote && (
+                  <div className="line-clamp-4 text-base font-medium text-gray-800">
+                    <RichText data={nextStudy.testimonial.quote} enableProse={false} />
+                  </div>
+                )}
+
+                {/* "Read how" link at the bottom */}
+                {nextStudy.url && (
+                  <a
+                    href={nextStudy.url}
+                    className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>Read how</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          {/* Second supporting card - ONLY logo and quote */}
+          {secondNextStudy && totalCaseStudies > 2 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`supporting-2-${secondNextIndex}`}
+                variants={supportingCardVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex-1 overflow-hidden rounded-lg border border-gray-400 bg-white p-6"
+              >
+                {/* Logo with fixed height/width container */}
+                {secondNextStudy.logo && (
+                  <div className="mb-6 flex h-12 w-32 items-center">
+                    <Media
+                      resource={secondNextStudy.logo}
+                      className="max-h-full max-w-full object-contain opacity-80 grayscale"
+                    />
+                  </div>
+                )}
+
+                {/* Quote only - larger, darker text */}
+                {secondNextStudy.testimonial?.quote && (
+                  <div className="line-clamp-4 text-base font-medium text-gray-800">
+                    <RichText data={secondNextStudy.testimonial.quote} enableProse={false} />
+                  </div>
+                )}
+
+                {/* "Read how" link at the bottom */}
+                {secondNextStudy.url && (
+                  <a
+                    href={secondNextStudy.url}
+                    className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>Read how</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
 
+// Main component that handles the empty case check
+export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({ caseStudies, limit = 10 }) => {
+  // Guard clause for empty case studies
+  if (!caseStudies?.length) return null
+
+  return <CaseStudyDisplay caseStudies={caseStudies} limit={limit || 10} />
+}
+
 export default CaseStudyBlock
-
-// {
-//   displayCaseStudies.map((study: unknown, index: number) => {
-//     // Handle potential non-populated relationships
-//     const caseStudy = typeof study === 'number' ? null : (study as CaseStudy)
-//     if (!caseStudy) return null
-
-//     const { testimonial, metrics, companyName, logo, url } = caseStudy
-//     if (!testimonial) return null
-
-//     return (
-//       <div key={index} className="mb-10">
-//         <h2 className="mb-4 text-2xl font-bold">{companyName}</h2>
-//         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-//           <div>
-//             {testimonial.background && <Media resource={testimonial.background} size="100%" />}
-//             {logo && <Media resource={logo} size="200px" className="mt-4" />}
-//           </div>
-//           <div>
-//             {testimonial.quote && (
-//               <div className="mb-4">
-//                 <RichText data={testimonial.quote} />
-//               </div>
-//             )}
-//             <div className="mt-4">
-//               <p className="font-bold">{testimonial.author}</p>
-//               <p className="text-gray-600">{testimonial.position}</p>
-//             </div>
-//             {metrics && metrics.length > 0 && (
-//               <div className="mt-6 grid grid-cols-2 gap-4">
-//                 {metrics.map((metric, i: number) => (
-//                   <div key={i} className="text-center">
-//                     <p className="text-xl font-bold">
-//                       {metric.prefix}
-//                       {metric.value}
-//                       {metric.suffix}
-//                     </p>
-//                     <p className="text-sm text-gray-600">{metric.label}</p>
-//                   </div>
-//                 ))}
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//         {url && (
-//           <a
-//             href={url}
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             className="mt-4 inline-block text-blue-600 hover:underline"
-//           >
-//             Learn more
-//           </a>
-//         )}
-//       </div>
-//     )
-//   })
-// }

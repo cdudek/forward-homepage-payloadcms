@@ -16,7 +16,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
     <SlopedEdgeWrapper
       enabled={hasAngledCorner ?? false}
       position="bottom"
-      className="flex min-h-[70vh] items-center justify-center text-white md:min-h-[70vh]"
+      className="flex min-h-[70vh] items-center justify-center text-white md:min-h-[70vh] lg:min-h-[75vh]"
       isHero={true}
     >
       <div className="relative z-10 grid w-full grid-cols-12">
