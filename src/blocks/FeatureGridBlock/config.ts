@@ -74,9 +74,10 @@ export const FeatureGridBlock: Block = {
                       ],
                     },
                     {
-                      name: 'colorType',
+                      label: 'Icon Foreground',
+                      name: 'iconForeground',
                       type: 'select',
-                      dbName: 'fg_icon_color_type',
+                      dbName: 'fg_icon_foreground',
                       defaultValue: 'default',
                       options: [
                         { label: 'Default', value: 'default' },
@@ -86,10 +87,14 @@ export const FeatureGridBlock: Block = {
                         { label: 'Orange', value: 'orange' },
                         { label: 'Black', value: 'black' },
                         { label: 'White', value: 'white' },
+                        { label: 'Grey', value: 'grey' },
+                        { label: 'Grey light', value: 'greyLight' },
+                        { label: 'Grey dark', value: 'greyDark' },
                       ],
                     },
                     {
-                      name: 'background',
+                      label: 'Icon Background',
+                      name: 'iconBackground',
                       type: 'select',
                       dbName: 'fg_icon_background',
                       defaultValue: 'default',
@@ -101,6 +106,9 @@ export const FeatureGridBlock: Block = {
                         { label: 'Orange', value: 'orange' },
                         { label: 'Black', value: 'black' },
                         { label: 'White', value: 'white' },
+                        { label: 'Grey', value: 'grey' },
+                        { label: 'Grey light', value: 'greyLight' },
+                        { label: 'Grey dark', value: 'greyDark' },
                       ],
                     },
                     {
@@ -118,6 +126,7 @@ export const FeatureGridBlock: Block = {
                 },
                 {
                   name: 'header',
+                  label: 'Header',
                   type: 'group',
                   fields: [
                     {
@@ -173,6 +182,7 @@ export const FeatureGridBlock: Block = {
                 },
                 {
                   name: 'content',
+                  label: 'Text Box',
                   type: 'richText',
                   editor: lexicalEditor({
                     features: ({ rootFeatures }) => {
@@ -221,10 +231,10 @@ export const FeatureGridBlock: Block = {
               defaultValue: false,
             },
             {
-              name: 'backgroundColor',
-              type: 'text',
+              name: 'backgroundTheme',
+              type: 'select',
               dbName: 'fg_bg_color',
-              label: 'Background Color',
+              label: 'Background Theme',
               defaultValue: 'default',
               options: [
                 {
@@ -232,44 +242,12 @@ export const FeatureGridBlock: Block = {
                   value: 'default',
                 },
                 {
-                  label: 'Brand Gradient',
-                  value: 'gradient',
+                  label: 'Light',
+                  value: 'light',
                 },
                 {
-                  label: 'Purple',
-                  value: 'purple',
-                },
-                {
-                  label: 'Red',
-                  value: 'red',
-                },
-                {
-                  label: 'Orange',
-                  value: 'orange',
-                },
-                {
-                  label: 'Black',
-                  value: 'black',
-                },
-                {
-                  label: 'White',
-                  value: 'white',
-                },
-                {
-                  label: 'Grey Light',
-                  value: 'grey-100',
-                },
-                {
-                  label: 'Grey Lightest',
-                  value: 'grey-50',
-                },
-                {
-                  label: 'Grey Dark',
-                  value: 'grey-500',
-                },
-                {
-                  label: 'Grey Darkest',
-                  value: 'grey-900',
+                  label: 'Dark',
+                  value: 'dark',
                 },
               ],
               admin: {

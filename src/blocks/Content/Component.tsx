@@ -8,6 +8,7 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 import { CMSLink } from '../../components/Link'
 
 type ColumnSize = 'full' | 'half' | 'oneThird' | 'twoThirds' | 'centeredThree'
+// type BackgroundThemeType = 'default' | 'light' | 'dark' | null
 
 export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
   // Use optional chaining to safely access properties
@@ -17,7 +18,6 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
     padding,
     slope,
     enableBackground = false,
-    // Default to undefined if backgroundTheme doesn't exist
     backgroundTheme = 'default',
   } = props || {}
 
@@ -50,9 +50,6 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
     '50': 'min-h-[50vh]',
   }
 
-  // Always default to undefined if backgroundTheme doesn't exist or is default
-  const color = backgroundTheme === 'default' || !backgroundTheme ? undefined : backgroundTheme
-
   // Function to map payload link appearance to button variant
   const mapAppearance = (appearance: string | null | undefined) => {
     switch (appearance) {
@@ -75,7 +72,7 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
     <SlopedEdgeWrapper
       enabled={slope?.enabled ?? false}
       position={slope?.position ?? undefined}
-      backgroundTheme={enableBackground ? color : undefined}
+      backgroundTheme={enableBackground ? backgroundTheme : undefined}
       className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
     >
       <div

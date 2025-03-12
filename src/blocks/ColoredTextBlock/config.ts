@@ -125,20 +125,16 @@ export const ColoredTextBlock: Block = {
           value: 'white',
         },
         {
-          label: 'Grey Lightest',
-          value: 'grey-50',
+          label: 'Grey light',
+          value: 'grey-400',
         },
         {
-          label: 'Grey Light',
-          value: 'grey-100',
+          label: 'Grey',
+          value: 'grey-600',
         },
         {
-          label: 'Grey Dark',
-          value: 'grey-500',
-        },
-        {
-          label: 'Grey Darkest',
-          value: 'grey-900',
+          label: 'Grey dark',
+          value: 'grey-800',
         },
       ],
     },

@@ -18,20 +18,21 @@ type ColorType =
   | 'orange'
   | 'black'
   | 'white'
-  | 'grey-50'
-  | 'grey-100'
-  | 'grey-500'
-  | 'grey-900'
+  | 'grey'
+  | 'greyLight'
+  | 'greyDark'
+
 type Alignment = 'left' | 'center' | 'right'
 type VerticalAlignment = 'top' | 'middle' | 'bottom'
 type ColumnSize = 'oneThird' | 'oneQuarter'
+type BackgroundTheme = 'default' | 'light' | 'dark'
 
 type Icon = {
   media: Media | null
   style: IconStyle
   size: IconSize
-  colorType: ColorType
-  background: ColorType
+  iconForeground: ColorType
+  iconBackground: ColorType
   alignment: Alignment
 }
 
@@ -55,18 +56,21 @@ export type FeatureGridBlockType = {
   features: Feature[]
   slope?: {
     enabled?: boolean
-    position?: 'top' | 'bottom'
+    position?: 'top' | 'bottom' | 'both'
   }
   enableBackground?: boolean
-  backgroundColor?: string
+  backgroundTheme?: BackgroundTheme
 }
 
 export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
-  const { columns, features, slope, enableBackground, backgroundColor } = props
+  const { columns, features, slope, enableBackground, backgroundTheme = 'default' } = props
 
   // Check if features exist and have the expected structure
   if (!features || features.length === 0) {
     return null
+  }
+
+  if (enableBackground) {
   }
 
   const getGridColsClasses = () => {
@@ -147,6 +151,28 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
   }
 
+  const getColor = (color: ColorType, type: 'foreground' | 'background' = 'foreground') => {
+    if (color === 'gradient') {
+      return 'linear-gradient(90deg, var(--color-fwd-purple), var(--color-fwd-red), var(--color-fwd-orange))'
+    }
+
+    // Map to project's HSL colors for both foreground and background
+    const colorMap: Record<ColorType, string> = {
+      default: type === 'background' ? '#808080' : '#ffffff',
+      purple: 'var(--color-fwd-purple)',
+      red: 'var(--color-fwd-red)',
+      orange: 'var(--color-fwd-orange)',
+      black: 'var(--color-fwd-black)',
+      white: 'var(--color-fwd-white)',
+      grey: 'var(--color-fwd-grey-600)',
+      greyLight: 'var(--color-fwd-grey-200)',
+      greyDark: 'var(--color-fwd-grey-800)',
+      gradient: '',
+    }
+
+    return colorMap[color]
+  }
+
   // Simple component to render icon with color or gradient
   const IconWithColor: React.FC<{ feature: Feature }> = ({ feature }) => {
     const { icon } = feature
@@ -154,30 +180,14 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     if (!icon.media?.url) return null
     const iconUrl = icon.media.url
 
-    const getColor = (type: ColorType) => {
-      const colorMap = {
-        purple: 'text-purple',
-        red: 'text-red',
-        orange: 'text-orange',
-        lightGrey: 'text-grey-300',
-        darkGrey: 'text-grey-700',
-        black: 'text-black',
-        white: 'text-white',
-
-        gradient:
-          'linear-gradient(90deg, hsl(var(--brand-gradient-start)), hsl(var(--brand-gradient-middle)), hsl(var(--brand-gradient-end)))',
-      }
-
-      return type === 'default' ? undefined : colorMap[type as keyof typeof colorMap]
-    }
-
     const getIconStyle = () => {
-      if (icon.colorType === 'default') return {}
+      if (icon.iconForeground === 'default') return {}
 
-      const color = getColor(icon.colorType)
+      const color = getColor(icon.iconForeground, 'foreground')
+
       if (!color) return {}
 
-      const isGradient = icon.colorType === 'gradient'
+      const isGradient = icon.iconForeground === 'gradient'
       return {
         WebkitMaskImage: `url(${iconUrl})`,
         maskImage: `url(${iconUrl})`,
@@ -192,12 +202,13 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
 
     const getBackgroundStyle = () => {
-      if (icon.background === 'default') return {}
+      if (icon.iconBackground === 'default') return {}
 
-      const color = getColor(icon.background)
+      const color = getColor(icon.iconBackground, 'background')
+
       if (!color) return {}
 
-      return icon.background === 'gradient' ? { background: color } : { backgroundColor: color }
+      return icon.iconBackground === 'gradient' ? { background: color } : { backgroundColor: color }
     }
 
     return (
@@ -206,7 +217,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
           className={cn(getIconStyleClasses(icon.style), 'flex items-center justify-center')}
           style={getBackgroundStyle()}
         >
-          {icon.colorType === 'default' ? (
+          {icon.iconForeground === 'default' ? (
             <Image
               src={iconUrl}
               alt={icon.media.alt || ''}
@@ -228,7 +239,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     <SlopedEdgeWrapper
       enabled={slope?.enabled}
       position={slope?.position}
-      backgroundColor={enableBackground ? backgroundColor : undefined}
+      backgroundTheme={enableBackground ? backgroundTheme : undefined}
       className="w-full"
     >
       <div className="container px-0 py-8">
@@ -236,6 +247,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
           {features.map((feature, index) => {
             const { icon, header, content } = feature
 
+            // Create icon container classes, removing background from inner elements
             const iconContainerClasses = [
               'flex justify-center items-center mb-6',
               getIconSizeClasses(icon.size),
@@ -257,11 +269,49 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
 
             return (
               <div key={index} className={featureClasses}>
+                {/* Outer icon container with background color */}
                 <div
                   className={iconContainerClasses}
-                  style={{ backgroundColor: icon.background || 'transparent' }}
+                  style={{
+                    backgroundColor: getColor(icon.iconBackground || 'default', 'background'),
+                  }}
                 >
-                  <IconWithColor feature={feature} />
+                  {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
+                  {icon.media?.url ? (
+                    icon.iconForeground === 'default' ? (
+                      <Image
+                        src={icon.media.url}
+                        alt={icon.media.alt || ''}
+                        width={100}
+                        height={100}
+                        className={getIconImageSizeClasses(icon.size)}
+                      />
+                    ) : (
+                      <div className={getIconImageSizeClasses(icon.size)}>
+                        <div
+                          className="h-full w-full"
+                          style={{
+                            WebkitMaskImage: `url(${icon.media.url})`,
+                            maskImage: `url(${icon.media.url})`,
+                            WebkitMaskSize: 'contain',
+                            maskSize: 'contain',
+                            WebkitMaskRepeat: 'no-repeat',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskPosition: 'center',
+                            maskPosition: 'center',
+                            background:
+                              icon.iconForeground === 'gradient'
+                                ? getColor(icon.iconForeground, 'foreground')
+                                : undefined,
+                            backgroundColor:
+                              icon.iconForeground !== 'gradient'
+                                ? getColor(icon.iconForeground, 'foreground')
+                                : undefined,
+                          }}
+                        />
+                      </div>
+                    )
+                  ) : null}
                 </div>
 
                 <div className={headerContainerClasses}>

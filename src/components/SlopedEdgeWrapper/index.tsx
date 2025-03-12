@@ -42,8 +42,8 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
 
   const backgroundThemeMap = {
     default: undefined,
-    light: 'bg-white',
-    dark: 'bg-black',
+    light: 'bg-fwd-grey-50',
+    dark: 'bg-fwd-black',
   }
 
   const backgroundColor = backgroundTheme
@@ -59,12 +59,13 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
           [`min-h-[${minHeight}]`]: flex && minHeight,
         },
         className,
+        backgroundColor,
       )}
       style={getStyles()}
     >
       <div className="container mx-auto">
         <div
-          className={cn('w-full', backgroundColor, {
+          className={cn('w-full', {
             'pt-[calc(5vw+2rem)]': enabled && (position === 'top' || position === 'both'),
             'pb-[calc(5vw+2rem)]': enabled && (position === 'bottom' || position === 'both'),
             'pb-16': enabled && position === 'top',

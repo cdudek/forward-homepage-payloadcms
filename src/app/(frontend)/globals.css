@@ -67,7 +67,7 @@
     --border: var(--semantic-border-primary);
 
     /* New tailwind compliant colors */
-    --color-fwd-purple: var(--color-purple-800);
+    --color-fwd-purple: var(--color-fwd-purple-800);
     --color-fwd-purple-50: oklch(97.81% 0.01 318.7);
     --color-fwd-purple-100: oklch(95.36% 0.03 317.25);
     --color-fwd-purple-200: oklch(90.62% 0.06 317.66);
@@ -80,7 +80,7 @@
     --color-fwd-purple-900: oklch(38.55% 0.13 323.16);
     --color-fwd-purple-950: oklch(27.63% 0.11 323.37);
 
-    --color-fwd-orange: var(--color-orange-400);
+    --color-fwd-orange: var(--color-fwd-orange-400);
     --color-fwd-orange-50: oklch(97.19% 0.02 48.56);
     --color-fwd-orange-100: oklch(93.67% 0.04 52.69);
     --color-fwd-orange-200: oklch(86.82% 0.08 47.81);
@@ -93,7 +93,7 @@
     --color-fwd-orange-900: oklch(38.62% 0.14 28.88);
     --color-fwd-orange-950: oklch(25.05% 0.09 27.06);
 
-    --color-fwd-red: var(--color-red-600);
+    --color-fwd-red: var(--color-fwd-red-600);
     --color-fwd-red-50: oklch(97.25% 0.01 23.7);
     --color-fwd-red-100: oklch(94.24% 0.03 14.88);
     --color-fwd-red-200: oklch(89.37% 0.05 15.14);
@@ -119,7 +119,7 @@
     --color-fwd-black-900: oklch(34.17% 0.05 257.53);
     --color-fwd-black-950: oklch(16.31% 0.02 261.49);
 
-    --color-fwd-grey: #fcfafa;
+    --color-fwd-grey: var(--color-fwd-grey-50);
     --color-fwd-grey-50: oklch(97.91% 0 0);
     --color-fwd-grey-100: oklch(95.51% 0 0);
     --color-fwd-grey-200: oklch(91.74% 0 17.2);

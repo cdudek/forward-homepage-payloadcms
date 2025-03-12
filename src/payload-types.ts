@@ -185,7 +185,7 @@ export interface Page {
             /**
              * Choose how the link should be rendered.
              */
-            appearance?: ('default' | 'outline') | null;
+            appearance?: ('default' | 'outline' | 'primary' | 'gradient' | 'secondary') | null;
           };
           id?: string | null;
         }[]
@@ -436,7 +436,7 @@ export interface CallToActionBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'primary' | 'gradient' | 'secondary') | null;
         };
         id?: string | null;
       }[]
@@ -486,7 +486,7 @@ export interface ContentBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'primary' | 'gradient' | 'secondary') | null;
         };
         id?: string | null;
       }[]
@@ -790,8 +790,34 @@ export interface FeatureGridBlock {
           media: number | Media;
           style?: ('round' | 'square') | null;
           size?: ('small' | 'medium' | 'large') | null;
-          colorType?: ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white') | null;
-          background?: ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white') | null;
+          iconForeground?:
+            | (
+                | 'default'
+                | 'gradient'
+                | 'purple'
+                | 'red'
+                | 'orange'
+                | 'black'
+                | 'white'
+                | 'grey'
+                | 'greyLight'
+                | 'greyDark'
+              )
+            | null;
+          iconBackground?:
+            | (
+                | 'default'
+                | 'gradient'
+                | 'purple'
+                | 'red'
+                | 'orange'
+                | 'black'
+                | 'white'
+                | 'grey'
+                | 'greyLight'
+                | 'greyDark'
+              )
+            | null;
           alignment?: ('left' | 'center' | 'right') | null;
         };
         header?: {
@@ -834,7 +860,7 @@ export interface FeatureGridBlock {
     | null;
   columns: 'oneThird' | 'oneQuarter';
   enableBackground?: boolean | null;
-  backgroundColor?: string | null;
+  backgroundTheme?: ('default' | 'light' | 'dark') | null;
   slope?: {
     enabled?: boolean | null;
     position?: ('top' | 'bottom' | 'both') | null;
@@ -1386,8 +1412,8 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
               media?: T;
               style?: T;
               size?: T;
-              colorType?: T;
-              background?: T;
+              iconForeground?: T;
+              iconBackground?: T;
               alignment?: T;
             };
         header?:
@@ -1403,7 +1429,7 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
       };
   columns?: T;
   enableBackground?: T;
-  backgroundColor?: T;
+  backgroundTheme?: T;
   slope?:
     | T
     | {
@@ -2108,19 +2134,7 @@ export interface ColoredTextBlock {
     | null;
   typographyType?: ('h1' | 'h2' | 'h3' | 'h4' | 'p') | null;
   color?:
-    | (
-        | 'default'
-        | 'gradient'
-        | 'purple'
-        | 'red'
-        | 'orange'
-        | 'black'
-        | 'white'
-        | 'grey-50'
-        | 'grey-100'
-        | 'grey-500'
-        | 'grey-900'
-      )
+    | ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white' | 'grey-400' | 'grey-600' | 'grey-800')
     | null;
   alignment?: ('left' | 'center' | 'right' | 'justify') | null;
   margins?: {
