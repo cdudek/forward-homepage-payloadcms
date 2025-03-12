@@ -875,6 +875,7 @@ export interface FeatureGridBlock {
  */
 export interface NumberGridBlock {
   columns: 'oneThird' | 'oneQuarter';
+  header?: string | null;
   items?:
     | {
         number: {
@@ -1424,6 +1425,7 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
  */
 export interface NumberGridBlockSelect<T extends boolean = true> {
   columns?: T;
+  header?: T;
   items?:
     | T
     | {

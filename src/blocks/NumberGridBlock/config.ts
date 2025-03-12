@@ -29,13 +29,18 @@ export const NumberGridBlock: Block = {
             {
               name: 'columns',
               type: 'select',
-              dbName: 'ngr_grid_cols',
               required: true,
               defaultValue: 'oneThird',
               options: [
                 { label: 'Three Columns', value: 'oneThird' },
                 { label: 'Four Columns', value: 'oneQuarter' },
               ],
+            },
+            {
+              name: 'header',
+              type: 'text',
+              label: 'Header',
+              defaultValue: '',
             },
             {
               name: 'items',
@@ -66,7 +71,6 @@ export const NumberGridBlock: Block = {
                     {
                       name: 'size',
                       type: 'select',
-                      dbName: 'ngr_size',
                       defaultValue: 'medium',
                       options: [
                         { label: 'Small', value: 'small' },
@@ -77,7 +81,6 @@ export const NumberGridBlock: Block = {
                     {
                       name: 'colorType',
                       type: 'select',
-                      dbName: 'ngr_color_type',
                       defaultValue: 'gradient',
                       options: [
                         {
@@ -125,7 +128,6 @@ export const NumberGridBlock: Block = {
                     {
                       name: 'alignment',
                       type: 'select',
-                      dbName: 'ngr_align',
                       defaultValue: 'center',
                       options: [
                         { label: 'Left', value: 'left' },

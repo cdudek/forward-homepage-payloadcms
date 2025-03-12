@@ -9,7 +9,6 @@ import { NumberGridBlock as NumberGridBlockProps } from '@/payload-types'
 // Define types for internal use
 type NumberSize = 'small' | 'medium' | 'large'
 type Alignment = 'left' | 'center' | 'right'
-type VerticalAlignment = 'top' | 'middle' | 'bottom'
 type ColorTypeType =
   | 'default'
   | 'gradient'
@@ -44,7 +43,7 @@ type NumberGridBlockType = {
 }
 
 export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
-  const { columns, items } = props
+  const { columns, items, header } = props
 
   // Check if items exist and have the expected structure
   if (!items || items.length === 0) {
@@ -138,12 +137,13 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
 
   return (
     <div className="container px-0 py-8">
-      <div className={cn('grid w-full gap-x-8 gap-y-12', getGridColsClasses())}>
+      <h5 className="mb-4">{header}</h5>
+      <div className={cn('grid w-full gap-x-8 gap-y-6', getGridColsClasses())}>
         {items.map((item, index) => {
           const { number, content } = item
 
           const numberContainerClasses = [
-            // 'font-bold mb-4',
+            'font-medium mb-0',
             getNumberSizeClasses(number?.size),
           ].join(' ')
 
@@ -159,7 +159,8 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
                 <StyledNumber numberStyle={number} />
               </div>
 
-              <div className="prose prose-sm w-full max-w-none">
+              {/* <div className="prose prose-sm w-full max-w-none"> */}
+              <div className="prose prose-sm w-full max-w-none prose-p:mt-0">
                 <RichText data={content} />
               </div>
             </div>
