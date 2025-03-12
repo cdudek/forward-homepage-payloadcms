@@ -16,6 +16,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
 
 import {
   MetaDescriptionField,
@@ -95,6 +96,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 LogoGridBlock,
                 FeatureGridBlock,
                 NumberGridBlock,
+                CaseStudyBlock,
                 ActionTilesBlock,
               ],
               required: true,

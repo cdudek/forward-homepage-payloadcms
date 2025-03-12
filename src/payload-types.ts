@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'case-studies': CaseStudy;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -87,6 +88,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -201,6 +203,7 @@ export interface Page {
     | LogoGridBlock
     | FeatureGridBlock
     | NumberGridBlock
+    | CaseStudyBlock
     | ActionTilesBlock
   )[];
   meta?: {
@@ -937,6 +940,63 @@ export interface NumberGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyBlock".
+ */
+export interface CaseStudyBlock {
+  caseStudies?: (number | CaseStudy)[] | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudyBlock';
+}
+/**
+ * Customer case studies and testimonials
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies".
+ */
+export interface CaseStudy {
+  id: number;
+  companyName: string;
+  logo: number | Media;
+  url?: string | null;
+  testimonial: {
+    quote?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    author: string;
+    position: string;
+    /**
+     * Background image for Case Studies or Testimonials
+     */
+    background: number | Media;
+  };
+  metrics?:
+    | {
+        value: string;
+        prefix?: string | null;
+        suffix?: string | null;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ActionTilesBlock".
  */
 export interface ActionTilesBlock {
@@ -1160,6 +1220,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'case-studies';
+        value: number | CaseStudy;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1262,6 +1326,7 @@ export interface PagesSelect<T extends boolean = true> {
         logoGrid?: T | LogoGridBlockSelect<T>;
         featureGridBlock?: T | FeatureGridBlockSelect<T>;
         numberGridBlock?: T | NumberGridBlockSelect<T>;
+        caseStudyBlock?: T | CaseStudyBlockSelect<T>;
         actionTilesBlock?: T | ActionTilesBlockSelect<T>;
       };
   meta?:
@@ -1461,6 +1526,16 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyBlock_select".
+ */
+export interface CaseStudyBlockSelect<T extends boolean = true> {
+  caseStudies?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ActionTilesBlock_select".
  */
 export interface ActionTilesBlockSelect<T extends boolean = true> {
@@ -1644,6 +1719,34 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies_select".
+ */
+export interface CaseStudiesSelect<T extends boolean = true> {
+  companyName?: T;
+  logo?: T;
+  url?: T;
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        position?: T;
+        background?: T;
+      };
+  metrics?:
+    | T
+    | {
+        value?: T;
+        prefix?: T;
+        suffix?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
