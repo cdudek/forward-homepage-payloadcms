@@ -315,11 +315,11 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                 </div>
 
                 <div className={headerContainerClasses}>
-                  <RichText data={header.content} />
+                  <RichText data={header.content} enableGutter={false} />
                 </div>
 
                 <div className="prose prose-sm w-full max-w-none">
-                  <RichText data={content} />
+                  <RichText data={content} enableGutter={false} />
                 </div>
               </div>
             )

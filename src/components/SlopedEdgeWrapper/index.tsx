@@ -9,6 +9,8 @@ type SlopedEdgeWrapperProps = {
   className?: string
   flex?: boolean
   minHeight?: string
+  noPadding?: boolean
+  isHero?: boolean
 }
 
 export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
@@ -19,6 +21,7 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
   className,
   flex,
   minHeight = '10vh',
+  isHero = false,
 }) => {
   const getStyles = () => {
     const styles: Record<string, string> = {}
@@ -67,7 +70,8 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
         <div
           className={cn('w-full', {
             'pt-[calc(5vw+2rem)]': enabled && (position === 'top' || position === 'both'),
-            'pb-[calc(5vw+2rem)]': enabled && (position === 'bottom' || position === 'both'),
+            'pb-[calc(5vw+2rem)]':
+              enabled && !isHero && (position === 'bottom' || position === 'both'),
             'pb-8': enabled && position === 'top',
             'pt-8': enabled && position === 'bottom',
           })}

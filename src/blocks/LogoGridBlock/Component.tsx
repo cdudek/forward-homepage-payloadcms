@@ -154,7 +154,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
   }, [logos, rotateLogo])
 
   return (
-    <div className="container relative z-10 my-8 md:my-8 lg:my-8">
+    <div className="container relative z-10 my-4 md:my-4 lg:my-4">
       <div className="col-span-4 lg:col-span-12">
         {header && <RichText data={header} enableGutter={false} />}
       </div>
@@ -172,7 +172,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
             {logo && logo.image && (
               <div className="absolute inset-0 flex items-center justify-center p-4">
                 <Media
-                  className="max-h-[70%] max-w-[70%] object-contain grayscale"
+                  className="max-h-[50%] max-w-[50%] object-contain grayscale sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
                   resource={logo.image}
                 />
               </div>
