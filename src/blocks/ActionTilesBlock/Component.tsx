@@ -1,5 +1,8 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/payload-types'
 
@@ -46,12 +49,19 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
               <Link
                 href={href || '#'}
                 target={link.newTab ? '_blank' : undefined}
-                className="group block transform-gpu"
+                className="group block w-full"
               >
-                <div
+                <motion.div
+                  whileHover={{
+                    y: -8,
+                    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                  }}
+                  whileTap={{
+                    scale: 0.98,
+                    transition: { duration: 0.4, ease: [0.32, 0, 0.67, 0] },
+                  }}
                   className={cn(
                     'relative overflow-hidden rounded-2xl p-12',
-                    'transform transition-all duration-500 ease-out group-hover:-translate-y-2',
                     'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                     'after:absolute after:inset-[1px] after:rounded-2xl after:border after:border-white/0 after:transition-all after:duration-500',
                     'group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.2)]',
@@ -59,35 +69,88 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                   )}
                 >
                   {/* Background Image with subtle zoom and parallax */}
-                  <div
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-out will-change-transform group-hover:scale-[1.02]"
+                  <motion.div
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
                     style={{
                       backgroundImage: `url(${backgroundImage.url})`,
+                    }}
+                    initial={false}
+                    whileHover={{
+                      scale: 1.05,
+                      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
                     }}
                   />
 
                   {/* Gradient overlay for depth and text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-transparent transition-opacity duration-500 ease-out group-hover:opacity-0" />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-transparent"
+                    initial={false}
+                    whileHover={{
+                      opacity: 0,
+                      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                    }}
+                  />
 
                   {/* Content */}
-                  <div className="relative z-10 flex h-full flex-col">
-                    <div className="flex-1 transform transition-transform duration-500 ease-out group-hover:translate-y-[-4px]">
-                      <h2 className="mb-4 text-4xl font-bold text-white transition-colors duration-500 ease-out group-hover:text-white/95">
+                  <motion.div
+                    className="relative z-10 flex h-full flex-col"
+                    initial={false}
+                    whileHover={{
+                      y: -4,
+                      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                    }}
+                  >
+                    <div className="flex-1">
+                      <motion.h2
+                        className="mb-4 text-4xl font-bold text-white"
+                        initial={false}
+                        whileHover={{
+                          opacity: 0.95,
+                          transition: { duration: 0.4 },
+                        }}
+                      >
                         {title}
-                      </h2>
-                      <p className="hidden text-lg text-white/80 transition-colors duration-500 ease-out group-hover:text-white/90 lg:block">
+                      </motion.h2>
+                      <motion.p
+                        className="hidden text-lg text-white/80 lg:block"
+                        initial={false}
+                        whileHover={{
+                          opacity: 0.9,
+                          transition: { duration: 0.4 },
+                        }}
+                      >
                         {description}
-                      </p>
+                      </motion.p>
                     </div>
 
                     {/* Link indicator with enhanced animation */}
-                    <div className="mt-6 flex items-center justify-end">
-                      {/* <div className="mt-6 flex items-center justify-end overflow-hidden"> */}
-                      <span className="transform text-base font-medium tracking-wide text-white/70 transition-all duration-500 ease-out group-hover:translate-x-[-4px] group-hover:text-white">
+                    <motion.div
+                      className="mt-6 flex items-center justify-end"
+                      initial={false}
+                      whileHover={{
+                        x: 4,
+                        transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                      }}
+                    >
+                      <motion.span
+                        className="text-base font-medium tracking-wide text-white/70"
+                        initial={false}
+                        whileHover={{
+                          opacity: 1,
+                          x: -4,
+                          transition: { duration: 0.6 },
+                        }}
+                      >
                         {link.label || 'Learn more'}
-                      </span>
-                      <svg
-                        className="ml-2 h-5 w-5 transform text-white/70 transition-all duration-500 ease-out group-hover:translate-x-1 group-hover:text-white"
+                      </motion.span>
+                      <motion.svg
+                        className="ml-2 h-5 w-5 text-white/70"
+                        initial={false}
+                        whileHover={{
+                          x: 4,
+                          opacity: 1,
+                          transition: { duration: 0.6 },
+                        }}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -98,10 +161,10 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                           strokeWidth={2}
                           d="M17 8l4 4m0 0l-4 4m4-4H3"
                         />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                      </motion.svg>
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
               </Link>
             </div>
           )
