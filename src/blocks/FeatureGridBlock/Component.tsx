@@ -173,68 +173,6 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     return colorMap[color]
   }
 
-  // Simple component to render icon with color or gradient
-  const IconWithColor: React.FC<{ feature: Feature }> = ({ feature }) => {
-    const { icon } = feature
-
-    if (!icon.media?.url) return null
-    const iconUrl = icon.media.url
-
-    const getIconStyle = () => {
-      if (icon.iconForeground === 'default') return {}
-
-      const color = getColor(icon.iconForeground, 'foreground')
-
-      if (!color) return {}
-
-      const isGradient = icon.iconForeground === 'gradient'
-      return {
-        WebkitMaskImage: `url(${iconUrl})`,
-        maskImage: `url(${iconUrl})`,
-        WebkitMaskSize: 'contain',
-        maskSize: 'contain',
-        WebkitMaskRepeat: 'no-repeat',
-        maskRepeat: 'no-repeat',
-        WebkitMaskPosition: 'center',
-        maskPosition: 'center',
-        ...(isGradient ? { background: color } : { backgroundColor: color }),
-      }
-    }
-
-    const getBackgroundStyle = () => {
-      if (icon.iconBackground === 'default') return {}
-
-      const color = getColor(icon.iconBackground, 'background')
-
-      if (!color) return {}
-
-      return icon.iconBackground === 'gradient' ? { background: color } : { backgroundColor: color }
-    }
-
-    return (
-      <div className={getIconImageSizeClasses(icon.size)}>
-        <div
-          className={cn(getIconStyleClasses(icon.style), 'flex items-center justify-center')}
-          style={getBackgroundStyle()}
-        >
-          {icon.iconForeground === 'default' ? (
-            <Image
-              src={iconUrl}
-              alt={icon.media.alt || ''}
-              width={100}
-              height={100}
-              className="h-full w-full"
-            />
-          ) : (
-            <div className="relative h-full w-full">
-              <div className="h-full w-full" style={getIconStyle()} />
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <SlopedEdgeWrapper
       enabled={slope?.enabled}

@@ -4,14 +4,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 // type CompanyName = NonNullable<Props['companyName']>
 // type Logo = NonNullable<Props['logo']>
 // type Testimonial = NonNullable<Props['testimonials']>[number]
 // type Metrics = NonNullable<Props['metrics']>[number]
 
-type Props = CaseStudyBlockType
+// type Props = CaseStudyBlockType
 
 // Create a separate component for the case study display to handle the logic
 const CaseStudyDisplay: React.FC<{
@@ -79,7 +78,7 @@ const CaseStudyDisplay: React.FC<{
         clearInterval(progressIntervalRef.current)
       }
     }
-  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds])
+  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, goToNextCaseStudy])
 
   // Get the current active case study
   const activeCaseStudy = displayCaseStudies[activeIndex]

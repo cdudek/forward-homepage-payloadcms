@@ -13,6 +13,15 @@ type ColorType =
   | 'grey-600'
   | 'grey-800'
 
+interface TextElement {
+  text: string
+  useColor?: boolean | null
+  preserveSpaces?: boolean | null
+  addLineBreak?: boolean | null
+  wrapInContainer?: boolean | null
+  id?: string | null
+}
+
 export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
   textElements,
   typographyType = 'h1',
@@ -70,7 +79,7 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({
 
   const marginClasses = `${getMarginValue(margins?.top)} ${getMarginValue(margins?.bottom)}`
 
-  const renderTextElement = (element: any, index: number) => {
+  const renderTextElement = (element: TextElement, index: number) => {
     let text = element.text
 
     if (element.preserveSpaces) {
