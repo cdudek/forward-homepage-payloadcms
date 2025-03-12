@@ -233,7 +233,7 @@ const CaseStudyDisplay: React.FC<{
               >
                 {/* Logo with fixed height/width container */}
                 {nextStudy.logo && (
-                  <div className="mb-6 flex h-12 w-32 items-center">
+                  <div className="mb-6 flex h-8 w-32 items-center">
                     <Media
                       resource={nextStudy.logo}
                       className="max-h-full max-w-full object-contain opacity-80 grayscale"
@@ -243,7 +243,7 @@ const CaseStudyDisplay: React.FC<{
 
                 {/* Quote only - larger, darker text */}
                 {nextStudy.testimonial?.quote && (
-                  <div className="line-clamp-4 text-base font-medium text-gray-800">
+                  <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
                     <RichText data={nextStudy.testimonial.quote} enableProse={false} />
                   </div>
                 )}
@@ -290,7 +290,7 @@ const CaseStudyDisplay: React.FC<{
               >
                 {/* Logo with fixed height/width container */}
                 {secondNextStudy.logo && (
-                  <div className="mb-6 flex h-12 w-32 items-center">
+                  <div className="mb-6 flex h-8 w-32 items-center">
                     <Media
                       resource={secondNextStudy.logo}
                       className="max-h-full max-w-full object-contain opacity-80 grayscale"
@@ -300,7 +300,7 @@ const CaseStudyDisplay: React.FC<{
 
                 {/* Quote only - larger, darker text */}
                 {secondNextStudy.testimonial?.quote && (
-                  <div className="line-clamp-4 text-base font-medium text-gray-800">
+                  <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
                     <RichText data={secondNextStudy.testimonial.quote} enableProse={false} />
                   </div>
                 )}
