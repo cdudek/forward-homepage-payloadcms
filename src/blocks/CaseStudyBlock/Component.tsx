@@ -130,15 +130,16 @@ const CaseStudyDisplay: React.FC<{
               initial="initial"
               animate="animate"
               exit="exit"
-              className="relative h-0 w-full pb-[62.5%]" // 16:10 aspect ratio
+              className="relative aspect-[16/10] w-full" // Modern aspect ratio
             >
               {/* Hero Case Study Card */}
-              <div className="absolute inset-0 overflow-hidden rounded-3xl bg-purple-600">
+              <div className="absolute inset-0 overflow-hidden rounded-3xl">
                 {currentStudy.testimonial?.background && (
-                  <div className="absolute inset-0 z-0">
+                  <div className="absolute inset-0 z-0 bg-gray-900">
                     <Media
                       resource={currentStudy.testimonial.background}
                       className="h-full w-full object-cover"
+                      imgClassName="h-full w-full object-cover"
                     />
                   </div>
                 )}
