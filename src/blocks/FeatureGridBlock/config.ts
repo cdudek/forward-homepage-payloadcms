@@ -139,12 +139,9 @@ export const FeatureGridBlock: Block = {
                             FixedToolbarFeature(),
                             InlineToolbarFeature(),
                             HeadingFeature({
-                              enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'],
+                              enabledHeadingSizes: ['h4', 'h5', 'h6'],
                             }),
                             AlignFeature(),
-                            ItalicFeature(),
-                            BoldFeature(),
-                            ParagraphFeature(),
                             LinkFeature(),
                           ]
                         },
@@ -190,9 +187,6 @@ export const FeatureGridBlock: Block = {
                         ...rootFeatures,
                         FixedToolbarFeature(),
                         InlineToolbarFeature(),
-                        HeadingFeature({
-                          enabledHeadingSizes: ['h4', 'h5', 'h6'],
-                        }),
                         AlignFeature(),
                         ItalicFeature(),
                         BoldFeature(),

@@ -23,7 +23,7 @@ export const LogoGridBlock: Block = {
           return [
             ...rootFeatures,
             ...defaultFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            HeadingFeature({ enabledHeadingSizes: ['h4', 'h5', 'h6'] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
           ]

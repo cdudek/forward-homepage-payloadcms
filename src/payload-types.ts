@@ -875,7 +875,21 @@ export interface FeatureGridBlock {
  */
 export interface NumberGridBlock {
   columns: 'oneThird' | 'oneQuarter';
-  header?: string | null;
+  subheader?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   items?:
     | {
         number: {
@@ -1425,7 +1439,7 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
  */
 export interface NumberGridBlockSelect<T extends boolean = true> {
   columns?: T;
-  header?: T;
+  subheader?: T;
   items?:
     | T
     | {

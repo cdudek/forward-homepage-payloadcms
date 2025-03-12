@@ -36,11 +36,28 @@ export const NumberGridBlock: Block = {
                 { label: 'Four Columns', value: 'oneQuarter' },
               ],
             },
+
             {
-              name: 'header',
-              type: 'text',
-              label: 'Header',
-              defaultValue: '',
+              label: 'Subheader',
+              name: 'subheader',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                    HeadingFeature({
+                      enabledHeadingSizes: ['h4', 'h5', 'h6'],
+                    }),
+                    AlignFeature(),
+                    ItalicFeature(),
+                    BoldFeature(),
+                    ParagraphFeature(),
+                    LinkFeature(),
+                  ]
+                },
+              }),
             },
             {
               name: 'items',
