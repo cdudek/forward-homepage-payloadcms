@@ -82,7 +82,8 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
           paddingY[padding?.y || 'medium'],
         )}
       >
-        <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8">
+        <div className="w-full grid-cols-12 gap-x-8 gap-y-8">
+          {/* <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8"> */}
           {columns &&
             columns.length > 0 &&
             columns.map((col, index) => {

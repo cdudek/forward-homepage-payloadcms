@@ -68,8 +68,8 @@ export const SlopedEdgeWrapper: React.FC<SlopedEdgeWrapperProps> = ({
           className={cn('w-full', {
             'pt-[calc(5vw+2rem)]': enabled && (position === 'top' || position === 'both'),
             'pb-[calc(5vw+2rem)]': enabled && (position === 'bottom' || position === 'both'),
-            'pb-16': enabled && position === 'top',
-            'pt-16': enabled && position === 'bottom',
+            'pb-8': enabled && position === 'top',
+            'pt-8': enabled && position === 'bottom',
           })}
         >
           {children}

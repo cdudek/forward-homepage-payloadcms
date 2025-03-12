@@ -47,6 +47,7 @@ export const RenderBlocks: React.FC<{
                 className={cn({
                   'my-16': !hasBackground && !hasSlope,
                   'py-0': hasBackground || hasSlope,
+                  'my-0': block.blockType === 'logoGrid',
                 })}
                 key={index}
               >
