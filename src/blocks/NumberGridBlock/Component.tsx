@@ -5,13 +5,12 @@ import type { SerializedEditorState, SerializedLexicalNode } from 'lexical'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import { NumberGridBlock as NumberGridBlockProps } from '@/payload-types'
-import Image from 'next/image'
 
 // Define types for internal use
 type NumberSize = 'small' | 'medium' | 'large'
 type Alignment = 'left' | 'center' | 'right'
 type VerticalAlignment = 'top' | 'middle' | 'bottom'
-type ColorType =
+type ColorTypeType =
   | 'default'
   | 'gradient'
   | 'purple'
@@ -19,7 +18,9 @@ type ColorType =
   | 'orange'
   | 'black'
   | 'white'
-  | 'primary-background'
+  | 'grey-400'
+  | 'grey-600'
+  | 'grey-800'
 
 type NumberStyle = {
   value: string
@@ -30,16 +31,8 @@ type NumberStyle = {
   alignment?: Alignment | null
 }
 
-type Header = {
-  content: SerializedEditorState<SerializedLexicalNode>
-  horizontalAlignment?: Alignment | null
-  verticalAlignment?: VerticalAlignment | null
-  equalHeight?: boolean | null
-}
-
 type NumberGridItem = {
   number: NumberStyle
-  header: Header
   content: SerializedEditorState<SerializedLexicalNode>
 }
 
@@ -106,60 +99,35 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
     }
   }
 
-  const getVerticalAlignmentClasses = (alignment?: VerticalAlignment | null) => {
-    switch (alignment) {
-      case 'top':
-        return 'justify-start'
-      case 'middle':
-        return 'justify-center'
-      case 'bottom':
-        return 'justify-end'
-      default:
-        return 'justify-start'
+  const getColor = (type: ColorTypeType): string | undefined => {
+    if (type === 'gradient') {
+      return 'bg-gradient-to-r from-fwd-purple from-5% via-fwd-red via-50% to-fwd-orange to-95% inline-block text-transparent bg-clip-text'
     }
+
+    const colorMap = {
+      default: undefined,
+      purple: 'text-fwd-purple',
+      red: 'text-fwd-red',
+      orange: 'text-fwd-orange',
+      black: 'text-fwd-black',
+      white: 'text-fwd-white',
+      'grey-400': 'text-fwd-grey-400',
+      'grey-600': 'text-fwd-grey-600',
+      'grey-800': 'text-fwd-grey-800',
+    }
+
+    return colorMap[type]
   }
 
   // Number with color or gradient
   const StyledNumber: React.FC<{ numberStyle: NumberStyle }> = ({ numberStyle }) => {
     const { value, prefix, suffix, colorType } = numberStyle
 
-    const getColor = (type: ColorType) => {
-      const colorMap = {
-        purple: 'hsl(var(--color-purple))',
-        red: 'hsl(var(--color-red))',
-        orange: 'hsl(var(--color-orange))',
-        black: 'hsl(var(--color-black))',
-        white: 'hsl(var(--color-white))',
-        'primary-background': 'hsl(var(--semantic-background-primary))',
-        gradient:
-          'linear-gradient(90deg, hsl(var(--brand-gradient-start)), hsl(var(--brand-gradient-middle)), hsl(var(--brand-gradient-end)))',
-      }
-
-      return type === 'default' ? undefined : colorMap[type as keyof typeof colorMap]
-    }
-
-    const getStyle = () => {
-      if (!colorType || colorType === 'default') return {}
-
-      const color = getColor(colorType)
-      if (!color) return {}
-
-      if (colorType === 'gradient') {
-        return {
-          background: color,
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          color: 'transparent',
-        }
-      }
-
-      return { color }
-    }
+    const numberColor = getColor(colorType || 'default')
 
     return (
       <div className="flex items-center">
-        <span style={getStyle()}>
+        <span className={numberColor}>
           {prefix && <span className="mr-1">{prefix}</span>}
           <span>{value}</span>
           {suffix && <span className="ml-1">{suffix}</span>}
@@ -172,18 +140,11 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
     <div className="container px-0 py-8">
       <div className={cn('grid w-full gap-x-8 gap-y-12', getGridColsClasses())}>
         {items.map((item, index) => {
-          const { number, header, content } = item
+          const { number, content } = item
 
           const numberContainerClasses = [
-            'font-bold mb-4',
+            // 'font-bold mb-4',
             getNumberSizeClasses(number?.size),
-          ].join(' ')
-
-          const headerContainerClasses = [
-            'w-full mb-2',
-            getAlignmentClasses(header?.horizontalAlignment),
-            getVerticalAlignmentClasses(header?.verticalAlignment),
-            header?.equalHeight ? 'flex flex-col h-full' : '',
           ].join(' ')
 
           const itemClasses = [
@@ -196,10 +157,6 @@ export const NumberGridBlock: React.FC<NumberGridBlockType> = (props) => {
             <div key={index} className={itemClasses}>
               <div className={numberContainerClasses}>
                 <StyledNumber numberStyle={number} />
-              </div>
-
-              <div className={headerContainerClasses}>
-                <RichText data={header.content} />
               </div>
 
               <div className="prose prose-sm w-full max-w-none">

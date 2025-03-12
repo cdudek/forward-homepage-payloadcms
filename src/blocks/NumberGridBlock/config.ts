@@ -78,7 +78,7 @@ export const NumberGridBlock: Block = {
                       name: 'colorType',
                       type: 'select',
                       dbName: 'ngr_color_type',
-                      defaultValue: 'default',
+                      defaultValue: 'gradient',
                       options: [
                         {
                           label: 'Default',
@@ -109,20 +109,16 @@ export const NumberGridBlock: Block = {
                           value: 'white',
                         },
                         {
-                          label: 'Grey Light',
-                          value: 'grey-100',
+                          label: 'Grey light',
+                          value: 'grey-400',
                         },
                         {
-                          label: 'Grey Lightest',
-                          value: 'grey-50',
+                          label: 'Grey',
+                          value: 'grey-600',
                         },
                         {
                           label: 'Grey Dark',
-                          value: 'grey-500',
-                        },
-                        {
-                          label: 'Grey Darkest',
-                          value: 'grey-900',
+                          value: 'grey-800',
                         },
                       ],
                     },
@@ -136,61 +132,6 @@ export const NumberGridBlock: Block = {
                         { label: 'Center', value: 'center' },
                         { label: 'Right', value: 'right' },
                       ],
-                    },
-                  ],
-                },
-                {
-                  name: 'header',
-                  type: 'group',
-                  fields: [
-                    {
-                      name: 'content',
-                      type: 'richText',
-                      editor: lexicalEditor({
-                        features: ({ rootFeatures }) => {
-                          return [
-                            ...rootFeatures,
-                            FixedToolbarFeature(),
-                            InlineToolbarFeature(),
-                            HeadingFeature({
-                              enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-                            }),
-                            AlignFeature(),
-                            ItalicFeature(),
-                            BoldFeature(),
-                            ParagraphFeature(),
-                            LinkFeature(),
-                          ]
-                        },
-                      }),
-                      label: false,
-                    },
-                    {
-                      name: 'horizontalAlignment',
-                      type: 'select',
-                      dbName: 'header_h_align',
-                      defaultValue: 'center',
-                      options: [
-                        { label: 'Left', value: 'left' },
-                        { label: 'Center', value: 'center' },
-                        { label: 'Right', value: 'right' },
-                      ],
-                    },
-                    {
-                      name: 'verticalAlignment',
-                      type: 'select',
-                      dbName: 'header_v_align',
-                      defaultValue: 'top',
-                      options: [
-                        { label: 'Top', value: 'top' },
-                        { label: 'Middle', value: 'middle' },
-                        { label: 'Bottom', value: 'bottom' },
-                      ],
-                    },
-                    {
-                      name: 'equalHeight',
-                      type: 'checkbox',
-                      defaultValue: false,
                     },
                   ],
                 },
@@ -214,7 +155,7 @@ export const NumberGridBlock: Block = {
                       ]
                     },
                   }),
-                  label: false,
+                  label: 'Content',
                 },
               ],
             },

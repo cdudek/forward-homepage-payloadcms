@@ -891,33 +891,12 @@ export interface NumberGridBlock {
                 | 'orange'
                 | 'black'
                 | 'white'
-                | 'grey-100'
-                | 'grey-50'
-                | 'grey-500'
-                | 'grey-900'
+                | 'grey-400'
+                | 'grey-600'
+                | 'grey-800'
               )
             | null;
           alignment?: ('left' | 'center' | 'right') | null;
-        };
-        header?: {
-          content?: {
-            root: {
-              type: string;
-              children: {
-                type: string;
-                version: number;
-                [k: string]: unknown;
-              }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          } | null;
-          horizontalAlignment?: ('left' | 'center' | 'right') | null;
-          verticalAlignment?: ('top' | 'middle' | 'bottom') | null;
-          equalHeight?: boolean | null;
         };
         content?: {
           root: {
@@ -1457,14 +1436,6 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
               size?: T;
               colorType?: T;
               alignment?: T;
-            };
-        header?:
-          | T
-          | {
-              content?: T;
-              horizontalAlignment?: T;
-              verticalAlignment?: T;
-              equalHeight?: T;
             };
         content?: T;
         id?: T;
