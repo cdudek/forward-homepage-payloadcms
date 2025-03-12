@@ -133,88 +133,88 @@ const CaseStudyDisplay: React.FC<{
               className="relative h-0 w-full pb-[62.5%]" // 16:10 aspect ratio
             >
               {/* Hero Case Study Card */}
-              <div className="absolute inset-0 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800">
+              <div className="absolute inset-0 overflow-hidden rounded-3xl bg-purple-600">
                 {currentStudy.testimonial?.background && (
                   <div className="absolute inset-0 z-0">
                     <Media
                       resource={currentStudy.testimonial.background}
                       className="h-full w-full object-cover"
                     />
-                    {/* Enhanced blur effect in the middle of the card */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-800/50 via-purple-800/70 to-purple-800/50 backdrop-blur-sm" />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.2)_0%,transparent_70%)] backdrop-blur-[3px]" />
                   </div>
                 )}
 
-                <div className="relative z-10 flex h-full flex-col p-8">
-                  {/* Company logo - white color for hero */}
-                  {currentStudy.logo && (
-                    <div className="mb-auto flex h-16 w-40 items-center">
-                      <Media
-                        resource={currentStudy.logo}
-                        className="max-h-full max-w-full object-contain brightness-0 invert"
-                      />
-                    </div>
-                  )}
-
-                  {/* Quote - left aligned */}
-                  <div className="my-auto py-12">
-                    {currentStudy.testimonial?.quote && (
-                      <div className="text-xl font-light text-white md:text-2xl lg:text-3xl">
-                        <RichText data={currentStudy.testimonial.quote} enableProse={false} />
+                {/* Inner blurry content area that matches screenshot */}
+                <div className="absolute inset-8 z-10 rounded-3xl bg-white/20 backdrop-blur-sm">
+                  <div className="flex h-full flex-col p-8">
+                    {/* Company logo - white color for hero */}
+                    {currentStudy.logo && (
+                      <div className="mb-auto flex h-16 w-40 items-center">
+                        <Media
+                          resource={currentStudy.logo}
+                          className="max-h-full max-w-full object-contain brightness-0 invert"
+                        />
                       </div>
                     )}
-                  </div>
 
-                  {/* Author information - right aligned */}
-                  <div className="mt-auto flex items-end justify-end">
-                    <div className="text-right text-white">
-                      <div className="font-semibold">
-                        - {currentStudy.testimonial?.author || ''}
-                      </div>
-                      <div className="text-sm text-white/80">
-                        {currentStudy.testimonial?.position || ''}
+                    {/* Quote - left aligned */}
+                    <div className="my-auto">
+                      {currentStudy.testimonial?.quote && (
+                        <div className="text-xl font-light text-white md:text-2xl lg:text-3xl">
+                          <RichText data={currentStudy.testimonial.quote} enableProse={false} />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Author information - right aligned */}
+                    <div className="mt-auto flex items-end justify-end">
+                      <div className="text-right text-white">
+                        <div className="font-semibold">
+                          - {currentStudy.testimonial?.author || ''}
+                        </div>
+                        <div className="text-sm text-white/80">
+                          {currentStudy.testimonial?.position || ''}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Read story link */}
-                  {currentStudy.url && (
-                    <a
-                      href={currentStudy.url}
-                      className="group absolute bottom-8 left-8 flex items-center text-white"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>Read story</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    {/* Read story link inside blur window near the bottom left */}
+                    {currentStudy.url && (
+                      <a
+                        href={currentStudy.url}
+                        className="group absolute bottom-8 left-8 flex items-center text-white"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </a>
-                  )}
+                        <span>Read story</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {/* Progress indicator */}
-              {totalCaseStudies > 1 && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-                  <div
-                    className="h-full bg-white/80 transition-all"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-              )}
+                {/* Progress indicator */}
+                {totalCaseStudies > 1 && (
+                  <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/20">
+                    <div
+                      className="h-full bg-white/80 transition-all"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                )}
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -229,7 +229,7 @@ const CaseStudyDisplay: React.FC<{
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="flex-1 overflow-hidden rounded-lg border border-gray-400 bg-white p-6"
+                className="flex-1 overflow-hidden rounded-3xl border border-gray-400 bg-white p-6"
               >
                 {/* Logo with fixed height/width container */}
                 {nextStudy.logo && (
@@ -286,7 +286,7 @@ const CaseStudyDisplay: React.FC<{
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="flex-1 overflow-hidden rounded-lg border border-gray-400 bg-white p-6"
+                className="flex-1 overflow-hidden rounded-3xl border border-gray-400 bg-white p-6"
               >
                 {/* Logo with fixed height/width container */}
                 {secondNextStudy.logo && (
