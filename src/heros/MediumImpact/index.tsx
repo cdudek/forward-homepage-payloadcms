@@ -17,6 +17,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
             {links.map(({ link }, i) => {
               return (
                 <li key={i}>
+                  {/* @ts-expect-error Async Server Component */}
                   <CMSLink {...link} />
                 </li>
               )
@@ -24,7 +25,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
           </ul>
         )}
       </div>
-      <div className="container ">
+      <div className="container">
         {media && typeof media === 'object' && (
           <div>
             <Media

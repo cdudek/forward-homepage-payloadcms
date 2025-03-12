@@ -40,7 +40,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 isEnabled && 'pt-10', // Add padding when AdminBar is present
               )}
             >
-              {/* @ts-expect-error Async Server Component */}
               <Header />
               {children}
               <Footer />

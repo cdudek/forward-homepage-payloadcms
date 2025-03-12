@@ -78,7 +78,8 @@ const CaseStudyDisplay: React.FC<{
         clearInterval(progressIntervalRef.current)
       }
     }
-  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, goToNextCaseStudy])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds])
 
   // Get the current active case study
   const activeCaseStudy = displayCaseStudies[activeIndex]

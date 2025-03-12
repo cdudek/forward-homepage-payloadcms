@@ -19,6 +19,7 @@ import type {
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
   ColoredTextBlock as ColoredTextBlockProps,
+  FeatureGridBlock as FeatureGridProps,
 } from '@/payload-types'
 
 import { BannerBlock } from '@/blocks/Banner/Component'
