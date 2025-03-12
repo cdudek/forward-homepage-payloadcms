@@ -1,2 +1,3 @@
 - [ ] try out tailwind material https://www.material-tailwind.com/docs/react/installation
 - [ ] Clear .git .env
+- [ ] there is no padding in the number grid block
