@@ -115,6 +115,12 @@ const CaseStudyDisplay: React.FC<{
     exit: { opacity: 0, y: -10, transition: { duration: 0.6, ease: 'easeInOut' } },
   }
 
+  // Function to handle clicking on a supporting card
+  const handleCardClick = (index: number) => {
+    setActiveIndex(index)
+    setProgressPercent(0)
+  }
+
   return (
     <div
       className="container mx-auto py-8"
@@ -230,7 +236,10 @@ const CaseStudyDisplay: React.FC<{
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="flex-1 overflow-hidden rounded-3xl border border-gray-400 bg-white p-6"
+                onClick={() => handleCardClick(nextIndex)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1 cursor-pointer overflow-hidden rounded-3xl border border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50"
               >
                 {/* Logo with fixed height/width container */}
                 {nextStudy.logo && (
@@ -287,7 +296,10 @@ const CaseStudyDisplay: React.FC<{
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="flex-1 overflow-hidden rounded-3xl border border-gray-400 bg-white p-6"
+                onClick={() => handleCardClick(secondNextIndex)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1 cursor-pointer overflow-hidden rounded-3xl border border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50"
               >
                 {/* Logo with fixed height/width container */}
                 {secondNextStudy.logo && (
