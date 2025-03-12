@@ -208,9 +208,9 @@ const CaseStudyDisplay: React.FC<{
 
                 {/* Progress indicator */}
                 {totalCaseStudies > 1 && (
-                  <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/20">
+                  <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/10">
                     <div
-                      className="h-full bg-white/80 transition-all"
+                      className="h-full bg-white/40 transition-all"
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
