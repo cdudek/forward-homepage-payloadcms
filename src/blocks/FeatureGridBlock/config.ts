@@ -201,7 +201,6 @@ export const FeatureGridBlock: Block = {
                       ]
                     },
                   }),
-                  label: false,
                 },
               ],
             },
