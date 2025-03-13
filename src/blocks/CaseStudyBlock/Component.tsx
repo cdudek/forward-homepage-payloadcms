@@ -123,7 +123,7 @@ const CaseStudyDisplay: React.FC<{
 
   return (
     <div
-      className="container mx-auto py-8"
+      className="container mx-auto hidden py-8 md:block"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

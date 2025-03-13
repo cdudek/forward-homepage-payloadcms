@@ -306,36 +306,44 @@ const config = {
                 fontSize: '2.5rem',
                 fontWeight: 600,
                 lineHeight: '1.1',
+                marginBottom: '0.25em',
               },
               h2: {
                 fontSize: '2.25rem',
                 fontWeight: 600,
                 lineHeight: '1.1',
+                marginBottom: '0.25em',
               },
               h3: {
                 fontSize: '1.75rem',
                 fontWeight: 600,
                 lineHeight: '1.1',
+                marginBottom: '0.25em',
               },
               h4: {
                 fontSize: '1.5rem',
                 fontWeight: 400,
                 lineHeight: '1.3',
+                marginBottom: '0.25em',
               },
               h5: {
                 fontSize: '1.25rem',
                 fontWeight: 400,
                 lineHeight: '1.3',
+                marginBottom: '0.25em',
               },
               h6: {
                 fontSize: '1.125rem',
                 fontWeight: 400,
                 lineHeight: '1.3',
+                marginBottom: '0.25em',
               },
               p: {
                 fontSize: '0.875rem',
                 fontWeight: 300,
                 lineHeight: '1.5',
+                marginTop: '0.25em',
+                marginBottom: '0.25em',
               },
               div: {
                 fontSize: '0.875rem',
@@ -402,6 +410,7 @@ const config = {
                 fontSize: '6.0rem',
                 fontWeight: 600,
                 lineHeight: '1.1',
+                marginBottom: '0.25em',
               },
               h2: {
                 fontSize: '4.25rem',
