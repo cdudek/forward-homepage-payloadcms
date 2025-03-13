@@ -2,3 +2,4 @@
 - [ ] Clear .git .env
 - [ ] there is no padding in the number grid block
 - [ ] fix eslint and ts type issues
+- [ ] fix mobile version of ServicesAccordion
