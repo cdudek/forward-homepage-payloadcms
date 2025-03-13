@@ -2,17 +2,19 @@
 // @ts-nocheck
 'use client'
 
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
-
 import { LogoGridBlock as LogoGridBlockProps } from '@/payload-types'
 
-const FADE_DURATION = 1000
+const GRID_SIZE = 6
 const MIN_INTERVAL = 3000
 const MAX_INTERVAL = 5000
-const GRID_SIZE = 6
+
+// Fixed sequence for slot updates (0-based index)
+const SLOT_SEQUENCE = [3, 1, 5, 2, 0, 4]
 
 export type Logo = {
   image: {
@@ -21,166 +23,159 @@ export type Logo = {
 }
 
 export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = [] }) => {
-  const [currentLogos, setCurrentLogos] = useState<Logo[]>(logos.slice(0, GRID_SIZE))
-  const queue = useRef<Logo[]>(logos.slice(GRID_SIZE))
-  const [fadingIndex, setFadingIndex] = useState<number | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [displayedLogos, setDisplayedLogos] = useState<Logo[]>([])
+  const [currentSlotIndex, setCurrentSlotIndex] = useState(0)
+  const logoQueue = useRef<Logo[]>([])
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   const getRandomInterval = () =>
     Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL
 
-  const rotateLogo = useCallback(() => {
-    if (logos.length <= GRID_SIZE || queue.current.length === 0) return
-
-    const replaceIndex = Math.floor(Math.random() * currentLogos.length)
-
-    if (!currentLogos[replaceIndex] || !currentLogos[replaceIndex]?.image) {
+  // Initialize logos
+  useEffect(() => {
+    if (!logos.length) return
+    if (logos.length < GRID_SIZE) {
+      console.warn('Not enough unique logos provided. Need at least', GRID_SIZE)
       return
     }
 
-    setFadingIndex(replaceIndex)
+    // Take first GRID_SIZE unique logos for display
+    const initialLogos: Logo[] = []
+    const usedIds = new Set<string>()
+    let index = 0
 
-    setTimeout(() => {
-      setCurrentLogos((prevLogos) => {
-        if (queue.current.length === 0) {
-          return prevLogos
-        }
+    while (initialLogos.length < GRID_SIZE && index < logos.length) {
+      const logo = logos[index]
+      if (!usedIds.has(logo?.image?.id)) {
+        initialLogos.push(logo)
+        usedIds.add(logo?.image?.id)
+      }
+      index++
+    }
 
-        const exitingLogo = prevLogos[replaceIndex]
+    // Initialize queue with remaining logos
+    const remainingLogos = logos.filter((logo) => !usedIds.has(logo?.image?.id))
+    logoQueue.current = [...remainingLogos]
 
-        // Find a logo from the queue that isn't already displayed
-        const currentIds = prevLogos.map((logo) => logo?.image?.id)
-        let candidateIndex = 0
-        let foundUnique = false
+    console.log('Initial state:', {
+      displayedLogos: initialLogos.map((l) => l?.image?.id),
+      queueLogos: logoQueue.current.map((l) => l?.image?.id),
+    })
 
-        // Find the first logo in the queue that's not already displayed
-        while (candidateIndex < queue.current.length && !foundUnique) {
-          const candidate = queue.current[candidateIndex]
-          if (!candidate || !candidate.image) {
-            candidateIndex++
-            continue
-          }
-
-          // Check if this logo is already displayed
-          if (!currentIds.includes(candidate.image.id)) {
-            foundUnique = true
-            break
-          }
-          candidateIndex++
-        }
-
-        // If we couldn't find a unique logo, use the first one as fallback
-        if (!foundUnique) {
-          candidateIndex = 0
-        }
-
-        // Get the new logo and remove it from the queue
-        const newLogo = queue.current.splice(candidateIndex, 1)[0]
-
-        // Add the exiting logo to the queue
-        if (exitingLogo) {
-          queue.current.push(exitingLogo)
-        }
-
-        if (!newLogo || !newLogo.image) {
-          return prevLogos
-        }
-
-        const updatedLogos = [...prevLogos]
-        updatedLogos[replaceIndex] = newLogo
-
-        // Verify no duplicates in the updated logos
-        const updatedIds = updatedLogos.map((logo) => logo?.image?.id)
-        const hasDuplicates = updatedIds.some((id, idx) => updatedIds.indexOf(id) !== idx)
-
-        if (hasDuplicates) {
-          return prevLogos
-        }
-
-        return updatedLogos
-      })
-
-      requestAnimationFrame(() => {
-        setFadingIndex(null)
-      })
-
-      timeoutRef.current = setTimeout(rotateLogo, FADE_DURATION + getRandomInterval())
-    }, FADE_DURATION)
+    setDisplayedLogos(initialLogos)
   }, [logos])
 
+  // Rotate logos one at a time through the fixed sequence
   useEffect(() => {
-    if (!logos || logos.length <= GRID_SIZE) return
-    // if (logos.length <= GRID_SIZE) return
+    if (!logos.length || displayedLogos.length < GRID_SIZE) return
+    if (logos.length < GRID_SIZE) return
 
-    // Ensure initial logos are unique
-    const uniqueLogos: Logo[] = []
-    const seenIds = new Set<string>()
+    const rotateNextLogo = () => {
+      const nextSlotIndex = (currentSlotIndex + 1) % SLOT_SEQUENCE.length
+      const slotToUpdate = SLOT_SEQUENCE[currentSlotIndex]
 
-    // First pass: try to fill with unique logos
-    for (const logo of logos) {
-      if (uniqueLogos.length >= GRID_SIZE) break
+      setDisplayedLogos((prev) => {
+        const newLogos = [...prev]
+        const removedLogo = newLogos[slotToUpdate]
 
-      if (logo?.image?.id && !seenIds.has(logo.image.id)) {
-        uniqueLogos.push(logo)
-        seenIds.add(logo.image.id)
+        // Get next logo from queue
+        let nextLogo: Logo | undefined
+        let attempts = 0
+        const maxAttempts = logoQueue.current.length + 1 // Prevent infinite loop
+
+        while (attempts < maxAttempts) {
+          if (logoQueue.current.length === 0) {
+            // If queue is empty, reset it with all logos except currently displayed ones
+            const currentIds = new Set(prev.map((logo) => logo?.image?.id))
+            logoQueue.current = logos.filter((logo) => !currentIds.has(logo?.image?.id))
+          }
+
+          nextLogo = logoQueue.current.shift()
+          if (!nextLogo) break
+
+          // Check if this logo is already displayed
+          const isAlreadyDisplayed = newLogos.some((l) => l?.image?.id === nextLogo?.image?.id)
+          if (!isAlreadyDisplayed) {
+            break
+          }
+
+          // If already displayed, put it back in queue and try next one
+          logoQueue.current.push(nextLogo)
+          attempts++
+        }
+
+        // If we couldn't find a unique logo after all attempts, keep the current one
+        if (attempts >= maxAttempts || !nextLogo) {
+          return prev
+        }
+
+        // Update the slot with new logo
+        newLogos[slotToUpdate] = nextLogo
+        if (removedLogo) {
+          logoQueue.current.push(removedLogo)
+        }
+
+        return newLogos
+      })
+
+      setCurrentSlotIndex(nextSlotIndex)
+
+      // Clear existing timeout before setting new one
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
       }
+      timeoutRef.current = setTimeout(rotateNextLogo, getRandomInterval())
     }
 
-    // If we don't have enough unique logos, fill with whatever is available
-    if (uniqueLogos.length < GRID_SIZE) {
-      for (const logo of logos) {
-        if (uniqueLogos.length >= GRID_SIZE) break
-        uniqueLogos.push(logo)
-      }
-    }
-
-    setCurrentLogos(uniqueLogos)
-
-    // Set up the queue with remaining logos
-    const remainingLogos = logos.filter(
-      (logo) => !uniqueLogos.some((uLogo) => uLogo?.image?.id === logo?.image?.id),
-    )
-
-    queue.current = remainingLogos.length > 0 ? remainingLogos : logos.slice(0, GRID_SIZE)
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
-
-    timeoutRef.current = setTimeout(rotateLogo, getRandomInterval())
-
+    timeoutRef.current = setTimeout(rotateNextLogo, getRandomInterval())
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [logos, rotateLogo])
+  }, [logos, currentSlotIndex, displayedLogos])
 
   return (
     <div className="container relative z-10 my-4 md:my-4 lg:my-4">
       <div className="col-span-4 lg:col-span-12">
         {header && <RichText data={header} enableGutter={false} />}
       </div>
-      <div className="grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
-        {currentLogos.map((logo, index) => (
-          <div
-            key={`logo-${index}-${logo?.image?.id || Math.random().toString(36).substring(7)}`}
-            className="relative aspect-square w-full overflow-hidden rounded bg-white"
-            style={{
-              opacity: fadingIndex === index ? 0 : 1,
-              transform: fadingIndex === index ? 'scale(0.95)' : 'scale(1)',
-              transition: `opacity ${FADE_DURATION}ms ease-in-out, transform ${FADE_DURATION}ms ease-in-out`,
-            }}
-          >
-            {logo && logo.image && (
-              <div className="absolute inset-0 flex items-center justify-center p-4">
-                <Media
-                  className="max-h-[50%] max-w-[50%] object-contain grayscale sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
-                  resource={logo.image}
-                />
-              </div>
-            )}
-          </div>
+      <div className="relative grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
+        {displayedLogos.map((logo, index) => (
+          <AnimatePresence mode="wait" key={`container-${index}`}>
+            <motion.div
+              key={`logo-${logo?.image?.id}-${index}`}
+              className="relative aspect-square w-full overflow-hidden rounded bg-white"
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+                filter: 'blur(10px)',
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                filter: 'blur(0px)',
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                filter: 'blur(10px)',
+              }}
+              transition={{
+                duration: 0.4,
+                ease: 'easeInOut',
+              }}
+            >
+              {logo?.image && (
+                <div className="absolute inset-0 flex items-center justify-center p-4">
+                  <Media
+                    className="max-h-[50%] max-w-[50%] object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
+                    resource={logo.image}
+                  />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
         ))}
       </div>
     </div>
