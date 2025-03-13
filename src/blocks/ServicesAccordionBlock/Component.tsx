@@ -33,6 +33,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   limit = 5,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const [isHovered, setIsHovered] = useState(false)
 
   // Sort services by position and limit the number
   const sortedServices = [...services]
@@ -41,13 +42,15 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
     })
     .slice(0, limit)
 
-  // Auto-rotate every 5 seconds
+  // Auto-rotate every 5 seconds, pause on hover
   useEffect(() => {
+    if (isHovered) return // Don't set up timer if hovered
+
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % sortedServices.length)
     }, 5000)
     return () => clearInterval(timer)
-  }, [sortedServices.length])
+  }, [sortedServices.length, isHovered])
 
   // Split title to wrap gradient part if it exists in the title
   const renderTitle = () => {
@@ -70,7 +73,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   return (
     <div className="container grid grid-cols-1 gap-12 py-24 lg:grid-cols-2">
       {/* Left side - Main display */}
-      <div className="sticky top-24">
+      <div className="sticky top-24 flex items-center">
         <div className="flex flex-col gap-6">
           <div className="prose prose-sm md:prose-base lg:prose-lg">
             <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">{renderTitle()}</h2>
@@ -80,7 +83,11 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
       </div>
 
       {/* Right side - Accordion */}
-      <div className="flex flex-col">
+      <div
+        className="flex flex-col"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="relative">
           {sortedServices.map((service, index) => {
             const isActive = index === activeIndex
