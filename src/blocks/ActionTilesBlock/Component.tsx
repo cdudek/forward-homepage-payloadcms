@@ -62,9 +62,10 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                   }}
                   className={cn(
                     'relative overflow-hidden rounded-2xl p-12',
-                    'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
+                    'shadow-[0_4px_16px_rgba(0,0,0,0.12)]',
                     'after:absolute after:inset-[1px] after:rounded-2xl after:border after:border-white/0 after:transition-all after:duration-500',
-                    'group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.2)]',
+                    'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
+                    'transition-shadow duration-500',
                     isTwoTiles && 'aspect-[1.618/1]',
                   )}
                 >

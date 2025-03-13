@@ -5,13 +5,28 @@ interface Props {
   className?: string
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
+  variant?: 'default' | 'white' | 'color'
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
+  const {
+    loading: loadingFromProps,
+    priority: priorityFromProps,
+    className,
+    variant: variantFromProps = 'default',
+  } = props
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
+
+  const variant = {
+    default: '/forward-logo-white.svg',
+    white: '/forward-logo-white.svg',
+    dark: '/forward-logo-dark.svg',
+    color: '/forward-logo-white-color.svg',
+  }
+
+  const logoSrc = variant[variantFromProps]
 
   return (
     /* eslint-disable @next/next/no-img-element */
@@ -24,7 +39,7 @@ export const Logo = (props: Props) => {
       decoding="async"
       className={clsx('h-[25px] w-full max-w-[9.375rem]', className)}
       // TODO replace with dynamic domain based on environment
-      src="https://preview.forwardlabs.ch/api/media/file/forward-logo-white.svg"
+      src={logoSrc}
     />
   )
 }

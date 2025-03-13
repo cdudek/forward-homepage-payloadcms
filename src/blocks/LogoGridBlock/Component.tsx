@@ -13,7 +13,6 @@ const GRID_SIZE = 6
 const MIN_INTERVAL = 3000
 const MAX_INTERVAL = 5000
 
-// Fixed sequence for slot updates (0-based index)
 const SLOT_SEQUENCE = [3, 1, 5, 2, 0, 4]
 
 export type Logo = {
@@ -56,11 +55,6 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
     // Initialize queue with remaining logos
     const remainingLogos = logos.filter((logo) => !usedIds.has(logo?.image?.id))
     logoQueue.current = [...remainingLogos]
-
-    console.log('Initial state:', {
-      displayedLogos: initialLogos.map((l) => l?.image?.id),
-      queueLogos: logoQueue.current.map((l) => l?.image?.id),
-    })
 
     setDisplayedLogos(initialLogos)
   }, [logos])
@@ -161,6 +155,13 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
                 scale: 0.9,
                 filter: 'blur(10px)',
               }}
+              whileHover={{
+                scale: 1.05,
+                transition: {
+                  duration: 0.2,
+                  ease: 'easeOut',
+                },
+              }}
               transition={{
                 duration: 0.4,
                 ease: 'easeInOut',
@@ -169,7 +170,8 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
               {logo?.image && (
                 <div className="absolute inset-0 flex items-center justify-center p-4">
                   <Media
-                    className="max-h-[50%] max-w-[50%] object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
+                    className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
+                    // className="max-h-[50%] max-w-[50%] object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
                     resource={logo.image}
                   />
                 </div>
