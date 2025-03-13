@@ -66,6 +66,7 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                     'after:absolute after:inset-[1px] after:rounded-2xl after:border after:border-white/0 after:transition-all after:duration-500',
                     'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
                     'transition-shadow duration-500',
+                    'will-change-transform',
                     isTwoTiles && 'aspect-[1.618/1]',
                   )}
                 >

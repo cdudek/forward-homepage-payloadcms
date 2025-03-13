@@ -139,7 +139,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
           <AnimatePresence mode="wait" key={`container-${index}`}>
             <motion.div
               key={`logo-${logo?.image?.id}-${index}`}
-              className="relative aspect-square w-full overflow-hidden rounded bg-white"
+              className="relative aspect-square w-full overflow-hidden rounded bg-white will-change-transform"
               initial={{
                 opacity: 0,
                 scale: 0.9,

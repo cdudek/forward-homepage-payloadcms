@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 // type CompanyName = NonNullable<Props['companyName']>
 // type Logo = NonNullable<Props['logo']>
@@ -136,7 +137,7 @@ const CaseStudyDisplay: React.FC<{
               initial="initial"
               animate="animate"
               exit="exit"
-              className="relative aspect-[16/10] w-full" // Modern aspect ratio
+              className="relative aspect-[16/10] w-full will-change-transform" // Modern aspect ratio
             >
               {/* Hero Case Study Card */}
               <div className="absolute inset-0 overflow-hidden rounded-3xl">
@@ -239,7 +240,14 @@ const CaseStudyDisplay: React.FC<{
                 onClick={() => handleCardClick(nextIndex)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1 cursor-pointer overflow-hidden rounded-3xl border border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50"
+                className={cn(
+                  'flex-1 cursor-pointer overflow-hidden rounded-3xl border',
+                  'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
+                  'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
+                  'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
+                  'transition-shadow duration-500',
+                  'will-change-transform',
+                )}
               >
                 {/* Logo with fixed height/width container */}
                 {nextStudy.logo && (
@@ -299,7 +307,14 @@ const CaseStudyDisplay: React.FC<{
                 onClick={() => handleCardClick(secondNextIndex)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1 cursor-pointer overflow-hidden rounded-3xl border border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50"
+                className={cn(
+                  'flex-1 cursor-pointer overflow-hidden rounded-3xl border',
+                  'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
+                  'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
+                  'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
+                  'transition-shadow duration-500',
+                  'will-change-transform',
+                )}
               >
                 {/* Logo with fixed height/width container */}
                 {secondNextStudy.logo && (

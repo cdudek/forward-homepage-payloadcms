@@ -25,6 +25,7 @@ type Props = {
 }
 
 const MotionHeader = motion.h2
+const ROTATION_INTERVAL = 4000
 
 export const ServicesAccordionBlock: React.FC<Props> = ({
   services,
@@ -49,7 +50,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % sortedServices.length)
-    }, 5000)
+    }, ROTATION_INTERVAL)
     return () => clearInterval(timer)
   }, [sortedServices.length, isHovered])
 
@@ -106,7 +107,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     animate={{
                       backgroundColor: isActive ? 'var(--color-fwd-purple-50)' : 'transparent',
                     }}
-                    className="group relative cursor-pointer border-b border-gray-200"
+                    className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
                     onClick={() => setActiveIndex(index)}
                   >
                     <div className="relative z-10 flex w-full flex-col gap-2 py-6 pl-6 text-left">
@@ -134,7 +135,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                         opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                         marginBottom: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                       }}
-                      className="overflow-hidden px-6"
+                      className="overflow-hidden px-6 will-change-transform"
                     >
                       {service.descriptionShort && (
                         <div className="line-clamp-2 text-sm text-fwd-grey-600">
@@ -145,7 +146,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
                     {/* Progress indicator */}
                     <motion.div
-                      className="absolute left-0 top-0 h-full w-1 bg-fwd-purple"
+                      className="absolute left-0 top-0 h-full w-1 bg-fwd-purple will-change-transform"
                       initial={{ scaleY: 0 }}
                       animate={{
                         scaleY: isActive ? 1 : 0,
