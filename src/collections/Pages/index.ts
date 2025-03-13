@@ -17,6 +17,7 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
+import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
 
 import {
   MetaDescriptionField,
@@ -98,6 +99,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 NumberGridBlock,
                 CaseStudyBlock,
                 ActionTilesBlock,
+                ServicesAccordionBlock,
               ],
               required: true,
               admin: {

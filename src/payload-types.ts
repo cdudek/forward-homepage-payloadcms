@@ -72,6 +72,7 @@ export interface Config {
     categories: Category;
     users: User;
     'case-studies': CaseStudy;
+    services: Service;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -89,6 +90,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -205,6 +207,30 @@ export interface Page {
     | NumberGridBlock
     | CaseStudyBlock
     | ActionTilesBlock
+    | {
+        services: (number | Service)[];
+        title: string;
+        gradient?: string | null;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        limit: number;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'servicesAccordionBlock';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -1029,6 +1055,44 @@ export interface ActionTilesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  serviceName: string;
+  title: string;
+  titleShort: string;
+  descriptionShort: string;
+  icon?: (number | null) | Media;
+  image?: (number | null) | Media;
+  header?: string | null;
+  position?: number | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  usps?:
+    | {
+        usp?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1224,6 +1288,10 @@ export interface PayloadLockedDocument {
         value: number | CaseStudy;
       } | null)
     | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1328,6 +1396,25 @@ export interface PagesSelect<T extends boolean = true> {
         numberGridBlock?: T | NumberGridBlockSelect<T>;
         caseStudyBlock?: T | CaseStudyBlockSelect<T>;
         actionTilesBlock?: T | ActionTilesBlockSelect<T>;
+        servicesAccordionBlock?:
+          | T
+          | {
+              services?: T;
+              title?: T;
+              gradient?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              limit?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -1743,6 +1830,29 @@ export interface CaseStudiesSelect<T extends boolean = true> {
         prefix?: T;
         suffix?: T;
         label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  serviceName?: T;
+  title?: T;
+  titleShort?: T;
+  descriptionShort?: T;
+  icon?: T;
+  image?: T;
+  header?: T;
+  position?: T;
+  description?: T;
+  usps?:
+    | T
+    | {
+        usp?: T;
         id?: T;
       };
   updatedAt?: T;
