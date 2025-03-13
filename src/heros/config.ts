@@ -37,6 +37,10 @@ export const hero: Field = {
           label: 'Low Impact',
           value: 'lowImpact',
         },
+        {
+          label: 'Big Text',
+          value: 'bigText',
+        },
       ],
       required: true,
     },
@@ -80,6 +84,33 @@ export const hero: Field = {
         condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
       },
       relationTo: 'media',
+      required: true,
+    },
+    {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+      admin: {
+        condition: (_, { type } = {}) => ['bigText'].includes(type),
+      },
+      required: true,
+    },
+    {
+      name: 'gradientText',
+      type: 'text',
+      label: 'Gradient Text Part',
+      admin: {
+        condition: (_, { type } = {}) => ['bigText'].includes(type),
+      },
+      required: true,
+    },
+    {
+      name: 'subtitle',
+      type: 'text',
+      label: 'Subtitle',
+      admin: {
+        condition: (_, { type } = {}) => ['bigText'].includes(type),
+      },
       required: true,
     },
   ],

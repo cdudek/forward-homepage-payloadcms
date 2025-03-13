@@ -153,7 +153,7 @@ export interface Page {
   title: string;
   headerColor?: ('light' | 'dark') | null;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'bigText';
     hasAngledCorner?: boolean | null;
     richText?: {
       root: {
@@ -195,6 +195,9 @@ export interface Page {
         }[]
       | null;
     media?: (number | null) | Media;
+    title?: string | null;
+    gradientText?: string | null;
+    subtitle?: string | null;
   };
   layout: (
     | CallToActionBlock
@@ -1382,6 +1385,9 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         media?: T;
+        title?: T;
+        gradientText?: T;
+        subtitle?: T;
       };
   layout?:
     | T

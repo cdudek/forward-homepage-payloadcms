@@ -38,6 +38,7 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        gradient: 'gradient 3s linear infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -206,6 +207,10 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
       },
       typography: () => ({
         DEFAULT: {
@@ -250,92 +255,43 @@ const config = {
         //   ],
         // },
 
-        // base: {
-        //   css: [
-        //     {
-        //       h1: {
-        //         fontSize: '6.0rem',
-        //         fontWeight: 600,
-        //         lineHeight: '1.1',
-        //       },
-        //       h2: {
-        //         fontSize: '4.25rem',
-        //         fontWeight: 600,
-        //         lineHeight: '1.1',
-        //       },
-        //       h3: {
-        //         fontSize: '3rem',
-        //         fontWeight: 600,
-        //         lineHeight: '1.1',
-        //       },
-        //       h4: {
-        //         fontSize: '2rem',
-        //         fontWeight: 400,
-        //         lineHeight: '1.3',
-        //       },
-        //       h5: {
-        //         fontSize: '1.75rem',
-        //         fontWeight: 400,
-        //         lineHeight: '1.3',
-        //       },
-        //       h6: {
-        //         fontSize: '1.5rem',
-        //         fontWeight: 400,
-        //         lineHeight: '1.3',
-        //       },
-        //       p: {
-        //         fontSize: '1.5rem',
-        //         fontWeight: 300,
-        //         lineHeight: '1.5',
-        //       },
-        //       div: {
-        //         fontSize: '1.5rem',
-        //         fontWeight: 300,
-        //       },
-        //       a: {
-        //         fontWeight: 300,
-        //       },
-        //     },
-        //   ],
-        // },
-
         sm: {
           css: [
             {
               h1: {
                 fontSize: '2.5rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
                 marginBottom: '0.25em',
               },
               h2: {
                 fontSize: '2.25rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
                 marginBottom: '0.25em',
               },
               h3: {
                 fontSize: '1.75rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
                 marginBottom: '0.25em',
               },
               h4: {
                 fontSize: '1.5rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
                 marginBottom: '0.25em',
               },
               h5: {
                 fontSize: '1.25rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
                 marginBottom: '0.25em',
               },
               h6: {
                 fontSize: '1.125rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
                 marginBottom: '0.25em',
               },
               p: {
@@ -361,32 +317,32 @@ const config = {
               h1: {
                 fontSize: '4.25rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
               },
               h2: {
                 fontSize: '3.25rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
               },
               h3: {
                 fontSize: '2.375rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
               },
               h4: {
                 fontSize: '1.75rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               h5: {
                 fontSize: '1.5rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               h6: {
                 fontSize: '1.3125rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               p: {
                 fontSize: '1.1875rem',
@@ -409,33 +365,33 @@ const config = {
               h1: {
                 fontSize: '6.0rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
                 marginBottom: '0.25em',
               },
               h2: {
                 fontSize: '4.25rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
               },
               h3: {
                 fontSize: '3rem',
                 fontWeight: 600,
-                lineHeight: '1.1',
+                lineHeight: 1.3,
               },
               h4: {
                 fontSize: '2rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               h5: {
                 fontSize: '1.75rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               h6: {
                 fontSize: '1.5rem',
                 fontWeight: 400,
-                lineHeight: '1.3',
+                lineHeight: 1.5,
               },
               p: {
                 fontSize: '1.5rem',
