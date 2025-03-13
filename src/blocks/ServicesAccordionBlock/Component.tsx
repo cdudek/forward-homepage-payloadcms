@@ -99,7 +99,8 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                 animate={{
                   backgroundColor: isActive ? 'var(--color-fwd-purple-50)' : 'transparent',
                 }}
-                className="group relative cursor-pointer border-b border-gray-200 last:border-none"
+                // className="group relative cursor-pointer border-b border-gray-200 last:border-none"
+                className="group relative cursor-pointer border-b border-gray-200"
                 onClick={() => setActiveIndex(index)}
               >
                 {/* Base content - always visible */}
