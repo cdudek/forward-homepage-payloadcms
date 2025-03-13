@@ -70,7 +70,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   return (
     <div className="container grid grid-cols-1 gap-12 py-24 lg:grid-cols-2">
       {/* Left side - Main display */}
-      <div className="relative flex flex-col items-start justify-center">
+      <div className="sticky top-24">
         <div className="flex flex-col gap-6">
           <div className="prose prose-sm md:prose-base lg:prose-lg">
             <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">{renderTitle()}</h2>
@@ -92,19 +92,13 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                 animate={{
                   backgroundColor: isActive ? 'var(--color-fwd-purple-50)' : 'transparent',
                 }}
-                className="relative cursor-pointer border-b border-gray-200 last:border-none"
+                className="group relative cursor-pointer border-b border-gray-200 last:border-none"
                 onClick={() => setActiveIndex(index)}
               >
-                <div
-                  className={cn(
-                    'flex w-full flex-col gap-2 py-6 pl-6 text-left transition-colors hover:text-fwd-purple',
-                    {
-                      'text-fwd-purple': isActive,
-                    },
-                  )}
-                >
+                {/* Base content - always visible */}
+                <div className="relative z-10 flex w-full flex-col gap-2 py-6 pl-6 text-left">
                   <MotionHeader
-                    className="text-3xl font-medium"
+                    className="text-3xl font-medium transition-colors group-hover:text-fwd-purple"
                     initial={false}
                     animate={{
                       color: isActive ? 'var(--color-fwd-purple)' : 'var(--color-fwd-black)',
@@ -112,36 +106,39 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                   >
                     {service.title}
                   </MotionHeader>
-
-                  <AnimatePresence initial={false}>
-                    {isActive && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                        className="overflow-hidden"
-                      >
-                        {service.descriptionShort && (
-                          <div className="line-clamp-2 text-sm text-fwd-grey-600">
-                            {service.descriptionShort}
-                          </div>
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
 
+                {/* Expandable content with smooth animation */}
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isActive ? 'auto' : 0,
+                    opacity: isActive ? 1 : 0,
+                    marginBottom: isActive ? '1.5rem' : 0,
+                  }}
+                  transition={{
+                    height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+                    opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+                    marginBottom: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+                  }}
+                  className="overflow-hidden px-6"
+                >
+                  {service.descriptionShort && (
+                    <div className="line-clamp-2 text-sm text-fwd-grey-600">
+                      {service.descriptionShort}
+                    </div>
+                  )}
+                </motion.div>
+
                 {/* Progress indicator */}
-                {isActive && (
-                  <motion.div
-                    className="absolute left-0 top-0 h-full w-1 bg-fwd-purple"
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    exit={{ scaleY: 0 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
+                <motion.div
+                  className="absolute left-0 top-0 h-full w-1 bg-fwd-purple"
+                  initial={{ scaleY: 0 }}
+                  animate={{
+                    scaleY: isActive ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.2 }}
+                />
               </motion.div>
             )
           })}
