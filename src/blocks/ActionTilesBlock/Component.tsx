@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
+import { CMSLink } from '@/components/Link'
 import { motion } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/payload-types'
@@ -15,7 +15,7 @@ type ActionTilesBlockProps = {
       type: 'reference' | 'custom'
       label?: string
       reference?: {
-        relationTo: string
+        relationTo: 'pages' | 'posts'
         value: string
       }
       url?: string
@@ -39,16 +39,14 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
       >
         {tiles.map((tile, i) => {
           const { title, description, backgroundImage, link } = tile
-          const href =
-            link.type === 'custom'
-              ? link.url
-              : `/${link.reference?.relationTo}/${link.reference?.value}`
 
           return (
             <div className="flex items-center justify-center text-white" key={i}>
-              <Link
-                href={href || '#'}
-                target={link.newTab ? '_blank' : undefined}
+              <CMSLink
+                type={link.type}
+                url={link.type === 'custom' ? link.url : undefined}
+                reference={link.type === 'reference' ? link.reference : undefined}
+                newTab={link.newTab}
                 className="group block w-full"
               >
                 <motion.div
@@ -167,7 +165,7 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => 
                     </motion.div>
                   </motion.div>
                 </motion.div>
-              </Link>
+              </CMSLink>
             </div>
           )
         })}
