@@ -4,3 +4,4 @@
 - [ ] fix eslint and ts type issues
 - [ ] fix mobile version of ServicesAccordion
 - [ ] CaseStudyBlock Text and logo size fix
+- [ ] Footer fix subscription design

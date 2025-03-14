@@ -23,12 +23,9 @@ const buttonVariants = cva(
       },
       variant: {
         primaryIcon:
-          'relative bg-black text-white hover:bg-black/85 transition-all duration-300 group rounded-2xl',
-        primary: 'bg-black text-white hover:bg-black/85 rounded-2xl',
-        gradient:
-          'relative bg-gradient-to-r from-brand-gradient-start via-brand-gradient-middle to-brand-gradient-end text-white hover:opacity-90 transition-all duration-300 rounded-2xl',
-        gradientIcon:
-          'relative bg-gradient-to-r from-brand-gradient-start via-brand-gradient-middle to-brand-gradient-end text-white hover:opacity-90 transition-all duration-300 group rounded-2xl',
+          'relative bg-fwd-black text-white hover:bg-black/85 rounded-full p-[1px] before:absolute before:inset-0 before:rounded-full before:p-[1px] before:bg-gradient-to-r before:from-[#7928CA] before:to-[#FF0080] before:-z-10 hover:before:opacity-75 transition-all duration-300 group',
+        primary:
+          'relative bg-fwd-black text-white hover:bg-black/85 rounded-full p-[1px] before:absolute before:inset-0 before:rounded-full before:p-[1px] before:bg-gradient-to-r before:from-[#7928CA] before:to-[#FF0080] before:-z-10 hover:before:opacity-75 transition-all duration-300',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         ghost: 'hover:bg-semantic-background-secondary hover:text-semantic-text-primary',
         link: 'text-semantic-text-primary items-start justify-start underline-offset-4 hover:underline',
@@ -64,8 +61,7 @@ const Button: React.FC<ButtonProps> = ({
   const Comp = asChild ? Slot : 'button'
   return (
     <Comp className={cn(buttonVariants({ className, size, variant }))} ref={ref} {...props}>
-      {variant &&
-      ['primaryIcon', 'outlineIcon', 'gradientIcon', 'secondaryIcon'].includes(variant) ? (
+      {variant && ['primaryIcon', 'outlineIcon', 'secondaryIcon'].includes(variant) ? (
         <>
           <span className="relative z-10 flex items-center gap-2">
             {children}
@@ -74,12 +70,13 @@ const Button: React.FC<ButtonProps> = ({
               <ArrowRightIcon className="absolute right-0 top-0 h-4 w-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             </span>
           </span>
-          {variant === 'gradientIcon' ? null : (
-            <span
-              className="from-brand-gradient-start via-brand-gradient-middle to-brand-gradient-end absolute inset-0 rounded border border-transparent bg-gradient-to-r opacity-10 transition-opacity duration-300 group-hover:opacity-20"
-              aria-hidden="true"
-            />
-          )}
+          <span
+            className={cn(
+              'absolute inset-0 rounded border border-transparent opacity-10 transition-opacity duration-300 group-hover:opacity-20',
+              'from-brand-gradient-start via-brand-gradient-middle to-brand-gradient-end bg-gradient-to-r',
+            )}
+            aria-hidden="true"
+          />
         </>
       ) : (
         children
