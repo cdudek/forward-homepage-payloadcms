@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
 import { cn } from '@/utilities/ui'
@@ -41,24 +41,31 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout>()
 
-  // Sort services by position and limit the number
-  const sortedServices = [...services]
-    .sort((a, b) => {
-      return (a.position || 0) - (b.position || 0)
-    })
-    .slice(0, limit)
+  // Memoize sorted services to prevent re-sorting on every render
+  const sortedServices = useMemo(
+    () => [...services].sort((a, b) => (a.position || 0) - (b.position || 0)).slice(0, limit),
+    [services, limit],
+  )
 
-  // Generate colors for each service
-  const colors = getColorBlends(sortedServices.length, true)
+  // Memoize colors to prevent regeneration on every render
+  const colors = useMemo(() => getColorBlends(sortedServices.length, true), [sortedServices.length])
+
+  // Memoize animation variants
+  const itemVariants = useMemo(
+    () => ({
+      initial: { opacity: 1 },
+      exit: { opacity: 0 },
+    }),
+    [],
+  )
 
   // Handle hover with smooth transition to active state
   const handleHoverStart = useCallback((index: number) => {
     setHoveredIndex(index)
-    setIsHovered(true) // Ensure timer is stopped when hovering individual elements
+    setIsHovered(true)
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
     }
-    // Short delay before making it active, but long enough for smooth transition
     hoverTimeoutRef.current = setTimeout(() => {
       setActiveIndex(index)
     }, 100)
@@ -66,33 +73,14 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
   const handleHoverEnd = useCallback(() => {
     setHoveredIndex(null)
-    setIsHovered(false) // Allow timer to restart when not hovering
+    setIsHovered(false)
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
     }
   }, [])
 
-  // Auto-rotate every 5 seconds, pause on hover
-  useEffect(() => {
-    if (isHovered || hoveredIndex !== null) return // Don't set up timer if hovered or hovering an element
-
-    const timer = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % sortedServices.length)
-    }, ROTATION_INTERVAL)
-    return () => clearInterval(timer)
-  }, [sortedServices.length, isHovered, hoveredIndex])
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current)
-      }
-    }
-  }, [])
-
-  // Split title to wrap gradient part if it exists in the title
-  const renderTitle = () => {
+  // Memoize the rendered title to prevent unnecessary recalculations
+  const renderedTitle = useMemo(() => {
     if (!gradient) return title
 
     const parts = title.split(gradient)
@@ -107,7 +95,116 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
         {parts[1]}
       </>
     )
-  }
+  }, [title, gradient])
+
+  // Auto-rotate with RAF instead of setInterval for better performance
+  useEffect(() => {
+    if (isHovered || hoveredIndex !== null) return
+
+    let lastTime = performance.now()
+    let rafId: number
+
+    const animate = (currentTime: number) => {
+      if (currentTime - lastTime >= ROTATION_INTERVAL) {
+        setActiveIndex((current) => (current + 1) % sortedServices.length)
+        lastTime = currentTime
+      }
+      rafId = requestAnimationFrame(animate)
+    }
+
+    rafId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(rafId)
+  }, [sortedServices.length, isHovered, hoveredIndex])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  const AccordionItem = useCallback(
+    ({
+      service,
+      index,
+      isActive,
+      isHovered,
+      colorClass,
+    }: {
+      service: Service
+      index: number
+      isActive: boolean
+      isHovered: boolean
+      colorClass: string
+    }) => (
+      <motion.div
+        key={service.id}
+        initial={false}
+        variants={itemVariants}
+        animate={
+          isInView
+            ? {
+                backgroundColor:
+                  isActive || isHovered ? `var(--color-${colorClass}-50)` : 'transparent',
+                color:
+                  isActive || isHovered ? `var(--color-${colorClass})` : 'var(--color-fwd-black)',
+                '--indicator-scale': isActive ? '1' : isHovered ? '0.6' : '0',
+                '--indicator-color':
+                  isActive || isHovered ? `var(--color-${colorClass})` : 'transparent',
+              }
+            : {}
+        }
+        onHoverStart={() => handleHoverStart(index)}
+        onHoverEnd={handleHoverEnd}
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
+        onClick={() => setActiveIndex(index)}
+      >
+        <div className="relative z-10 flex w-full flex-col gap-2 py-6 pl-6 text-left">
+          <h2 className="text-3xl font-medium transition-colors duration-200 ease-out will-change-transform">
+            {service.title}
+          </h2>
+        </div>
+
+        {/* Expandable content with smooth animation */}
+        <motion.div
+          initial={false}
+          animate={
+            isInView
+              ? {
+                  height: isActive ? 'auto' : 0,
+                  opacity: isActive ? 1 : 0,
+                  marginBottom: isActive ? '1.5rem' : 0,
+                }
+              : { height: 0, opacity: 0, marginBottom: 0 }
+          }
+          transition={{
+            height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+            opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+            marginBottom: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+          }}
+          className="overflow-hidden px-6 will-change-transform"
+        >
+          {service.descriptionShort && (
+            <div className="line-clamp-2 text-sm text-fwd-grey-600">{service.descriptionShort}</div>
+          )}
+        </motion.div>
+
+        {/* Progress indicator */}
+        <div
+          className="absolute left-0 top-0 h-full w-1 transition-all duration-200 ease-out will-change-transform"
+          style={{
+            backgroundColor: 'var(--indicator-color)',
+            transform: `scaleY(var(--indicator-scale))`,
+            transformOrigin: 'top',
+          }}
+        />
+      </motion.div>
+    ),
+    [isInView, handleHoverStart, handleHoverEnd, itemVariants],
+  )
 
   return (
     <div className="py-32">
@@ -121,7 +218,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
             <div className="flex flex-col gap-6">
               <div className="prose prose-sm md:prose-base lg:prose-lg">
                 <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">
-                  {renderTitle()}
+                  {renderedTitle}
                 </h2>
               </div>
               <div className="inline-flex">
@@ -137,86 +234,16 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
             onMouseLeave={() => setIsHovered(false)}
           >
             <div className="relative">
-              {sortedServices.map((service, index) => {
-                const isActive = index === activeIndex
-                const isHovered = hoveredIndex === index
-                const colorClass = colors[index]
-
-                return (
-                  <motion.div
-                    key={service.id}
-                    initial={false}
-                    animate={
-                      isInView
-                        ? {
-                            backgroundColor:
-                              isActive || isHovered
-                                ? `var(--color-${colorClass}-50)`
-                                : 'transparent',
-                            color:
-                              isActive || isHovered
-                                ? `var(--color-${colorClass})`
-                                : 'var(--color-fwd-black)',
-                            '--indicator-scale': isActive ? '1' : isHovered ? '0.6' : '0',
-                            '--indicator-color':
-                              isActive || isHovered ? `var(--color-${colorClass})` : 'transparent',
-                          }
-                        : {}
-                    }
-                    onHoverStart={() => handleHoverStart(index)}
-                    onHoverEnd={handleHoverEnd}
-                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                    className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
-                    onClick={() => setActiveIndex(index)}
-                  >
-                    <div className="relative z-10 flex w-full flex-col gap-2 py-6 pl-6 text-left">
-                      <h2 className="text-3xl font-medium transition-colors duration-200 ease-out will-change-transform">
-                        {service.title}
-                      </h2>
-                    </div>
-
-                    {/* Expandable content with smooth animation */}
-                    <motion.div
-                      initial={false}
-                      animate={
-                        isInView
-                          ? {
-                              height: isActive ? 'auto' : 0,
-                              opacity: isActive ? 1 : 0,
-                              marginBottom: isActive ? '1.5rem' : 0,
-                            }
-                          : { height: 0, opacity: 0, marginBottom: 0 }
-                      }
-                      transition={{
-                        height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                        opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                        marginBottom: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                      }}
-                      className="overflow-hidden px-6 will-change-transform"
-                    >
-                      {service.descriptionShort && (
-                        <div className="line-clamp-2 text-sm text-fwd-grey-600">
-                          {service.descriptionShort}
-                        </div>
-                      )}
-                    </motion.div>
-
-                    {/* Progress indicator */}
-                    <motion.div
-                      className="absolute left-0 top-0 h-full w-1 transition-all duration-200 ease-out will-change-transform"
-                      initial={false}
-                      animate={{
-                        backgroundColor: isInView ? 'var(--indicator-color)' : 'transparent',
-                        scaleY: isActive ? 1 : isHovered ? 0.6 : 0,
-                      }}
-                      transition={{
-                        duration: 0.2,
-                        ease: [0.4, 0, 0.2, 1],
-                      }}
-                    />
-                  </motion.div>
-                )
-              })}
+              {sortedServices.map((service, index) => (
+                <AccordionItem
+                  key={service.id}
+                  service={service}
+                  index={index}
+                  isActive={index === activeIndex}
+                  isHovered={index === hoveredIndex}
+                  colorClass={colors[index]}
+                />
+              ))}
             </div>
           </div>
         </div>
