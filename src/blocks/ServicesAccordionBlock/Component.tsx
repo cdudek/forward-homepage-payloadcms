@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
 import { cn } from '@/utilities/ui'
 import type { Service, Page, Post } from '@/payload-types'
@@ -36,6 +36,8 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [isHovered, setIsHovered] = useState(false)
+  const containerRef = React.useRef(null)
+  const isInView = useInView(containerRef, { once: false, amount: 0.2 })
 
   // Sort services by position and limit the number
   const sortedServices = [...services]
@@ -78,7 +80,10 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   return (
     <div className="py-32">
       <SlopedEdgeWrapper enabled={true} position="both" backgroundTheme="light">
-        <div className="container grid min-h-[60vh] grid-cols-1 gap-12 py-24 lg:grid-cols-2">
+        <div
+          ref={containerRef}
+          className="container grid min-h-[60vh] grid-cols-1 gap-12 py-24 lg:grid-cols-2"
+        >
           {/* Left side - Main display */}
           <div className="sticky top-24 flex items-center">
             <div className="flex flex-col gap-6">
@@ -108,12 +113,22 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                   <motion.div
                     key={service.id}
                     initial={false}
-                    animate={{
-                      backgroundColor: isActive ? `var(--color-${colorClass}-50)` : 'transparent',
-                      color: isActive ? `var(--color-${colorClass})` : 'var(--color-fwd-black)',
-                      '--indicator-scale': isActive ? '1' : '0',
-                      '--indicator-color': isActive ? `var(--color-${colorClass})` : 'transparent',
-                    }}
+                    animate={
+                      isInView
+                        ? {
+                            backgroundColor: isActive
+                              ? `var(--color-${colorClass}-50)`
+                              : 'transparent',
+                            color: isActive
+                              ? `var(--color-${colorClass})`
+                              : 'var(--color-fwd-black)',
+                            '--indicator-scale': isActive ? '1' : '0',
+                            '--indicator-color': isActive
+                              ? `var(--color-${colorClass})`
+                              : 'transparent',
+                          }
+                        : {}
+                    }
                     onHoverStart={() => setActiveIndex(index)}
                     transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
@@ -128,11 +143,15 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     {/* Expandable content with smooth animation */}
                     <motion.div
                       initial={false}
-                      animate={{
-                        height: isActive ? 'auto' : 0,
-                        opacity: isActive ? 1 : 0,
-                        marginBottom: isActive ? '1.5rem' : 0,
-                      }}
+                      animate={
+                        isInView
+                          ? {
+                              height: isActive ? 'auto' : 0,
+                              opacity: isActive ? 1 : 0,
+                              marginBottom: isActive ? '1.5rem' : 0,
+                            }
+                          : { height: 0, opacity: 0, marginBottom: 0 }
+                      }
                       transition={{
                         height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                         opacity: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
@@ -151,8 +170,8 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     <div
                       className="absolute left-0 top-0 h-full w-1 transition-all duration-200 ease-out will-change-transform"
                       style={{
-                        backgroundColor: 'var(--indicator-color)',
-                        transform: `scaleY(var(--indicator-scale))`,
+                        backgroundColor: isInView ? 'var(--indicator-color)' : 'transparent',
+                        transform: isInView ? `scaleY(var(--indicator-scale))` : 'scaleY(0)',
                       }}
                     />
                   </motion.div>

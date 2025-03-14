@@ -3,7 +3,7 @@
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
@@ -26,6 +26,8 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
   const [currentSlotIndex, setCurrentSlotIndex] = useState(0)
   const logoQueue = useRef<Logo[]>([])
   const timeoutRef = useRef<NodeJS.Timeout>()
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: false, amount: 0.2 })
 
   const getRandomInterval = () =>
     Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL
@@ -61,8 +63,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
   // Rotate logos one at a time through the fixed sequence
   useEffect(() => {
-    if (!logos.length || displayedLogos.length < GRID_SIZE) return
-    if (logos.length < GRID_SIZE) return
+    if (!logos.length || displayedLogos.length < GRID_SIZE || !isInView) return
 
     const rotateNextLogo = () => {
       const nextSlotIndex = (currentSlotIndex + 1) % SLOT_SEQUENCE.length
@@ -127,10 +128,10 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [logos, currentSlotIndex, displayedLogos])
+  }, [logos, currentSlotIndex, displayedLogos, isInView])
 
   return (
-    <div className="container relative z-10 my-4 md:my-4 lg:my-4">
+    <div className="container relative z-10 my-4 md:my-4 lg:my-4" ref={containerRef}>
       <div className="col-span-4 lg:col-span-12">
         {header && <RichText data={header} enableGutter={false} />}
       </div>
@@ -145,23 +146,35 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
                 scale: 0.9,
                 filter: 'blur(10px)',
               }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                filter: 'blur(0px)',
-              }}
+              animate={
+                isInView
+                  ? {
+                      opacity: 1,
+                      scale: 1,
+                      filter: 'blur(0px)',
+                    }
+                  : {
+                      opacity: 0,
+                      scale: 0.9,
+                      filter: 'blur(10px)',
+                    }
+              }
               exit={{
                 opacity: 0,
                 scale: 0.9,
                 filter: 'blur(10px)',
               }}
-              whileHover={{
-                scale: 1.05,
-                transition: {
-                  duration: 0.2,
-                  ease: 'easeOut',
-                },
-              }}
+              whileHover={
+                isInView
+                  ? {
+                      scale: 1.05,
+                      transition: {
+                        duration: 0.2,
+                        ease: 'easeOut',
+                      },
+                    }
+                  : {}
+              }
               transition={{
                 duration: 0.4,
                 ease: 'easeInOut',
