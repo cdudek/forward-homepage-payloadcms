@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import React, { useState, useEffect, useCallback } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
 import { cn } from '@/utilities/ui'
 import type { Service, Page, Post } from '@/payload-types'
@@ -35,9 +35,11 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   limit = 5,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [isHovered, setIsHovered] = useState(false)
   const containerRef = React.useRef(null)
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout>()
 
   // Sort services by position and limit the number
   const sortedServices = [...services]
@@ -49,15 +51,45 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   // Generate colors for each service
   const colors = getColorBlends(sortedServices.length, true)
 
+  // Handle hover with smooth transition to active state
+  const handleHoverStart = useCallback((index: number) => {
+    setHoveredIndex(index)
+    setIsHovered(true) // Ensure timer is stopped when hovering individual elements
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    // Short delay before making it active, but long enough for smooth transition
+    hoverTimeoutRef.current = setTimeout(() => {
+      setActiveIndex(index)
+    }, 100)
+  }, [])
+
+  const handleHoverEnd = useCallback(() => {
+    setHoveredIndex(null)
+    setIsHovered(false) // Allow timer to restart when not hovering
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+  }, [])
+
   // Auto-rotate every 5 seconds, pause on hover
   useEffect(() => {
-    if (isHovered) return // Don't set up timer if hovered
+    if (isHovered || hoveredIndex !== null) return // Don't set up timer if hovered or hovering an element
 
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % sortedServices.length)
     }, ROTATION_INTERVAL)
     return () => clearInterval(timer)
-  }, [sortedServices.length, isHovered])
+  }, [sortedServices.length, isHovered, hoveredIndex])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Split title to wrap gradient part if it exists in the title
   const renderTitle = () => {
@@ -107,6 +139,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
             <div className="relative">
               {sortedServices.map((service, index) => {
                 const isActive = index === activeIndex
+                const isHovered = hoveredIndex === index
                 const colorClass = colors[index]
 
                 return (
@@ -116,20 +149,22 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     animate={
                       isInView
                         ? {
-                            backgroundColor: isActive
-                              ? `var(--color-${colorClass}-50)`
-                              : 'transparent',
-                            color: isActive
-                              ? `var(--color-${colorClass})`
-                              : 'var(--color-fwd-black)',
-                            '--indicator-scale': isActive ? '1' : '0',
-                            '--indicator-color': isActive
-                              ? `var(--color-${colorClass})`
-                              : 'transparent',
+                            backgroundColor:
+                              isActive || isHovered
+                                ? `var(--color-${colorClass}-50)`
+                                : 'transparent',
+                            color:
+                              isActive || isHovered
+                                ? `var(--color-${colorClass})`
+                                : 'var(--color-fwd-black)',
+                            '--indicator-scale': isActive ? '1' : isHovered ? '0.6' : '0',
+                            '--indicator-color':
+                              isActive || isHovered ? `var(--color-${colorClass})` : 'transparent',
                           }
                         : {}
                     }
-                    onHoverStart={() => setActiveIndex(index)}
+                    onHoverStart={() => handleHoverStart(index)}
+                    onHoverEnd={handleHoverEnd}
                     transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
                     onClick={() => setActiveIndex(index)}
@@ -167,11 +202,16 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     </motion.div>
 
                     {/* Progress indicator */}
-                    <div
+                    <motion.div
                       className="absolute left-0 top-0 h-full w-1 transition-all duration-200 ease-out will-change-transform"
-                      style={{
+                      initial={false}
+                      animate={{
                         backgroundColor: isInView ? 'var(--indicator-color)' : 'transparent',
-                        transform: isInView ? `scaleY(var(--indicator-scale))` : 'scaleY(0)',
+                        scaleY: isActive ? 1 : isHovered ? 0.6 : 0,
+                      }}
+                      transition={{
+                        duration: 0.2,
+                        ease: [0.4, 0, 0.2, 1],
                       }}
                     />
                   </motion.div>
