@@ -87,6 +87,21 @@ const config = {
           700: 'var(--color-fwd-purple-700)',
           800: 'var(--color-fwd-purple-800)',
           900: 'var(--color-fwd-purple-900)',
+          950: 'var(--color-fwd-purple-950)',
+        },
+        'fwd-lipstick': {
+          DEFAULT: 'var(--color-fwd-lipstick)',
+          50: 'var(--color-fwd-lipstick-50)',
+          100: 'var(--color-fwd-lipstick-100)',
+          200: 'var(--color-fwd-lipstick-200)',
+          300: 'var(--color-fwd-lipstick-300)',
+          400: 'var(--color-fwd-lipstick-400)',
+          500: 'var(--color-fwd-lipstick-500)',
+          600: 'var(--color-fwd-lipstick-600)',
+          700: 'var(--color-fwd-lipstick-700)',
+          800: 'var(--color-fwd-lipstick-800)',
+          900: 'var(--color-fwd-lipstick-900)',
+          950: 'var(--color-fwd-lipstick-950)',
         },
         'fwd-red': {
           DEFAULT: 'var(--color-fwd-red)',
@@ -100,6 +115,22 @@ const config = {
           700: 'var(--color-fwd-red-700)',
           800: 'var(--color-fwd-red-800)',
           900: 'var(--color-fwd-red-900)',
+          950: 'var(--color-fwd-red-950)',
+        },
+
+        'fwd-coral-red': {
+          DEFAULT: 'var(--color-fwd-coral-red)',
+          50: 'var(--color-fwd-coral-red-50)',
+          100: 'var(--color-fwd-coral-red-100)',
+          200: 'var(--color-fwd-coral-red-200)',
+          300: 'var(--color-fwd-coral-red-300)',
+          400: 'var(--color-fwd-coral-red-400)',
+          500: 'var(--color-fwd-coral-red-500)',
+          600: 'var(--color-fwd-coral-red-600)',
+          700: 'var(--color-fwd-coral-red-700)',
+          800: 'var(--color-fwd-coral-red-800)',
+          900: 'var(--color-fwd-coral-red-900)',
+          950: 'var(--color-fwd-coral-red-950)',
         },
         'fwd-orange': {
           DEFAULT: 'var(--color-fwd-orange)',
@@ -113,6 +144,7 @@ const config = {
           700: 'var(--color-fwd-orange-700)',
           800: 'var(--color-fwd-orange-800)',
           900: 'var(--color-fwd-orange-900)',
+          950: 'var(--color-fwd-orange-950)',
         },
         /* Neutral Colors */
         'fwd-black': {
@@ -152,6 +184,7 @@ const config = {
           900: 'var(--color-fwd-grey-900)',
           950: 'var(--color-fwd-grey-950)',
         },
+
         /* System Colors */
         success: {
           DEFAULT: 'hsl(var(--color-success))',
@@ -273,7 +306,7 @@ const config = {
               h3: {
                 fontSize: '1.75rem',
                 fontWeight: 600,
-                lineHeight: 1.3,
+                lineHeight: 1.5,
                 marginBottom: '0.25em',
               },
               h4: {
@@ -327,7 +360,7 @@ const config = {
               h3: {
                 fontSize: '2.375rem',
                 fontWeight: 600,
-                lineHeight: 1.3,
+                lineHeight: 1.5,
               },
               h4: {
                 fontSize: '1.75rem',
@@ -376,7 +409,7 @@ const config = {
               h3: {
                 fontSize: '3rem',
                 fontWeight: 600,
-                lineHeight: 1.3,
+                lineHeight: 1.5,
               },
               h4: {
                 fontSize: '2rem',

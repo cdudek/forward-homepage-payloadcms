@@ -18,6 +18,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [hasAdminBar, setHasAdminBar] = useState(false)
   const { color } = useHeaderColor()
 
+  console.log('color', color)
+
   useEffect(() => {
     // Check if AdminBar is present
     const adminBar = document.querySelector('[data-payload-admin-bar]')
@@ -43,6 +45,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   // MOBILE HEADER — absolute so it doesn't push content
   // We do NOT apply scroll logic here; mobile uses the prop directly.
+  const logoVariant = color === 'dark' ? 'dark' : 'default'
+  console.log('logoVariant', logoVariant, color)
   const mobileHeader = (
     <header
       className={clsx(
@@ -53,7 +57,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     >
       <div className="container mx-auto flex items-center justify-between rounded-xl p-2 px-4">
         <Link href="/">
-          <Logo loading="eager" priority="high" />
+          <Logo loading="eager" priority="high" variant={logoVariant} />
         </Link>
         <button onClick={toggleMobileMenu} className="p-2" aria-label="Toggle menu">
           <Menu size={24} />
@@ -74,11 +78,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         >
           <div className="justify-self-start px-4">
             <Link href="/">
-              <Logo loading="eager" priority="high" />
+              <Logo loading="eager" priority="high" variant={logoVariant} />
             </Link>
           </div>
           <div className="justify-self-center">
-            <HeaderNav data={data} />
+            <HeaderNav data={data} color={color} />
           </div>
           <div className="justify-self-end" />
         </div>

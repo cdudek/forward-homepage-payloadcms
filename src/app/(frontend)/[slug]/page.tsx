@@ -65,7 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, layout, headerColor } = page
 
   return (
     <>
@@ -76,7 +76,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
         {draft && <LivePreviewListener />}
 
-        <HeaderColorSetter color={page.headerColor || 'light'} />
+        <HeaderColorSetter color={headerColor || 'light'} />
         <RenderHero {...hero} />
         <RenderBlocks blocks={layout} />
       </article>

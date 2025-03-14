@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
 import { cn } from '@/utilities/ui'
 import type { Service, Page, Post } from '@/payload-types'
 import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
+import { getColorBlends } from '@/utilities/getColorBlends'
 
 type Props = {
   services: Service[]
@@ -24,8 +24,8 @@ type Props = {
   limit?: number
 }
 
-const MotionHeader = motion.h2
-const ROTATION_INTERVAL = 4000
+// const MotionHeader = motion.h2
+const ROTATION_INTERVAL = 3000
 
 export const ServicesAccordionBlock: React.FC<Props> = ({
   services,
@@ -43,6 +43,9 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
       return (a.position || 0) - (b.position || 0)
     })
     .slice(0, limit)
+
+  // Generate colors for each service
+  const colors = getColorBlends(sortedServices.length, true)
 
   // Auto-rotate every 5 seconds, pause on hover
   useEffect(() => {
@@ -99,27 +102,27 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
             <div className="relative">
               {sortedServices.map((service, index) => {
                 const isActive = index === activeIndex
+                const colorClass = colors[index]
 
                 return (
                   <motion.div
                     key={service.id}
                     initial={false}
                     animate={{
-                      backgroundColor: isActive ? 'var(--color-fwd-purple-50)' : 'transparent',
+                      backgroundColor: isActive ? `var(--color-${colorClass}-50)` : 'transparent',
+                      color: isActive ? `var(--color-${colorClass})` : 'var(--color-fwd-black)',
+                      '--indicator-scale': isActive ? '1' : '0',
+                      '--indicator-color': isActive ? `var(--color-${colorClass})` : 'transparent',
                     }}
+                    onHoverStart={() => setActiveIndex(index)}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
                     onClick={() => setActiveIndex(index)}
                   >
                     <div className="relative z-10 flex w-full flex-col gap-2 py-6 pl-6 text-left">
-                      <MotionHeader
-                        className="text-3xl font-medium transition-colors group-hover:text-fwd-purple"
-                        initial={false}
-                        animate={{
-                          color: isActive ? 'var(--color-fwd-purple)' : 'var(--color-fwd-black)',
-                        }}
-                      >
+                      <h2 className="text-3xl font-medium transition-colors duration-200 ease-out will-change-transform">
                         {service.title}
-                      </MotionHeader>
+                      </h2>
                     </div>
 
                     {/* Expandable content with smooth animation */}
@@ -145,13 +148,12 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     </motion.div>
 
                     {/* Progress indicator */}
-                    <motion.div
-                      className="absolute left-0 top-0 h-full w-1 bg-fwd-purple will-change-transform"
-                      initial={{ scaleY: 0 }}
-                      animate={{
-                        scaleY: isActive ? 1 : 0,
+                    <div
+                      className="absolute left-0 top-0 h-full w-1 transition-all duration-200 ease-out will-change-transform"
+                      style={{
+                        backgroundColor: 'var(--indicator-color)',
+                        transform: `scaleY(var(--indicator-scale))`,
                       }}
-                      transition={{ duration: 0.2 }}
                     />
                   </motion.div>
                 )

@@ -80,18 +80,18 @@
     --color-fwd-purple-900: oklch(38.55% 0.13 323.16);
     --color-fwd-purple-950: oklch(27.63% 0.11 323.37);
 
-    --color-fwd-orange: var(--color-fwd-orange-400);
-    --color-fwd-orange-50: oklch(97.19% 0.02 48.56);
-    --color-fwd-orange-100: oklch(93.67% 0.04 52.69);
-    --color-fwd-orange-200: oklch(86.82% 0.08 47.81);
-    --color-fwd-orange-300: oklch(78.72% 0.13 44.58);
-    --color-fwd-orange-400: oklch(70.36% 0.19 38.04); /* #FF6A39; */
-    --color-fwd-orange-500: oklch(65.63% 0.23 33.91);
-    --color-fwd-orange-600: oklch(61.12% 0.23 31.29);
-    --color-fwd-orange-700: oklch(52.69% 0.21 30.09);
-    --color-fwd-orange-800: oklch(44.71% 0.17 29.15);
-    --color-fwd-orange-900: oklch(38.62% 0.14 28.88);
-    --color-fwd-orange-950: oklch(25.05% 0.09 27.06);
+    --color-fwd-lipstick: oklch(49.91% 0.17 357.17);
+    --color-fwd-lipstick-50: oklch(97.25% 0.01 342.64);
+    --color-fwd-lipstick-100: oklch(95.06% 0.02 338.62);
+    --color-fwd-lipstick-200: oklch(90.35% 0.05 340.89);
+    --color-fwd-lipstick-300: oklch(82.88% 0.09 343.32);
+    --color-fwd-lipstick-400: oklch(72.87% 0.15 345.69);
+    --color-fwd-lipstick-500: oklch(65.15% 0.18 349.47);
+    --color-fwd-lipstick-600: oklch(57.91% 0.19 354.37);
+    --color-fwd-lipstick-700: oklch(49.91% 0.17 357.17); /* #A92764 */
+    --color-fwd-lipstick-800: oklch(44.81% 0.15 356.91);
+    --color-fwd-lipstick-900: oklch(40.15% 0.13 356.19);
+    --color-fwd-lipstick-950: oklch(27.81% 0.09 358.21);
 
     --color-fwd-red: var(--color-fwd-red-600);
     --color-fwd-red-50: oklch(97.25% 0.01 23.7);
@@ -105,6 +105,32 @@
     --color-fwd-red-800: oklch(44.65% 0.16 16.43);
     --color-fwd-red-900: oklch(40.44% 0.14 12.48);
     --color-fwd-red-950: oklch(26.65% 0.09 15.12);
+
+    --color-fwd-coral-red: oklch(63.77% 0.2 27.82);
+    --color-fwd-coral-red-50: oklch(97.25% 0.01 23.7);
+    --color-fwd-coral-red-100: oklch(93.94% 0.03 22.95);
+    --color-fwd-coral-red-200: oklch(89% 0.06 22.35);
+    --color-fwd-coral-red-300: oklch(81.71% 0.1 23.31);
+    --color-fwd-coral-red-400: oklch(72.21% 0.15 25.38);
+    --color-fwd-coral-red-500: oklch(63.77% 0.2 27.82); /* #ED493F; */
+    --color-fwd-coral-red-600: oklch(58.29% 0.21 28.77);
+    --color-fwd-coral-red-700: oklch(51.04% 0.18 28.96);
+    --color-fwd-coral-red-800: oklch(44.85% 0.15 28.5);
+    --color-fwd-coral-red-900: oklch(40.16% 0.13 27.93);
+    --color-fwd-coral-red-950: oklch(26.08% 0.09 27.81);
+
+    --color-fwd-orange: var(--color-fwd-orange-400);
+    --color-fwd-orange-50: oklch(97.19% 0.02 48.56);
+    --color-fwd-orange-100: oklch(93.67% 0.04 52.69);
+    --color-fwd-orange-200: oklch(86.82% 0.08 47.81);
+    --color-fwd-orange-300: oklch(78.72% 0.13 44.58);
+    --color-fwd-orange-400: oklch(70.36% 0.19 38.04); /* #FF6A39; */
+    --color-fwd-orange-500: oklch(65.63% 0.23 33.91);
+    --color-fwd-orange-600: oklch(61.12% 0.23 31.29);
+    --color-fwd-orange-700: oklch(52.69% 0.21 30.09);
+    --color-fwd-orange-800: oklch(44.71% 0.17 29.15);
+    --color-fwd-orange-900: oklch(38.62% 0.14 28.88);
+    --color-fwd-orange-950: oklch(25.05% 0.09 27.06);
 
     --color-fwd-black: var(--color-fwd-black-950); /* Same as black-950 as default */
     --color-fwd-black-50: oklch(97.3% 0.01 268.55);

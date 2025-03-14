@@ -5,7 +5,7 @@ interface Props {
   className?: string
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
-  variant?: 'default' | 'white' | 'color'
+  variant?: 'default' | 'light' | 'color' | 'dark'
 }
 
 export const Logo = (props: Props) => {
@@ -21,7 +21,7 @@ export const Logo = (props: Props) => {
 
   const variant = {
     default: '/forward-logo-white.svg',
-    white: '/forward-logo-white.svg',
+    light: '/forward-logo-white.svg',
     dark: '/forward-logo-dark.svg',
     color: '/forward-logo-white-color.svg',
   }
