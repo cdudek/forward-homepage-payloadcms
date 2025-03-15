@@ -30,14 +30,16 @@ export const BigTextHero: React.FC<Page['hero']> = ({
   const gradientTitle = renderTitle()
 
   return (
-    <div className="prose-sm mx-auto h-[90vh] max-w-none md:prose-md xl:prose-lg md:mt-28 md:h-[75vh]">
-      <div className="container mx-auto flex h-full items-center">
-        <div className="grid grid-cols-12">
-          <div className="col-span-12 text-center">
-            <p className="text-fwd-grey-400">{subtitle}</p>
-          </div>
-          <div className="col-span-12 mx-auto max-w-[90%] text-center">
-            <h1 className="mt-0">{gradientTitle}</h1>
+    <div className="relative flex min-h-[90vh] w-full items-center md:mt-28 md:min-h-[75vh]">
+      <div className="container mx-auto w-full">
+        <div className="w-full">
+          <div className="grid w-full grid-cols-12">
+            <div className="col-span-12 text-center">
+              <div className="prose-sm mx-auto max-w-none md:prose-md xl:prose-lg">
+                <p className="text-fwd-grey-400">{subtitle}</p>
+                <h1 className="mt-0">{gradientTitle}</h1>
+              </div>
+            </div>
           </div>
         </div>
       </div>
