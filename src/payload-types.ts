@@ -190,17 +190,7 @@ export interface Page {
              * Choose how the link should be rendered.
              */
             appearance?:
-              | (
-                  | 'default'
-                  | 'outline'
-                  | 'primary'
-                  | 'secondary'
-                  | 'outlineGradient'
-                  | 'primaryIcon'
-                  | 'secondaryIcon'
-                  | 'outlineIcon'
-                  | 'outlineGradientIcon'
-                )
+              | ('default' | 'outline' | 'primary' | 'secondary' | 'primaryIcon' | 'secondaryIcon' | 'outlineIcon')
               | null;
           };
           id?: string | null;
@@ -481,17 +471,7 @@ export interface CallToActionBlock {
            * Choose how the link should be rendered.
            */
           appearance?:
-            | (
-                | 'default'
-                | 'outline'
-                | 'primary'
-                | 'secondary'
-                | 'outlineGradient'
-                | 'primaryIcon'
-                | 'secondaryIcon'
-                | 'outlineIcon'
-                | 'outlineGradientIcon'
-              )
+            | ('default' | 'outline' | 'primary' | 'secondary' | 'primaryIcon' | 'secondaryIcon' | 'outlineIcon')
             | null;
         };
         id?: string | null;
@@ -543,17 +523,7 @@ export interface ContentBlock {
            * Choose how the link should be rendered.
            */
           appearance?:
-            | (
-                | 'default'
-                | 'outline'
-                | 'primary'
-                | 'secondary'
-                | 'outlineGradient'
-                | 'primaryIcon'
-                | 'secondaryIcon'
-                | 'outlineIcon'
-                | 'outlineGradientIcon'
-              )
+            | ('default' | 'outline' | 'primary' | 'secondary' | 'primaryIcon' | 'secondaryIcon' | 'outlineIcon')
             | null;
         };
         id?: string | null;

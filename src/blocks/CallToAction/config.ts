@@ -34,11 +34,9 @@ export const CallToAction: Block = {
         'outline',
         'primary',
         'secondary',
-        'outlineGradient',
         'primaryIcon',
         'secondaryIcon',
         'outlineIcon',
-        'outlineGradientIcon',
       ],
       overrides: {
         maxRows: 10,

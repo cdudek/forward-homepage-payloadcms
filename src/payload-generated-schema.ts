@@ -29,17 +29,7 @@ export const enum_pages_hero_links_link_type = pgEnum('enum_pages_hero_links_lin
 ])
 export const enum_pages_hero_links_link_appearance = pgEnum(
   'enum_pages_hero_links_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum_pages_blocks_cta_links_link_type = pgEnum(
   'enum_pages_blocks_cta_links_link_type',
@@ -47,17 +37,7 @@ export const enum_pages_blocks_cta_links_link_type = pgEnum(
 )
 export const enum_pages_blocks_cta_links_link_appearance = pgEnum(
   'enum_pages_blocks_cta_links_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum_pages_blocks_content_columns_size = pgEnum(
   'enum_pages_blocks_content_columns_size',
@@ -69,17 +49,7 @@ export const enum_pages_blocks_content_columns_link_type = pgEnum(
 )
 export const enum_pages_blocks_content_columns_link_appearance = pgEnum(
   'enum_pages_blocks_content_columns_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum_pages_blocks_content_section_height = pgEnum(
   'enum_pages_blocks_content_section_height',
@@ -198,17 +168,7 @@ export const enum__pages_v_version_hero_links_link_type = pgEnum(
 )
 export const enum__pages_v_version_hero_links_link_appearance = pgEnum(
   'enum__pages_v_version_hero_links_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum__pages_v_blocks_cta_links_link_type = pgEnum(
   'enum__pages_v_blocks_cta_links_link_type',
@@ -216,17 +176,7 @@ export const enum__pages_v_blocks_cta_links_link_type = pgEnum(
 )
 export const enum__pages_v_blocks_cta_links_link_appearance = pgEnum(
   'enum__pages_v_blocks_cta_links_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum__pages_v_blocks_content_columns_size = pgEnum(
   'enum__pages_v_blocks_content_columns_size',
@@ -238,17 +188,7 @@ export const enum__pages_v_blocks_content_columns_link_type = pgEnum(
 )
 export const enum__pages_v_blocks_content_columns_link_appearance = pgEnum(
   'enum__pages_v_blocks_content_columns_link_appearance',
-  [
-    'default',
-    'outline',
-    'primary',
-    'secondary',
-    'outlineGradient',
-    'primaryIcon',
-    'secondaryIcon',
-    'outlineIcon',
-    'outlineGradientIcon',
-  ],
+  ['default', 'outline', 'primary', 'secondary', 'primaryIcon', 'secondaryIcon', 'outlineIcon'],
 )
 export const enum__pages_v_blocks_content_section_height = pgEnum(
   'enum__pages_v_blocks_content_section_height',

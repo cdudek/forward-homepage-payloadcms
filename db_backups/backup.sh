@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Database connection string
-DB_URL="postgres://neondb_owner:npg_CfpoTyAkq8W0@ep-cool-night-a2q30u2t-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+DB_URL="postgres://neondb_owner:npg_Lhc4KouVz5wm@ep-cool-star-a2mgy9vk-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 
 # Create backup directory with timestamp
 BACKUP_DIR="$(dirname "$0")/$(date +%Y%m%d_%H%M%S)"

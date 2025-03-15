@@ -77,11 +77,9 @@ export const hero: Field = {
         'outline',
         'primary',
         'secondary',
-        'outlineGradient',
         'primaryIcon',
         'secondaryIcon',
         'outlineIcon',
-        'outlineGradientIcon',
       ],
       overrides: {
         maxRows: 2,

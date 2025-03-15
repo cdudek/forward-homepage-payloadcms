@@ -3,15 +3,13 @@ import type { Field, GroupField } from 'payload'
 import deepMerge from '@/utilities/deepMerge'
 
 export type LinkAppearances =
+  | 'default'
   | 'outline'
   | 'primary'
   | 'secondary'
-  | 'default'
-  | 'outlineGradient'
   | 'primaryIcon'
   | 'secondaryIcon'
   | 'outlineIcon'
-  | 'outlineGradientIcon'
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
@@ -30,10 +28,6 @@ export const appearanceOptions: Record<LinkAppearances, { label: string; value: 
     label: 'Outline',
     value: 'outline',
   },
-  outlineGradient: {
-    label: 'Outline Gradient',
-    value: 'outlineGradient',
-  },
   primaryIcon: {
     label: 'Primary Icon',
     value: 'primaryIcon',
@@ -45,10 +39,6 @@ export const appearanceOptions: Record<LinkAppearances, { label: string; value: 
   outlineIcon: {
     label: 'Outline Icon',
     value: 'outlineIcon',
-  },
-  outlineGradientIcon: {
-    label: 'Outline Gradient Icon',
-    value: 'outlineGradientIcon',
   },
 }
 
@@ -158,13 +148,11 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     let appearanceOptionsToUse = [
       appearanceOptions.default,
       appearanceOptions.outline,
-      appearanceOptions.outlineGradient,
       appearanceOptions.primary,
       appearanceOptions.primaryIcon,
       appearanceOptions.secondary,
       appearanceOptions.secondaryIcon,
       appearanceOptions.outlineIcon,
-      appearanceOptions.outlineGradientIcon,
     ]
 
     if (appearances) {
