@@ -57,12 +57,20 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
         return 'primary'
       case 'primary':
         return 'primary'
-      case 'gradient':
-        return 'gradient'
       case 'secondary':
         return 'secondary'
       case 'outline':
         return 'outline'
+      case 'outlineGradient':
+        return 'outline' // Use outline as outlineGradient isn't supported
+      case 'primaryIcon':
+        return 'primaryIcon'
+      case 'secondaryIcon':
+        return 'secondaryIcon'
+      case 'outlineIcon':
+        return 'outlineIcon'
+      case 'outlineGradientIcon':
+        return 'outlineIcon' // Use outlineIcon as outlineGradientIcon isn't supported
       default:
         return 'primary' // Default to primary if not specified
     }

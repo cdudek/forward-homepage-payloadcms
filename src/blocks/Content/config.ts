@@ -77,7 +77,17 @@ const columnFields: Field[] = [
     type: 'checkbox',
   },
   link({
-    appearances: ['default', 'outline', 'primary', 'gradient', 'secondary'],
+    appearances: [
+      'default',
+      'outline',
+      'primary',
+      'secondary',
+      'outlineGradient',
+      'primaryIcon',
+      'secondaryIcon',
+      'outlineIcon',
+      'outlineGradientIcon',
+    ],
     overrides: {
       admin: {
         condition: (_, { enableLink }) => Boolean(enableLink),

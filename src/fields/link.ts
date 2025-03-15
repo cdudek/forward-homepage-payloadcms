@@ -2,7 +2,16 @@ import type { Field, GroupField } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
 
-export type LinkAppearances = 'outline' | 'primary' | 'gradient' | 'secondary' | 'default'
+export type LinkAppearances =
+  | 'outline'
+  | 'primary'
+  | 'secondary'
+  | 'default'
+  | 'outlineGradient'
+  | 'primaryIcon'
+  | 'secondaryIcon'
+  | 'outlineIcon'
+  | 'outlineGradientIcon'
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
@@ -13,10 +22,6 @@ export const appearanceOptions: Record<LinkAppearances, { label: string; value: 
     label: 'Primary',
     value: 'primary',
   },
-  gradient: {
-    label: 'Gradient',
-    value: 'gradient',
-  },
   secondary: {
     label: 'Secondary',
     value: 'secondary',
@@ -24,6 +29,26 @@ export const appearanceOptions: Record<LinkAppearances, { label: string; value: 
   outline: {
     label: 'Outline',
     value: 'outline',
+  },
+  outlineGradient: {
+    label: 'Outline Gradient',
+    value: 'outlineGradient',
+  },
+  primaryIcon: {
+    label: 'Primary Icon',
+    value: 'primaryIcon',
+  },
+  secondaryIcon: {
+    label: 'Secondary Icon',
+    value: 'secondaryIcon',
+  },
+  outlineIcon: {
+    label: 'Outline Icon',
+    value: 'outlineIcon',
+  },
+  outlineGradientIcon: {
+    label: 'Outline Gradient Icon',
+    value: 'outlineGradientIcon',
   },
 }
 
@@ -133,9 +158,13 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     let appearanceOptionsToUse = [
       appearanceOptions.default,
       appearanceOptions.outline,
+      appearanceOptions.outlineGradient,
       appearanceOptions.primary,
-      appearanceOptions.gradient,
+      appearanceOptions.primaryIcon,
       appearanceOptions.secondary,
+      appearanceOptions.secondaryIcon,
+      appearanceOptions.outlineIcon,
+      appearanceOptions.outlineGradientIcon,
     ]
 
     if (appearances) {

@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
-import { cn } from '@/utilities/ui'
 import type { Service, Page, Post } from '@/payload-types'
 import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 import { getColorBlends } from '@/utilities/getColorBlends'
@@ -39,7 +38,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   const [isHovered, setIsHovered] = useState(false)
   const containerRef = React.useRef(null)
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
-  const hoverTimeoutRef = React.useRef<NodeJS.Timeout>()
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
   // Memoize sorted services to prevent re-sorting on every render
   const sortedServices = useMemo(
@@ -241,7 +240,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                   index={index}
                   isActive={index === activeIndex}
                   isHovered={index === hoveredIndex}
-                  colorClass={colors[index]}
+                  colorClass={colors[index] || 'fwd-purple'}
                 />
               ))}
             </div>
