@@ -41,7 +41,7 @@ export const CallToAction: Block = {
         'outlineGradientIcon',
       ],
       overrides: {
-        maxRows: 2,
+        maxRows: 10,
       },
     }),
   ],
