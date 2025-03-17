@@ -4,13 +4,12 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
 import { ChevronRightIcon, ArrowRightIcon } from '@radix-ui/react-icons'
 
-// Extract constants for reuse
-const BORDER_RADIUS = 'rounded-2xl'
+// Gradient classes for reuse
 const GRADIENT_CLASSES = 'bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange'
 
 // Common button base styles without noFill variants
 const buttonVariants = cva(
-  `inline-flex items-center justify-center whitespace-nowrap relative ${BORDER_RADIUS} text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-semantic-background-primary disabled:pointer-events-none disabled:opacity-50`,
+  `inline-flex items-center justify-center whitespace-nowrap relative rounded-3xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-semantic-background-primary disabled:pointer-events-none disabled:opacity-50`,
   {
     defaultVariants: {
       size: 'default',
@@ -29,8 +28,6 @@ const buttonVariants = cva(
       variant: {
         primary: 'text-white overflow-hidden',
         primaryIcon: 'text-white overflow-hidden group',
-        // TODO: Add https://play.tailwindcss.com/9LSkQgkY7p
-        // https://www.npmjs.com/package/tailwindcss-border-gradient-radius
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         ghost: 'hover:bg-semantic-background-secondary hover:text-semantic-text-primary',
         link: 'text-semantic-text-primary items-start justify-start underline-offset-4 hover:underline',
@@ -46,22 +43,23 @@ const buttonVariants = cva(
 // Fill style classes for each variant
 const fillStyles = {
   primary: {
-    filled: `p-[1px] before:absolute before:inset-[1px] before:bg-fwd-black before:${BORDER_RADIUS} before:content-[""] before:z-[0] [&>*]:relative [&>*]:z-[1]`,
-    outline: `bg-transparent before:absolute before:inset-0 before:${BORDER_RADIUS} before:p-[1px] before:${GRADIENT_CLASSES} before:-z-10 hover:before:opacity-75`,
-    // filled: `p-[1px] ${GRADIENT_CLASSES} before:absolute before:inset-[1px] before:bg-fwd-black before:${BORDER_RADIUS} before:content-[""] before:z-[0] [&>*]:relative [&>*]:z-[1]`,
-    // outline: `bg-transparent before:absolute before:inset-0 before:${BORDER_RADIUS} before:p-[1px] before:${GRADIENT_CLASSES} before:-z-10 hover:before:opacity-75`,
+    // For filled style: use gradient as main background with a black pseudo-element on top
+    filled: `p-0 ${GRADIENT_CLASSES} after:absolute after:rounded-3xl after:inset-[1px] after:bg-fwd-black after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1]`,
+
+    // For outline style: transparent button with gradient border effect
+    outline: `relative bg-transparent p-0 border-0 before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] after:absolute after:rounded-3xl after:inset-[1px] after:bg-semantic-background-primary after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1] hover:before:opacity-75`,
   },
   primaryIcon: {
-    filled: `p-[1px] ${GRADIENT_CLASSES} before:absolute before:inset-[1px] before:bg-fwd-black before:${BORDER_RADIUS} before:content-[""] before:z-[0] [&>*]:relative [&>*]:z-[1]`,
-    outline: `bg-transparent before:absolute before:inset-0 before:${BORDER_RADIUS} before:p-[1px] before:${GRADIENT_CLASSES} before:-z-10 hover:before:opacity-75`,
+    filled: `p-0 ${GRADIENT_CLASSES} after:absolute after:rounded-3xl after:inset-[1px] after:bg-fwd-black after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1]`,
+    outline: `relative bg-transparent p-0 border-0 before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] after:absolute after:rounded-3xl after:inset-[1px] after:bg-semantic-background-primary after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1] hover:before:opacity-75`,
   },
   secondary: {
     filled: GRADIENT_CLASSES,
-    outline: `border border-transparent before:absolute before:inset-0 before:${BORDER_RADIUS} before:${GRADIENT_CLASSES} before:opacity-10 hover:before:opacity-20 before:-z-10`,
+    outline: `relative bg-transparent p-0 border-0 before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] before:opacity-10 after:absolute after:rounded-3xl after:inset-[1px] after:bg-semantic-background-primary after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1] hover:before:opacity-20`,
   },
   secondaryIcon: {
     filled: GRADIENT_CLASSES,
-    outline: `border border-transparent before:absolute before:inset-0 before:${BORDER_RADIUS} before:${GRADIENT_CLASSES} before:opacity-10 hover:before:opacity-20 before:-z-10`,
+    outline: `relative bg-transparent p-0 border-0 before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] before:opacity-10 after:absolute after:rounded-3xl after:inset-[1px] after:bg-semantic-background-primary after:content-[""] after:z-[0] [&>*]:relative [&>*]:z-[1] hover:before:opacity-20`,
   },
   outline: {
     filled: '',

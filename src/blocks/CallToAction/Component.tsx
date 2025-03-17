@@ -15,7 +15,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) 
         <div className="flex flex-col gap-8">
           {(links || []).map(({ link }, i) => {
             // @ts-expect-error Async Server Component
-            return <CMSLink key={i} size="xl" {...link} />
+            return <CMSLink key={i} size="lg" {...link} />
           })}
         </div>
       </div>
