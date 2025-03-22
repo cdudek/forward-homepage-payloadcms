@@ -20,7 +20,6 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
   const subtitleColor = isDark ? 'text-gray-300' : 'text-fwd-black'
 
   if (isDark) {
-    // Dark version - slant at top
     return (
       <div className="relative bg-fwd-black-950" style={{ clipPath: clipPathDark }}>
         {backgroundImage && typeof backgroundImage === 'object' && (
@@ -65,7 +64,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             <div className="absolute inset-0 overflow-hidden">
               <Media
                 fill
-                imgClassName="object-contain w-full h-full"
+                imgClassName="object-contain w-full h-full rotate-180 opacity-25"
                 priority
                 resource={backgroundImage}
               />
