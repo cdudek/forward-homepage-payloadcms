@@ -42,6 +42,7 @@ export const RenderBlocks: React.FC<{
           const { blockType } = block
           const hasBackground = 'enableBackground' in block && block.enableBackground
           const hasSlope = 'slope' in block && block.slope?.enabled
+          const noMargin = 'noMargin' in block && block.noMargin
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -51,7 +52,7 @@ export const RenderBlocks: React.FC<{
                 className={cn({
                   'my-16': !hasBackground && !hasSlope,
                   'py-0': hasBackground || hasSlope,
-                  'my-0': block.blockType === 'logoGrid',
+                  'my-0': block.blockType === 'logoGrid' || noMargin,
                 })}
                 key={index}
               >

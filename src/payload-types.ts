@@ -151,6 +151,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
+  pageTheme?: ('light' | 'dark') | null;
   headerColor?: ('light' | 'dark') | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'bigText';
@@ -436,21 +437,11 @@ export interface User {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  ctaStyle: 'light' | 'dark';
+  noMargin?: boolean | null;
+  backgroundImage?: (number | null) | Media;
+  title: string;
+  subtitle?: string | null;
   links?:
     | {
         link: {
@@ -1368,6 +1359,7 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  pageTheme?: T;
   headerColor?: T;
   hero?:
     | T
@@ -1447,7 +1439,11 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
-  richText?: T;
+  ctaStyle?: T;
+  noMargin?: T;
+  backgroundImage?: T;
+  title?: T;
+  subtitle?: T;
   links?:
     | T
     | {

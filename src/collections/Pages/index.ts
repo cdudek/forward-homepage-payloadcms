@@ -70,9 +70,16 @@ export const Pages: CollectionConfig<'pages'> = {
       required: true,
     },
     {
+      name: 'pageTheme',
+      type: 'select',
+      label: 'Page Theme',
+      options: ['light', 'dark'],
+      defaultValue: 'light',
+    },
+    {
       name: 'headerColor',
       type: 'select',
-      label: 'Header Color',
+      label: 'Header Theme',
       options: ['light', 'dark'],
       defaultValue: 'light',
     },
