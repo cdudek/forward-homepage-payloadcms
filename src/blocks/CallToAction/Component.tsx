@@ -43,6 +43,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
                   {(links || []).map(({ link }, i) => {
                     return (
                       <li key={i}>
+                        {/* @ts-expect-error Async Server Component */}
                         <CMSLink size="lg" {...link} appearance={link.appearance || 'default'} />
                       </li>
                     )
@@ -70,8 +71,8 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             </div>
           )}
 
-          <div className="relative px-0 py-8">
-            <div className="container pb-[calc(5vw+2rem)]">
+          <div className="relative px-0 pt-8">
+            <div className={cn('container', ctaStyle === 'dark' ? 'pb-[calc(5vw+2rem)]' : '')}>
               <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 border-b border-transparent pb-8">
                 <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
                   <h2 className={textColor}>{title}</h2>
