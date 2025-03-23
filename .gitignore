@@ -14,4 +14,4 @@ node_modules
 mui-ref/
 
 .env.copy
-db_backups/
+db_backups/.env.backup
