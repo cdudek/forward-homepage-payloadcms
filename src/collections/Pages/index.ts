@@ -18,6 +18,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
+import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
 
 import {
   MetaDescriptionField,
@@ -104,6 +105,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 LogoGridBlock,
                 FeatureGridBlock,
                 NumberGridBlock,
+                ServicesTabBlock,
                 CaseStudyBlock,
                 ActionTilesBlock,
                 ServicesAccordionBlock,

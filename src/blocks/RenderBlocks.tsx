@@ -13,6 +13,7 @@ import { NumberGridBlock } from '@/blocks/NumberGridBlock/Component'
 import { ActionTilesBlock } from '@/blocks/ActionTilesBlock/Component'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/Component'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/Component'
+import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -26,6 +27,7 @@ const blockComponents = {
   actionTilesBlock: ActionTilesBlock,
   caseStudyBlock: CaseStudyBlock,
   servicesAccordionBlock: ServicesAccordionBlock,
+  servicesTabBlock: ServicesTabBlock,
 }
 
 export const RenderBlocks: React.FC<{

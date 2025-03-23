@@ -211,6 +211,7 @@ export interface Page {
     | LogoGridBlock
     | FeatureGridBlock
     | NumberGridBlock
+    | ServicesTabBlock
     | CaseStudyBlock
     | ActionTilesBlock
     | {
@@ -966,6 +967,57 @@ export interface NumberGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesTabBlock".
+ */
+export interface ServicesTabBlock {
+  title: string;
+  gradientText?: string | null;
+  subtitle?: string | null;
+  services: (number | Service)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'servicesTabBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  serviceName: string;
+  title: string;
+  titleShort: string;
+  descriptionShort: string;
+  icon?: (number | null) | Media;
+  image?: (number | null) | Media;
+  header?: string | null;
+  position?: number | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  usps?:
+    | {
+        usp?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CaseStudyBlock".
  */
 export interface CaseStudyBlock {
@@ -1052,44 +1104,6 @@ export interface ActionTilesBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'actionTilesBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  serviceName: string;
-  title: string;
-  titleShort: string;
-  descriptionShort: string;
-  icon?: (number | null) | Media;
-  image?: (number | null) | Media;
-  header?: string | null;
-  position?: number | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  usps?:
-    | {
-        usp?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1398,6 +1412,7 @@ export interface PagesSelect<T extends boolean = true> {
         logoGrid?: T | LogoGridBlockSelect<T>;
         featureGridBlock?: T | FeatureGridBlockSelect<T>;
         numberGridBlock?: T | NumberGridBlockSelect<T>;
+        servicesTabBlock?: T | ServicesTabBlockSelect<T>;
         caseStudyBlock?: T | CaseStudyBlockSelect<T>;
         actionTilesBlock?: T | ActionTilesBlockSelect<T>;
         servicesAccordionBlock?:
@@ -1616,6 +1631,18 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
         content?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesTabBlock_select".
+ */
+export interface ServicesTabBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  subtitle?: T;
+  services?: T;
   id?: T;
   blockName?: T;
 }

@@ -2,6 +2,7 @@
 import React from 'react'
 import type { Page } from '@/payload-types'
 import RichText from '@/components/RichText'
+import renderedTitle from '@/utilities/gradientTitle'
 
 export const BigTextHero: React.FC<Page['hero']> = ({
   links,
@@ -27,7 +28,7 @@ export const BigTextHero: React.FC<Page['hero']> = ({
     )
   }
 
-  const gradientTitle = renderTitle()
+  const formattedTitle = renderedTitle(title || '', gradientText || '')
 
   return (
     <div className="relative flex min-h-[90vh] w-full items-center md:mt-28 md:min-h-[75vh]">
@@ -37,7 +38,7 @@ export const BigTextHero: React.FC<Page['hero']> = ({
             <div className="col-span-12 text-center">
               <div className="prose-sm mx-auto max-w-none md:prose-md xl:prose-lg">
                 <p className="text-fwd-grey-400">{subtitle}</p>
-                <h1 className="mt-0">{gradientTitle}</h1>
+                <h1 className="mt-0">{formattedTitle}</h1>
               </div>
             </div>
           </div>

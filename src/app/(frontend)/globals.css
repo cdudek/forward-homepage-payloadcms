@@ -80,7 +80,7 @@
     --color-fwd-purple-900: oklch(38.55% 0.13 323.16);
     --color-fwd-purple-950: oklch(27.63% 0.11 323.37);
 
-    --color-fwd-lipstick: oklch(49.91% 0.17 357.17);
+    --color-fwd-lipstick: var(--color-fwd-lipstick-700);
     --color-fwd-lipstick-50: oklch(97.25% 0.01 342.64);
     --color-fwd-lipstick-100: oklch(95.06% 0.02 338.62);
     --color-fwd-lipstick-200: oklch(90.35% 0.05 340.89);
@@ -106,7 +106,7 @@
     --color-fwd-red-900: oklch(40.44% 0.14 12.48);
     --color-fwd-red-950: oklch(26.65% 0.09 15.12);
 
-    --color-fwd-coral-red: oklch(63.77% 0.2 27.82);
+    --color-fwd-coral-red: var(--color-fwd-coral-red-500);
     --color-fwd-coral-red-50: oklch(97.25% 0.01 23.7);
     --color-fwd-coral-red-100: oklch(93.94% 0.03 22.95);
     --color-fwd-coral-red-200: oklch(89% 0.06 22.35);

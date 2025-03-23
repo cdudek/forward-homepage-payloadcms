@@ -341,6 +341,9 @@ const config = {
               a: {
                 fontWeight: 300,
               },
+              ul: {
+                paddingLeft: '0.0rem',
+              },
             },
           ],
         },
@@ -397,6 +400,9 @@ const config = {
               a: {
                 fontWeight: 300,
               },
+              ul: {
+                paddingLeft: '0.0rem',
+              },
             },
           ],
         },
@@ -440,7 +446,7 @@ const config = {
                 marginBottom: '0.25em',
               },
               p: {
-                fontSize: '1.5rem',
+                fontSize: '1.1875rem',
                 fontWeight: 300,
                 lineHeight: '1.5',
                 marginBottom: '0.25em',
@@ -453,6 +459,9 @@ const config = {
               },
               a: {
                 fontWeight: 300,
+              },
+              ul: {
+                paddingLeft: '0.0rem',
               },
             },
           ],

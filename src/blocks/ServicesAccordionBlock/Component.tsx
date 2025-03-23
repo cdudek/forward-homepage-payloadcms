@@ -6,7 +6,7 @@ import { CMSLink } from '@/components/Link'
 import type { Service, Page, Post } from '@/payload-types'
 import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 import { getColorBlends } from '@/utilities/getColorBlends'
-
+import renderedTitle from '@/utilities/gradientTitle'
 type Props = {
   services: Service[]
   title: string
@@ -79,22 +79,9 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   }, [])
 
   // Memoize the rendered title to prevent unnecessary recalculations
-  const renderedTitle = useMemo(() => {
-    if (!gradient) return title
+  const formattedTitle = renderedTitle(title || '', gradient || '')
 
-    const parts = title.split(gradient)
-    if (parts.length === 1) return title
-
-    return (
-      <>
-        {parts[0]}
-        <span className="bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange bg-clip-text text-transparent">
-          {gradient}
-        </span>
-        {parts[1]}
-      </>
-    )
-  }, [title, gradient])
+  //
 
   // Auto-rotate with RAF instead of setInterval for better performance
   useEffect(() => {
@@ -217,7 +204,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
             <div className="flex flex-col gap-6">
               <div className="prose prose-sm md:prose-base lg:prose-lg">
                 <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">
-                  {renderedTitle}
+                  {formattedTitle}
                 </h2>
               </div>
               <div className="inline-flex">
