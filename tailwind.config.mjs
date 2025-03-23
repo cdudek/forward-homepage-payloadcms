@@ -344,6 +344,10 @@ const config = {
               ul: {
                 paddingLeft: '0.0rem',
               },
+              li: {
+                fontSize: '0.875rem',
+                fontWeight: 300,
+              },
             },
           ],
         },
@@ -402,6 +406,10 @@ const config = {
               },
               ul: {
                 paddingLeft: '0.0rem',
+              },
+              li: {
+                fontSize: '1.1875rem',
+                fontWeight: 300,
               },
             },
           ],
@@ -462,6 +470,10 @@ const config = {
               },
               ul: {
                 paddingLeft: '0.0rem',
+              },
+              li: {
+                fontSize: '1.1875rem',
+                fontWeight: 300,
               },
             },
           ],
