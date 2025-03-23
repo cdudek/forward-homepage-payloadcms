@@ -15,32 +15,86 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   gradientText,
   services,
 }) => {
+  // Get color blends before component state initialization
+  const colors = getColorBlends(services?.length || 0, true)
+
   const formattedTitle = renderedTitle(title || '', gradientText || '')
   const [activeServiceIndex, setActiveServiceIndex] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
-  const rotationIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [progressWidth, setProgressWidth] = useState(0)
+  const rotationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const animationFrameRef = useRef<number | null>(null)
+  const lastUpdateTimeRef = useRef<number>(0)
+  const progressDuration = 4000 // Same for both timers
 
   const servicesData =
     services?.filter((service): service is Service => typeof service === 'object') || []
 
-  useEffect(() => {
-    // Setup auto-rotation timer
-    if (!isHovering && servicesData.length > 1) {
-      rotationIntervalRef.current = setInterval(() => {
+  // Single unified timer to handle both progress and rotation
+  const runTimer = () => {
+    const startTime = performance.now()
+    lastUpdateTimeRef.current = startTime
+
+    const animate = (currentTime: number) => {
+      if (isHovering) {
+        // Store the current time so we can calculate where to resume
+        lastUpdateTimeRef.current = currentTime
+        animationFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
+
+      const elapsedTime = currentTime - lastUpdateTimeRef.current
+      const progress = Math.min((elapsedTime / progressDuration) * 100, 100)
+      setProgressWidth(progress)
+
+      if (progress >= 100) {
+        // Time to rotate to the next tab
         setActiveServiceIndex((prevIndex) => (prevIndex + 1) % servicesData.length)
-      }, 4000)
+        lastUpdateTimeRef.current = currentTime // Reset timer
+        setProgressWidth(0)
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate)
     }
 
-    // Cleanup function
+    animationFrameRef.current = requestAnimationFrame(animate)
+  }
+
+  useEffect(() => {
+    // Only setup the timer if we have multiple services
+    if (servicesData.length > 1) {
+      // Clear any existing animation frame before starting new one
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+
+      // Reset progress
+      setProgressWidth(0)
+      lastUpdateTimeRef.current = performance.now()
+
+      // Start the animation loop
+      runTimer()
+    }
+
     return () => {
-      if (rotationIntervalRef.current) {
-        clearInterval(rotationIntervalRef.current)
-        rotationIntervalRef.current = null
+      // Clean up
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = null
+      }
+
+      if (rotationTimeoutRef.current) {
+        clearTimeout(rotationTimeoutRef.current)
+        rotationTimeoutRef.current = null
       }
     }
-  }, [isHovering, servicesData.length])
+  }, [servicesData.length, activeServiceIndex])
 
-  const colors = getColorBlends(services?.length || 0, true)
+  // Reset progress when manually changing tabs
+  useEffect(() => {
+    setProgressWidth(0)
+    lastUpdateTimeRef.current = performance.now()
+  }, [activeServiceIndex])
 
   const activeService = servicesData[activeServiceIndex]
 
@@ -73,39 +127,41 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 
         {/* Tabs */}
         <div className="prose-sm col-span-12 flex flex-wrap justify-center gap-4 md:prose-md xl:prose-lg">
-          {servicesData.map((service, index) => (
-            <motion.button
-              key={service.id}
-              className="relative rounded-full px-6 py-3 text-base font-medium"
-              style={{
-                backgroundColor:
-                  activeServiceIndex === index
+          {servicesData.map((service, index) => {
+            const isActive = activeServiceIndex === index
+
+            return (
+              <motion.button
+                key={service.id}
+                className="relative rounded-full px-6 py-3 text-base font-medium"
+                style={{
+                  backgroundColor: isActive
                     ? `var(--color-${colors[index]})`
                     : 'var(--color-fwd-grey-100)',
-                color: activeServiceIndex === index ? 'white' : 'var(--color-fwd-black)',
-                transition: 'background-color 0.3s ease, color 0.3s ease',
-              }}
-              onClick={() => setActiveServiceIndex(index)}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-              whileHover={{
-                backgroundColor:
-                  activeServiceIndex === index
+                  color: isActive ? 'white' : 'var(--color-fwd-black)',
+                  transition: 'background-color 0.3s ease-out, color 0.15s ease-out',
+                }}
+                onClick={() => setActiveServiceIndex(index)}
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                whileHover={{
+                  backgroundColor: isActive
                     ? `var(--color-${colors[index]})`
                     : 'var(--color-fwd-grey-200)',
-                scale: 1.02,
-                transition: { duration: 0.2, easeInOut: [0.4, 0, 0.2, 1] },
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2, easeInOut: [0.4, 0, 0.2, 1] }}
-            >
-              {service.titleShort}
-            </motion.button>
-          ))}
+                  scale: 1.02,
+                  transition: { duration: 0.3 },
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.3 }}
+              >
+                {service.titleShort}
+              </motion.button>
+            )
+          })}
         </div>
 
         {/* Content Box */}
-        <div className="col-span-12 mt-8 grid grid-cols-5 gap-8 rounded-3xl bg-fwd-grey-50 p-8">
+        <div className="col-span-12 mt-6 grid grid-cols-5 gap-8 rounded-3xl bg-fwd-grey-50 p-8">
           <AnimatePresence mode="wait">
             {activeService && (
               <motion.div
@@ -186,6 +242,66 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
               </AnimatePresence>
             </div>
           </div>
+        </div>
+
+        {/* Progress Indicators - Moved below content */}
+        <div className="col-span-12 flex justify-center space-x-2">
+          {servicesData.map((_, index) => (
+            <div
+              key={`progress-${index}`}
+              className="relative h-1.5 w-16 overflow-hidden rounded-full bg-fwd-grey-100"
+              onClick={() => setActiveServiceIndex(index)}
+              style={{ cursor: 'pointer' }}
+            >
+              {/* Active indicator */}
+              {index === activeServiceIndex && (
+                <motion.div
+                  key={`progress-${index}-active`}
+                  className="absolute left-0 top-0 h-full rounded-full"
+                  style={{
+                    backgroundColor: `var(--color-${colors[index]})`,
+                    width: `${progressWidth}%`,
+                  }}
+                />
+              )}
+
+              {/* Completed indicators */}
+              {index < activeServiceIndex && (
+                <motion.div
+                  key={`progress-${index}-completed`}
+                  className="absolute left-0 top-0 h-full w-full rounded-full"
+                  style={{
+                    backgroundColor: `var(--color-${colors[index]})`,
+                    opacity: 0.3,
+                  }}
+                />
+              )}
+
+              {/* Previous active indicator (for transition) */}
+              {index === (activeServiceIndex - 1 + servicesData.length) % servicesData.length &&
+                progressWidth === 0 && (
+                  <motion.div
+                    key={`progress-${index}-previous`}
+                    className="absolute left-0 top-0 h-full rounded-full"
+                    style={{
+                      backgroundColor: `var(--color-${colors[index]})`,
+                    }}
+                    initial={{ width: '100%', opacity: 1 }}
+                    animate={{
+                      width: '100%',
+                      opacity: 0.5,
+                      backgroundColor: [
+                        `var(--color-${colors[index]})`,
+                        'var(--color-fwd-grey-400)',
+                      ],
+                    }}
+                    transition={{
+                      duration: 0.4,
+                    }}
+                  />
+                )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
