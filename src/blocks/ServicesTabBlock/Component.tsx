@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -20,25 +20,38 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 
   const formattedTitle = renderedTitle(title || '', gradientText || '')
   const [activeServiceIndex, setActiveServiceIndex] = useState(0)
-  const [isHovering, setIsHovering] = useState(false)
+  const [previousServiceIndex, setPreviousServiceIndex] = useState(0)
   const [progressWidth, setProgressWidth] = useState(0)
-  const rotationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [isHovering, setIsHovering] = useState(false)
+  const [isAutoProgressing, setIsAutoProgressing] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const lastUpdateTimeRef = useRef<number>(0)
-  const progressDuration = 4000 // Same for both timers
+  const progressDuration = 4000
+  const transitionDuration = 400
 
   const servicesData =
     services?.filter((service): service is Service => typeof service === 'object') || []
 
-  // Single unified timer to handle both progress and rotation
-  const runTimer = () => {
+  // Track previous index for animations
+  useEffect(() => {
+    if (activeServiceIndex !== previousServiceIndex) {
+      setPreviousServiceIndex(activeServiceIndex)
+    }
+  }, [activeServiceIndex, previousServiceIndex])
+
+  // Animation timer using requestAnimationFrame for smooth progress
+  const runProgressAnimation = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current)
+    }
+
     const startTime = performance.now()
     lastUpdateTimeRef.current = startTime
 
     const animate = (currentTime: number) => {
-      if (isHovering) {
-        // Store the current time so we can calculate where to resume
-        lastUpdateTimeRef.current = currentTime
+      // Pause progression if hovering or auto-progress is disabled
+      if (!isAutoProgressing || isHovering) {
         animationFrameRef.current = requestAnimationFrame(animate)
         return
       }
@@ -48,53 +61,73 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
       setProgressWidth(progress)
 
       if (progress >= 100) {
-        // Time to rotate to the next tab
-        setActiveServiceIndex((prevIndex) => (prevIndex + 1) % servicesData.length)
-        lastUpdateTimeRef.current = currentTime // Reset timer
-        setProgressWidth(0)
+        // Complete the animation to 100% first
+        setProgressWidth(100)
+
+        // Prepare for transition
+        setIsTransitioning(true)
+
+        // Schedule the next tab after transition duration
+        setTimeout(() => {
+          setActiveServiceIndex((prevIndex) => (prevIndex + 1) % servicesData.length)
+          setProgressWidth(0)
+          setIsTransitioning(false)
+          lastUpdateTimeRef.current = performance.now()
+        }, transitionDuration)
+
+        // Pause progress during transition
+        setIsAutoProgressing(false)
+        setTimeout(() => {
+          setIsAutoProgressing(true)
+        }, transitionDuration + 100)
       }
 
       animationFrameRef.current = requestAnimationFrame(animate)
     }
 
     animationFrameRef.current = requestAnimationFrame(animate)
-  }
+  }, [isAutoProgressing, isHovering, progressDuration, servicesData.length, transitionDuration])
 
+  // Start/restart animation on component mount and after dependencies change
   useEffect(() => {
-    // Only setup the timer if we have multiple services
     if (servicesData.length > 1) {
-      // Clear any existing animation frame before starting new one
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-      }
-
-      // Reset progress
-      setProgressWidth(0)
-      lastUpdateTimeRef.current = performance.now()
-
-      // Start the animation loop
-      runTimer()
+      runProgressAnimation()
     }
 
     return () => {
-      // Clean up
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
         animationFrameRef.current = null
       }
-
-      if (rotationTimeoutRef.current) {
-        clearTimeout(rotationTimeoutRef.current)
-        rotationTimeoutRef.current = null
-      }
     }
-  }, [servicesData.length, activeServiceIndex])
+  }, [runProgressAnimation, servicesData.length])
 
-  // Reset progress when manually changing tabs
-  useEffect(() => {
-    setProgressWidth(0)
-    lastUpdateTimeRef.current = performance.now()
-  }, [activeServiceIndex])
+  // Handle tab click
+  const handleTabClick = useCallback(
+    (index: number) => {
+      if (index === activeServiceIndex) return
+
+      // If clicking a new tab, reset progress and animate to that tab
+      setPreviousServiceIndex(activeServiceIndex)
+      setActiveServiceIndex(index)
+      setProgressWidth(0)
+      lastUpdateTimeRef.current = performance.now()
+
+      // Reset the auto progress
+      setIsAutoProgressing(true)
+      setIsTransitioning(false)
+    },
+    [activeServiceIndex],
+  )
+
+  // Mouse enter/leave handlers to pause/resume progression
+  const handleMouseEnter = useCallback(() => {
+    setIsHovering(true)
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovering(false)
+  }, [])
 
   const activeService = servicesData[activeServiceIndex]
 
@@ -117,6 +150,13 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     },
   }
 
+  // Define a consistent spring transition
+  const springTransition = {
+    type: 'spring',
+    stiffness: 400,
+    damping: 15,
+  }
+
   return (
     <div className="container">
       <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8">
@@ -129,33 +169,37 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
         <div className="prose-sm col-span-12 flex flex-wrap justify-center gap-4 md:prose-md xl:prose-lg">
           {servicesData.map((service, index) => {
             const isActive = activeServiceIndex === index
+            const colorName = colors[index]
 
             return (
-              <motion.button
-                key={service.id}
-                className="relative rounded-full px-6 py-3 text-base font-medium"
-                style={{
-                  backgroundColor: isActive
-                    ? `var(--color-${colors[index]})`
-                    : 'var(--color-fwd-grey-100)',
-                  color: isActive ? 'white' : 'var(--color-fwd-black)',
-                  transition: 'background-color 0.3s ease-out, color 0.15s ease-out',
-                }}
-                onClick={() => setActiveServiceIndex(index)}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-                whileHover={{
-                  backgroundColor: isActive
-                    ? `var(--color-${colors[index]})`
-                    : 'var(--color-fwd-grey-200)',
-                  scale: 1.02,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-              >
-                {service.titleShort}
-              </motion.button>
+              <div key={service.id} className="relative">
+                {/* Hover background for inactive tabs */}
+                {!isActive && (
+                  <div className="absolute inset-0 rounded-3xl transition-colors duration-200 group-hover:bg-fwd-grey-200" />
+                )}
+
+                <motion.button
+                  className={cn(
+                    'group relative z-0 rounded-3xl px-6 py-3 text-base font-medium',
+                    isActive
+                      ? 'text-white'
+                      : 'bg-fwd-grey-100 text-fwd-black hover:bg-fwd-grey-200',
+                  )}
+                  style={{
+                    backgroundColor: isActive ? `var(--color-${colorName})` : undefined,
+                  }}
+                  onClick={() => handleTabClick(index)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  whileHover={{
+                    scale: 1.02,
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={springTransition}
+                >
+                  {service.titleShort}
+                </motion.button>
+              </div>
             )
           })}
         </div>
@@ -226,7 +270,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
                   >
                     <div className="relative h-full w-full overflow-hidden rounded-3xl">
                       <Media
@@ -244,64 +288,50 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
           </div>
         </div>
 
-        {/* Progress Indicators - Moved below content */}
-        <div className="col-span-12 flex justify-center space-x-2">
-          {servicesData.map((_, index) => (
-            <div
-              key={`progress-${index}`}
-              className="relative h-1.5 w-16 overflow-hidden rounded-full bg-fwd-grey-100"
-              onClick={() => setActiveServiceIndex(index)}
-              style={{ cursor: 'pointer' }}
-            >
-              {/* Active indicator */}
-              {index === activeServiceIndex && (
-                <motion.div
-                  key={`progress-${index}-active`}
-                  className="absolute left-0 top-0 h-full rounded-full"
-                  style={{
-                    backgroundColor: `var(--color-${colors[index]})`,
-                    width: `${progressWidth}%`,
-                  }}
-                />
-              )}
+        {/* Progress Indicators */}
+        <div className="col-span-12 flex justify-center space-x-3">
+          {servicesData.map((_, index) => {
+            const isActive = activeServiceIndex === index
+            const isPrevious = previousServiceIndex === index && isTransitioning
+            const colorName = colors[index]
 
-              {/* Completed indicators */}
-              {index < activeServiceIndex && (
-                <motion.div
-                  key={`progress-${index}-completed`}
-                  className="absolute left-0 top-0 h-full w-full rounded-full"
-                  style={{
-                    backgroundColor: `var(--color-${colors[index]})`,
-                    opacity: 0.3,
-                  }}
-                />
-              )}
-
-              {/* Previous active indicator (for transition) */}
-              {index === (activeServiceIndex - 1 + servicesData.length) % servicesData.length &&
-                progressWidth === 0 && (
+            return (
+              <div
+                key={`progress-${index}`}
+                className={cn(
+                  'relative h-1.5 w-16 cursor-pointer overflow-hidden rounded-full transition-all duration-1000',
+                  isActive ? `bg-fwd-grey-300` : `bg-fwd-grey-200`,
+                )}
+                onClick={() => handleTabClick(index)}
+              >
+                {/* Active progress bar */}
+                {isActive && !isTransitioning && (
                   <motion.div
-                    key={`progress-${index}-previous`}
-                    className="absolute left-0 top-0 h-full rounded-full"
+                    className="absolute inset-y-0 left-0 h-full rounded-full"
                     style={{
-                      backgroundColor: `var(--color-${colors[index]})`,
+                      backgroundColor: `var(--color-${colorName})`,
                     }}
-                    initial={{ width: '100%', opacity: 1 }}
-                    animate={{
-                      width: '100%',
-                      opacity: 0.5,
-                      backgroundColor: [
-                        `var(--color-${colors[index]})`,
-                        'var(--color-fwd-grey-400)',
-                      ],
-                    }}
-                    transition={{
-                      duration: 0.4,
-                    }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progressWidth}%` }}
+                    transition={{ duration: 0.1, ease: 'linear' }}
                   />
                 )}
-            </div>
-          ))}
+
+                {/* Transition animation for previous tab */}
+                {isPrevious && (
+                  <motion.div
+                    className="absolute inset-0 h-full w-full rounded-full"
+                    style={{
+                      backgroundColor: `var(--color-${colorName})`,
+                    }}
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: transitionDuration / 1000, ease: 'easeOut' }}
+                  />
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>
