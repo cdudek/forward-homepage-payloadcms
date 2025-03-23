@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -17,17 +17,31 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 }) => {
   const formattedTitle = renderedTitle(title || '', gradientText || '')
   const [activeServiceIndex, setActiveServiceIndex] = useState(0)
-  const [prevActiveServiceIndex, setPrevActiveServiceIndex] = useState(0)
-
-  useEffect(() => {
-    // Store previous index for animation direction
-    setPrevActiveServiceIndex(activeServiceIndex)
-  }, [activeServiceIndex])
-
-  const colors = getColorBlends(services?.length || 0, true)
+  const [isHovering, setIsHovering] = useState(false)
+  const rotationIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const servicesData =
     services?.filter((service): service is Service => typeof service === 'object') || []
+
+  useEffect(() => {
+    // Setup auto-rotation timer
+    if (!isHovering && servicesData.length > 1) {
+      rotationIntervalRef.current = setInterval(() => {
+        setActiveServiceIndex((prevIndex) => (prevIndex + 1) % servicesData.length)
+      }, 4000)
+    }
+
+    // Cleanup function
+    return () => {
+      if (rotationIntervalRef.current) {
+        clearInterval(rotationIntervalRef.current)
+        rotationIntervalRef.current = null
+      }
+    }
+  }, [isHovering, servicesData.length])
+
+  const colors = getColorBlends(services?.length || 0, true)
+
   const activeService = servicesData[activeServiceIndex]
 
   // Animation variants
@@ -62,15 +76,18 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
           {servicesData.map((service, index) => (
             <motion.button
               key={service.id}
-              className="relative rounded-full px-6 py-3 text-base font-medium transition-colors"
+              className="relative rounded-full px-6 py-3 text-base font-medium"
               style={{
                 backgroundColor:
                   activeServiceIndex === index
                     ? `var(--color-${colors[index]})`
                     : 'var(--color-fwd-grey-100)',
                 color: activeServiceIndex === index ? 'white' : 'var(--color-fwd-black)',
+                transition: 'background-color 0.3s ease, color 0.3s ease',
               }}
               onClick={() => setActiveServiceIndex(index)}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
               whileHover={{
                 backgroundColor:
                   activeServiceIndex === index
