@@ -92,7 +92,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   // Memoize the rendered title to prevent unnecessary recalculations
   const formattedTitle = renderedTitle(title || '', gradient || '')
 
-  // Get styles for sloped edge
+  // Get styles for sloped edgecxx
   const getSlopeStyles = useCallback(() => {
     const styles: Record<string, string> = {}
 
@@ -233,7 +233,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   )
 
   return (
-    <div className="py-32">
+    <div className="py-16 md:py-32">
       <div className={cn('relative w-full', getBackgroundTheme())} style={getSlopeStyles()}>
         <div className="container mx-auto">
           <div
@@ -248,18 +248,20 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
           >
             <div
               ref={containerRef}
-              className="container grid min-h-[60vh] grid-cols-1 gap-12 py-24 lg:grid-cols-2"
+              className="grid grid-cols-1 gap-12 py-24 lg:min-h-[60vh] lg:grid-cols-2"
             >
               {/* Left side - Main display */}
-              <div className="sticky top-24 flex items-center">
-                <div className="flex flex-col gap-6">
+              <div className="flex flex-col">
+                <div className="flex w-full flex-col gap-6 text-center lg:sticky lg:top-24 lg:text-left">
                   <div className="prose prose-sm md:prose-base lg:prose-lg">
-                    <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">
+                    <h2 className="m-0 bg-none p-0 text-4xl font-bold leading-tight lg:text-5xl">
                       {formattedTitle}
                     </h2>
                   </div>
-                  <div className="inline-flex">
-                    {link && <CMSLink {...link} appearance="outline" />}
+
+                  {/* Button - Only visible on desktop */}
+                  <div className="hidden lg:inline-flex">
+                    {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
                   </div>
                 </div>
               </div>
@@ -270,7 +272,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
-                <div className="relative">
+                <div className="relative w-full">
                   {sortedServices.map((service, index) => (
                     <AccordionItem
                       key={service.id}
@@ -282,6 +284,11 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                     />
                   ))}
                 </div>
+              </div>
+
+              {/* Button - Third grid row on mobile, hidden on desktop */}
+              <div className="flex justify-center lg:hidden">
+                {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
               </div>
             </div>
           </div>

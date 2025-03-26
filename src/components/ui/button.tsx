@@ -29,6 +29,8 @@ const buttonVariants = cva(
         link: 'text-semantic-text-primary items-start justify-start underline-offset-4 hover:underline',
         outline: `border border-white text-white bg-transparent hover:bg-white/10`,
         outlineIcon: `border border-white text-white bg-transparent hover:bg-white/10 group`,
+        outlineDark: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300`,
+        outlineDarkIcon: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 group transition-all duration-300`,
         secondary: 'text-white overflow-hidden hover:opacity-90 transition-opacity',
         secondaryIcon: 'text-white overflow-hidden hover:opacity-90 transition-opacity group',
       },
@@ -104,6 +106,14 @@ const fillStyles = {
     filled: 'transition-all duration-300 ease-in-out',
     outline: 'transition-all duration-300 ease-in-out',
   },
+  outlineDark: {
+    filled: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300`,
+    outline: 'transition-all duration-300 ease-in-out',
+  },
+  outlineDarkIcon: {
+    filled: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300`,
+    outline: 'transition-all duration-300 ease-in-out',
+  },
 }
 
 export interface ButtonProps
@@ -126,7 +136,8 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const Comp = asChild ? Slot : 'button'
 
-  const isIconVariant = variant && ['primaryIcon', 'outlineIcon', 'secondaryIcon'].includes(variant)
+  const isIconVariant =
+    variant && ['primaryIcon', 'outlineIcon', 'secondaryIcon', 'outlineDarkIcon'].includes(variant)
 
   const needsZIndexedContent = [
     'primary',
@@ -135,6 +146,8 @@ const Button: React.FC<ButtonProps> = ({
     'secondaryIcon',
     'outline',
     'outlineIcon',
+    'outlineDark',
+    'outlineDarkIcon',
   ].includes(variant as string)
 
   const baseVariant =
@@ -142,15 +155,10 @@ const Button: React.FC<ButtonProps> = ({
       ? (variant as string).replace('Icon', '')
       : variant
 
-  const variantToUse = variant as keyof typeof fillStyles
-  const baseVariantToUse = baseVariant as keyof typeof fillStyles
-
-  const variantFillStyles = fillStyles[variantToUse] || fillStyles[baseVariantToUse]
-  const fillStyle = variantFillStyles
-    ? noFill
-      ? variantFillStyles.outline
-      : variantFillStyles.filled
-    : ''
+  const variantToUse =
+    fillStyles[variant as keyof typeof fillStyles] ||
+    fillStyles[baseVariant as keyof typeof fillStyles]
+  const fillStyle = variantToUse ? (noFill ? variantToUse.outline : variantToUse.filled) : ''
 
   const effectiveVariant = isIconVariant ? (baseVariant as typeof variant) : variant
   return (
