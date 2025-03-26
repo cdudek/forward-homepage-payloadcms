@@ -47,11 +47,11 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
   })
 
   // Create opacity transformations for each phase
-  const opacity1 = useTransform(scrollYProgress, fadeRanges[0] || [0, 0.5, 1], [0.01, 1, 1])
-  const opacity2 = useTransform(scrollYProgress, fadeRanges[1] || [0.2, 0.7, 1], [0.01, 1, 1])
-  const opacity3 = useTransform(scrollYProgress, fadeRanges[2] || [0.4, 0.9, 1], [0.01, 1, 1])
-  const opacity4 = useTransform(scrollYProgress, fadeRanges[3] || [0.6, 1, 1], [0.01, 1, 1])
-  const opacity5 = useTransform(scrollYProgress, fadeRanges[4] || [0.8, 1, 1], [0.01, 1, 1])
+  const opacity1 = useTransform(scrollYProgress, fadeRanges[0] || [0, 0.5, 1], [0.05, 1, 1])
+  const opacity2 = useTransform(scrollYProgress, fadeRanges[1] || [0.2, 0.7, 1], [0.05, 1, 1])
+  const opacity3 = useTransform(scrollYProgress, fadeRanges[2] || [0.4, 0.9, 1], [0.05, 1, 1])
+  const opacity4 = useTransform(scrollYProgress, fadeRanges[3] || [0.6, 1, 1], [0.05, 1, 1])
+  const opacity5 = useTransform(scrollYProgress, fadeRanges[4] || [0.8, 1, 1], [0.05, 1, 1])
 
   // Create inverse opacity transformations for gray dots
   const inverseOpacity1 = useTransform(opacity1, [0.01, 0.5, 1], [0.1, 0.05, 0])

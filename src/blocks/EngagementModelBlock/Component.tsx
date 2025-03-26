@@ -32,7 +32,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
           {description && <p className="mx-auto">{description}</p>}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {tiers.map((tier, index) => {
             const bgImageUrl =
               typeof tier.backgroundImage === 'string'
@@ -42,7 +42,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
             return (
               <div
                 key={index}
-                className="relative flex h-[420px] w-full flex-col justify-between overflow-hidden rounded-3xl p-8 text-white"
+                className="relative flex aspect-square w-full flex-col justify-between overflow-hidden rounded-3xl p-8 text-white"
               >
                 {bgImageUrl && (
                   <div className="absolute inset-0 z-0">
