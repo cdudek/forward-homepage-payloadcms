@@ -23,11 +23,11 @@ const PHASE_COLOR_CLASSES = [
 ]
 
 const PHASE_SHADOW_CLASSES = [
-  'shadow-[0_0_8px] shadow-fwd-purple/50',
-  'shadow-[0_0_8px] shadow-fwd-lipstick/50',
-  'shadow-[0_0_8px] shadow-fwd-red/50',
-  'shadow-[0_0_8px] shadow-fwd-coral-red/50',
-  'shadow-[0_0_8px] shadow-fwd-orange/50',
+  'shadow-[0_0_4px] shadow-fwd-purple/50',
+  'shadow-[0_0_4px] shadow-fwd-lipstick/50',
+  'shadow-[0_0_4px] shadow-fwd-red/50',
+  'shadow-[0_0_4px] shadow-fwd-coral-red/50',
+  'shadow-[0_0_4px] shadow-fwd-orange/50',
 ]
 
 export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
@@ -111,19 +111,17 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                         <div className="flex items-center">
                           {/* Circle dot for mobile that sits on the line */}
                           <motion.div
-                            className="relative z-10 -ml-3 flex items-center justify-center"
-                            style={{ opacity }}
+                            className="relative z-10 -ml-1.5 flex h-5 w-5 items-center justify-center bg-fwd-black"
+                            style={{ opacity, borderRadius: '50%' }}
                           >
                             {/* Solid colored dot with subtle glow */}
-                            <div
-                              className={cn('h-16 w-16 rounded-full', colorClass, shadowClass)}
-                            />
+                            <div className={cn('h-3 w-3 rounded-full', colorClass, shadowClass)} />
                           </motion.div>
 
                           {/* Phase label with gradient border */}
-                          <motion.div className="relative ml-6" style={{ opacity }}>
+                          <motion.div className="relative ml-5" style={{ opacity }}>
                             <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
-                              <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                              <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
                                 <span className="text-sm text-white">Phase {index + 1}</span>
                               </span>
                             </span>
@@ -131,7 +129,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                         </div>
 
                         <motion.div
-                          className="prose-sm prose-invert mt-4 w-full pl-14"
+                          className="prose-sm prose-invert mt-3 w-full pl-11"
                           style={{ opacity }}
                         >
                           <h3 className="text-white">{phase.title}</h3>
@@ -140,7 +138,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                       </div>
 
                       {/* Desktop layout */}
-                      <div className="hidden w-full md:grid md:grid-cols-[1fr,auto,1fr] md:items-start md:gap-8">
+                      <div className="hidden w-full md:grid md:grid-cols-[1fr,auto,1fr] md:items-center md:gap-8">
                         {/* Left content */}
                         <div
                           className={cn(
@@ -155,7 +153,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                                 className={cn('relative mb-4 inline-block', isEven && 'ml-auto')}
                               >
                                 <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
-                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
                                     <span className="text-sm text-white">Phase {index + 1}</span>
                                   </span>
                                 </span>
@@ -170,11 +168,11 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
 
                         {/* Center colored dot that sits directly on the vertical line */}
                         <motion.div
-                          className="relative z-20 mx-auto flex items-center justify-center"
-                          style={{ opacity }}
+                          className="relative z-20 mx-auto flex h-5 w-5 items-center justify-center self-center bg-fwd-black"
+                          style={{ opacity, borderRadius: '50%' }}
                         >
                           {/* Glowing dot that cuts the line */}
-                          <div className={cn('h-16 w-16 rounded-full', colorClass, shadowClass)} />
+                          <div className={cn('h-3 w-3 rounded-full', colorClass, shadowClass)} />
                         </motion.div>
 
                         {/* Right content */}
@@ -189,7 +187,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                               {/* Desktop right phase label */}
                               <div className="relative mb-4 inline-block">
                                 <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
-                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
                                     <span className="text-sm text-white">Phase {index + 1}</span>
                                   </span>
                                 </span>
