@@ -40,97 +40,160 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
   const phaseProgresses = [progress1, progress2, progress3, progress4, progress5]
 
   return (
-    <div className="relative bg-fwd-black py-24" ref={containerRef}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
-          <div className="prose-sm prose-invert col-span-12 mx-auto max-w-none text-center text-white md:prose-md xl:prose-lg">
-            <h2>{title}</h2>
-            {description && <p>{description}</p>}
-          </div>
+    <>
+      {/* Top shape */}
+      <div className="relative h-[5vw] w-full bg-white">
+        <div
+          className="absolute inset-x-0 bottom-0 h-full bg-fwd-black"
+          style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' }}
+        />
+      </div>
 
-          <div className="relative col-span-12 mt-16">
-            {/* Vertical line with glow */}
-            <div className="absolute left-1/2 top-0 h-full w-[2px] -translate-x-1/2">
-              <div className="absolute h-full w-full bg-gray-800" />
-              <motion.div
-                className="relative h-full w-full bg-gradient-to-b from-fwd-purple via-fwd-red to-fwd-orange shadow-[0_0_10px_rgba(255,255,255,0.3)] shadow-fwd-purple"
-                style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
-              />
+      {/* Main content */}
+      <div className="relative bg-fwd-black py-32" ref={containerRef}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
+            <div className="prose-sm prose-invert col-span-12 mx-auto max-w-none text-center text-white md:prose-md xl:prose-lg">
+              <h2>{title}</h2>
+              {description && <p>{description}</p>}
             </div>
 
-            <div className="flex flex-col gap-32">
-              {limitedPhases.map((phase, index) => {
-                const isEven = index % 2 === 0
-                const color = PHASE_COLORS[index]
+            <div className="relative col-span-12 mt-16">
+              {/* Vertical line with glow */}
+              <div className="absolute -top-8 left-4 h-[calc(100%+2rem)] w-[2px] md:left-1/2 md:-translate-x-1/2">
+                <div className="absolute h-full w-full bg-gray-800" />
+                <motion.div
+                  className="relative h-full w-full bg-gradient-to-b from-fwd-purple via-fwd-red to-fwd-orange shadow-[0_0_10px_rgba(255,255,255,0.3)] shadow-fwd-purple"
+                  style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
+                />
+              </div>
 
-                return (
-                  <motion.div
-                    key={index}
-                    className={cn(
-                      'mx-auto grid max-w-5xl grid-cols-[minmax(0,400px),auto,minmax(0,400px)] items-center gap-8',
-                      isEven ? 'text-right' : 'text-left',
-                    )}
-                    style={{ opacity: phaseProgresses[index] }}
-                  >
-                    {/* Left content */}
-                    {isEven ? (
-                      <div className="prose-sm prose-invert pr-8 md:prose-md xl:prose-lg">
-                        <div className="ml-auto w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
-                          Phase {index + 1}
+              <div className="flex flex-col gap-16 md:gap-32">
+                {limitedPhases.map((phase, index) => {
+                  const isEven = index % 2 === 0
+
+                  return (
+                    <motion.div
+                      key={index}
+                      className={cn('mx-auto w-full md:max-w-5xl')}
+                      style={{ opacity: phaseProgresses[index] }}
+                    >
+                      {/* Mobile layout */}
+                      <div className="md:hidden">
+                        <div className="flex items-center">
+                          {/* Circle for mobile */}
+                          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
+                            {/* Glow effect */}
+                            <div
+                              className={cn(
+                                'absolute h-full w-full rounded-full opacity-20 blur-sm',
+                                index === 0 && 'bg-fwd-purple',
+                                index === 1 && 'bg-fwd-lipstick',
+                                index === 2 && 'bg-fwd-red',
+                                index === 3 && 'bg-fwd-coral-red',
+                                index === 4 && 'bg-fwd-orange',
+                              )}
+                            />
+                            {/* Main circle */}
+                            <div
+                              className={cn(
+                                'absolute h-full w-full rounded-full border-[3px] border-fwd-black',
+                                index === 0 && 'bg-fwd-purple',
+                                index === 1 && 'bg-fwd-lipstick',
+                                index === 2 && 'bg-fwd-red',
+                                index === 3 && 'bg-fwd-coral-red',
+                                index === 4 && 'bg-fwd-orange',
+                              )}
+                            />
+                          </div>
+                          <div className="ml-6 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
+                            Phase {index + 1}
+                          </div>
                         </div>
-                        <h3 className="text-white">{phase.title}</h3>
-                        <p className="text-gray-300">{phase.description}</p>
-                      </div>
-                    ) : (
-                      <div /> // Empty div for spacing
-                    )}
-
-                    {/* Center dot */}
-                    <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
-                      {/* Glow effect */}
-                      <div
-                        className={cn(
-                          'absolute h-full w-full rounded-full opacity-20 blur-sm',
-                          index === 0 && 'bg-fwd-purple',
-                          index === 1 && 'bg-fwd-lipstick',
-                          index === 2 && 'bg-fwd-red',
-                          index === 3 && 'bg-fwd-coral-red',
-                          index === 4 && 'bg-fwd-orange',
-                        )}
-                      />
-                      {/* Main circle */}
-                      <div
-                        className={cn(
-                          'absolute h-full w-full rounded-full border-[3px] border-fwd-black',
-                          index === 0 && 'bg-fwd-purple',
-                          index === 1 && 'bg-fwd-lipstick',
-                          index === 2 && 'bg-fwd-red',
-                          index === 3 && 'bg-fwd-coral-red',
-                          index === 4 && 'bg-fwd-orange',
-                        )}
-                      />
-                    </div>
-
-                    {/* Right content */}
-                    {!isEven ? (
-                      <div className="prose-sm prose-invert pl-8 md:prose-md xl:prose-lg">
-                        <div className="mr-auto w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
-                          Phase {index + 1}
+                        <div className="prose-sm prose-invert mt-4 pl-14">
+                          <h3 className="text-white">{phase.title}</h3>
+                          <p className="text-gray-300">{phase.description}</p>
                         </div>
-                        <h3 className="text-white">{phase.title}</h3>
-                        <p className="text-gray-300">{phase.description}</p>
                       </div>
-                    ) : (
-                      <div /> // Empty div for spacing
-                    )}
-                  </motion.div>
-                )
-              })}
+
+                      {/* Desktop layout */}
+                      <div className="hidden md:grid md:grid-cols-[1fr,auto,1fr] md:items-start md:gap-8">
+                        {/* Left content */}
+                        <div
+                          className={cn(
+                            'prose-sm prose-invert md:prose-md xl:prose-lg',
+                            isEven ? 'text-right' : 'opacity-0',
+                          )}
+                        >
+                          <div
+                            className={cn(
+                              'mb-4 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white',
+                              isEven && 'ml-auto',
+                            )}
+                          >
+                            Phase {index + 1}
+                          </div>
+                          <h3 className="text-white">{phase.title}</h3>
+                          <p className="text-gray-300">{phase.description}</p>
+                        </div>
+
+                        {/* Center dot */}
+                        <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
+                          {/* Glow effect */}
+                          <div
+                            className={cn(
+                              'absolute h-full w-full rounded-full opacity-20 blur-sm',
+                              index === 0 && 'bg-fwd-purple',
+                              index === 1 && 'bg-fwd-lipstick',
+                              index === 2 && 'bg-fwd-red',
+                              index === 3 && 'bg-fwd-coral-red',
+                              index === 4 && 'bg-fwd-orange',
+                            )}
+                          />
+                          {/* Main circle */}
+                          <div
+                            className={cn(
+                              'absolute h-full w-full rounded-full border-[3px] border-fwd-black',
+                              index === 0 && 'bg-fwd-purple',
+                              index === 1 && 'bg-fwd-lipstick',
+                              index === 2 && 'bg-fwd-red',
+                              index === 3 && 'bg-fwd-coral-red',
+                              index === 4 && 'bg-fwd-orange',
+                            )}
+                          />
+                        </div>
+
+                        {/* Right content */}
+                        <div
+                          className={cn(
+                            'prose-sm prose-invert md:prose-md xl:prose-lg',
+                            !isEven ? '' : 'opacity-0',
+                          )}
+                        >
+                          <div className="mb-4 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
+                            Phase {index + 1}
+                          </div>
+                          <h3 className="text-white">{phase.title}</h3>
+                          <p className="text-gray-300">{phase.description}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Bottom shape */}
+      <div className="relative h-[5vw] w-full bg-white">
+        <div
+          className="absolute inset-x-0 top-0 h-full bg-fwd-black"
+          style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)' }}
+        />
+      </div>
+    </>
   )
 }
 
