@@ -241,6 +241,7 @@ export interface Page {
         blockType: 'servicesAccordionBlock';
       }
     | AudienceTabBlock
+    | PhaseStepperVertical
   )[];
   meta?: {
     title?: string | null;
@@ -1143,6 +1144,22 @@ export interface Audience {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhaseStepperVertical".
+ */
+export interface PhaseStepperVertical {
+  title: string;
+  description?: string | null;
+  phases: {
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'phaseStepperVertical';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1475,6 +1492,7 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         audienceTabBlock?: T | AudienceTabBlockSelect<T>;
+        phaseStepperVertical?: T | PhaseStepperVerticalSelect<T>;
       };
   meta?:
     | T
@@ -1731,6 +1749,23 @@ export interface AudienceTabBlockSelect<T extends boolean = true> {
   gradientText?: T;
   subtitle?: T;
   audiences?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhaseStepperVertical_select".
+ */
+export interface PhaseStepperVerticalSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  phases?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

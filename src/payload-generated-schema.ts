@@ -701,6 +701,30 @@ export const pages_blocks_number_grid_block = pgTable(
   }),
 )
 
+export const pages_blocks_services_tab_block = pgTable(
+  'pages_blocks_services_tab_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title'),
+    gradientText: varchar('gradient_text'),
+    subtitle: varchar('subtitle'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_services_tab_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_services_tab_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_services_tab_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_services_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const pages_blocks_case_study_block = pgTable(
   'pages_blocks_case_study_block',
   {
@@ -808,8 +832,8 @@ export const pages_blocks_services_accordion_block = pgTable(
   }),
 )
 
-export const pages_blocks_services_tab_block = pgTable(
-  'pages_blocks_services_tab_block',
+export const pages_blocks_audience_tab_block = pgTable(
+  'pages_blocks_audience_tab_block',
   {
     _order: integer('_order').notNull(),
     _parentID: integer('_parent_id').notNull(),
@@ -821,13 +845,36 @@ export const pages_blocks_services_tab_block = pgTable(
     blockName: varchar('block_name'),
   },
   (columns) => ({
-    _orderIdx: index('pages_blocks_services_tab_block_order_idx').on(columns._order),
-    _parentIDIdx: index('pages_blocks_services_tab_block_parent_id_idx').on(columns._parentID),
-    _pathIdx: index('pages_blocks_services_tab_block_path_idx').on(columns._path),
+    _orderIdx: index('pages_blocks_audience_tab_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_audience_tab_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_audience_tab_block_path_idx').on(columns._path),
     _parentIdFk: foreignKey({
       columns: [columns['_parentID']],
       foreignColumns: [pages.id],
-      name: 'pages_blocks_services_tab_block_parent_id_fk',
+      name: 'pages_blocks_audience_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages_blocks_phase_stepper_vertical = pgTable(
+  'pages_blocks_phase_stepper_vertical',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title'),
+    description: varchar('description'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_phase_stepper_vertical_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_phase_stepper_vertical_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_phase_stepper_vertical_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_phase_stepper_vertical_parent_id_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -884,8 +931,9 @@ export const pages_rels = pgTable(
     pagesID: integer('pages_id'),
     postsID: integer('posts_id'),
     categoriesID: integer('categories_id'),
-    'case-studiesID': integer('case_studies_id'),
     servicesID: integer('services_id'),
+    'case-studiesID': integer('case_studies_id'),
+    audiencesID: integer('audiences_id'),
   },
   (columns) => ({
     order: index('pages_rels_order_idx').on(columns.order),
@@ -894,10 +942,11 @@ export const pages_rels = pgTable(
     pages_rels_pages_id_idx: index('pages_rels_pages_id_idx').on(columns.pagesID),
     pages_rels_posts_id_idx: index('pages_rels_posts_id_idx').on(columns.postsID),
     pages_rels_categories_id_idx: index('pages_rels_categories_id_idx').on(columns.categoriesID),
+    pages_rels_services_id_idx: index('pages_rels_services_id_idx').on(columns.servicesID),
     pages_rels_case_studies_id_idx: index('pages_rels_case_studies_id_idx').on(
       columns['case-studiesID'],
     ),
-    pages_rels_services_id_idx: index('pages_rels_services_id_idx').on(columns.servicesID),
+    pages_rels_audiences_id_idx: index('pages_rels_audiences_id_idx').on(columns.audiencesID),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [pages.id],
@@ -918,15 +967,20 @@ export const pages_rels = pgTable(
       foreignColumns: [categories.id],
       name: 'pages_rels_categories_fk',
     }).onDelete('cascade'),
+    servicesIdFk: foreignKey({
+      columns: [columns['servicesID']],
+      foreignColumns: [services.id],
+      name: 'pages_rels_services_fk',
+    }).onDelete('cascade'),
     'case-studiesIdFk': foreignKey({
       columns: [columns['case-studiesID']],
       foreignColumns: [case_studies.id],
       name: 'pages_rels_case_studies_fk',
     }).onDelete('cascade'),
-    servicesIdFk: foreignKey({
-      columns: [columns['servicesID']],
-      foreignColumns: [services.id],
-      name: 'pages_rels_services_fk',
+    audiencesIdFk: foreignKey({
+      columns: [columns['audiencesID']],
+      foreignColumns: [audiences.id],
+      name: 'pages_rels_audiences_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -1327,6 +1381,31 @@ export const _pages_v_blocks_number_grid_block = pgTable(
   }),
 )
 
+export const _pages_v_blocks_services_tab_block = pgTable(
+  '_pages_v_blocks_services_tab_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    gradientText: varchar('gradient_text'),
+    subtitle: varchar('subtitle'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_services_tab_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_services_tab_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_pages_v_blocks_services_tab_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_services_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const _pages_v_blocks_case_study_block = pgTable(
   '_pages_v_blocks_case_study_block',
   {
@@ -1438,8 +1517,8 @@ export const _pages_v_blocks_services_accordion_block = pgTable(
   }),
 )
 
-export const _pages_v_blocks_services_tab_block = pgTable(
-  '_pages_v_blocks_services_tab_block',
+export const _pages_v_blocks_audience_tab_block = pgTable(
+  '_pages_v_blocks_audience_tab_block',
   {
     _order: integer('_order').notNull(),
     _parentID: integer('_parent_id').notNull(),
@@ -1452,13 +1531,39 @@ export const _pages_v_blocks_services_tab_block = pgTable(
     blockName: varchar('block_name'),
   },
   (columns) => ({
-    _orderIdx: index('_pages_v_blocks_services_tab_block_order_idx').on(columns._order),
-    _parentIDIdx: index('_pages_v_blocks_services_tab_block_parent_id_idx').on(columns._parentID),
-    _pathIdx: index('_pages_v_blocks_services_tab_block_path_idx').on(columns._path),
+    _orderIdx: index('_pages_v_blocks_audience_tab_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_audience_tab_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_pages_v_blocks_audience_tab_block_path_idx').on(columns._path),
     _parentIdFk: foreignKey({
       columns: [columns['_parentID']],
       foreignColumns: [_pages_v.id],
-      name: '_pages_v_blocks_services_tab_block_parent_id_fk',
+      name: '_pages_v_blocks_audience_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _pages_v_blocks_phase_stepper_vertical = pgTable(
+  '_pages_v_blocks_phase_stepper_vertical',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    description: varchar('description'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_phase_stepper_vertical_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_phase_stepper_vertical_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_pages_v_blocks_phase_stepper_vertical_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_phase_stepper_vertical_parent_id_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -1552,8 +1657,9 @@ export const _pages_v_rels = pgTable(
     pagesID: integer('pages_id'),
     postsID: integer('posts_id'),
     categoriesID: integer('categories_id'),
-    'case-studiesID': integer('case_studies_id'),
     servicesID: integer('services_id'),
+    'case-studiesID': integer('case_studies_id'),
+    audiencesID: integer('audiences_id'),
   },
   (columns) => ({
     order: index('_pages_v_rels_order_idx').on(columns.order),
@@ -1564,10 +1670,11 @@ export const _pages_v_rels = pgTable(
     _pages_v_rels_categories_id_idx: index('_pages_v_rels_categories_id_idx').on(
       columns.categoriesID,
     ),
+    _pages_v_rels_services_id_idx: index('_pages_v_rels_services_id_idx').on(columns.servicesID),
     _pages_v_rels_case_studies_id_idx: index('_pages_v_rels_case_studies_id_idx').on(
       columns['case-studiesID'],
     ),
-    _pages_v_rels_services_id_idx: index('_pages_v_rels_services_id_idx').on(columns.servicesID),
+    _pages_v_rels_audiences_id_idx: index('_pages_v_rels_audiences_id_idx').on(columns.audiencesID),
     parentFk: foreignKey({
       columns: [columns['parent']],
       foreignColumns: [_pages_v.id],
@@ -1588,15 +1695,20 @@ export const _pages_v_rels = pgTable(
       foreignColumns: [categories.id],
       name: '_pages_v_rels_categories_fk',
     }).onDelete('cascade'),
+    servicesIdFk: foreignKey({
+      columns: [columns['servicesID']],
+      foreignColumns: [services.id],
+      name: '_pages_v_rels_services_fk',
+    }).onDelete('cascade'),
     'case-studiesIdFk': foreignKey({
       columns: [columns['case-studiesID']],
       foreignColumns: [case_studies.id],
       name: '_pages_v_rels_case_studies_fk',
     }).onDelete('cascade'),
-    servicesIdFk: foreignKey({
-      columns: [columns['servicesID']],
-      foreignColumns: [services.id],
-      name: '_pages_v_rels_services_fk',
+    audiencesIdFk: foreignKey({
+      columns: [columns['audiencesID']],
+      foreignColumns: [audiences.id],
+      name: '_pages_v_rels_audiences_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -2108,6 +2220,50 @@ export const services = pgTable(
     services_image_idx: index('services_image_idx').on(columns.image),
     services_updated_at_idx: index('services_updated_at_idx').on(columns.updatedAt),
     services_created_at_idx: index('services_created_at_idx').on(columns.createdAt),
+  }),
+)
+
+export const audiences_usps = pgTable(
+  'audiences_usps',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    usp: varchar('usp'),
+  },
+  (columns) => ({
+    _orderIdx: index('audiences_usps_order_idx').on(columns._order),
+    _parentIDIdx: index('audiences_usps_parent_id_idx').on(columns._parentID),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [audiences.id],
+      name: 'audiences_usps_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const audiences = pgTable(
+  'audiences',
+  {
+    id: serial('id').primaryKey(),
+    audienceName: varchar('audience_name').notNull(),
+    title: varchar('title').notNull(),
+    image: integer('image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    contentHeader: varchar('content_header').default(''),
+    contentDescription: varchar('content_description').notNull().default(''),
+    updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true, precision: 3 })
+      .defaultNow()
+      .notNull(),
+  },
+  (columns) => ({
+    audiences_image_idx: index('audiences_image_idx').on(columns.image),
+    audiences_updated_at_idx: index('audiences_updated_at_idx').on(columns.updatedAt),
+    audiences_created_at_idx: index('audiences_created_at_idx').on(columns.createdAt),
   }),
 )
 
@@ -2683,6 +2839,7 @@ export const payload_locked_documents_rels = pgTable(
     usersID: integer('users_id'),
     'case-studiesID': integer('case_studies_id'),
     servicesID: integer('services_id'),
+    audiencesID: integer('audiences_id'),
     redirectsID: integer('redirects_id'),
     formsID: integer('forms_id'),
     'form-submissionsID': integer('form_submissions_id'),
@@ -2714,6 +2871,9 @@ export const payload_locked_documents_rels = pgTable(
     payload_locked_documents_rels_services_id_idx: index(
       'payload_locked_documents_rels_services_id_idx',
     ).on(columns.servicesID),
+    payload_locked_documents_rels_audiences_id_idx: index(
+      'payload_locked_documents_rels_audiences_id_idx',
+    ).on(columns.audiencesID),
     payload_locked_documents_rels_redirects_id_idx: index(
       'payload_locked_documents_rels_redirects_id_idx',
     ).on(columns.redirectsID),
@@ -2768,6 +2928,11 @@ export const payload_locked_documents_rels = pgTable(
       columns: [columns['servicesID']],
       foreignColumns: [services.id],
       name: 'payload_locked_documents_rels_services_fk',
+    }).onDelete('cascade'),
+    audiencesIdFk: foreignKey({
+      columns: [columns['audiencesID']],
+      foreignColumns: [audiences.id],
+      name: 'payload_locked_documents_rels_audiences_fk',
     }).onDelete('cascade'),
     redirectsIdFk: foreignKey({
       columns: [columns['redirectsID']],
@@ -3203,6 +3368,16 @@ export const relations_pages_blocks_number_grid_block = relations(
     }),
   }),
 )
+export const relations_pages_blocks_services_tab_block = relations(
+  pages_blocks_services_tab_block,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_services_tab_block._parentID],
+      references: [pages.id],
+      relationName: '_blocks_servicesTabBlock',
+    }),
+  }),
+)
 export const relations_pages_blocks_case_study_block = relations(
   pages_blocks_case_study_block,
   ({ one }) => ({
@@ -3251,13 +3426,23 @@ export const relations_pages_blocks_services_accordion_block = relations(
     }),
   }),
 )
-export const relations_pages_blocks_services_tab_block = relations(
-  pages_blocks_services_tab_block,
+export const relations_pages_blocks_audience_tab_block = relations(
+  pages_blocks_audience_tab_block,
   ({ one }) => ({
     _parentID: one(pages, {
-      fields: [pages_blocks_services_tab_block._parentID],
+      fields: [pages_blocks_audience_tab_block._parentID],
       references: [pages.id],
-      relationName: '_blocks_servicesTabBlock',
+      relationName: '_blocks_audienceTabBlock',
+    }),
+  }),
+)
+export const relations_pages_blocks_phase_stepper_vertical = relations(
+  pages_blocks_phase_stepper_vertical,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_phase_stepper_vertical._parentID],
+      references: [pages.id],
+      relationName: '_blocks_phaseStepperVertical',
     }),
   }),
 )
@@ -3282,15 +3467,20 @@ export const relations_pages_rels = relations(pages_rels, ({ one }) => ({
     references: [categories.id],
     relationName: 'categories',
   }),
+  servicesID: one(services, {
+    fields: [pages_rels.servicesID],
+    references: [services.id],
+    relationName: 'services',
+  }),
   'case-studiesID': one(case_studies, {
     fields: [pages_rels['case-studiesID']],
     references: [case_studies.id],
     relationName: 'case-studies',
   }),
-  servicesID: one(services, {
-    fields: [pages_rels.servicesID],
-    references: [services.id],
-    relationName: 'services',
+  audiencesID: one(audiences, {
+    fields: [pages_rels.audiencesID],
+    references: [audiences.id],
+    relationName: 'audiences',
   }),
 }))
 export const relations_pages = relations(pages, ({ one, many }) => ({
@@ -3326,6 +3516,9 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   _blocks_numberGridBlock: many(pages_blocks_number_grid_block, {
     relationName: '_blocks_numberGridBlock',
   }),
+  _blocks_servicesTabBlock: many(pages_blocks_services_tab_block, {
+    relationName: '_blocks_servicesTabBlock',
+  }),
   _blocks_caseStudyBlock: many(pages_blocks_case_study_block, {
     relationName: '_blocks_caseStudyBlock',
   }),
@@ -3335,8 +3528,11 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   _blocks_servicesAccordionBlock: many(pages_blocks_services_accordion_block, {
     relationName: '_blocks_servicesAccordionBlock',
   }),
-  _blocks_servicesTabBlock: many(pages_blocks_services_tab_block, {
-    relationName: '_blocks_servicesTabBlock',
+  _blocks_audienceTabBlock: many(pages_blocks_audience_tab_block, {
+    relationName: '_blocks_audienceTabBlock',
+  }),
+  _blocks_phaseStepperVertical: many(pages_blocks_phase_stepper_vertical, {
+    relationName: '_blocks_phaseStepperVertical',
   }),
   meta_image: one(media, {
     fields: [pages.meta_image],
@@ -3521,6 +3717,16 @@ export const relations__pages_v_blocks_number_grid_block = relations(
     }),
   }),
 )
+export const relations__pages_v_blocks_services_tab_block = relations(
+  _pages_v_blocks_services_tab_block,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_services_tab_block._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_servicesTabBlock',
+    }),
+  }),
+)
 export const relations__pages_v_blocks_case_study_block = relations(
   _pages_v_blocks_case_study_block,
   ({ one }) => ({
@@ -3569,13 +3775,23 @@ export const relations__pages_v_blocks_services_accordion_block = relations(
     }),
   }),
 )
-export const relations__pages_v_blocks_services_tab_block = relations(
-  _pages_v_blocks_services_tab_block,
+export const relations__pages_v_blocks_audience_tab_block = relations(
+  _pages_v_blocks_audience_tab_block,
   ({ one }) => ({
     _parentID: one(_pages_v, {
-      fields: [_pages_v_blocks_services_tab_block._parentID],
+      fields: [_pages_v_blocks_audience_tab_block._parentID],
       references: [_pages_v.id],
-      relationName: '_blocks_servicesTabBlock',
+      relationName: '_blocks_audienceTabBlock',
+    }),
+  }),
+)
+export const relations__pages_v_blocks_phase_stepper_vertical = relations(
+  _pages_v_blocks_phase_stepper_vertical,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_phase_stepper_vertical._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_phaseStepperVertical',
     }),
   }),
 )
@@ -3600,15 +3816,20 @@ export const relations__pages_v_rels = relations(_pages_v_rels, ({ one }) => ({
     references: [categories.id],
     relationName: 'categories',
   }),
+  servicesID: one(services, {
+    fields: [_pages_v_rels.servicesID],
+    references: [services.id],
+    relationName: 'services',
+  }),
   'case-studiesID': one(case_studies, {
     fields: [_pages_v_rels['case-studiesID']],
     references: [case_studies.id],
     relationName: 'case-studies',
   }),
-  servicesID: one(services, {
-    fields: [_pages_v_rels.servicesID],
-    references: [services.id],
-    relationName: 'services',
+  audiencesID: one(audiences, {
+    fields: [_pages_v_rels.audiencesID],
+    references: [audiences.id],
+    relationName: 'audiences',
   }),
 }))
 export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
@@ -3649,6 +3870,9 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   _blocks_numberGridBlock: many(_pages_v_blocks_number_grid_block, {
     relationName: '_blocks_numberGridBlock',
   }),
+  _blocks_servicesTabBlock: many(_pages_v_blocks_services_tab_block, {
+    relationName: '_blocks_servicesTabBlock',
+  }),
   _blocks_caseStudyBlock: many(_pages_v_blocks_case_study_block, {
     relationName: '_blocks_caseStudyBlock',
   }),
@@ -3658,8 +3882,11 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   _blocks_servicesAccordionBlock: many(_pages_v_blocks_services_accordion_block, {
     relationName: '_blocks_servicesAccordionBlock',
   }),
-  _blocks_servicesTabBlock: many(_pages_v_blocks_services_tab_block, {
-    relationName: '_blocks_servicesTabBlock',
+  _blocks_audienceTabBlock: many(_pages_v_blocks_audience_tab_block, {
+    relationName: '_blocks_audienceTabBlock',
+  }),
+  _blocks_phaseStepperVertical: many(_pages_v_blocks_phase_stepper_vertical, {
+    relationName: '_blocks_phaseStepperVertical',
   }),
   version_meta_image: one(media, {
     fields: [_pages_v.version_meta_image],
@@ -3837,6 +4064,23 @@ export const relations_services = relations(services, ({ one, many }) => ({
     relationName: 'image',
   }),
   usps: many(services_usps, {
+    relationName: 'usps',
+  }),
+}))
+export const relations_audiences_usps = relations(audiences_usps, ({ one }) => ({
+  _parentID: one(audiences, {
+    fields: [audiences_usps._parentID],
+    references: [audiences.id],
+    relationName: 'usps',
+  }),
+}))
+export const relations_audiences = relations(audiences, ({ one, many }) => ({
+  image: one(media, {
+    fields: [audiences.image],
+    references: [media.id],
+    relationName: 'image',
+  }),
+  usps: many(audiences_usps, {
     relationName: 'usps',
   }),
 }))
@@ -4084,6 +4328,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [services.id],
       relationName: 'services',
     }),
+    audiencesID: one(audiences, {
+      fields: [payload_locked_documents_rels.audiencesID],
+      references: [audiences.id],
+      relationName: 'audiences',
+    }),
     redirectsID: one(redirects, {
       fields: [payload_locked_documents_rels.redirectsID],
       references: [redirects.id],
@@ -4312,11 +4561,13 @@ type DatabaseSchema = {
   pages_blocks_feature_grid_block: typeof pages_blocks_feature_grid_block
   pages_blocks_number_grid_block_items: typeof pages_blocks_number_grid_block_items
   pages_blocks_number_grid_block: typeof pages_blocks_number_grid_block
+  pages_blocks_services_tab_block: typeof pages_blocks_services_tab_block
   pages_blocks_case_study_block: typeof pages_blocks_case_study_block
   pages_blocks_action_tiles_block_tiles: typeof pages_blocks_action_tiles_block_tiles
   pages_blocks_action_tiles_block: typeof pages_blocks_action_tiles_block
   pages_blocks_services_accordion_block: typeof pages_blocks_services_accordion_block
-  pages_blocks_services_tab_block: typeof pages_blocks_services_tab_block
+  pages_blocks_audience_tab_block: typeof pages_blocks_audience_tab_block
+  pages_blocks_phase_stepper_vertical: typeof pages_blocks_phase_stepper_vertical
   pages: typeof pages
   pages_rels: typeof pages_rels
   _pages_v_version_hero_links: typeof _pages_v_version_hero_links
@@ -4333,11 +4584,13 @@ type DatabaseSchema = {
   _pages_v_blocks_feature_grid_block: typeof _pages_v_blocks_feature_grid_block
   _pages_v_blocks_number_grid_block_items: typeof _pages_v_blocks_number_grid_block_items
   _pages_v_blocks_number_grid_block: typeof _pages_v_blocks_number_grid_block
+  _pages_v_blocks_services_tab_block: typeof _pages_v_blocks_services_tab_block
   _pages_v_blocks_case_study_block: typeof _pages_v_blocks_case_study_block
   _pages_v_blocks_action_tiles_block_tiles: typeof _pages_v_blocks_action_tiles_block_tiles
   _pages_v_blocks_action_tiles_block: typeof _pages_v_blocks_action_tiles_block
   _pages_v_blocks_services_accordion_block: typeof _pages_v_blocks_services_accordion_block
-  _pages_v_blocks_services_tab_block: typeof _pages_v_blocks_services_tab_block
+  _pages_v_blocks_audience_tab_block: typeof _pages_v_blocks_audience_tab_block
+  _pages_v_blocks_phase_stepper_vertical: typeof _pages_v_blocks_phase_stepper_vertical
   _pages_v: typeof _pages_v
   _pages_v_rels: typeof _pages_v_rels
   posts_populated_authors: typeof posts_populated_authors
@@ -4354,6 +4607,8 @@ type DatabaseSchema = {
   case_studies: typeof case_studies
   services_usps: typeof services_usps
   services: typeof services
+  audiences_usps: typeof audiences_usps
+  audiences: typeof audiences
   redirects: typeof redirects
   redirects_rels: typeof redirects_rels
   forms_blocks_checkbox: typeof forms_blocks_checkbox
@@ -4402,11 +4657,13 @@ type DatabaseSchema = {
   relations_pages_blocks_feature_grid_block: typeof relations_pages_blocks_feature_grid_block
   relations_pages_blocks_number_grid_block_items: typeof relations_pages_blocks_number_grid_block_items
   relations_pages_blocks_number_grid_block: typeof relations_pages_blocks_number_grid_block
+  relations_pages_blocks_services_tab_block: typeof relations_pages_blocks_services_tab_block
   relations_pages_blocks_case_study_block: typeof relations_pages_blocks_case_study_block
   relations_pages_blocks_action_tiles_block_tiles: typeof relations_pages_blocks_action_tiles_block_tiles
   relations_pages_blocks_action_tiles_block: typeof relations_pages_blocks_action_tiles_block
   relations_pages_blocks_services_accordion_block: typeof relations_pages_blocks_services_accordion_block
-  relations_pages_blocks_services_tab_block: typeof relations_pages_blocks_services_tab_block
+  relations_pages_blocks_audience_tab_block: typeof relations_pages_blocks_audience_tab_block
+  relations_pages_blocks_phase_stepper_vertical: typeof relations_pages_blocks_phase_stepper_vertical
   relations_pages_rels: typeof relations_pages_rels
   relations_pages: typeof relations_pages
   relations__pages_v_version_hero_links: typeof relations__pages_v_version_hero_links
@@ -4423,11 +4680,13 @@ type DatabaseSchema = {
   relations__pages_v_blocks_feature_grid_block: typeof relations__pages_v_blocks_feature_grid_block
   relations__pages_v_blocks_number_grid_block_items: typeof relations__pages_v_blocks_number_grid_block_items
   relations__pages_v_blocks_number_grid_block: typeof relations__pages_v_blocks_number_grid_block
+  relations__pages_v_blocks_services_tab_block: typeof relations__pages_v_blocks_services_tab_block
   relations__pages_v_blocks_case_study_block: typeof relations__pages_v_blocks_case_study_block
   relations__pages_v_blocks_action_tiles_block_tiles: typeof relations__pages_v_blocks_action_tiles_block_tiles
   relations__pages_v_blocks_action_tiles_block: typeof relations__pages_v_blocks_action_tiles_block
   relations__pages_v_blocks_services_accordion_block: typeof relations__pages_v_blocks_services_accordion_block
-  relations__pages_v_blocks_services_tab_block: typeof relations__pages_v_blocks_services_tab_block
+  relations__pages_v_blocks_audience_tab_block: typeof relations__pages_v_blocks_audience_tab_block
+  relations__pages_v_blocks_phase_stepper_vertical: typeof relations__pages_v_blocks_phase_stepper_vertical
   relations__pages_v_rels: typeof relations__pages_v_rels
   relations__pages_v: typeof relations__pages_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors
@@ -4444,6 +4703,8 @@ type DatabaseSchema = {
   relations_case_studies: typeof relations_case_studies
   relations_services_usps: typeof relations_services_usps
   relations_services: typeof relations_services
+  relations_audiences_usps: typeof relations_audiences_usps
+  relations_audiences: typeof relations_audiences
   relations_redirects_rels: typeof relations_redirects_rels
   relations_redirects: typeof relations_redirects
   relations_forms_blocks_checkbox: typeof relations_forms_blocks_checkbox

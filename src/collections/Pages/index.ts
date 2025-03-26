@@ -20,6 +20,7 @@ import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
 import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
+import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
 
 import {
   MetaDescriptionField,
@@ -111,6 +112,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ActionTilesBlock,
                 ServicesAccordionBlock,
                 AudienceTabBlock,
+                PhaseStepperVertical,
               ],
               required: true,
               admin: {
