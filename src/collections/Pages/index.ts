@@ -21,6 +21,7 @@ import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
 import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
 import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
+import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/config'
 
 import {
   MetaDescriptionField,
@@ -113,6 +114,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ServicesAccordionBlock,
                 AudienceTabBlock,
                 PhaseStepperVertical,
+                EngagementModelBlock,
               ],
               required: true,
               admin: {

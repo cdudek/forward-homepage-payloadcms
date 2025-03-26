@@ -16,6 +16,7 @@ import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/Componen
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/Component'
 import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/Component'
 import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/Component'
+import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -32,6 +33,7 @@ const blockComponents = {
   servicesTabBlock: ServicesTabBlock,
   audienceTabBlock: AudienceTabBlock,
   phaseStepperVertical: PhaseStepperVertical,
+  engagementModelBlock: EngagementModelBlock,
 }
 
 export const RenderBlocks: React.FC<{

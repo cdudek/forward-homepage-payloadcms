@@ -242,6 +242,7 @@ export interface Page {
       }
     | AudienceTabBlock
     | PhaseStepperVertical
+    | EngagementModelBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1132,6 +1133,28 @@ export interface PhaseStepperVertical {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EngagementModelBlock".
+ */
+export interface EngagementModelBlock {
+  title: string;
+  gradientText: string;
+  description?: string | null;
+  tiers?:
+    | {
+        title: string;
+        description: string;
+        headlineLabel: string;
+        durationLabel: string;
+        backgroundImage: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'engagementModelBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1465,6 +1488,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         audienceTabBlock?: T | AudienceTabBlockSelect<T>;
         phaseStepperVertical?: T | PhaseStepperVerticalSelect<T>;
+        engagementModelBlock?: T | EngagementModelBlockSelect<T>;
       };
   meta?:
     | T
@@ -1734,6 +1758,27 @@ export interface PhaseStepperVerticalSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EngagementModelBlock_select".
+ */
+export interface EngagementModelBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  description?: T;
+  tiers?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        headlineLabel?: T;
+        durationLabel?: T;
+        backgroundImage?: T;
         id?: T;
       };
   id?: T;
