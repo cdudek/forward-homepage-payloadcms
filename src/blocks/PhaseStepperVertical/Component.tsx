@@ -54,11 +54,11 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
   const opacity5 = useTransform(scrollYProgress, fadeRanges[4] || [0.8, 1, 1], [0.01, 1, 1])
 
   // Create inverse opacity transformations for gray dots
-  const inverseOpacity1 = useTransform(opacity1, [0.01, 0.5, 1], [0.5, 0.3, 0])
-  const inverseOpacity2 = useTransform(opacity2, [0.01, 0.5, 1], [0.5, 0.3, 0])
-  const inverseOpacity3 = useTransform(opacity3, [0.01, 0.5, 1], [0.5, 0.3, 0])
-  const inverseOpacity4 = useTransform(opacity4, [0.01, 0.5, 1], [0.5, 0.3, 0])
-  const inverseOpacity5 = useTransform(opacity5, [0.01, 0.5, 1], [0.5, 0.3, 0])
+  const inverseOpacity1 = useTransform(opacity1, [0.01, 0.5, 1], [0.1, 0.05, 0])
+  const inverseOpacity2 = useTransform(opacity2, [0.01, 0.5, 1], [0.1, 0.05, 0])
+  const inverseOpacity3 = useTransform(opacity3, [0.01, 0.5, 1], [0.1, 0.05, 0])
+  const inverseOpacity4 = useTransform(opacity4, [0.01, 0.5, 1], [0.1, 0.05, 0])
+  const inverseOpacity5 = useTransform(opacity5, [0.01, 0.5, 1], [0.1, 0.05, 0])
 
   const phaseOpacities = [opacity1, opacity2, opacity3, opacity4, opacity5]
   const inversePhaseOpacities = [
@@ -77,8 +77,8 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
       {/* Top shape */}
       <div className="relative h-[5vw] w-full bg-white">
         <div
-          className="absolute inset-x-0 bottom-0 h-full bg-fwd-black"
-          style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' }}
+          className="absolute inset-x-0 bottom-0 h-[calc(100%+1px)] bg-fwd-black"
+          style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 101%, 0 101%)' }}
         />
       </div>
 
@@ -96,7 +96,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                 {/* Mobile layout */}
                 <div className="relative pl-4 md:hidden">
                   {/* Line on the left */}
-                  <div className="absolute left-[15px] top-0 z-0 h-full w-[3px]">
+                  <div className="absolute left-[15px] top-0 z-0 h-full w-[4px]">
                     {/* Gray background line with low opacity */}
                     <div className="absolute h-full w-full bg-fwd-grey-400 opacity-10" />
 
@@ -120,7 +120,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                           {/* Phase label with gradient border */}
                           <div className="mb-4 flex">
                             {/* Dot container with clip-path for line gap */}
-                            <div className="absolute left-0 z-10 -translate-x-1/2">
+                            <div className="absolute left-[1px] z-10 -translate-x-1/2">
                               <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-fwd-black bg-clip-padding p-[4px]">
                                 {/* Gray dot (visible only when colored dot is not) */}
                                 <motion.div
@@ -170,7 +170,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                 {/* Desktop layout */}
                 <div className="hidden md:block">
                   {/* Line in the center */}
-                  <div className="absolute left-1/2 top-0 z-0 h-full w-[2px] -translate-x-1/2">
+                  <div className="absolute left-1/2 top-0 z-0 h-full w-[4px] -translate-x-1/2">
                     {/* Gray background line with low opacity */}
                     <div className="absolute h-full w-full bg-fwd-grey-400 opacity-10" />
 
@@ -270,10 +270,10 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
       </div>
 
       {/* Bottom shape with slight negative margin to fix gap */}
-      <div className="relative -mt-[1px] h-[5vw] w-full bg-white">
+      <div className="relative -mt-[2px] h-[5vw] w-full bg-white">
         <div
-          className="absolute inset-x-0 top-0 h-full bg-fwd-black"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)' }}
+          className="absolute inset-x-0 top-0 h-[calc(100%+1px)] bg-fwd-black"
+          style={{ clipPath: 'polygon(0 -1px, 100% -1px, 100% calc(100% - 5vw), 0 100%)' }}
         />
       </div>
     </>
