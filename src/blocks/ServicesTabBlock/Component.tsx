@@ -158,8 +158,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   }
 
   return (
-    <div className="container">
-      <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
         <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
           <h2>{formattedTitle}</h2>
           {subtitle && <p>{subtitle}</p>}
@@ -175,7 +175,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
               <div key={service.id} className="relative">
                 {/* Hover background for inactive tabs */}
                 {!isActive && (
-                  <div className="absolute inset-0 rounded-3xl transition-colors duration-200 group-hover:bg-fwd-grey-200" />
+                  <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white" />
+                  // <div className="absolute inset-0 rounded-3xl transition-colors duration-200 group-hover:bg-fwd-grey-200" />
                 )}
 
                 <motion.button
@@ -183,10 +184,12 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                     'group relative z-0 rounded-3xl px-6 py-3 text-base font-medium',
                     isActive
                       ? 'text-white'
-                      : 'bg-fwd-grey-100 text-fwd-black hover:bg-fwd-grey-200',
+                      : 'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
+                    // : 'bg-fwd-grey-100 text-fwd-black hover:bg-fwd-grey-200',
                   )}
                   style={{
                     backgroundColor: isActive ? `var(--color-${colorName})` : undefined,
+                    borderColor: isActive ? `var(--color-${colorName})` : undefined,
                   }}
                   onClick={() => handleTabClick(index)}
                   onMouseEnter={handleMouseEnter}
@@ -205,7 +208,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
         </div>
 
         {/* Content Box */}
-        <div className="col-span-12 mt-6 grid grid-cols-5 gap-8 rounded-3xl bg-fwd-grey-50 p-8">
+        <div className="col-span-12 mt-6 grid grid-cols-5 gap-8 rounded-3xl border-2 border-fwd-grey-100 p-8">
+          {/* <div className="col-span-12 mt-6 grid grid-cols-5 gap-8 rounded-3xl bg-fwd-grey-50 p-8"> */}
           <AnimatePresence mode="wait">
             {activeService && (
               <motion.div
