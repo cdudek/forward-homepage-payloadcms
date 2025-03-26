@@ -1,12 +1,10 @@
 'use client'
 
 import React from 'react'
-import type { SerializedEditorState, SerializedLexicalNode } from 'lexical'
 import { Media } from '@/payload-types'
-import RichText from '@/components/RichText'
-import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 import { cn } from '@/utilities/ui'
 import Image from 'next/image'
+import { renderedTitle } from '@/utilities/gradientTitle'
 
 type IconStyle = 'round' | 'square'
 type IconSize = 'small' | 'medium' | 'large'
@@ -22,8 +20,6 @@ type ColorType =
   | 'greyLight'
   | 'greyDark'
 
-type Alignment = 'left' | 'center' | 'right'
-type VerticalAlignment = 'top' | 'middle' | 'bottom'
 type ColumnSize = 'oneThird' | 'oneQuarter'
 type BackgroundTheme = 'default' | 'light' | 'dark'
 
@@ -33,25 +29,20 @@ type Icon = {
   size: IconSize
   iconForeground: ColorType
   iconBackground: ColorType
-  alignment: Alignment
-}
-
-type Header = {
-  content: SerializedEditorState<SerializedLexicalNode>
-  horizontalAlignment: Alignment
-  verticalAlignment: VerticalAlignment
-  equalHeight: boolean
 }
 
 type Feature = {
   icon: Icon
-  header: Header
-  content: SerializedEditorState<SerializedLexicalNode>
+  title: string
+  description: string
 }
 
 export type FeatureGridBlockType = {
   blockType: 'featureGridBlock'
   blockName?: string
+  title: string
+  gradientText: string
+  description?: string
   columns: ColumnSize
   features: Feature[]
   slope?: {
@@ -63,15 +54,51 @@ export type FeatureGridBlockType = {
 }
 
 export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
-  const { columns, features, slope, enableBackground, backgroundTheme = 'default' } = props
+  const {
+    title,
+    gradientText,
+    description,
+    columns,
+    features,
+    slope,
+    enableBackground,
+    backgroundTheme = 'default',
+  } = props
 
   // Check if features exist and have the expected structure
   if (!features || features.length === 0) {
     return null
   }
 
-  if (enableBackground) {
+  const getStyles = () => {
+    const styles: Record<string, string> = {}
+
+    if (slope?.enabled) {
+      switch (slope.position) {
+        case 'top':
+          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
+          break
+        case 'bottom':
+          styles.clipPath = 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
+          break
+        case 'both':
+          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
+          break
+      }
+    }
+
+    return styles
   }
+
+  const backgroundThemeMap = {
+    default: undefined,
+    light: 'bg-fwd-grey-50',
+    dark: 'bg-fwd-black',
+  }
+
+  const backgroundColor = enableBackground
+    ? backgroundThemeMap[backgroundTheme as keyof typeof backgroundThemeMap]
+    : undefined
 
   const getGridColsClasses = () => {
     switch (columns) {
@@ -125,32 +152,6 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     return style === 'round' ? 'rounded-full' : 'rounded-lg'
   }
 
-  const getAlignmentClasses = (alignment: Alignment) => {
-    switch (alignment) {
-      case 'left':
-        return 'items-start text-left'
-      case 'center':
-        return 'items-center text-center'
-      case 'right':
-        return 'items-end text-right'
-      default:
-        return 'items-center text-center'
-    }
-  }
-
-  const getVerticalAlignmentClasses = (alignment: VerticalAlignment) => {
-    switch (alignment) {
-      case 'top':
-        return 'justify-start'
-      case 'middle':
-        return 'justify-center'
-      case 'bottom':
-        return 'justify-end'
-      default:
-        return 'justify-start'
-    }
-  }
-
   const getColor = (color: ColorType, type: 'foreground' | 'background' = 'foreground') => {
     if (color === 'gradient') {
       return 'linear-gradient(90deg, var(--color-fwd-purple), var(--color-fwd-red), var(--color-fwd-orange))'
@@ -173,98 +174,102 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     return colorMap[color]
   }
 
+  const header = renderedTitle(title, gradientText)
+
   return (
-    <SlopedEdgeWrapper
-      enabled={slope?.enabled}
-      position={slope?.position}
-      backgroundTheme={enableBackground ? backgroundTheme : undefined}
-      className="w-full"
-    >
-      <div className="container px-0 py-8">
-        <div className={cn('grid w-full gap-x-8 gap-y-8', getGridColsClasses())}>
-          {features.map((feature, index) => {
-            const { icon, header, content } = feature
-
-            // Create icon container classes, removing background from inner elements
-            const iconContainerClasses = [
-              'flex justify-center items-center mb-6',
-              getIconSizeClasses(icon.size),
-              getIconStyleClasses(icon.style),
-            ].join(' ')
-
-            const headerContainerClasses = [
-              'w-full',
-              getAlignmentClasses(header.horizontalAlignment),
-              getVerticalAlignmentClasses(header.verticalAlignment),
-              header.equalHeight ? 'flex flex-col h-full' : '',
-            ].join(' ')
-
-            const featureClasses = [
-              'flex flex-col',
-              getAlignmentClasses(icon.alignment),
-              getColSpanClasses(),
-            ].join(' ')
-
-            return (
-              <div key={index} className={featureClasses}>
-                {/* Outer icon container with background color */}
-                <div
-                  className={iconContainerClasses}
-                  style={{
-                    backgroundColor: getColor(icon.iconBackground || 'default', 'background'),
-                  }}
-                >
-                  {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
-                  {icon.media?.url ? (
-                    icon.iconForeground === 'default' ? (
-                      <Image
-                        src={icon.media.url}
-                        alt={icon.media.alt || ''}
-                        width={100}
-                        height={100}
-                        className={getIconImageSizeClasses(icon.size)}
-                      />
-                    ) : (
-                      <div className={getIconImageSizeClasses(icon.size)}>
-                        <div
-                          className="h-full w-full"
-                          style={{
-                            WebkitMaskImage: `url(${icon.media.url})`,
-                            maskImage: `url(${icon.media.url})`,
-                            WebkitMaskSize: 'contain',
-                            maskSize: 'contain',
-                            WebkitMaskRepeat: 'no-repeat',
-                            maskRepeat: 'no-repeat',
-                            WebkitMaskPosition: 'center',
-                            maskPosition: 'center',
-                            background:
-                              icon.iconForeground === 'gradient'
-                                ? getColor(icon.iconForeground, 'foreground')
-                                : undefined,
-                            backgroundColor:
-                              icon.iconForeground !== 'gradient'
-                                ? getColor(icon.iconForeground, 'foreground')
-                                : undefined,
-                          }}
-                        />
-                      </div>
-                    )
-                  ) : null}
-                </div>
-
-                <div className={headerContainerClasses}>
-                  <RichText data={header.content} enableGutter={false} />
-                </div>
-
-                <div className="prose prose-sm w-full max-w-none">
-                  <RichText data={content} enableGutter={false} />
-                </div>
-              </div>
-            )
+    <div className={cn('relative w-full', backgroundColor)} style={getStyles()}>
+      <div className="container mx-auto">
+        <div
+          className={cn('w-full', {
+            'pt-[calc(5vw+2rem)]':
+              slope?.enabled && (slope?.position === 'top' || slope?.position === 'both'),
+            'pb-[calc(5vw+2rem)]':
+              slope?.enabled && (slope?.position === 'bottom' || slope?.position === 'both'),
+            'pb-8': slope?.enabled && slope?.position === 'top',
+            'pt-8': slope?.enabled && slope?.position === 'bottom',
           })}
+        >
+          <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
+            <div className="mx-auto pb-16 pt-8">
+              <h2>{header}</h2>
+              {description && <p className="pb-8">{description}</p>}
+            </div>
+            <div className={cn('grid w-full gap-x-8 gap-y-8', getGridColsClasses())}>
+              {features.map((feature, index) => {
+                const { icon, title, description } = feature
+
+                // Create icon container classes, removing background from inner elements
+                const iconContainerClasses = [
+                  'flex justify-center items-center mb-6',
+                  getIconSizeClasses(icon.size),
+                  getIconStyleClasses(icon.style),
+                ].join(' ')
+
+                const featureClasses = [
+                  'flex flex-col',
+                  'items-center text-center',
+                  getColSpanClasses(),
+                ].join(' ')
+
+                return (
+                  <div key={index} className={featureClasses}>
+                    {/* Outer icon container with background color */}
+                    <div
+                      className={iconContainerClasses}
+                      style={{
+                        backgroundColor: getColor(icon.iconBackground || 'default', 'background'),
+                      }}
+                    >
+                      {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
+                      {icon.media?.url ? (
+                        icon.iconForeground === 'default' ? (
+                          <Image
+                            src={icon.media.url}
+                            alt={icon.media.alt || ''}
+                            width={100}
+                            height={100}
+                            className={getIconImageSizeClasses(icon.size)}
+                          />
+                        ) : (
+                          <div className={getIconImageSizeClasses(icon.size)}>
+                            <div
+                              className="h-full w-full"
+                              style={{
+                                WebkitMaskImage: `url(${icon.media.url})`,
+                                maskImage: `url(${icon.media.url})`,
+                                WebkitMaskSize: 'contain',
+                                maskSize: 'contain',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskPosition: 'center',
+                                maskPosition: 'center',
+                                background:
+                                  icon.iconForeground === 'gradient'
+                                    ? getColor(icon.iconForeground, 'foreground')
+                                    : undefined,
+                                backgroundColor:
+                                  icon.iconForeground !== 'gradient'
+                                    ? getColor(icon.iconForeground, 'foreground')
+                                    : undefined,
+                              }}
+                            />
+                          </div>
+                        )
+                      ) : null}
+                    </div>
+
+                    <div className="w-full text-center">
+                      <h3 className="mb-4 text-xl font-medium">{title}</h3>
+                      <p className="text-fwd-grey-600">{description}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
-    </SlopedEdgeWrapper>
+    </div>
   )
 }
 

@@ -6,21 +6,29 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
-// type CompanyName = NonNullable<Props['companyName']>
-// type Logo = NonNullable<Props['logo']>
-// type Testimonial = NonNullable<Props['testimonials']>[number]
-// type Metrics = NonNullable<Props['metrics']>[number]
+import { renderedTitle } from '@/utilities/gradientTitle'
 
-// type Props = CaseStudyBlockType
-
-// Create a separate component for the case study display to handle the logic
-const CaseStudyDisplay: React.FC<{
+type CaseStudyDisplayProps = {
   caseStudies: (number | CaseStudy)[]
   limit?: number
-}> = ({ caseStudies, limit = 10 }) => {
+  title: string
+  gradientText: string
+  description: string
+}
+
+// Create a separate component for the case study display to handle the logic
+const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
+  caseStudies,
+  limit = 10,
+  title,
+  gradientText,
+  description,
+}) => {
   // State for the current active case study
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isInView, setIsInView] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
   // Configurable rotation timing in seconds - increased for smoother transitions
   const rotationTimingSeconds = 10
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -38,12 +46,42 @@ const CaseStudyDisplay: React.FC<{
     setProgressPercent(0)
   }
 
+  // Set up intersection observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        if (entry) {
+          setIsInView(entry.isIntersecting)
+          // Reset progress when component comes into view
+          if (entry.isIntersecting) {
+            setProgressPercent(0)
+          }
+        }
+      },
+      {
+        threshold: 0.1, // Trigger when at least 10% of the component is visible
+        rootMargin: '50px', // Start loading slightly before it comes into view
+      },
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
+      }
+    }
+  }, [])
+
   // Set isFirstRender to false after component mounts
   useEffect(() => {
     setIsFirstRender(false)
   }, [])
 
-  // Set up rotation timer
+  // Set up rotation timer - only when in view
   useEffect(() => {
     // Reset animation when index changes
     setProgressPercent(0)
@@ -53,9 +91,9 @@ const CaseStudyDisplay: React.FC<{
       clearInterval(progressIntervalRef.current)
     }
 
-    // Only start rotation if not paused and we have multiple case studies
-    if (!isPaused && totalCaseStudies > 1) {
-      const interval = 50 // Update progress every 50ms for smooth progress bar
+    // Only start rotation if not paused, in view, and we have multiple case studies
+    if (!isPaused && isInView && totalCaseStudies > 1) {
+      const interval = 100 // Update progress every 100ms instead of 50ms for better performance
       const totalSteps = (rotationTimingSeconds * 1000) / interval
 
       progressIntervalRef.current = setInterval(() => {
@@ -79,8 +117,7 @@ const CaseStudyDisplay: React.FC<{
         clearInterval(progressIntervalRef.current)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds])
+  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, isInView])
 
   // Get the current active case study
   const activeCaseStudy = displayCaseStudies[activeIndex]
@@ -122,12 +159,19 @@ const CaseStudyDisplay: React.FC<{
     setProgressPercent(0)
   }
 
+  const header = renderedTitle(title, gradientText)
+
   return (
     <div
+      ref={containerRef}
       className="container mx-auto hidden py-8 md:block"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      <div className="prose-sm mx-auto pb-8 pt-8 text-center md:prose-md xl:prose-lg">
+        <h2>{header}</h2>
+        {description && <p className="pb-8">{description}</p>}
+      </div>
       <div className="grid grid-cols-5 gap-6">
         <div className="relative col-span-3">
           <AnimatePresence mode="wait">
@@ -135,9 +179,9 @@ const CaseStudyDisplay: React.FC<{
               key={`hero-${activeIndex}`}
               variants={heroCardVariants}
               initial="initial"
-              animate="animate"
+              animate={isInView ? 'animate' : 'initial'}
               exit="exit"
-              className="relative aspect-[16/10] w-full will-change-transform" // Modern aspect ratio
+              className="relative aspect-[16/10] w-full will-change-transform"
             >
               {/* Hero Case Study Card */}
               <div className="absolute inset-0 overflow-hidden rounded-3xl">
@@ -368,11 +412,25 @@ const CaseStudyDisplay: React.FC<{
 }
 
 // Main component that handles the empty case check
-export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({ caseStudies, limit = 10 }) => {
+export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
+  caseStudies,
+  limit = 10,
+  title = 'Case Studies',
+  gradientText = 'Studies',
+  description = 'Our case studies',
+}) => {
   // Guard clause for empty case studies
   if (!caseStudies?.length) return null
 
-  return <CaseStudyDisplay caseStudies={caseStudies} limit={limit || 10} />
+  return (
+    <CaseStudyDisplay
+      caseStudies={caseStudies}
+      limit={limit || 10}
+      title={title ?? 'Case Studies'}
+      gradientText={gradientText ?? 'Studies'}
+      description={description ?? 'Our case studies'}
+    />
+  )
 }
 
 export default CaseStudyBlock

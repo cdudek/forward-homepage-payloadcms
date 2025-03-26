@@ -818,6 +818,9 @@ export interface LogoGridBlock {
  * via the `definition` "FeatureGridBlock".
  */
 export interface FeatureGridBlock {
+  title: string;
+  gradientText: string;
+  description?: string | null;
   features?:
     | {
         icon: {
@@ -852,43 +855,9 @@ export interface FeatureGridBlock {
                 | 'greyDark'
               )
             | null;
-          alignment?: ('left' | 'center' | 'right') | null;
         };
-        header?: {
-          content?: {
-            root: {
-              type: string;
-              children: {
-                type: string;
-                version: number;
-                [k: string]: unknown;
-              }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          } | null;
-          horizontalAlignment?: ('left' | 'center' | 'right') | null;
-          verticalAlignment?: ('top' | 'middle' | 'bottom') | null;
-          equalHeight?: boolean | null;
-        };
-        content?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
+        title: string;
+        description: string;
         id?: string | null;
       }[]
     | null;
@@ -1025,6 +994,9 @@ export interface Service {
  * via the `definition` "CaseStudyBlock".
  */
 export interface CaseStudyBlock {
+  title: string;
+  gradientText?: string | null;
+  description?: string | null;
   caseStudies?: (number | CaseStudy)[] | null;
   limit?: number | null;
   id?: string | null;
@@ -1631,6 +1603,9 @@ export interface LogoGridBlockSelect<T extends boolean = true> {
  * via the `definition` "FeatureGridBlock_select".
  */
 export interface FeatureGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  description?: T;
   features?:
     | T
     | {
@@ -1642,17 +1617,9 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
               size?: T;
               iconForeground?: T;
               iconBackground?: T;
-              alignment?: T;
             };
-        header?:
-          | T
-          | {
-              content?: T;
-              horizontalAlignment?: T;
-              verticalAlignment?: T;
-              equalHeight?: T;
-            };
-        content?: T;
+        title?: T;
+        description?: T;
         id?: T;
       };
   columns?: T;
@@ -1710,6 +1677,9 @@ export interface ServicesTabBlockSelect<T extends boolean = true> {
  * via the `definition` "CaseStudyBlock_select".
  */
 export interface CaseStudyBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  description?: T;
   caseStudies?: T;
   limit?: T;
   id?: T;

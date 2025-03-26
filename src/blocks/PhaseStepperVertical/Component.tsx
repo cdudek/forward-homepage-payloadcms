@@ -14,7 +14,21 @@ type PhaseStepperVerticalProps = {
   phases: Phase[]
 }
 
-const PHASE_COLORS = ['fwd-purple', 'fwd-lipstick', 'fwd-red', 'fwd-coral-red', 'fwd-orange']
+const PHASE_COLOR_CLASSES = [
+  'bg-fwd-purple',
+  'bg-fwd-lipstick',
+  'bg-fwd-red',
+  'bg-fwd-coral-red',
+  'bg-fwd-orange',
+]
+
+const PHASE_SHADOW_CLASSES = [
+  'shadow-[0_0_8px] shadow-fwd-purple/50',
+  'shadow-[0_0_8px] shadow-fwd-lipstick/50',
+  'shadow-[0_0_8px] shadow-fwd-red/50',
+  'shadow-[0_0_8px] shadow-fwd-coral-red/50',
+  'shadow-[0_0_8px] shadow-fwd-orange/50',
+]
 
 export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
   title,
@@ -22,22 +36,35 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
   phases,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // Limit to 5 phases
+  const limitedPhases = phases.slice(0, 5)
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start center', 'end center'],
   })
 
-  // Limit to 5 phases
-  const limitedPhases = phases.slice(0, 5)
+  // Pre-calculate fade ranges for each phase with much larger fading windows
+  const fadeRanges = limitedPhases.map((_, index) => {
+    const sectionCount = limitedPhases.length
+    const sectionSize = 1 / sectionCount
 
-  // Create individual progress variables for each phase with adjusted timing
-  const progress1 = useTransform(scrollYProgress, [0, 0.2], [0, 1])
-  const progress2 = useTransform(scrollYProgress, [0.2, 0.4], [0, 1])
-  const progress3 = useTransform(scrollYProgress, [0.4, 0.6], [0, 1])
-  const progress4 = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
-  const progress5 = useTransform(scrollYProgress, [0.8, 1], [0, 1])
+    // Start fading earlier and continue longer - fade over 70% of the section
+    const fadeStart = index * sectionSize
+    const fadeEnd = fadeStart + sectionSize * 0.7
 
-  const phaseProgresses = [progress1, progress2, progress3, progress4, progress5]
+    return [fadeStart, fadeEnd, 1]
+  })
+
+  // Create opacity transformations for each possible phase
+  const opacity1 = useTransform(scrollYProgress, fadeRanges[0] || [0, 0.5, 1], [0, 1, 1])
+  const opacity2 = useTransform(scrollYProgress, fadeRanges[1] || [0.2, 0.7, 1], [0, 1, 1])
+  const opacity3 = useTransform(scrollYProgress, fadeRanges[2] || [0.4, 0.9, 1], [0, 1, 1])
+  const opacity4 = useTransform(scrollYProgress, fadeRanges[3] || [0.6, 1, 1], [0, 1, 1])
+  const opacity5 = useTransform(scrollYProgress, fadeRanges[4] || [0.8, 1, 1], [0, 1, 1])
+
+  const phaseOpacities = [opacity1, opacity2, opacity3, opacity4, opacity5]
 
   return (
     <>
@@ -60,10 +87,12 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
 
             <div className="relative col-span-12 mt-16">
               {/* Vertical line with glow */}
-              <div className="absolute -top-8 left-4 h-[calc(100%+2rem)] w-[2px] md:left-1/2 md:-translate-x-1/2">
+              <div className="absolute -top-8 left-4 h-[calc(100%+2rem)] w-[1px] md:left-1/2 md:-translate-x-1/2">
+                {/* Gray background line */}
                 <div className="absolute h-full w-full bg-gray-800" />
+                {/* Colored gradient progress line */}
                 <motion.div
-                  className="relative h-full w-full bg-gradient-to-b from-fwd-purple via-fwd-red to-fwd-orange shadow-[0_0_10px_rgba(255,255,255,0.3)] shadow-fwd-purple"
+                  className="relative h-full w-full bg-gradient-to-b from-fwd-purple via-fwd-red to-fwd-orange"
                   style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
                 />
               </div>
@@ -71,113 +100,109 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
               <div className="flex flex-col gap-16 md:gap-32">
                 {limitedPhases.map((phase, index) => {
                   const isEven = index % 2 === 0
+                  const opacity = phaseOpacities[index]
+                  const colorClass = PHASE_COLOR_CLASSES[index] || PHASE_COLOR_CLASSES[0]
+                  const shadowClass = PHASE_SHADOW_CLASSES[index] || PHASE_SHADOW_CLASSES[0]
 
                   return (
-                    <motion.div
-                      key={index}
-                      className={cn('mx-auto w-full md:max-w-5xl')}
-                      style={{ opacity: phaseProgresses[index] }}
-                    >
+                    <div key={index} className={cn('mx-auto w-full md:max-w-none')}>
                       {/* Mobile layout */}
-                      <div className="md:hidden">
+                      <div className="w-full md:hidden">
                         <div className="flex items-center">
-                          {/* Circle for mobile */}
-                          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
-                            {/* Glow effect */}
+                          {/* Circle dot for mobile that sits on the line */}
+                          <motion.div
+                            className="relative z-10 -ml-3 flex items-center justify-center"
+                            style={{ opacity }}
+                          >
+                            {/* Solid colored dot with subtle glow */}
                             <div
-                              className={cn(
-                                'absolute h-full w-full rounded-full opacity-20 blur-sm',
-                                index === 0 && 'bg-fwd-purple',
-                                index === 1 && 'bg-fwd-lipstick',
-                                index === 2 && 'bg-fwd-red',
-                                index === 3 && 'bg-fwd-coral-red',
-                                index === 4 && 'bg-fwd-orange',
-                              )}
+                              className={cn('h-16 w-16 rounded-full', colorClass, shadowClass)}
                             />
-                            {/* Main circle */}
-                            <div
-                              className={cn(
-                                'absolute h-full w-full rounded-full border-[3px] border-fwd-black',
-                                index === 0 && 'bg-fwd-purple',
-                                index === 1 && 'bg-fwd-lipstick',
-                                index === 2 && 'bg-fwd-red',
-                                index === 3 && 'bg-fwd-coral-red',
-                                index === 4 && 'bg-fwd-orange',
-                              )}
-                            />
-                          </div>
-                          <div className="ml-6 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
-                            Phase {index + 1}
-                          </div>
+                          </motion.div>
+
+                          {/* Phase label with gradient border */}
+                          <motion.div className="relative ml-6" style={{ opacity }}>
+                            <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
+                              <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                                <span className="text-sm text-white">Phase {index + 1}</span>
+                              </span>
+                            </span>
+                          </motion.div>
                         </div>
-                        <div className="prose-sm prose-invert mt-4 pl-14">
+
+                        <motion.div
+                          className="prose-sm prose-invert mt-4 w-full pl-14"
+                          style={{ opacity }}
+                        >
                           <h3 className="text-white">{phase.title}</h3>
                           <p className="text-gray-300">{phase.description}</p>
-                        </div>
+                        </motion.div>
                       </div>
 
                       {/* Desktop layout */}
-                      <div className="hidden md:grid md:grid-cols-[1fr,auto,1fr] md:items-start md:gap-8">
+                      <div className="hidden w-full md:grid md:grid-cols-[1fr,auto,1fr] md:items-start md:gap-8">
                         {/* Left content */}
                         <div
                           className={cn(
-                            'prose-sm prose-invert md:prose-md xl:prose-lg',
+                            'prose-sm prose-invert w-full md:prose-md xl:prose-lg',
                             isEven ? 'text-right' : 'opacity-0',
                           )}
                         >
-                          <div
-                            className={cn(
-                              'mb-4 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white',
-                              isEven && 'ml-auto',
-                            )}
-                          >
-                            Phase {index + 1}
-                          </div>
-                          <h3 className="text-white">{phase.title}</h3>
-                          <p className="text-gray-300">{phase.description}</p>
+                          {isEven && (
+                            <motion.div style={{ opacity }} className="w-full">
+                              {/* Desktop left phase label */}
+                              <div
+                                className={cn('relative mb-4 inline-block', isEven && 'ml-auto')}
+                              >
+                                <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
+                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                                    <span className="text-sm text-white">Phase {index + 1}</span>
+                                  </span>
+                                </span>
+                              </div>
+                              <div className="w-full">
+                                <h3 className="text-white">{phase.title}</h3>
+                                <p className="text-gray-300">{phase.description}</p>
+                              </div>
+                            </motion.div>
+                          )}
                         </div>
 
-                        {/* Center dot */}
-                        <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
-                          {/* Glow effect */}
-                          <div
-                            className={cn(
-                              'absolute h-full w-full rounded-full opacity-20 blur-sm',
-                              index === 0 && 'bg-fwd-purple',
-                              index === 1 && 'bg-fwd-lipstick',
-                              index === 2 && 'bg-fwd-red',
-                              index === 3 && 'bg-fwd-coral-red',
-                              index === 4 && 'bg-fwd-orange',
-                            )}
-                          />
-                          {/* Main circle */}
-                          <div
-                            className={cn(
-                              'absolute h-full w-full rounded-full border-[3px] border-fwd-black',
-                              index === 0 && 'bg-fwd-purple',
-                              index === 1 && 'bg-fwd-lipstick',
-                              index === 2 && 'bg-fwd-red',
-                              index === 3 && 'bg-fwd-coral-red',
-                              index === 4 && 'bg-fwd-orange',
-                            )}
-                          />
-                        </div>
+                        {/* Center colored dot that sits directly on the vertical line */}
+                        <motion.div
+                          className="relative z-20 mx-auto flex items-center justify-center"
+                          style={{ opacity }}
+                        >
+                          {/* Glowing dot that cuts the line */}
+                          <div className={cn('h-16 w-16 rounded-full', colorClass, shadowClass)} />
+                        </motion.div>
 
                         {/* Right content */}
                         <div
                           className={cn(
-                            'prose-sm prose-invert md:prose-md xl:prose-lg',
+                            'prose-sm prose-invert w-full md:prose-md xl:prose-lg',
                             !isEven ? '' : 'opacity-0',
                           )}
                         >
-                          <div className="mb-4 w-max rounded-3xl border border-fwd-purple px-4 py-2 text-sm text-white">
-                            Phase {index + 1}
-                          </div>
-                          <h3 className="text-white">{phase.title}</h3>
-                          <p className="text-gray-300">{phase.description}</p>
+                          {!isEven && (
+                            <motion.div style={{ opacity }} className="w-full">
+                              {/* Desktop right phase label */}
+                              <div className="relative mb-4 inline-block">
+                                <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
+                                  <span className="flex items-center justify-center rounded-full bg-fwd-black px-10 py-2.5">
+                                    <span className="text-sm text-white">Phase {index + 1}</span>
+                                  </span>
+                                </span>
+                              </div>
+                              <div className="w-full">
+                                <h3 className="text-white">{phase.title}</h3>
+                                <p className="text-gray-300">{phase.description}</p>
+                              </div>
+                            </motion.div>
+                          )}
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )
                 })}
               </div>

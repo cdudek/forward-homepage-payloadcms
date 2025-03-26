@@ -113,9 +113,6 @@ export const fg_icon_background = pgEnum('fg_icon_background', [
   'greyLight',
   'greyDark',
 ])
-export const fg_icon_align = pgEnum('fg_icon_align', ['left', 'center', 'right'])
-export const fg_header_h_align = pgEnum('fg_header_h_align', ['left', 'center', 'right'])
-export const fg_header_v_align = pgEnum('fg_header_v_align', ['top', 'middle', 'bottom'])
 export const fg_grid_cols = pgEnum('fg_grid_cols', ['oneThird', 'oneQuarter'])
 export const fg_bg_color = pgEnum('fg_bg_color', ['default', 'light', 'dark'])
 export const enum_pages_blocks_feature_grid_block_slope_position = pgEnum(
@@ -594,14 +591,10 @@ export const pages_blocks_feature_grid_block_features = pgTable(
     }),
     icon_style: fg_icon_style('icon_style').default('round'),
     icon_size: fg_icon_size('icon_size').default('medium'),
-    icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('default'),
-    icon_iconBackground: fg_icon_background('icon_icon_background').default('default'),
-    icon_alignment: fg_icon_align('icon_alignment').default('center'),
-    header_content: jsonb('header_content'),
-    header_horizontalAlignment: fg_header_h_align('header_horizontal_alignment').default('center'),
-    header_verticalAlignment: fg_header_v_align('header_vertical_alignment').default('top'),
-    header_equalHeight: boolean('header_equal_height').default(false),
-    content: jsonb('content'),
+    icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('gradient'),
+    icon_iconBackground: fg_icon_background('icon_icon_background').default('greyLight'),
+    title: varchar('title'),
+    description: varchar('description'),
   },
   (columns) => ({
     _orderIdx: index('pages_blocks_feature_grid_block_features_order_idx').on(columns._order),
@@ -626,9 +619,12 @@ export const pages_blocks_feature_grid_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
+    title: varchar('title').default(''),
+    gradientText: varchar('gradient_text').default(''),
+    description: varchar('description').default(''),
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
-    backgroundTheme: fg_bg_color('background_theme').default('default'),
+    backgroundTheme: fg_bg_color('background_theme').default('light'),
     slope_enabled: boolean('slope_enabled').default(false),
     slope_position:
       enum_pages_blocks_feature_grid_block_slope_position('slope_position').default('bottom'),
@@ -732,7 +728,10 @@ export const pages_blocks_case_study_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    limit: numeric('limit').default('10'),
+    title: varchar('title').default('Case Studies'),
+    gradientText: varchar('gradient_text').default('Studies'),
+    description: varchar('description').default('Our case studies'),
+    limit: numeric('limit').default('5'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -852,6 +851,28 @@ export const pages_blocks_audience_tab_block = pgTable(
       columns: [columns['_parentID']],
       foreignColumns: [pages.id],
       name: 'pages_blocks_audience_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages_blocks_phase_stepper_vertical_phases = pgTable(
+  'pages_blocks_phase_stepper_vertical_phases',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: varchar('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title'),
+    description: varchar('description'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_phase_stepper_vertical_phases_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_phase_stepper_vertical_phases_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages_blocks_phase_stepper_vertical.id],
+      name: 'pages_blocks_phase_stepper_vertical_phases_parent_id_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -1268,14 +1289,10 @@ export const _pages_v_blocks_feature_grid_block_features = pgTable(
     }),
     icon_style: fg_icon_style('icon_style').default('round'),
     icon_size: fg_icon_size('icon_size').default('medium'),
-    icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('default'),
-    icon_iconBackground: fg_icon_background('icon_icon_background').default('default'),
-    icon_alignment: fg_icon_align('icon_alignment').default('center'),
-    header_content: jsonb('header_content'),
-    header_horizontalAlignment: fg_header_h_align('header_horizontal_alignment').default('center'),
-    header_verticalAlignment: fg_header_v_align('header_vertical_alignment').default('top'),
-    header_equalHeight: boolean('header_equal_height').default(false),
-    content: jsonb('content'),
+    icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('gradient'),
+    icon_iconBackground: fg_icon_background('icon_icon_background').default('greyLight'),
+    title: varchar('title'),
+    description: varchar('description'),
     _uuid: varchar('_uuid'),
   },
   (columns) => ({
@@ -1301,9 +1318,12 @@ export const _pages_v_blocks_feature_grid_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
+    title: varchar('title').default(''),
+    gradientText: varchar('gradient_text').default(''),
+    description: varchar('description').default(''),
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
-    backgroundTheme: fg_bg_color('background_theme').default('default'),
+    backgroundTheme: fg_bg_color('background_theme').default('light'),
     slope_enabled: boolean('slope_enabled').default(false),
     slope_position:
       enum__pages_v_blocks_feature_grid_block_slope_position('slope_position').default('bottom'),
@@ -1413,7 +1433,10 @@ export const _pages_v_blocks_case_study_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
-    limit: numeric('limit').default('10'),
+    title: varchar('title').default('Case Studies'),
+    gradientText: varchar('gradient_text').default('Studies'),
+    description: varchar('description').default('Our case studies'),
+    limit: numeric('limit').default('5'),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },
@@ -1538,6 +1561,29 @@ export const _pages_v_blocks_audience_tab_block = pgTable(
       columns: [columns['_parentID']],
       foreignColumns: [_pages_v.id],
       name: '_pages_v_blocks_audience_tab_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _pages_v_blocks_phase_stepper_vertical_phases = pgTable(
+  '_pages_v_blocks_phase_stepper_vertical_phases',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title'),
+    description: varchar('description'),
+    _uuid: varchar('_uuid'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_phase_stepper_vertical_phases_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_phase_stepper_vertical_phases_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v_blocks_phase_stepper_vertical.id],
+      name: '_pages_v_blocks_phase_stepper_vertical_phases_parent_id_fk',
     }).onDelete('cascade'),
   }),
 )
@@ -3436,13 +3482,26 @@ export const relations_pages_blocks_audience_tab_block = relations(
     }),
   }),
 )
+export const relations_pages_blocks_phase_stepper_vertical_phases = relations(
+  pages_blocks_phase_stepper_vertical_phases,
+  ({ one }) => ({
+    _parentID: one(pages_blocks_phase_stepper_vertical, {
+      fields: [pages_blocks_phase_stepper_vertical_phases._parentID],
+      references: [pages_blocks_phase_stepper_vertical.id],
+      relationName: 'phases',
+    }),
+  }),
+)
 export const relations_pages_blocks_phase_stepper_vertical = relations(
   pages_blocks_phase_stepper_vertical,
-  ({ one }) => ({
+  ({ one, many }) => ({
     _parentID: one(pages, {
       fields: [pages_blocks_phase_stepper_vertical._parentID],
       references: [pages.id],
       relationName: '_blocks_phaseStepperVertical',
+    }),
+    phases: many(pages_blocks_phase_stepper_vertical_phases, {
+      relationName: 'phases',
     }),
   }),
 )
@@ -3785,13 +3844,26 @@ export const relations__pages_v_blocks_audience_tab_block = relations(
     }),
   }),
 )
+export const relations__pages_v_blocks_phase_stepper_vertical_phases = relations(
+  _pages_v_blocks_phase_stepper_vertical_phases,
+  ({ one }) => ({
+    _parentID: one(_pages_v_blocks_phase_stepper_vertical, {
+      fields: [_pages_v_blocks_phase_stepper_vertical_phases._parentID],
+      references: [_pages_v_blocks_phase_stepper_vertical.id],
+      relationName: 'phases',
+    }),
+  }),
+)
 export const relations__pages_v_blocks_phase_stepper_vertical = relations(
   _pages_v_blocks_phase_stepper_vertical,
-  ({ one }) => ({
+  ({ one, many }) => ({
     _parentID: one(_pages_v, {
       fields: [_pages_v_blocks_phase_stepper_vertical._parentID],
       references: [_pages_v.id],
       relationName: '_blocks_phaseStepperVertical',
+    }),
+    phases: many(_pages_v_blocks_phase_stepper_vertical_phases, {
+      relationName: 'phases',
     }),
   }),
 )
@@ -4494,9 +4566,6 @@ type DatabaseSchema = {
   fg_icon_size: typeof fg_icon_size
   fg_icon_foreground: typeof fg_icon_foreground
   fg_icon_background: typeof fg_icon_background
-  fg_icon_align: typeof fg_icon_align
-  fg_header_h_align: typeof fg_header_h_align
-  fg_header_v_align: typeof fg_header_v_align
   fg_grid_cols: typeof fg_grid_cols
   fg_bg_color: typeof fg_bg_color
   enum_pages_blocks_feature_grid_block_slope_position: typeof enum_pages_blocks_feature_grid_block_slope_position
@@ -4567,6 +4636,7 @@ type DatabaseSchema = {
   pages_blocks_action_tiles_block: typeof pages_blocks_action_tiles_block
   pages_blocks_services_accordion_block: typeof pages_blocks_services_accordion_block
   pages_blocks_audience_tab_block: typeof pages_blocks_audience_tab_block
+  pages_blocks_phase_stepper_vertical_phases: typeof pages_blocks_phase_stepper_vertical_phases
   pages_blocks_phase_stepper_vertical: typeof pages_blocks_phase_stepper_vertical
   pages: typeof pages
   pages_rels: typeof pages_rels
@@ -4590,6 +4660,7 @@ type DatabaseSchema = {
   _pages_v_blocks_action_tiles_block: typeof _pages_v_blocks_action_tiles_block
   _pages_v_blocks_services_accordion_block: typeof _pages_v_blocks_services_accordion_block
   _pages_v_blocks_audience_tab_block: typeof _pages_v_blocks_audience_tab_block
+  _pages_v_blocks_phase_stepper_vertical_phases: typeof _pages_v_blocks_phase_stepper_vertical_phases
   _pages_v_blocks_phase_stepper_vertical: typeof _pages_v_blocks_phase_stepper_vertical
   _pages_v: typeof _pages_v
   _pages_v_rels: typeof _pages_v_rels
@@ -4663,6 +4734,7 @@ type DatabaseSchema = {
   relations_pages_blocks_action_tiles_block: typeof relations_pages_blocks_action_tiles_block
   relations_pages_blocks_services_accordion_block: typeof relations_pages_blocks_services_accordion_block
   relations_pages_blocks_audience_tab_block: typeof relations_pages_blocks_audience_tab_block
+  relations_pages_blocks_phase_stepper_vertical_phases: typeof relations_pages_blocks_phase_stepper_vertical_phases
   relations_pages_blocks_phase_stepper_vertical: typeof relations_pages_blocks_phase_stepper_vertical
   relations_pages_rels: typeof relations_pages_rels
   relations_pages: typeof relations_pages
@@ -4686,6 +4758,7 @@ type DatabaseSchema = {
   relations__pages_v_blocks_action_tiles_block: typeof relations__pages_v_blocks_action_tiles_block
   relations__pages_v_blocks_services_accordion_block: typeof relations__pages_v_blocks_services_accordion_block
   relations__pages_v_blocks_audience_tab_block: typeof relations__pages_v_blocks_audience_tab_block
+  relations__pages_v_blocks_phase_stepper_vertical_phases: typeof relations__pages_v_blocks_phase_stepper_vertical_phases
   relations__pages_v_blocks_phase_stepper_vertical: typeof relations__pages_v_blocks_phase_stepper_vertical
   relations__pages_v_rels: typeof relations__pages_v_rels
   relations__pages_v: typeof relations__pages_v

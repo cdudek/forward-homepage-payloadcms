@@ -4,9 +4,10 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
 import type { Service, Page, Post } from '@/payload-types'
-import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 import { getColorBlends } from '@/utilities/getColorBlends'
 import renderedTitle from '@/utilities/gradientTitle'
+import { cn } from '@/utilities/ui'
+
 type Props = {
   services: Service[]
   title: string
@@ -21,6 +22,11 @@ type Props = {
     label: string
   } | null
   limit?: number
+  slope?: {
+    enabled?: boolean
+    position?: 'top' | 'bottom' | 'both'
+    backgroundTheme?: 'default' | 'light' | 'dark'
+  }
 }
 
 // const MotionHeader = motion.h2
@@ -32,6 +38,11 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   gradient = '',
   link,
   limit = 5,
+  slope = {
+    enabled: true,
+    position: 'both',
+    backgroundTheme: 'light',
+  },
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -81,7 +92,36 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   // Memoize the rendered title to prevent unnecessary recalculations
   const formattedTitle = renderedTitle(title || '', gradient || '')
 
-  //
+  // Get styles for sloped edge
+  const getSlopeStyles = useCallback(() => {
+    const styles: Record<string, string> = {}
+
+    if (slope.enabled) {
+      switch (slope.position) {
+        case 'top':
+          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
+          break
+        case 'bottom':
+          styles.clipPath = 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
+          break
+        case 'both':
+          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
+          break
+      }
+    }
+
+    return styles
+  }, [slope.enabled, slope.position])
+
+  // Get background theme class
+  const getBackgroundTheme = useCallback(() => {
+    const backgroundThemeMap = {
+      default: undefined,
+      light: 'bg-fwd-grey-50',
+      dark: 'bg-fwd-black',
+    }
+    return slope.backgroundTheme ? backgroundThemeMap[slope.backgroundTheme] : undefined
+  }, [slope.backgroundTheme])
 
   // Auto-rotate with RAF instead of setInterval for better performance
   useEffect(() => {
@@ -194,46 +234,59 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
   return (
     <div className="py-32">
-      <SlopedEdgeWrapper enabled={true} position="both" backgroundTheme="light">
-        <div
-          ref={containerRef}
-          className="container grid min-h-[60vh] grid-cols-1 gap-12 py-24 lg:grid-cols-2"
-        >
-          {/* Left side - Main display */}
-          <div className="sticky top-24 flex items-center">
-            <div className="flex flex-col gap-6">
-              <div className="prose prose-sm md:prose-base lg:prose-lg">
-                <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">
-                  {formattedTitle}
-                </h2>
-              </div>
-              <div className="inline-flex">
-                {link && <CMSLink {...link} appearance="outline" />}
-              </div>
-            </div>
-          </div>
-
-          {/* Right side - Accordion */}
+      <div className={cn('relative w-full', getBackgroundTheme())} style={getSlopeStyles()}>
+        <div className="container mx-auto">
           <div
-            className="flex flex-col items-center justify-center"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            className={cn('w-full', {
+              'pt-[calc(5vw+2rem)]':
+                slope.enabled && (slope.position === 'top' || slope.position === 'both'),
+              'pb-[calc(5vw+2rem)]':
+                slope.enabled && (slope.position === 'bottom' || slope.position === 'both'),
+              'pb-8': slope.enabled && slope.position === 'top',
+              'pt-8': slope.enabled && slope.position === 'bottom',
+            })}
           >
-            <div className="relative">
-              {sortedServices.map((service, index) => (
-                <AccordionItem
-                  key={service.id}
-                  service={service}
-                  index={index}
-                  isActive={index === activeIndex}
-                  isHovered={index === hoveredIndex}
-                  colorClass={colors[index] || 'fwd-purple'}
-                />
-              ))}
+            <div
+              ref={containerRef}
+              className="container grid min-h-[60vh] grid-cols-1 gap-12 py-24 lg:grid-cols-2"
+            >
+              {/* Left side - Main display */}
+              <div className="sticky top-24 flex items-center">
+                <div className="flex flex-col gap-6">
+                  <div className="prose prose-sm md:prose-base lg:prose-lg">
+                    <h2 className="m-0 bg-none p-0 text-5xl font-bold leading-tight">
+                      {formattedTitle}
+                    </h2>
+                  </div>
+                  <div className="inline-flex">
+                    {link && <CMSLink {...link} appearance="outline" />}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right side - Accordion */}
+              <div
+                className="flex flex-col items-center justify-center"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <div className="relative">
+                  {sortedServices.map((service, index) => (
+                    <AccordionItem
+                      key={service.id}
+                      service={service}
+                      index={index}
+                      isActive={index === activeIndex}
+                      isHovered={index === hoveredIndex}
+                      colorClass={colors[index] || 'fwd-purple'}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </SlopedEdgeWrapper>
+      </div>
     </div>
   )
 }

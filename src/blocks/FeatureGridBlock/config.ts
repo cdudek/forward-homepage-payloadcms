@@ -37,6 +37,27 @@ export const FeatureGridBlock: Block = {
           label: 'Content',
           fields: [
             {
+              name: 'title',
+              type: 'text',
+              label: 'Title',
+              required: true,
+              defaultValue: '',
+            },
+            {
+              name: 'gradientText',
+              type: 'text',
+              label: 'Gradient Text',
+              required: true,
+              defaultValue: '',
+            },
+            {
+              name: 'description',
+              type: 'text',
+              label: 'Description',
+              required: false,
+              defaultValue: '',
+            },
+            {
               name: 'features',
               type: 'array',
               minRows: 1,
@@ -78,7 +99,7 @@ export const FeatureGridBlock: Block = {
                       name: 'iconForeground',
                       type: 'select',
                       dbName: 'fg_icon_foreground',
-                      defaultValue: 'default',
+                      defaultValue: 'gradient',
                       options: [
                         { label: 'Default', value: 'default' },
                         { label: 'Brand Gradient', value: 'gradient' },
@@ -97,7 +118,7 @@ export const FeatureGridBlock: Block = {
                       name: 'iconBackground',
                       type: 'select',
                       dbName: 'fg_icon_background',
-                      defaultValue: 'default',
+                      defaultValue: 'greyLight',
                       options: [
                         { label: 'Default', value: 'default' },
                         { label: 'Brand Gradient', value: 'gradient' },
@@ -111,90 +132,30 @@ export const FeatureGridBlock: Block = {
                         { label: 'Grey dark', value: 'greyDark' },
                       ],
                     },
-                    {
-                      name: 'alignment',
-                      type: 'select',
-                      dbName: 'fg_icon_align',
-                      defaultValue: 'center',
-                      options: [
-                        { label: 'Left', value: 'left' },
-                        { label: 'Center', value: 'center' },
-                        { label: 'Right', value: 'right' },
-                      ],
-                    },
+                    // {
+                    //   name: 'alignment',
+                    //   type: 'select',
+                    //   dbName: 'fg_icon_align',
+                    //   defaultValue: 'center',
+                    //   options: [
+                    //     { label: 'Left', value: 'left' },
+                    //     { label: 'Center', value: 'center' },
+                    //     { label: 'Right', value: 'right' },
+                    //   ],
+                    // },
                   ],
                 },
                 {
-                  name: 'header',
-                  label: 'Header',
-                  type: 'group',
-                  fields: [
-                    {
-                      name: 'content',
-                      type: 'richText',
-                      editor: lexicalEditor({
-                        features: ({ rootFeatures }) => {
-                          return [
-                            ...rootFeatures,
-                            FixedToolbarFeature(),
-                            InlineToolbarFeature(),
-                            HeadingFeature({
-                              enabledHeadingSizes: ['h4', 'h5', 'h6'],
-                            }),
-                            AlignFeature(),
-                            LinkFeature(),
-                          ]
-                        },
-                      }),
-                      label: false,
-                    },
-                    {
-                      name: 'horizontalAlignment',
-                      type: 'select',
-                      dbName: 'fg_header_h_align',
-                      defaultValue: 'center',
-                      options: [
-                        { label: 'Left', value: 'left' },
-                        { label: 'Center', value: 'center' },
-                        { label: 'Right', value: 'right' },
-                      ],
-                    },
-                    {
-                      name: 'verticalAlignment',
-                      type: 'select',
-                      dbName: 'fg_header_v_align',
-                      defaultValue: 'top',
-                      options: [
-                        { label: 'Top', value: 'top' },
-                        { label: 'Middle', value: 'middle' },
-                        { label: 'Bottom', value: 'bottom' },
-                      ],
-                    },
-                    {
-                      name: 'equalHeight',
-                      type: 'checkbox',
-                      defaultValue: false,
-                    },
-                  ],
+                  name: 'title',
+                  type: 'text',
+                  label: 'Title',
+                  required: true,
                 },
                 {
-                  name: 'content',
-                  label: 'Text Box',
-                  type: 'richText',
-                  editor: lexicalEditor({
-                    features: ({ rootFeatures }) => {
-                      return [
-                        ...rootFeatures,
-                        FixedToolbarFeature(),
-                        InlineToolbarFeature(),
-                        AlignFeature(),
-                        ItalicFeature(),
-                        BoldFeature(),
-                        ParagraphFeature(),
-                        LinkFeature(),
-                      ]
-                    },
-                  }),
+                  name: 'description',
+                  type: 'text',
+                  label: 'Description',
+                  required: true,
                 },
               ],
             },
@@ -228,7 +189,7 @@ export const FeatureGridBlock: Block = {
               type: 'select',
               dbName: 'fg_bg_color',
               label: 'Background Theme',
-              defaultValue: 'default',
+              defaultValue: 'light',
               options: [
                 {
                   label: 'Default',
@@ -251,6 +212,10 @@ export const FeatureGridBlock: Block = {
               name: 'slope',
               type: 'group',
               label: 'Sloped Edge',
+              defaultValue: {
+                enabled: false,
+                position: 'both',
+              },
               fields: [
                 {
                   name: 'enabled',

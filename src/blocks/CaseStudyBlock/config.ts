@@ -5,6 +5,27 @@ export const CaseStudyBlock: Block = {
   interfaceName: 'CaseStudyBlock',
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+      required: true,
+      defaultValue: 'Case Studies',
+    },
+    {
+      name: 'gradientText',
+      type: 'text',
+      label: 'Gradient Text',
+      required: false,
+      defaultValue: 'Studies',
+    },
+    {
+      name: 'description',
+      type: 'text',
+      label: 'Description',
+      required: false,
+      defaultValue: 'Our case studies',
+    },
+    {
       name: 'caseStudies',
       type: 'relationship',
       relationTo: 'case-studies',
@@ -15,7 +36,7 @@ export const CaseStudyBlock: Block = {
     {
       name: 'limit',
       type: 'number',
-      defaultValue: 10,
+      defaultValue: 5,
       label: 'Limit',
     },
   ],
