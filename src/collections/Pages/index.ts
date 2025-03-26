@@ -19,6 +19,7 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
+import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
 
 import {
   MetaDescriptionField,
@@ -109,6 +110,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 CaseStudyBlock,
                 ActionTilesBlock,
                 ServicesAccordionBlock,
+                AudienceTabBlock,
               ],
               required: true,
               admin: {

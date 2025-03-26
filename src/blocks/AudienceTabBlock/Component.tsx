@@ -3,27 +3,27 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { ServicesTabBlock as ServicesTabBlockProps, Service } from '@/payload-types'
+import type { AudienceTabBlock as AudienceTabBlockProps, Service, Audience } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
 import { getColorBlends } from '@/utilities/getColorBlends'
 
 // import RichText from '@/components/RichText'
 
-export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
+export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
   title,
   subtitle,
   gradientText,
-  services,
+  audiences,
 }) => {
   // Get color blends before component state initialization
-  const colors = getColorBlends(services?.length || 0, true)
+  const colors = getColorBlends(audiences?.length || 0, true)
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   const formattedTitle = renderedTitle(title || '', gradientText || '')
-  const [activeServiceIndex, setActiveServiceIndex] = useState(0)
+  const [activeAudienceIndex, setactiveAudienceIndex] = useState(0)
   const [previousServiceIndex, setPreviousServiceIndex] = useState(0)
   const [progressWidth, setProgressWidth] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
@@ -34,15 +34,15 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   const progressDuration = 4000
   const transitionDuration = 400
 
-  const servicesData =
-    services?.filter((service): service is Service => typeof service === 'object') || []
+  const audienceData =
+    audiences?.filter((audience): audience is Audience => typeof audience === 'object') || []
 
-  // Check if we have data but no active service
+  // Check if we have data but no active audience
   useEffect(() => {
-    if (servicesData.length > 0 && !servicesData[activeServiceIndex]) {
-      setActiveServiceIndex(0)
+    if (audienceData.length > 0 && !audienceData[activeAudienceIndex]) {
+      setactiveAudienceIndex(0)
     }
-  }, [servicesData, activeServiceIndex])
+  }, [audienceData, activeAudienceIndex])
 
   // Check if mobile on mount and window resize
   useEffect(() => {
@@ -76,22 +76,23 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     return () => observer.disconnect()
   }, [])
 
+  // Auto-scroll to active tab only on mobile and when visible
   useEffect(() => {
-    if (isMobile && isVisible && buttonRefs.current[activeServiceIndex]) {
-      buttonRefs.current[activeServiceIndex]?.scrollIntoView({
+    if (isMobile && isVisible && buttonRefs.current[activeAudienceIndex]) {
+      buttonRefs.current[activeAudienceIndex]?.scrollIntoView({
         behavior: 'smooth',
         block: 'nearest',
         inline: 'center',
       })
     }
-  }, [activeServiceIndex, isMobile, isVisible])
+  }, [activeAudienceIndex, isMobile, isVisible])
 
   // Track previous index for animations
   useEffect(() => {
-    if (activeServiceIndex !== previousServiceIndex) {
-      setPreviousServiceIndex(activeServiceIndex)
+    if (activeAudienceIndex !== previousServiceIndex) {
+      setPreviousServiceIndex(activeAudienceIndex)
     }
-  }, [activeServiceIndex, previousServiceIndex])
+  }, [activeAudienceIndex, previousServiceIndex])
 
   // Animation timer using requestAnimationFrame for smooth progress
   const runProgressAnimation = useCallback(() => {
@@ -122,7 +123,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 
         // Schedule the next tab after transition duration
         setTimeout(() => {
-          setActiveServiceIndex((prevIndex) => (prevIndex + 1) % servicesData.length)
+          setactiveAudienceIndex((prevIndex) => (prevIndex + 1) % audienceData.length)
           setProgressWidth(0)
           setIsTransitioning(false)
           lastUpdateTimeRef.current = performance.now()
@@ -139,11 +140,11 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     }
 
     animationFrameRef.current = requestAnimationFrame(animate)
-  }, [isAutoProgressing, isHovering, progressDuration, servicesData.length, transitionDuration])
+  }, [isAutoProgressing, isHovering, progressDuration, audienceData.length, transitionDuration])
 
   // Start/restart animation on component mount and after dependencies change
   useEffect(() => {
-    if (servicesData.length > 1) {
+    if (audienceData.length > 1) {
       runProgressAnimation()
     }
 
@@ -153,16 +154,16 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
         animationFrameRef.current = null
       }
     }
-  }, [runProgressAnimation, servicesData.length])
+  }, [runProgressAnimation, audienceData.length])
 
   // Handle tab click
   const handleTabClick = useCallback(
     (index: number) => {
-      if (index === activeServiceIndex) return
+      if (index === activeAudienceIndex) return
 
       // If clicking a new tab, reset progress and animate to that tab
-      setPreviousServiceIndex(activeServiceIndex)
-      setActiveServiceIndex(index)
+      setPreviousServiceIndex(activeAudienceIndex)
+      setactiveAudienceIndex(index)
       setProgressWidth(0)
       lastUpdateTimeRef.current = performance.now()
 
@@ -170,7 +171,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
       setIsAutoProgressing(true)
       setIsTransitioning(false)
     },
-    [activeServiceIndex],
+    [activeAudienceIndex],
   )
 
   // Mouse enter/leave handlers to pause/resume progression
@@ -182,7 +183,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     setIsHovering(false)
   }, [])
 
-  const activeService = servicesData[activeServiceIndex]
+  const activeAudience = audienceData[activeAudienceIndex]
 
   // Animation variants
   const contentVariants = {
@@ -222,9 +223,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
         <div className="relative col-span-12 mt-4">
           <div className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0">
             <div className="mx-auto flex gap-2 sm:gap-4">
-              {servicesData.map((service, index) => {
-                const isActive = activeServiceIndex === index
-                const colorName = colors[index]
+              {audienceData.map((service, index) => {
+                const isActive = activeAudienceIndex === index
 
                 return (
                   <div key={service.id} className="relative shrink-0">
@@ -244,8 +244,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                           : 'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
                       )}
                       style={{
-                        backgroundColor: isActive ? `var(--color-${colorName})` : undefined,
-                        borderColor: isActive ? `var(--color-${colorName})` : undefined,
+                        backgroundColor: isActive ? 'var(--color-fwd-black)' : undefined,
+                        borderColor: isActive ? 'var(--color-fwd-black)' : undefined,
                       }}
                       onClick={() => handleTabClick(index)}
                       onMouseEnter={handleMouseEnter}
@@ -256,7 +256,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                       whileTap={{ scale: 0.98 }}
                       transition={springTransition}
                     >
-                      {service.titleShort}
+                      {service.title}
                     </motion.button>
                   </div>
                 )
@@ -267,24 +267,52 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 
         {/* Content Box */}
         <div className="col-span-12 grid grid-cols-1 gap-4 rounded-3xl border-2 border-fwd-grey-100 p-4 sm:gap-8 sm:p-8 md:grid-cols-5">
+          {/* Service image - moved to first position */}
+          <div className="order-2 col-span-1 mt-6 md:order-1 md:col-span-2 md:mt-0">
+            <div className="relative aspect-square w-full">
+              <AnimatePresence mode="sync">
+                {activeAudience && activeAudience.image && (
+                  <motion.div
+                    key={activeAudience.id}
+                    className="absolute inset-0 h-full w-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  >
+                    <div className="relative h-full w-full overflow-hidden rounded-2xl sm:rounded-3xl">
+                      <Media
+                        resource={activeAudience.image}
+                        fill={true}
+                        priority={true}
+                        imgClassName="object-cover"
+                        alt={activeAudience.title}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
-            {activeService && (
+            {activeAudience && (
               <motion.div
-                key={activeService.id}
-                className="col-span-1 flex flex-col justify-center md:col-span-3"
+                key={activeAudience.id}
+                className="order-1 col-span-1 flex flex-col justify-center md:order-2 md:col-span-3"
                 variants={contentVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
               >
                 <div className="prose prose-sm md:prose-base lg:prose-lg">
-                  <h3 className="mb-2 sm:mb-4">{activeService.header || activeService.title}</h3>
-                  <p className="text-gray-800">{activeService.descriptionShort}</p>
+                  <h3 className="mb-2 sm:mb-4">{activeAudience.contentHeader}</h3>
+                  <p className="text-gray-800">{activeAudience.contentDescription}</p>
 
                   {/* Features/USPs list */}
-                  {activeService.usps && activeService.usps.length > 0 && (
+                  {activeAudience.usps && activeAudience.usps.length > 0 && (
                     <ul className="mt-4 space-y-2 sm:space-y-4">
-                      {activeService.usps.map((usp, i) => (
+                      {activeAudience.usps.map((usp, i) => (
                         <motion.li
                           key={`usp-${i}`}
                           className="flex items-start"
@@ -312,7 +340,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                               />
                             </svg>
                           </span>
-                          <span className="flex-1 text-sm sm:text-base">{usp.usp}</span>
+                          <span className="flex-1 text-sm sm:text-base">{usp.usp || ''}</span>
                         </motion.li>
                       ))}
                     </ul>
@@ -321,42 +349,13 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Service image */}
-          <div className="col-span-1 mt-6 md:col-span-2 md:mt-0">
-            <div className="relative aspect-square w-full">
-              <AnimatePresence mode="sync">
-                {activeService && activeService.image && (
-                  <motion.div
-                    key={activeService.id}
-                    className="absolute inset-0 h-full w-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease: 'easeInOut' }}
-                  >
-                    <div className="relative h-full w-full overflow-hidden rounded-2xl sm:rounded-3xl">
-                      <Media
-                        resource={activeService.image}
-                        fill={true}
-                        priority={true}
-                        imgClassName="object-cover"
-                        alt={activeService.title}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
         </div>
 
         {/* Progress Indicators */}
         <div className="col-span-12 flex justify-center space-x-3">
-          {servicesData.map((_, index) => {
-            const isActive = activeServiceIndex === index
+          {audienceData.map((_, index) => {
+            const isActive = activeAudienceIndex === index
             const isPrevious = previousServiceIndex === index && isTransitioning
-            const colorName = colors[index]
 
             return (
               <div
@@ -372,7 +371,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                   <motion.div
                     className="absolute inset-y-0 left-0 h-full rounded-full"
                     style={{
-                      backgroundColor: `var(--color-${colorName})`,
+                      backgroundColor: 'var(--color-fwd-black)',
                     }}
                     initial={{ width: 0 }}
                     animate={{ width: `${progressWidth}%` }}
@@ -385,7 +384,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                   <motion.div
                     className="absolute inset-0 h-full w-full rounded-full"
                     style={{
-                      backgroundColor: `var(--color-${colorName})`,
+                      backgroundColor: 'var(--color-fwd-black)',
                     }}
                     initial={{ opacity: 1 }}
                     animate={{ opacity: 0 }}
@@ -401,4 +400,4 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   )
 }
 
-export default ServicesTabBlock
+export default AudienceTabBlock

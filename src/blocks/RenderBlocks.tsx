@@ -14,6 +14,7 @@ import { ActionTilesBlock } from '@/blocks/ActionTilesBlock/Component'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/Component'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/Component'
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/Component'
+import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -28,6 +29,7 @@ const blockComponents = {
   caseStudyBlock: CaseStudyBlock,
   servicesAccordionBlock: ServicesAccordionBlock,
   servicesTabBlock: ServicesTabBlock,
+  audienceTabBlock: AudienceTabBlock,
 }
 
 export const RenderBlocks: React.FC<{

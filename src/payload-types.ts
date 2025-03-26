@@ -73,6 +73,7 @@ export interface Config {
     users: User;
     'case-studies': CaseStudy;
     services: Service;
+    audiences: Audience;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -91,6 +92,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    audiences: AudiencesSelect<false> | AudiencesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -238,6 +240,7 @@ export interface Page {
         blockName?: string | null;
         blockType: 'servicesAccordionBlock';
       }
+    | AudienceTabBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1107,6 +1110,39 @@ export interface ActionTilesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceTabBlock".
+ */
+export interface AudienceTabBlock {
+  title: string;
+  gradientText?: string | null;
+  subtitle?: string | null;
+  audiences: (number | Audience)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'audienceTabBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audiences".
+ */
+export interface Audience {
+  id: number;
+  audienceName: string;
+  title: string;
+  image?: (number | null) | Media;
+  contentHeader?: string | null;
+  contentDescription: string;
+  usps?:
+    | {
+        usp?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1306,6 +1342,10 @@ export interface PayloadLockedDocument {
         value: number | Service;
       } | null)
     | ({
+        relationTo: 'audiences';
+        value: number | Audience;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1434,6 +1474,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        audienceTabBlock?: T | AudienceTabBlockSelect<T>;
       };
   meta?:
     | T
@@ -1683,6 +1724,18 @@ export interface ActionTilesBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceTabBlock_select".
+ */
+export interface AudienceTabBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  subtitle?: T;
+  audiences?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1884,6 +1937,25 @@ export interface ServicesSelect<T extends boolean = true> {
   header?: T;
   position?: T;
   description?: T;
+  usps?:
+    | T
+    | {
+        usp?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audiences_select".
+ */
+export interface AudiencesSelect<T extends boolean = true> {
+  audienceName?: T;
+  title?: T;
+  image?: T;
+  contentHeader?: T;
+  contentDescription?: T;
   usps?:
     | T
     | {
