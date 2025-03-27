@@ -243,6 +243,8 @@ export interface Page {
     | AudienceTabBlock
     | PhaseStepperVertical
     | EngagementModelBlock
+    | SingleCaseStudyBlock
+    | FooterFormBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1016,21 +1018,7 @@ export interface CaseStudy {
   logo: number | Media;
   url?: string | null;
   testimonial: {
-    quote?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
+    quoteText: string;
     author: string;
     position: string;
     /**
@@ -1152,6 +1140,32 @@ export interface EngagementModelBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'engagementModelBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SingleCaseStudyBlock".
+ */
+export interface SingleCaseStudyBlock {
+  title?: string | null;
+  gradientText?: string | null;
+  description?: string | null;
+  caseStudies?: (number | CaseStudy)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'singleCaseStudyBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FooterFormBlock".
+ */
+export interface FooterFormBlock {
+  form: number | Form;
+  title: string;
+  description: string;
+  backgroundImage: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'footerFormBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1489,6 +1503,8 @@ export interface PagesSelect<T extends boolean = true> {
         audienceTabBlock?: T | AudienceTabBlockSelect<T>;
         phaseStepperVertical?: T | PhaseStepperVerticalSelect<T>;
         engagementModelBlock?: T | EngagementModelBlockSelect<T>;
+        singleCaseStudyBlock?: T | SingleCaseStudyBlockSelect<T>;
+        footerFormBlock?: T | FooterFormBlockSelect<T>;
       };
   meta?:
     | T
@@ -1786,6 +1802,30 @@ export interface EngagementModelBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SingleCaseStudyBlock_select".
+ */
+export interface SingleCaseStudyBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  description?: T;
+  caseStudies?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FooterFormBlock_select".
+ */
+export interface FooterFormBlockSelect<T extends boolean = true> {
+  form?: T;
+  title?: T;
+  description?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1956,7 +1996,7 @@ export interface CaseStudiesSelect<T extends boolean = true> {
   testimonial?:
     | T
     | {
-        quote?: T;
+        quoteText?: T;
         author?: T;
         position?: T;
         background?: T;

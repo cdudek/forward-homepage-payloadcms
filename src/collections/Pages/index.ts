@@ -22,6 +22,8 @@ import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
 import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
 import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
 import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/config'
+import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/config'
+import { FooterFormBlock } from '@/blocks/FormFooter/config'
 
 import {
   MetaDescriptionField,
@@ -115,6 +117,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 AudienceTabBlock,
                 PhaseStepperVertical,
                 EngagementModelBlock,
+                SingleCaseStudyBlock,
+                FooterFormBlock,
               ],
               required: true,
               admin: {

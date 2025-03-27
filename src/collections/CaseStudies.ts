@@ -1,12 +1,3 @@
-import type { CollectionConfig } from 'payload'
-
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
-// import { slugField } from '@/fields/slug'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
@@ -36,15 +27,11 @@ export const CaseStudies: CollectionConfig = {
       name: 'testimonial',
       type: 'group',
       fields: [
-        // { name: 'quote', type: 'textarea', required: true },
         {
-          name: 'quote',
-          type: 'richText',
-          editor: lexicalEditor({
-            features: ({ rootFeatures }) => {
-              return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-            },
-          }),
+          name: 'quoteText',
+          type: 'text',
+          defaultValue: '',
+          required: true,
         },
         { name: 'author', type: 'text', required: true },
         { name: 'position', type: 'text', required: true },

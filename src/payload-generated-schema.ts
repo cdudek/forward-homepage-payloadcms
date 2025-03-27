@@ -900,6 +900,84 @@ export const pages_blocks_phase_stepper_vertical = pgTable(
   }),
 )
 
+export const pages_blocks_engagement_model_block_tiers = pgTable(
+  'pages_blocks_engagement_model_block_tiers',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: varchar('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title').default('Tier 1'),
+    description: varchar('description').default('Tier 1 Description'),
+    headlineLabel: varchar('headline_label').default('Headline Label'),
+    durationLabel: varchar('duration_label').default('4 - 12 weeks'),
+    backgroundImage: integer('background_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_engagement_model_block_tiers_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_engagement_model_block_tiers_parent_id_idx').on(
+      columns._parentID,
+    ),
+    pages_blocks_engagement_model_block_tiers_background_image_idx: index(
+      'pages_blocks_engagement_model_block_tiers_background_image_idx',
+    ).on(columns.backgroundImage),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages_blocks_engagement_model_block.id],
+      name: 'pages_blocks_engagement_model_block_tiers_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages_blocks_engagement_model_block = pgTable(
+  'pages_blocks_engagement_model_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title').default('Engagement Model Block'),
+    gradientText: varchar('gradient_text').default('Model Block'),
+    description: varchar('description').default('Engagement Model Block Description'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_engagement_model_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_engagement_model_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_engagement_model_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_engagement_model_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages_blocks_single_case_study_block = pgTable(
+  'pages_blocks_single_case_study_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    title: varchar('title').default('Case Study'),
+    gradientText: varchar('gradient_text').default('Studies'),
+    description: varchar('description').default('Our case studies'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_single_case_study_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_single_case_study_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_single_case_study_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_single_case_study_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const pages = pgTable(
   'pages',
   {
@@ -1614,6 +1692,91 @@ export const _pages_v_blocks_phase_stepper_vertical = pgTable(
   }),
 )
 
+export const _pages_v_blocks_engagement_model_block_tiers = pgTable(
+  '_pages_v_blocks_engagement_model_block_tiers',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title').default('Tier 1'),
+    description: varchar('description').default('Tier 1 Description'),
+    headlineLabel: varchar('headline_label').default('Headline Label'),
+    durationLabel: varchar('duration_label').default('4 - 12 weeks'),
+    backgroundImage: integer('background_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    _uuid: varchar('_uuid'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_engagement_model_block_tiers_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_engagement_model_block_tiers_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pages_v_blocks_engagement_model_block_tiers_background_image_idx: index(
+      '_pages_v_blocks_engagement_model_block_tiers_background_image_idx',
+    ).on(columns.backgroundImage),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v_blocks_engagement_model_block.id],
+      name: '_pages_v_blocks_engagement_model_block_tiers_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _pages_v_blocks_engagement_model_block = pgTable(
+  '_pages_v_blocks_engagement_model_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title').default('Engagement Model Block'),
+    gradientText: varchar('gradient_text').default('Model Block'),
+    description: varchar('description').default('Engagement Model Block Description'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_engagement_model_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_engagement_model_block_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_pages_v_blocks_engagement_model_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_engagement_model_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _pages_v_blocks_single_case_study_block = pgTable(
+  '_pages_v_blocks_single_case_study_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    title: varchar('title').default('Case Study'),
+    gradientText: varchar('gradient_text').default('Studies'),
+    description: varchar('description').default('Our case studies'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_single_case_study_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_single_case_study_block_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _pathIdx: index('_pages_v_blocks_single_case_study_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_single_case_study_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const _pages_v = pgTable(
   '_pages_v',
   {
@@ -2194,6 +2357,7 @@ export const case_studies = pgTable(
       }),
     url: varchar('url'),
     testimonial_quote: jsonb('testimonial_quote'),
+    testimonial_quoteText: varchar('testimonial_quote_text').notNull(),
     testimonial_author: varchar('testimonial_author').notNull(),
     testimonial_position: varchar('testimonial_position').notNull(),
     testimonial_background: integer('testimonial_background_id')
@@ -3505,6 +3669,44 @@ export const relations_pages_blocks_phase_stepper_vertical = relations(
     }),
   }),
 )
+export const relations_pages_blocks_engagement_model_block_tiers = relations(
+  pages_blocks_engagement_model_block_tiers,
+  ({ one }) => ({
+    _parentID: one(pages_blocks_engagement_model_block, {
+      fields: [pages_blocks_engagement_model_block_tiers._parentID],
+      references: [pages_blocks_engagement_model_block.id],
+      relationName: 'tiers',
+    }),
+    backgroundImage: one(media, {
+      fields: [pages_blocks_engagement_model_block_tiers.backgroundImage],
+      references: [media.id],
+      relationName: 'backgroundImage',
+    }),
+  }),
+)
+export const relations_pages_blocks_engagement_model_block = relations(
+  pages_blocks_engagement_model_block,
+  ({ one, many }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_engagement_model_block._parentID],
+      references: [pages.id],
+      relationName: '_blocks_engagementModelBlock',
+    }),
+    tiers: many(pages_blocks_engagement_model_block_tiers, {
+      relationName: 'tiers',
+    }),
+  }),
+)
+export const relations_pages_blocks_single_case_study_block = relations(
+  pages_blocks_single_case_study_block,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_single_case_study_block._parentID],
+      references: [pages.id],
+      relationName: '_blocks_singleCaseStudyBlock',
+    }),
+  }),
+)
 export const relations_pages_rels = relations(pages_rels, ({ one }) => ({
   parent: one(pages, {
     fields: [pages_rels.parent],
@@ -3592,6 +3794,12 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   }),
   _blocks_phaseStepperVertical: many(pages_blocks_phase_stepper_vertical, {
     relationName: '_blocks_phaseStepperVertical',
+  }),
+  _blocks_engagementModelBlock: many(pages_blocks_engagement_model_block, {
+    relationName: '_blocks_engagementModelBlock',
+  }),
+  _blocks_singleCaseStudyBlock: many(pages_blocks_single_case_study_block, {
+    relationName: '_blocks_singleCaseStudyBlock',
   }),
   meta_image: one(media, {
     fields: [pages.meta_image],
@@ -3867,6 +4075,44 @@ export const relations__pages_v_blocks_phase_stepper_vertical = relations(
     }),
   }),
 )
+export const relations__pages_v_blocks_engagement_model_block_tiers = relations(
+  _pages_v_blocks_engagement_model_block_tiers,
+  ({ one }) => ({
+    _parentID: one(_pages_v_blocks_engagement_model_block, {
+      fields: [_pages_v_blocks_engagement_model_block_tiers._parentID],
+      references: [_pages_v_blocks_engagement_model_block.id],
+      relationName: 'tiers',
+    }),
+    backgroundImage: one(media, {
+      fields: [_pages_v_blocks_engagement_model_block_tiers.backgroundImage],
+      references: [media.id],
+      relationName: 'backgroundImage',
+    }),
+  }),
+)
+export const relations__pages_v_blocks_engagement_model_block = relations(
+  _pages_v_blocks_engagement_model_block,
+  ({ one, many }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_engagement_model_block._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_engagementModelBlock',
+    }),
+    tiers: many(_pages_v_blocks_engagement_model_block_tiers, {
+      relationName: 'tiers',
+    }),
+  }),
+)
+export const relations__pages_v_blocks_single_case_study_block = relations(
+  _pages_v_blocks_single_case_study_block,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_single_case_study_block._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_singleCaseStudyBlock',
+    }),
+  }),
+)
 export const relations__pages_v_rels = relations(_pages_v_rels, ({ one }) => ({
   parent: one(_pages_v, {
     fields: [_pages_v_rels.parent],
@@ -3959,6 +4205,12 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   }),
   _blocks_phaseStepperVertical: many(_pages_v_blocks_phase_stepper_vertical, {
     relationName: '_blocks_phaseStepperVertical',
+  }),
+  _blocks_engagementModelBlock: many(_pages_v_blocks_engagement_model_block, {
+    relationName: '_blocks_engagementModelBlock',
+  }),
+  _blocks_singleCaseStudyBlock: many(_pages_v_blocks_single_case_study_block, {
+    relationName: '_blocks_singleCaseStudyBlock',
   }),
   version_meta_image: one(media, {
     fields: [_pages_v.version_meta_image],
@@ -4638,6 +4890,9 @@ type DatabaseSchema = {
   pages_blocks_audience_tab_block: typeof pages_blocks_audience_tab_block
   pages_blocks_phase_stepper_vertical_phases: typeof pages_blocks_phase_stepper_vertical_phases
   pages_blocks_phase_stepper_vertical: typeof pages_blocks_phase_stepper_vertical
+  pages_blocks_engagement_model_block_tiers: typeof pages_blocks_engagement_model_block_tiers
+  pages_blocks_engagement_model_block: typeof pages_blocks_engagement_model_block
+  pages_blocks_single_case_study_block: typeof pages_blocks_single_case_study_block
   pages: typeof pages
   pages_rels: typeof pages_rels
   _pages_v_version_hero_links: typeof _pages_v_version_hero_links
@@ -4662,6 +4917,9 @@ type DatabaseSchema = {
   _pages_v_blocks_audience_tab_block: typeof _pages_v_blocks_audience_tab_block
   _pages_v_blocks_phase_stepper_vertical_phases: typeof _pages_v_blocks_phase_stepper_vertical_phases
   _pages_v_blocks_phase_stepper_vertical: typeof _pages_v_blocks_phase_stepper_vertical
+  _pages_v_blocks_engagement_model_block_tiers: typeof _pages_v_blocks_engagement_model_block_tiers
+  _pages_v_blocks_engagement_model_block: typeof _pages_v_blocks_engagement_model_block
+  _pages_v_blocks_single_case_study_block: typeof _pages_v_blocks_single_case_study_block
   _pages_v: typeof _pages_v
   _pages_v_rels: typeof _pages_v_rels
   posts_populated_authors: typeof posts_populated_authors
@@ -4736,6 +4994,9 @@ type DatabaseSchema = {
   relations_pages_blocks_audience_tab_block: typeof relations_pages_blocks_audience_tab_block
   relations_pages_blocks_phase_stepper_vertical_phases: typeof relations_pages_blocks_phase_stepper_vertical_phases
   relations_pages_blocks_phase_stepper_vertical: typeof relations_pages_blocks_phase_stepper_vertical
+  relations_pages_blocks_engagement_model_block_tiers: typeof relations_pages_blocks_engagement_model_block_tiers
+  relations_pages_blocks_engagement_model_block: typeof relations_pages_blocks_engagement_model_block
+  relations_pages_blocks_single_case_study_block: typeof relations_pages_blocks_single_case_study_block
   relations_pages_rels: typeof relations_pages_rels
   relations_pages: typeof relations_pages
   relations__pages_v_version_hero_links: typeof relations__pages_v_version_hero_links
@@ -4760,6 +5021,9 @@ type DatabaseSchema = {
   relations__pages_v_blocks_audience_tab_block: typeof relations__pages_v_blocks_audience_tab_block
   relations__pages_v_blocks_phase_stepper_vertical_phases: typeof relations__pages_v_blocks_phase_stepper_vertical_phases
   relations__pages_v_blocks_phase_stepper_vertical: typeof relations__pages_v_blocks_phase_stepper_vertical
+  relations__pages_v_blocks_engagement_model_block_tiers: typeof relations__pages_v_blocks_engagement_model_block_tiers
+  relations__pages_v_blocks_engagement_model_block: typeof relations__pages_v_blocks_engagement_model_block
+  relations__pages_v_blocks_single_case_study_block: typeof relations__pages_v_blocks_single_case_study_block
   relations__pages_v_rels: typeof relations__pages_v_rels
   relations__pages_v: typeof relations__pages_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors

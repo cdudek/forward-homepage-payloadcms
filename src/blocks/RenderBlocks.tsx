@@ -17,6 +17,8 @@ import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/Component'
 import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/Component'
 import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/Component'
 import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
+import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/Component'
+import { FooterFormBlock } from '@/blocks/FormFooter/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -34,6 +36,8 @@ const blockComponents = {
   audienceTabBlock: AudienceTabBlock,
   phaseStepperVertical: PhaseStepperVertical,
   engagementModelBlock: EngagementModelBlock,
+  singleCaseStudyBlock: SingleCaseStudyBlock,
+  footerFormBlock: FooterFormBlock,
 }
 
 export const RenderBlocks: React.FC<{
