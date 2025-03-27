@@ -20,7 +20,9 @@ export const Select: React.FC<
     control: Control
     errors: Partial<FieldErrorsImpl>
   }
-> = ({ name, control, errors, label, options, required, width }) => {
+> = ({ name, control, errors, label, options, required, width, defaultValue }) => {
+  const placeholder = `Select ${label?.toLowerCase() || 'option'}`
+
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -33,7 +35,7 @@ export const Select: React.FC<
       </Label>
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue || ''}
         name={name}
         render={({ field: { onChange, value } }) => {
           const controlledValue = options.find((t) => t.value === value)
@@ -41,7 +43,7 @@ export const Select: React.FC<
           return (
             <SelectComponent onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
-                <SelectValue placeholder={label} />
+                <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
                 {options.map(({ label, value }) => {

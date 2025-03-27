@@ -22,11 +22,12 @@ export const Country: React.FC<
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  const placeholder = `Select ${label?.toLowerCase() || 'country'}`
+
   return (
     <Width width={width}>
-      <Label className="" htmlFor={name}>
+      <Label htmlFor={name}>
         {label}
-
         {required && (
           <span className="required">
             * <span className="sr-only">(required)</span>
@@ -43,7 +44,7 @@ export const Country: React.FC<
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
-                <SelectValue placeholder={label} />
+                <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
                 {countryOptions.map(({ label, value }) => {

@@ -22,6 +22,8 @@ export const State: React.FC<
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  const placeholder = `Select ${label?.toLowerCase() || 'state'}`
+
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -42,7 +44,7 @@ export const State: React.FC<
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
               <SelectTrigger className="w-full" id={name}>
-                <SelectValue placeholder={label} />
+                <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
                 {stateOptions.map(({ label, value }) => {

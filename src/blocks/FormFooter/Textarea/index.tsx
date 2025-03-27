@@ -15,6 +15,8 @@ export const Textarea: React.FC<
     rows?: number
   }
 > = ({ name, defaultValue, errors, label, register, required, rows = 3, width }) => {
+  const placeholder = `Enter ${label?.toLowerCase() || 'text'}`
+
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -28,9 +30,10 @@ export const Textarea: React.FC<
       </Label>
 
       <TextAreaComponent
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ''}
         id={name}
         rows={rows}
+        placeholder={placeholder}
         {...register(name, { required: required })}
       />
 

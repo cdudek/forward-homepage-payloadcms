@@ -14,6 +14,8 @@ export const Email: React.FC<
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  const placeholder = `Enter ${label?.toLowerCase() || 'email'}`
+
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -26,9 +28,10 @@ export const Email: React.FC<
         )}
       </Label>
       <Input
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ''}
         id={name}
-        type="text"
+        type="email"
+        placeholder={placeholder}
         {...register(name, { pattern: /^\S[^\s@]*@\S+$/, required })}
       />
 

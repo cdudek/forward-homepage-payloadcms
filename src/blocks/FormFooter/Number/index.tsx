@@ -13,6 +13,8 @@ export const Number: React.FC<
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  const placeholder = `Enter ${label?.toLowerCase() || 'number'}`
+
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -25,9 +27,10 @@ export const Number: React.FC<
         )}
       </Label>
       <Input
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ''}
         id={name}
         type="number"
+        placeholder={placeholder}
         {...register(name, { required })}
       />
       {errors[name] && <Error />}
