@@ -251,8 +251,8 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
               className="grid grid-cols-1 gap-12 py-24 lg:min-h-[60vh] lg:grid-cols-2"
             >
               {/* Left side - Main display */}
-              <div className="flex flex-col">
-                <div className="flex w-full flex-col gap-6 text-center lg:sticky lg:top-24 lg:text-left">
+              <div className="flex flex-col justify-center">
+                <div className="flex w-full flex-col gap-6 text-center lg:text-left">
                   <div className="prose prose-sm md:prose-base lg:prose-lg">
                     <h2 className="m-0 bg-none p-0 text-4xl font-bold leading-tight lg:text-5xl">
                       {formattedTitle}
