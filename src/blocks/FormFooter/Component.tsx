@@ -8,6 +8,7 @@ import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 import { Media } from '@/components/Media'
 import type { Media as MediaType } from '@/payload-types'
+import { cn } from '@/utilities/ui'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
@@ -145,7 +146,7 @@ export const FooterFormBlock: React.FC<
                 </div>
 
                 {/* Right Column - Form */}
-                <div className="rounded-3xl bg-white/20 p-6 backdrop-blur-md md:p-8">
+                <div className="rounded-3xl bg-white/20 p-4 backdrop-blur-md md:p-6">
                   <FormProvider {...formMethods}>
                     {!isLoading && hasSubmitted && confirmationType === 'message' && (
                       <RichText data={confirmationMessage} />
@@ -157,11 +158,7 @@ export const FooterFormBlock: React.FC<
                       <div className="text-red-300">{`${error.status || '500'}: ${error.message || ''}`}</div>
                     )}
                     {!hasSubmitted && (
-                      <form
-                        id={formID}
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="[&_label:has(+_[required])]:after:ml-1 [&_label:has(+_[required])]:after:text-fwd-red [&_label:has(+_[required])]:after:content-['*'] [&_label]:text-xs [&_label]:font-normal [&_label]:text-white"
-                      >
+                      <form id={formID} onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-4">
                           {formFromProps &&
                             formFromProps.fields &&
@@ -170,10 +167,7 @@ export const FooterFormBlock: React.FC<
                                 fields?.[field.blockType as keyof typeof fields]
                               if (Field) {
                                 return (
-                                  <div
-                                    key={index}
-                                    className="[&_input]:rounded-lg [&_input]:border-white [&_input]:bg-white/30 [&_input]:text-fwd-black [&_input]:transition-colors [&_input]:duration-300 [&_input]:ease-in-out [&_input]:placeholder:text-fwd-grey-900 [&_input]:hover:border-fwd-grey-300 [&_input]:focus:border-fwd-purple [&_input]:focus-visible:border-fwd-purple [&_input]:active:border-fwd-purple [&_input]:disabled:cursor-not-allowed [&_input]:disabled:opacity-50 [&_select]:rounded-lg [&_select]:border-white [&_select]:bg-white/30 [&_select]:text-fwd-black [&_select]:transition-colors [&_select]:duration-300 [&_select]:ease-in-out [&_select]:placeholder:text-fwd-grey-900 [&_select]:hover:border-fwd-grey-300 [&_select]:focus:border-fwd-purple [&_select]:focus-visible:border-fwd-purple [&_select]:active:border-fwd-purple [&_select]:disabled:cursor-not-allowed [&_select]:disabled:opacity-50 [&_textarea]:rounded-lg [&_textarea]:border-white [&_textarea]:bg-white/30 [&_textarea]:text-fwd-black [&_textarea]:transition-colors [&_textarea]:duration-300 [&_textarea]:ease-in-out [&_textarea]:placeholder:text-fwd-grey-900 [&_textarea]:hover:border-fwd-grey-300 [&_textarea]:focus:border-fwd-purple [&_textarea]:focus-visible:border-fwd-purple [&_textarea]:active:border-fwd-purple [&_textarea]:disabled:cursor-not-allowed [&_textarea]:disabled:opacity-50"
-                                  >
+                                  <div key={index} className="form-field-container">
                                     <Field
                                       form={formFromProps}
                                       {...field}

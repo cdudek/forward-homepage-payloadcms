@@ -197,3 +197,24 @@
 html {
   opacity: initial;
 }
+
+/* Custom form styles */
+.form-field-container input,
+.form-field-container textarea,
+.form-field-container select {
+  @apply rounded-lg border-white bg-white/50 text-fwd-black transition-colors duration-300 ease-in-out;
+  @apply focus:border-fwd-purple focus-visible:border-fwd-purple active:border-fwd-purple;
+  @apply disabled:cursor-not-allowed disabled:opacity-50;
+  @apply placeholder:text-fwd-grey-800;
+}
+
+/* Override the Radix UI label styles with higher specificity */
+.form-field-container label {
+  @apply text-xs font-normal text-white !important;
+  margin-bottom: 0.25rem !important;
+  display: block !important;
+}
+
+.form-field-container label .required {
+  @apply ml-1 text-fwd-red-600;
+}
