@@ -195,7 +195,7 @@ export const FooterFormBlock: React.FC<
               priority
               resource={backgroundImage}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-fwd-black-950" />
+            <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black-950 to-95%" />
           </div>
         )}
 
