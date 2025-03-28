@@ -246,7 +246,9 @@ html {
 .form-field-container textarea,
 .form-field-container select {
   @apply rounded-lg border-white bg-white/50 text-fwd-black transition-colors duration-300 ease-in-out;
-  @apply focus:border-fwd-purple focus-visible:border-fwd-purple active:border-fwd-purple;
+  @apply focus:border-fwd-purple focus:[filter:drop-shadow(0_0_5px_rgba(255,0,130,0.4))];
+  @apply focus-visible:border-fwd-purple focus-visible:[filter:drop-shadow(0_0_5px_rgba(255,0,130,0.4))];
+  @apply active:border-fwd-purple active:[filter:drop-shadow(0_0_5px_rgba(255,0,130,0.4))];
   @apply disabled:cursor-not-allowed disabled:opacity-50;
   @apply placeholder:text-fwd-grey-700;
 }
@@ -277,5 +279,5 @@ html {
 .toast-rich-text a {
   color: white;
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 300;
 }

@@ -52,7 +52,12 @@ export const Textarea: React.FC<
         {...register(name, { required: required })}
       />
 
-      {hasError && <Error />}
+      {/* {hasError && <Error />} */}
+      <div className="relative">
+        <div className={hasError ? '' : 'invisible'}>
+          <Error />
+        </div>
+      </div>
     </Width>
   )
 }

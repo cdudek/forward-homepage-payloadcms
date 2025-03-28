@@ -205,7 +205,7 @@ export const FooterFormBlock: React.FC<
           {/* Main Container with white transparency */}
           <div
             className={cn(
-              'rounded-3xl bg-white/10 p-2 backdrop-blur-sm',
+              'rounded-3xl bg-white/10 p-2 backdrop-blur-md',
               isFullHeight ? 'md:p-16' : 'md:p-8',
             )}
           >
@@ -254,14 +254,14 @@ export const FooterFormBlock: React.FC<
               </div>
 
               {/* Right Column - Form */}
-              <div className="rounded-3xl bg-white/20 p-4 backdrop-blur-md md:p-6">
+              <div className="rounded-3xl bg-white/40 p-4 backdrop-blur-md md:p-6">
                 <FormProvider {...formMethods}>
                   {isLoading && <p className="text-white">Loading, please wait...</p>}
                   {error && (
                     <div className="text-fwd-red-600">{`${error.status || '500'}: ${error.message || ''}`}</div>
                   )}
                   <form onSubmit={preventSubmit} noValidate>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2">
                       {formFromProps &&
                         formFromProps.fields &&
                         formFromProps.fields?.map((field, index) => {

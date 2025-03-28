@@ -48,7 +48,12 @@ export const Text: React.FC<
         className={hasError ? fieldErrorClass : ''}
         {...register(name, { required })}
       />
-      {hasError && <Error />}
+
+      <div className="relative">
+        <div className={hasError ? '' : 'invisible'}>
+          <Error />
+        </div>
+      </div>
     </Width>
   )
 }
