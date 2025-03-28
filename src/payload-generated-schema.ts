@@ -288,6 +288,26 @@ export const enum__posts_v_version_status = pgEnum('enum__posts_v_version_status
   'published',
 ])
 export const enum_redirects_to_type = pgEnum('enum_redirects_to_type', ['reference', 'custom'])
+export const enum_forms_blocks_email_grid_span = pgEnum('enum_forms_blocks_email_grid_span', [
+  'half',
+  'halfEmpty',
+  'full',
+])
+export const enum_forms_blocks_number_grid_span = pgEnum('enum_forms_blocks_number_grid_span', [
+  'half',
+  'halfEmpty',
+  'full',
+])
+export const enum_forms_blocks_text_grid_span = pgEnum('enum_forms_blocks_text_grid_span', [
+  'half',
+  'halfEmpty',
+  'full',
+])
+export const enum_forms_blocks_textarea_grid_span = pgEnum('enum_forms_blocks_textarea_grid_span', [
+  'half',
+  'halfEmpty',
+  'full',
+])
 export const enum_forms_confirmation_type = pgEnum('enum_forms_confirmation_type', [
   'message',
   'redirect',
@@ -988,6 +1008,8 @@ export const pages_blocks_footer_form_block = pgTable(
     form: integer('form_id').references(() => forms.id, {
       onDelete: 'set null',
     }),
+    isFooterForm: boolean('is_footer_form').default(true),
+    isFullHeight: boolean('is_full_height').default(false),
     title: varchar('title').default('Get in touch'),
     description: varchar('description').default('We would love to hear from you'),
     backgroundImage: integer('background_image_id').references(() => media.id, {
@@ -1822,6 +1844,8 @@ export const _pages_v_blocks_footer_form_block = pgTable(
     form: integer('form_id').references(() => forms.id, {
       onDelete: 'set null',
     }),
+    isFooterForm: boolean('is_footer_form').default(true),
+    isFullHeight: boolean('is_full_height').default(false),
     title: varchar('title').default('Get in touch'),
     description: varchar('description').default('We would love to hear from you'),
     backgroundImage: integer('background_image_id').references(() => media.id, {
@@ -2664,7 +2688,8 @@ export const forms_blocks_email = pgTable(
     label: varchar('label'),
     width: numeric('width'),
     required: boolean('required'),
-    placeholder: varchar('placeholder'),
+    placeholder: varchar('placeholder').default(''),
+    gridSpan: enum_forms_blocks_email_grid_span('grid_span').default('full'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2713,7 +2738,8 @@ export const forms_blocks_number = pgTable(
     width: numeric('width'),
     defaultValue: numeric('default_value'),
     required: boolean('required'),
-    placeholder: varchar('placeholder'),
+    placeholder: varchar('placeholder').default(''),
+    gridSpan: enum_forms_blocks_number_grid_span('grid_span').default('full'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2811,7 +2837,8 @@ export const forms_blocks_text = pgTable(
     width: numeric('width'),
     defaultValue: varchar('default_value'),
     required: boolean('required'),
-    placeholder: varchar('placeholder'),
+    placeholder: varchar('placeholder').default(''),
+    gridSpan: enum_forms_blocks_text_grid_span('grid_span').default('full'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2838,7 +2865,8 @@ export const forms_blocks_textarea = pgTable(
     width: numeric('width'),
     defaultValue: varchar('default_value'),
     required: boolean('required'),
-    placeholder: varchar('placeholder'),
+    placeholder: varchar('placeholder').default(''),
+    gridSpan: enum_forms_blocks_textarea_grid_span('grid_span').default('full'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -4980,6 +5008,10 @@ type DatabaseSchema = {
   enum_posts_status: typeof enum_posts_status
   enum__posts_v_version_status: typeof enum__posts_v_version_status
   enum_redirects_to_type: typeof enum_redirects_to_type
+  enum_forms_blocks_email_grid_span: typeof enum_forms_blocks_email_grid_span
+  enum_forms_blocks_number_grid_span: typeof enum_forms_blocks_number_grid_span
+  enum_forms_blocks_text_grid_span: typeof enum_forms_blocks_text_grid_span
+  enum_forms_blocks_textarea_grid_span: typeof enum_forms_blocks_textarea_grid_span
   enum_forms_confirmation_type: typeof enum_forms_confirmation_type
   enum_payload_jobs_log_task_slug: typeof enum_payload_jobs_log_task_slug
   enum_payload_jobs_log_state: typeof enum_payload_jobs_log_state

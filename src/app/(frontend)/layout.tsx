@@ -12,6 +12,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { clsx } from 'clsx'
 import { HeaderColorProvider } from '@/Header/HeaderColorContext'
 import { Toaster } from 'sonner'
+// import { Toaster } from 'sonner'
 
 const fustat = localFont({
   src: './Fustat.ttf',
@@ -37,24 +38,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
             <div
               className={clsx(
-                'relative min-h-screen',
-                isEnabled && 'pt-10', // Add padding when AdminBar is present
+                'relative flex min-h-screen flex-col',
+                // 'relative min-h-screen',
+                // isEnabled && 'pt-10', // Add padding when AdminBar is present
               )}
             >
               <Header />
-              {children}
+              <main className="flex flex-1 flex-col">{children}</main>
               <Footer />
             </div>
           </HeaderColorProvider>
           <Toaster
             position="bottom-center"
-            className="text-fwd-black-950"
-            theme="light"
-            duration={10000}
+            className="text-white"
+            theme="dark"
+            duration={6000}
             toastOptions={{
               style: {
-                background: 'white',
-                border: '1px solid #eaeaea',
+                background: '#1f2937',
+                border: '1px solid #374151',
                 borderRadius: '0.5rem',
               },
             }}

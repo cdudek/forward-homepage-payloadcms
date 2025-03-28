@@ -261,3 +261,21 @@ html {
 .form-field-container label .required {
   @apply ml-1 text-fwd-red-600;
 }
+
+/* Toast rich text styling */
+.toast-rich-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: white;
+}
+
+.toast-rich-text p {
+  margin: 0;
+  padding: 0;
+}
+
+.toast-rich-text a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 500;
+}

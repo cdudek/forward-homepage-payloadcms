@@ -1168,6 +1168,8 @@ export interface SingleCaseStudyBlock {
  */
 export interface FooterFormBlock {
   form: number | Form;
+  isFooterForm?: boolean | null;
+  isFullHeight?: boolean | null;
   title: string;
   description: string;
   backgroundImage: number | Media;
@@ -1826,6 +1828,8 @@ export interface SingleCaseStudyBlockSelect<T extends boolean = true> {
  */
 export interface FooterFormBlockSelect<T extends boolean = true> {
   form?: T;
+  isFooterForm?: T;
+  isFullHeight?: T;
   title?: T;
   description?: T;
   backgroundImage?: T;

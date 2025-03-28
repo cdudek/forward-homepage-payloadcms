@@ -11,6 +11,18 @@ export const FooterFormBlock: Block = {
       required: true,
       label: 'Form',
     },
+    {
+      name: 'isFooterForm',
+      type: 'checkbox',
+      label: 'Is Footer Form',
+      defaultValue: true,
+    },
+    {
+      name: 'isFullHeight',
+      type: 'checkbox',
+      label: 'Is Full Height',
+      defaultValue: false,
+    },
 
     {
       name: 'title',

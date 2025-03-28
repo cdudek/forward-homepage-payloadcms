@@ -69,7 +69,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     <>
-      <article className="">
+      <article className="flex flex-1 flex-col bg-pink-200">
         <PageClient />
         {/* Allows redirects for valid pages too */}
         <PayloadRedirects disableNotFound url={url} />

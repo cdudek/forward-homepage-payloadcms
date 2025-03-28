@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Media } from '@/components/Media'
 import type { Media as MediaType } from '@/payload-types'
 import { toast } from 'sonner'
+import { cn } from '@/utilities/ui'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
@@ -19,6 +20,8 @@ export type FooterFormBlockType = {
   form: FormType
   title: string
   description: string
+  isFooterForm: boolean
+  isFullHeight: boolean
   backgroundImage: MediaType
 }
 
@@ -31,6 +34,8 @@ export const FooterFormBlock: React.FC<
     title,
     description,
     form: formFromProps,
+    isFooterForm = true,
+    isFullHeight = false,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     backgroundImage,
   } = props
@@ -53,87 +58,107 @@ export const FooterFormBlock: React.FC<
 
   const onSubmit = useCallback(
     (data: FormFieldBlock[]) => {
-      let loadingTimerID: ReturnType<typeof setTimeout>
-      const submitForm = async () => {
-        setError(undefined)
+      // Clear any previous errors
+      setError(undefined)
+      // Set loading state to true
+      setIsLoading(true)
 
-        const dataToSend = Object.entries(data).map(([name, value]) => ({
-          field: name,
-          value,
-        }))
+      const dataToSend = Object.entries(data).map(([name, value]) => ({
+        field: name,
+        value,
+      }))
 
-        loadingTimerID = setTimeout(() => {
-          setIsLoading(true)
-        }, 1000)
+      // Create a promise for the form submission
+      const submitPromise = new Promise((resolve, reject) => {
+        fetch(`${getClientSideURL()}/api/form-submissions`, {
+          body: JSON.stringify({
+            form: formID,
+            submissionData: dataToSend,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        })
+          .then(async (response) => {
+            const res = await response.json()
 
-        try {
-          const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
+            if (response.status >= 400) {
+              const errorStatus = response.status.toString()
+              setError({
+                message: res.errors?.[0]?.message || 'Internal Server Error',
+                status: errorStatus,
+              })
+              reject(res.errors?.[0]?.message || 'Something went wrong')
+              return
+            }
+
+            // Reset the form
+            reset()
+
+            // Handle redirect if needed
+            if (confirmationType === 'redirect' && redirect) {
+              const { url } = redirect
+              const redirectUrl = url
+              if (redirectUrl) {
+                setTimeout(() => {
+                  router.push(redirectUrl)
+                }, 1000)
+              }
+            }
+
+            resolve(res)
           })
-
-          const res = await req.json()
-
-          clearTimeout(loadingTimerID)
-
-          if (req.status >= 400) {
-            setIsLoading(false)
-
+          .catch((err) => {
+            console.warn(err)
             setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
-              status: res.status,
+              message: 'Something went wrong.',
+              status: '500',
             })
-
-            toast.error(`${res.errors?.[0]?.message || 'Something went wrong'}`, {
-              position: 'top-center',
-              className: 'slide-down',
-              style: {
-                animation: 'custom-slide-in 0.4s ease-out, custom-fade-in 0.4s ease-out',
-              },
-            })
-
-            return
-          }
-
-          setIsLoading(false)
-
-          // Show success toast message with the confirmation message from the CMS
-          toast.success(
-            typeof confirmationMessage?.root === 'object'
-              ? confirmationMessage?.root?.children?.[0]?.children?.[0]?.text ||
-                  "Thank you for your message. We've received it — and we're looking forward to reading it carefully. We'll be in touch soon."
-              : "Thank you for your message. We've received it — and we're looking forward to reading it carefully. We'll be in touch soon.",
-          )
-
-          // Reset the form
-          reset()
-
-          if (confirmationType === 'redirect' && redirect) {
-            const { url } = redirect
-
-            const redirectUrl = url
-
-            if (redirectUrl) router.push(redirectUrl)
-          }
-        } catch (err) {
-          console.warn(err)
-          setIsLoading(false)
-          setError({
-            message: 'Something went wrong.',
+            reject('Something went wrong. Please try again.')
           })
-          toast.error('Something went wrong. Please try again.')
-        }
-      }
+          .finally(() => {
+            // Set loading state to false when done
+            setIsLoading(false)
+          })
+      })
 
-      void submitForm()
+      // Use toast.promise to show loading, success, and error states
+      toast.promise(submitPromise, {
+        loading: 'Submitting your message...',
+        success: () => {
+          // Return the confirmation message either as text or JSX with RichText
+          if (confirmationMessage && typeof confirmationMessage === 'object') {
+            return {
+              message: (
+                <div className="toast-rich-text">
+                  {typeof confirmationMessage?.root === 'object' ? (
+                    <RichText data={confirmationMessage} enableProse={false} />
+                  ) : (
+                    "Thank you for your message. We've received it — and we're looking forward to reading it carefully. We'll be in touch soon."
+                  )}
+                </div>
+              ),
+              duration: 5000, // 10 seconds max duration
+            }
+          }
+
+          return {
+            message:
+              "Thank you for your message. We've received it — and we're looking forward to reading it carefully. We'll be in touch soon.",
+            duration: 5000, // 10 seconds max duration
+          }
+        },
+        error: (errorMsg) => {
+          return {
+            message: errorMsg,
+            position: 'bottom-center',
+            duration: 5000, // 10 seconds max duration
+          }
+        },
+      })
     },
-    [router, formID, redirect, confirmationType, confirmationMessage, reset],
+    [router, formID, redirect, confirmationType, confirmationMessage, reset, setIsLoading],
   )
 
   // Create a button handler instead of a form submit handler
@@ -153,10 +178,14 @@ export const FooterFormBlock: React.FC<
 
   return (
     <div className="relative bg-fwd-black-950">
-      <div className="relative" style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' }}>
+      <div
+        className="relative"
+        // className={cn('relative', isFullHeight && 'flex min-h-[80vh] flex-col')}
+        style={isFooterForm ? { clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' } : {}}
+      >
         {/* Background Image with Gradient Overlay */}
         {backgroundImage && (
-          <div className="absolute inset-0">
+          <div className={`absolute inset-0`}>
             <Media
               fill
               imgClassName="object-cover w-full h-full"
@@ -167,7 +196,7 @@ export const FooterFormBlock: React.FC<
           </div>
         )}
 
-        <div className="relative px-0 pb-32 pt-8">
+        <div className={`relative px-0 pb-32 pt-8`}>
           <div className="container pt-[calc(5vw+2rem)]">
             {/* Main Container with white transparency */}
             <div className="rounded-3xl bg-white/10 p-2 backdrop-blur-sm md:p-8">
