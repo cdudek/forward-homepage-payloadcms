@@ -61,11 +61,16 @@ export const RenderBlocks: React.FC<{
 
             return (
               <div
-                className={cn({
-                  'my-16': !hasBackground && !hasSlope,
-                  'py-0': hasBackground || hasSlope,
-                  'my-0': ['logoGrid', 'footerFormBlock'].includes(block.blockType) || noMargin,
-                })}
+                className={cn(
+                  {
+                    'my-16': !hasBackground && !hasSlope,
+                    'py-0': hasBackground || hasSlope,
+                    'my-0': ['logoGrid', 'footerFormBlock'].includes(block.blockType) || noMargin,
+                  },
+                  block.blockType === 'footerFormBlock' && block.isFullHeight
+                    ? 'flex flex-1 flex-col'
+                    : '',
+                )}
                 key={index}
               >
                 {/* @ts-expect-error there may be some mismatch between the expected types here */}
