@@ -1,15 +1,14 @@
 'use client'
 import React from 'react'
 import type { Page } from '@/payload-types'
-import RichText from '@/components/RichText'
 import renderedTitle from '@/utilities/gradientTitle'
+import { cn } from '@/utilities/ui'
 
 export const BigTextHero: React.FC<Page['hero']> = ({
-  links,
-  richText,
   title = '',
   subtitle,
   gradientText,
+  impact,
 }) => {
   const renderTitle = () => {
     if (!gradientText) return title
@@ -30,8 +29,23 @@ export const BigTextHero: React.FC<Page['hero']> = ({
 
   const formattedTitle = renderedTitle(title || '', gradientText || '')
 
+  let impactClasses = ''
+  switch (impact) {
+    case 'highImpact':
+      impactClasses = 'min-h-[90vh] md:min-h-[75vh]'
+      break
+    case 'mediumImpact':
+      impactClasses = 'min-h-[50vh] md:min-h-[50vh]'
+      break
+    case 'lowImpact':
+      impactClasses = 'min-h-[25vh] md:min-h-[25vh]'
+      break
+    default:
+      impactClasses = 'min-h-[90vh] md:min-h-[75vh]'
+  }
+
   return (
-    <div className="relative flex min-h-[90vh] w-full items-center md:mt-28 md:min-h-[75vh]">
+    <div className={cn('relative flex w-full items-center md:mt-28', impactClasses)}>
       <div className="container mx-auto w-full">
         <div className="w-full">
           <div className="grid w-full grid-cols-12">

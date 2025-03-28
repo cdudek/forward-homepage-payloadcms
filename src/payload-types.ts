@@ -157,6 +157,7 @@ export interface Page {
   headerColor?: ('light' | 'dark') | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'bigText';
+    impact?: ('highImpact' | 'mediumImpact' | 'lowImpact') | null;
     hasAngledCorner?: boolean | null;
     richText?: {
       root: {
@@ -1455,6 +1456,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        impact?: T;
         hasAngledCorner?: T;
         richText?: T;
         links?:

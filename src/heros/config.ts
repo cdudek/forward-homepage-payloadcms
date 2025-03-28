@@ -45,6 +45,20 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'impact',
+      type: 'select',
+      label: 'Impact',
+      options: [
+        { label: 'High', value: 'highImpact' },
+        { label: 'Medium', value: 'mediumImpact' },
+        { label: 'Low', value: 'lowImpact' },
+      ],
+      defaultValue: 'highImpact',
+      admin: {
+        condition: (_, { type } = {}) => ['bigText'].includes(type),
+      },
+    },
+    {
       name: 'hasAngledCorner',
       type: 'checkbox',
       label: 'Enable angled corner',

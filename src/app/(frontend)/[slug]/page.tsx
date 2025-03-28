@@ -14,6 +14,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { HeaderColorSetter } from '@/Header/HeaderColorSetter'
+import { cn } from '@/utilities/ui'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -65,11 +66,14 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout, headerColor } = page
+  const { hero, layout, headerColor, pageTheme } = page
+
+  const bgColor = pageTheme === 'dark' ? 'bg-fwd-black-950' : 'bg-white'
+  const textColor = pageTheme === 'dark' ? 'text-white' : 'text-black-950'
 
   return (
     <>
-      <article className="flex flex-1 flex-col bg-pink-200">
+      <article className={cn('flex flex-1 flex-col', bgColor, textColor)}>
         <PageClient />
         {/* Allows redirects for valid pages too */}
         <PayloadRedirects disableNotFound url={url} />
