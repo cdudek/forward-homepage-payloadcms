@@ -11,6 +11,7 @@ import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import { clsx } from 'clsx'
 import { HeaderColorProvider } from '@/Header/HeaderColorContext'
+import { Toaster } from 'sonner'
 
 const fustat = localFont({
   src: './Fustat.ttf',
@@ -45,6 +46,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Footer />
             </div>
           </HeaderColorProvider>
+          <Toaster
+            position="bottom-center"
+            className="text-fwd-black-950"
+            theme="light"
+            duration={10000}
+            toastOptions={{
+              style: {
+                background: 'white',
+                border: '1px solid #eaeaea',
+                borderRadius: '0.5rem',
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>

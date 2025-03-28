@@ -61,7 +61,59 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
+      admin: {
+        components: {
+          // Add custom admin components here
+        },
+      },
       fields: ({ defaultFields }) => {
+        // Get form blocks field which contains the blocks array
+        const formBlocksField = defaultFields.find(
+          (field) => 'name' in field && field.name === 'fields',
+        )
+
+        if (formBlocksField && 'blocks' in formBlocksField) {
+          // Update each block to add placeholder if needed
+          formBlocksField.blocks = formBlocksField.blocks.map((block) => {
+            // For text, textarea, email, number fields add placeholder
+            if ('slug' in block && ['text', 'textarea', 'email', 'number'].includes(block.slug)) {
+              return {
+                ...block,
+                fields: [
+                  ...(block.fields || []),
+                  {
+                    name: 'placeholder',
+                    type: 'text',
+                    label: 'Placeholder',
+                    admin: {
+                      layout: 'horizontal',
+                      width: '50%',
+                    },
+                    defaultValue: '',
+                  },
+                  {
+                    name: 'gridSpan',
+                    type: 'select',
+                    label: 'Grid Span',
+                    options: [
+                      { label: 'half', value: 'half' },
+                      { label: 'halfEmpty', value: 'halfEmpty' },
+                      { label: 'full', value: 'full' },
+                    ],
+                    defaultValue: 'full',
+                    admin: {
+                      layout: 'horizontal',
+                      width: '50%',
+                    },
+                  },
+                ],
+              }
+            }
+            return block
+          })
+        }
+
+        // Then handle confirmationMessage field specifically
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
             return {

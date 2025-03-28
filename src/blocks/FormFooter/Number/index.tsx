@@ -7,13 +7,16 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+
 export const Number: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
+    placeholder?: string
   }
-> = ({ name, defaultValue, errors, label, register, required, width }) => {
-  const placeholder = `Enter ${label?.toLowerCase() || 'number'}`
+> = ({ name, defaultValue, errors, label, register, required, width, placeholder }) => {
+  // Use the custom placeholder if provided, otherwise generate a default one
+  const inputPlaceholder = placeholder || `Enter ${label?.toLowerCase() || 'number'}`
 
   return (
     <Width width={width}>
@@ -30,8 +33,8 @@ export const Number: React.FC<
         defaultValue={defaultValue || ''}
         id={name}
         type="number"
-        placeholder={placeholder}
-        {...register(name, { required })}
+        placeholder={inputPlaceholder}
+        {...register(name, { required, valueAsNumber: true })}
       />
       {errors[name] && <Error />}
     </Width>

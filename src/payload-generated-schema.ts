@@ -978,6 +978,41 @@ export const pages_blocks_single_case_study_block = pgTable(
   }),
 )
 
+export const pages_blocks_footer_form_block = pgTable(
+  'pages_blocks_footer_form_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    form: integer('form_id').references(() => forms.id, {
+      onDelete: 'set null',
+    }),
+    title: varchar('title').default('Get in touch'),
+    description: varchar('description').default('We would love to hear from you'),
+    backgroundImage: integer('background_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_footer_form_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_footer_form_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_footer_form_block_path_idx').on(columns._path),
+    pages_blocks_footer_form_block_form_idx: index('pages_blocks_footer_form_block_form_idx').on(
+      columns.form,
+    ),
+    pages_blocks_footer_form_block_background_image_idx: index(
+      'pages_blocks_footer_form_block_background_image_idx',
+    ).on(columns.backgroundImage),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_footer_form_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const pages = pgTable(
   'pages',
   {
@@ -1777,6 +1812,42 @@ export const _pages_v_blocks_single_case_study_block = pgTable(
   }),
 )
 
+export const _pages_v_blocks_footer_form_block = pgTable(
+  '_pages_v_blocks_footer_form_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    form: integer('form_id').references(() => forms.id, {
+      onDelete: 'set null',
+    }),
+    title: varchar('title').default('Get in touch'),
+    description: varchar('description').default('We would love to hear from you'),
+    backgroundImage: integer('background_image_id').references(() => media.id, {
+      onDelete: 'set null',
+    }),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_footer_form_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_footer_form_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_pages_v_blocks_footer_form_block_path_idx').on(columns._path),
+    _pages_v_blocks_footer_form_block_form_idx: index(
+      '_pages_v_blocks_footer_form_block_form_idx',
+    ).on(columns.form),
+    _pages_v_blocks_footer_form_block_background_image_idx: index(
+      '_pages_v_blocks_footer_form_block_background_image_idx',
+    ).on(columns.backgroundImage),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_footer_form_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const _pages_v = pgTable(
   '_pages_v',
   {
@@ -2356,8 +2427,7 @@ export const case_studies = pgTable(
         onDelete: 'set null',
       }),
     url: varchar('url'),
-    testimonial_quote: jsonb('testimonial_quote'),
-    testimonial_quoteText: varchar('testimonial_quote_text').notNull(),
+    testimonial_quoteText: varchar('testimonial_quote_text').notNull().default(''),
     testimonial_author: varchar('testimonial_author').notNull(),
     testimonial_position: varchar('testimonial_position').notNull(),
     testimonial_background: integer('testimonial_background_id')
@@ -2594,6 +2664,7 @@ export const forms_blocks_email = pgTable(
     label: varchar('label'),
     width: numeric('width'),
     required: boolean('required'),
+    placeholder: varchar('placeholder'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2642,6 +2713,7 @@ export const forms_blocks_number = pgTable(
     width: numeric('width'),
     defaultValue: numeric('default_value'),
     required: boolean('required'),
+    placeholder: varchar('placeholder'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2739,6 +2811,7 @@ export const forms_blocks_text = pgTable(
     width: numeric('width'),
     defaultValue: varchar('default_value'),
     required: boolean('required'),
+    placeholder: varchar('placeholder'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -2765,6 +2838,7 @@ export const forms_blocks_textarea = pgTable(
     width: numeric('width'),
     defaultValue: varchar('default_value'),
     required: boolean('required'),
+    placeholder: varchar('placeholder'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -3707,6 +3781,26 @@ export const relations_pages_blocks_single_case_study_block = relations(
     }),
   }),
 )
+export const relations_pages_blocks_footer_form_block = relations(
+  pages_blocks_footer_form_block,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_footer_form_block._parentID],
+      references: [pages.id],
+      relationName: '_blocks_footerFormBlock',
+    }),
+    form: one(forms, {
+      fields: [pages_blocks_footer_form_block.form],
+      references: [forms.id],
+      relationName: 'form',
+    }),
+    backgroundImage: one(media, {
+      fields: [pages_blocks_footer_form_block.backgroundImage],
+      references: [media.id],
+      relationName: 'backgroundImage',
+    }),
+  }),
+)
 export const relations_pages_rels = relations(pages_rels, ({ one }) => ({
   parent: one(pages, {
     fields: [pages_rels.parent],
@@ -3800,6 +3894,9 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   }),
   _blocks_singleCaseStudyBlock: many(pages_blocks_single_case_study_block, {
     relationName: '_blocks_singleCaseStudyBlock',
+  }),
+  _blocks_footerFormBlock: many(pages_blocks_footer_form_block, {
+    relationName: '_blocks_footerFormBlock',
   }),
   meta_image: one(media, {
     fields: [pages.meta_image],
@@ -4113,6 +4210,26 @@ export const relations__pages_v_blocks_single_case_study_block = relations(
     }),
   }),
 )
+export const relations__pages_v_blocks_footer_form_block = relations(
+  _pages_v_blocks_footer_form_block,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_footer_form_block._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_footerFormBlock',
+    }),
+    form: one(forms, {
+      fields: [_pages_v_blocks_footer_form_block.form],
+      references: [forms.id],
+      relationName: 'form',
+    }),
+    backgroundImage: one(media, {
+      fields: [_pages_v_blocks_footer_form_block.backgroundImage],
+      references: [media.id],
+      relationName: 'backgroundImage',
+    }),
+  }),
+)
 export const relations__pages_v_rels = relations(_pages_v_rels, ({ one }) => ({
   parent: one(_pages_v, {
     fields: [_pages_v_rels.parent],
@@ -4211,6 +4328,9 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   }),
   _blocks_singleCaseStudyBlock: many(_pages_v_blocks_single_case_study_block, {
     relationName: '_blocks_singleCaseStudyBlock',
+  }),
+  _blocks_footerFormBlock: many(_pages_v_blocks_footer_form_block, {
+    relationName: '_blocks_footerFormBlock',
   }),
   version_meta_image: one(media, {
     fields: [_pages_v.version_meta_image],
@@ -4893,6 +5013,7 @@ type DatabaseSchema = {
   pages_blocks_engagement_model_block_tiers: typeof pages_blocks_engagement_model_block_tiers
   pages_blocks_engagement_model_block: typeof pages_blocks_engagement_model_block
   pages_blocks_single_case_study_block: typeof pages_blocks_single_case_study_block
+  pages_blocks_footer_form_block: typeof pages_blocks_footer_form_block
   pages: typeof pages
   pages_rels: typeof pages_rels
   _pages_v_version_hero_links: typeof _pages_v_version_hero_links
@@ -4920,6 +5041,7 @@ type DatabaseSchema = {
   _pages_v_blocks_engagement_model_block_tiers: typeof _pages_v_blocks_engagement_model_block_tiers
   _pages_v_blocks_engagement_model_block: typeof _pages_v_blocks_engagement_model_block
   _pages_v_blocks_single_case_study_block: typeof _pages_v_blocks_single_case_study_block
+  _pages_v_blocks_footer_form_block: typeof _pages_v_blocks_footer_form_block
   _pages_v: typeof _pages_v
   _pages_v_rels: typeof _pages_v_rels
   posts_populated_authors: typeof posts_populated_authors
@@ -4997,6 +5119,7 @@ type DatabaseSchema = {
   relations_pages_blocks_engagement_model_block_tiers: typeof relations_pages_blocks_engagement_model_block_tiers
   relations_pages_blocks_engagement_model_block: typeof relations_pages_blocks_engagement_model_block
   relations_pages_blocks_single_case_study_block: typeof relations_pages_blocks_single_case_study_block
+  relations_pages_blocks_footer_form_block: typeof relations_pages_blocks_footer_form_block
   relations_pages_rels: typeof relations_pages_rels
   relations_pages: typeof relations_pages
   relations__pages_v_version_hero_links: typeof relations__pages_v_version_hero_links
@@ -5024,6 +5147,7 @@ type DatabaseSchema = {
   relations__pages_v_blocks_engagement_model_block_tiers: typeof relations__pages_v_blocks_engagement_model_block_tiers
   relations__pages_v_blocks_engagement_model_block: typeof relations__pages_v_blocks_engagement_model_block
   relations__pages_v_blocks_single_case_study_block: typeof relations__pages_v_blocks_single_case_study_block
+  relations__pages_v_blocks_footer_form_block: typeof relations__pages_v_blocks_footer_form_block
   relations__pages_v_rels: typeof relations__pages_v_rels
   relations__pages_v: typeof relations__pages_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors
