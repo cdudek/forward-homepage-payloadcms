@@ -154,6 +154,10 @@ export const enum_pages_blocks_services_accordion_block_link_type = pgEnum(
   'enum_pages_blocks_services_accordion_block_link_type',
   ['reference', 'custom'],
 )
+export const enum_pages_blocks_colored_text_block_theme = pgEnum(
+  'enum_pages_blocks_colored_text_block_theme',
+  ['light', 'dark'],
+)
 export const enum_pages_page_theme = pgEnum('enum_pages_page_theme', ['light', 'dark'])
 export const enum_pages_header_color = pgEnum('enum_pages_header_color', ['light', 'dark'])
 export const enum_pages_hero_type = pgEnum('enum_pages_hero_type', [
@@ -162,6 +166,11 @@ export const enum_pages_hero_type = pgEnum('enum_pages_hero_type', [
   'mediumImpact',
   'lowImpact',
   'bigText',
+])
+export const enum_pages_hero_impact = pgEnum('enum_pages_hero_impact', [
+  'highImpact',
+  'mediumImpact',
+  'lowImpact',
 ])
 export const enum_pages_status = pgEnum('enum_pages_status', ['draft', 'published'])
 export const enum__pages_v_version_hero_links_link_type = pgEnum(
@@ -263,6 +272,10 @@ export const enum__pages_v_blocks_services_accordion_block_link_type = pgEnum(
   'enum__pages_v_blocks_services_accordion_block_link_type',
   ['reference', 'custom'],
 )
+export const enum__pages_v_blocks_colored_text_block_theme = pgEnum(
+  'enum__pages_v_blocks_colored_text_block_theme',
+  ['light', 'dark'],
+)
 export const enum__pages_v_version_page_theme = pgEnum('enum__pages_v_version_page_theme', [
   'light',
   'dark',
@@ -277,6 +290,11 @@ export const enum__pages_v_version_hero_type = pgEnum('enum__pages_v_version_her
   'mediumImpact',
   'lowImpact',
   'bigText',
+])
+export const enum__pages_v_version_hero_impact = pgEnum('enum__pages_v_version_hero_impact', [
+  'highImpact',
+  'mediumImpact',
+  'lowImpact',
 ])
 export const enum__pages_v_version_status = pgEnum('enum__pages_v_version_status', [
   'draft',
@@ -1035,6 +1053,51 @@ export const pages_blocks_footer_form_block = pgTable(
   }),
 )
 
+export const pages_blocks_colored_text_block_text_elements = pgTable(
+  'pages_blocks_colored_text_block_text_elements',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: varchar('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    text: varchar('text'),
+    useColor: boolean('use_color').default(true),
+    addLineBreak: boolean('add_line_break').default(false),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_colored_text_block_text_elements_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_colored_text_block_text_elements_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages_blocks_colored_text_block.id],
+      name: 'pages_blocks_colored_text_block_text_elements_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const pages_blocks_colored_text_block = pgTable(
+  'pages_blocks_colored_text_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: varchar('id').primaryKey(),
+    theme: enum_pages_blocks_colored_text_block_theme('theme').default('light'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('pages_blocks_colored_text_block_order_idx').on(columns._order),
+    _parentIDIdx: index('pages_blocks_colored_text_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('pages_blocks_colored_text_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [pages.id],
+      name: 'pages_blocks_colored_text_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const pages = pgTable(
   'pages',
   {
@@ -1043,6 +1106,7 @@ export const pages = pgTable(
     pageTheme: enum_pages_page_theme('page_theme').default('light'),
     headerColor: enum_pages_header_color('header_color').default('light'),
     hero_type: enum_pages_hero_type('hero_type').default('lowImpact'),
+    hero_impact: enum_pages_hero_impact('hero_impact').default('highImpact'),
     hero_hasAngledCorner: boolean('hero_has_angled_corner').default(false),
     hero_richText: jsonb('hero_rich_text'),
     hero_media: integer('hero_media_id').references(() => media.id, {
@@ -1872,6 +1936,55 @@ export const _pages_v_blocks_footer_form_block = pgTable(
   }),
 )
 
+export const _pages_v_blocks_colored_text_block_text_elements = pgTable(
+  '_pages_v_blocks_colored_text_block_text_elements',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    id: serial('id').primaryKey(),
+    text: varchar('text'),
+    useColor: boolean('use_color').default(true),
+    addLineBreak: boolean('add_line_break').default(false),
+    _uuid: varchar('_uuid'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_colored_text_block_text_elements_order_idx').on(
+      columns._order,
+    ),
+    _parentIDIdx: index('_pages_v_blocks_colored_text_block_text_elements_parent_id_idx').on(
+      columns._parentID,
+    ),
+    _parentIDFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v_blocks_colored_text_block.id],
+      name: '_pages_v_blocks_colored_text_block_text_elements_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
+export const _pages_v_blocks_colored_text_block = pgTable(
+  '_pages_v_blocks_colored_text_block',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: integer('_parent_id').notNull(),
+    _path: text('_path').notNull(),
+    id: serial('id').primaryKey(),
+    theme: enum__pages_v_blocks_colored_text_block_theme('theme').default('light'),
+    _uuid: varchar('_uuid'),
+    blockName: varchar('block_name'),
+  },
+  (columns) => ({
+    _orderIdx: index('_pages_v_blocks_colored_text_block_order_idx').on(columns._order),
+    _parentIDIdx: index('_pages_v_blocks_colored_text_block_parent_id_idx').on(columns._parentID),
+    _pathIdx: index('_pages_v_blocks_colored_text_block_path_idx').on(columns._path),
+    _parentIdFk: foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [_pages_v.id],
+      name: '_pages_v_blocks_colored_text_block_parent_id_fk',
+    }).onDelete('cascade'),
+  }),
+)
+
 export const _pages_v = pgTable(
   '_pages_v',
   {
@@ -1884,6 +1997,8 @@ export const _pages_v = pgTable(
     version_headerColor:
       enum__pages_v_version_header_color('version_header_color').default('light'),
     version_hero_type: enum__pages_v_version_hero_type('version_hero_type').default('lowImpact'),
+    version_hero_impact:
+      enum__pages_v_version_hero_impact('version_hero_impact').default('highImpact'),
     version_hero_hasAngledCorner: boolean('version_hero_has_angled_corner').default(false),
     version_hero_richText: jsonb('version_hero_rich_text'),
     version_hero_media: integer('version_hero_media_id').references(() => media.id, {
@@ -3829,6 +3944,29 @@ export const relations_pages_blocks_footer_form_block = relations(
     }),
   }),
 )
+export const relations_pages_blocks_colored_text_block_text_elements = relations(
+  pages_blocks_colored_text_block_text_elements,
+  ({ one }) => ({
+    _parentID: one(pages_blocks_colored_text_block, {
+      fields: [pages_blocks_colored_text_block_text_elements._parentID],
+      references: [pages_blocks_colored_text_block.id],
+      relationName: 'textElements',
+    }),
+  }),
+)
+export const relations_pages_blocks_colored_text_block = relations(
+  pages_blocks_colored_text_block,
+  ({ one, many }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_colored_text_block._parentID],
+      references: [pages.id],
+      relationName: '_blocks_coloredTextBlock',
+    }),
+    textElements: many(pages_blocks_colored_text_block_text_elements, {
+      relationName: 'textElements',
+    }),
+  }),
+)
 export const relations_pages_rels = relations(pages_rels, ({ one }) => ({
   parent: one(pages, {
     fields: [pages_rels.parent],
@@ -3925,6 +4063,9 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   }),
   _blocks_footerFormBlock: many(pages_blocks_footer_form_block, {
     relationName: '_blocks_footerFormBlock',
+  }),
+  _blocks_coloredTextBlock: many(pages_blocks_colored_text_block, {
+    relationName: '_blocks_coloredTextBlock',
   }),
   meta_image: one(media, {
     fields: [pages.meta_image],
@@ -4258,6 +4399,29 @@ export const relations__pages_v_blocks_footer_form_block = relations(
     }),
   }),
 )
+export const relations__pages_v_blocks_colored_text_block_text_elements = relations(
+  _pages_v_blocks_colored_text_block_text_elements,
+  ({ one }) => ({
+    _parentID: one(_pages_v_blocks_colored_text_block, {
+      fields: [_pages_v_blocks_colored_text_block_text_elements._parentID],
+      references: [_pages_v_blocks_colored_text_block.id],
+      relationName: 'textElements',
+    }),
+  }),
+)
+export const relations__pages_v_blocks_colored_text_block = relations(
+  _pages_v_blocks_colored_text_block,
+  ({ one, many }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_colored_text_block._parentID],
+      references: [_pages_v.id],
+      relationName: '_blocks_coloredTextBlock',
+    }),
+    textElements: many(_pages_v_blocks_colored_text_block_text_elements, {
+      relationName: 'textElements',
+    }),
+  }),
+)
 export const relations__pages_v_rels = relations(_pages_v_rels, ({ one }) => ({
   parent: one(_pages_v, {
     fields: [_pages_v_rels.parent],
@@ -4359,6 +4523,9 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   }),
   _blocks_footerFormBlock: many(_pages_v_blocks_footer_form_block, {
     relationName: '_blocks_footerFormBlock',
+  }),
+  _blocks_coloredTextBlock: many(_pages_v_blocks_colored_text_block, {
+    relationName: '_blocks_coloredTextBlock',
   }),
   version_meta_image: one(media, {
     fields: [_pages_v.version_meta_image],
@@ -4975,9 +5142,11 @@ type DatabaseSchema = {
   enum_pages_blocks_number_grid_block_columns: typeof enum_pages_blocks_number_grid_block_columns
   enum_pages_blocks_action_tiles_block_tiles_link_type: typeof enum_pages_blocks_action_tiles_block_tiles_link_type
   enum_pages_blocks_services_accordion_block_link_type: typeof enum_pages_blocks_services_accordion_block_link_type
+  enum_pages_blocks_colored_text_block_theme: typeof enum_pages_blocks_colored_text_block_theme
   enum_pages_page_theme: typeof enum_pages_page_theme
   enum_pages_header_color: typeof enum_pages_header_color
   enum_pages_hero_type: typeof enum_pages_hero_type
+  enum_pages_hero_impact: typeof enum_pages_hero_impact
   enum_pages_status: typeof enum_pages_status
   enum__pages_v_version_hero_links_link_type: typeof enum__pages_v_version_hero_links_link_type
   enum__pages_v_version_hero_links_link_appearance: typeof enum__pages_v_version_hero_links_link_appearance
@@ -5001,9 +5170,11 @@ type DatabaseSchema = {
   enum__pages_v_blocks_number_grid_block_columns: typeof enum__pages_v_blocks_number_grid_block_columns
   enum__pages_v_blocks_action_tiles_block_tiles_link_type: typeof enum__pages_v_blocks_action_tiles_block_tiles_link_type
   enum__pages_v_blocks_services_accordion_block_link_type: typeof enum__pages_v_blocks_services_accordion_block_link_type
+  enum__pages_v_blocks_colored_text_block_theme: typeof enum__pages_v_blocks_colored_text_block_theme
   enum__pages_v_version_page_theme: typeof enum__pages_v_version_page_theme
   enum__pages_v_version_header_color: typeof enum__pages_v_version_header_color
   enum__pages_v_version_hero_type: typeof enum__pages_v_version_hero_type
+  enum__pages_v_version_hero_impact: typeof enum__pages_v_version_hero_impact
   enum__pages_v_version_status: typeof enum__pages_v_version_status
   enum_posts_status: typeof enum_posts_status
   enum__posts_v_version_status: typeof enum__posts_v_version_status
@@ -5046,6 +5217,8 @@ type DatabaseSchema = {
   pages_blocks_engagement_model_block: typeof pages_blocks_engagement_model_block
   pages_blocks_single_case_study_block: typeof pages_blocks_single_case_study_block
   pages_blocks_footer_form_block: typeof pages_blocks_footer_form_block
+  pages_blocks_colored_text_block_text_elements: typeof pages_blocks_colored_text_block_text_elements
+  pages_blocks_colored_text_block: typeof pages_blocks_colored_text_block
   pages: typeof pages
   pages_rels: typeof pages_rels
   _pages_v_version_hero_links: typeof _pages_v_version_hero_links
@@ -5074,6 +5247,8 @@ type DatabaseSchema = {
   _pages_v_blocks_engagement_model_block: typeof _pages_v_blocks_engagement_model_block
   _pages_v_blocks_single_case_study_block: typeof _pages_v_blocks_single_case_study_block
   _pages_v_blocks_footer_form_block: typeof _pages_v_blocks_footer_form_block
+  _pages_v_blocks_colored_text_block_text_elements: typeof _pages_v_blocks_colored_text_block_text_elements
+  _pages_v_blocks_colored_text_block: typeof _pages_v_blocks_colored_text_block
   _pages_v: typeof _pages_v
   _pages_v_rels: typeof _pages_v_rels
   posts_populated_authors: typeof posts_populated_authors
@@ -5152,6 +5327,8 @@ type DatabaseSchema = {
   relations_pages_blocks_engagement_model_block: typeof relations_pages_blocks_engagement_model_block
   relations_pages_blocks_single_case_study_block: typeof relations_pages_blocks_single_case_study_block
   relations_pages_blocks_footer_form_block: typeof relations_pages_blocks_footer_form_block
+  relations_pages_blocks_colored_text_block_text_elements: typeof relations_pages_blocks_colored_text_block_text_elements
+  relations_pages_blocks_colored_text_block: typeof relations_pages_blocks_colored_text_block
   relations_pages_rels: typeof relations_pages_rels
   relations_pages: typeof relations_pages
   relations__pages_v_version_hero_links: typeof relations__pages_v_version_hero_links
@@ -5180,6 +5357,8 @@ type DatabaseSchema = {
   relations__pages_v_blocks_engagement_model_block: typeof relations__pages_v_blocks_engagement_model_block
   relations__pages_v_blocks_single_case_study_block: typeof relations__pages_v_blocks_single_case_study_block
   relations__pages_v_blocks_footer_form_block: typeof relations__pages_v_blocks_footer_form_block
+  relations__pages_v_blocks_colored_text_block_text_elements: typeof relations__pages_v_blocks_colored_text_block_text_elements
+  relations__pages_v_blocks_colored_text_block: typeof relations__pages_v_blocks_colored_text_block
   relations__pages_v_rels: typeof relations__pages_v_rels
   relations__pages_v: typeof relations__pages_v
   relations_posts_populated_authors: typeof relations_posts_populated_authors

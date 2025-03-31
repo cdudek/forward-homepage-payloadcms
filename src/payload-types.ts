@@ -246,6 +246,7 @@ export interface Page {
     | EngagementModelBlock
     | SingleCaseStudyBlock
     | FooterFormBlock
+    | ColoredTextBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1180,6 +1181,30 @@ export interface FooterFormBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColoredTextBlock".
+ */
+export interface ColoredTextBlock {
+  textElements?:
+    | {
+        text: string;
+        /**
+         * When checked, this text element will be rendered with the color effect
+         */
+        useColor?: boolean | null;
+        /**
+         * Add a line break after this text element
+         */
+        addLineBreak?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  theme?: ('light' | 'dark') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'coloredTextBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1517,6 +1542,7 @@ export interface PagesSelect<T extends boolean = true> {
         engagementModelBlock?: T | EngagementModelBlockSelect<T>;
         singleCaseStudyBlock?: T | SingleCaseStudyBlockSelect<T>;
         footerFormBlock?: T | FooterFormBlockSelect<T>;
+        coloredTextBlock?: T | ColoredTextBlockSelect<T>;
       };
   meta?:
     | T
@@ -1835,6 +1861,23 @@ export interface FooterFormBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColoredTextBlock_select".
+ */
+export interface ColoredTextBlockSelect<T extends boolean = true> {
+  textElements?:
+    | T
+    | {
+        text?: T;
+        useColor?: T;
+        addLineBreak?: T;
+        id?: T;
+      };
+  theme?: T;
   id?: T;
   blockName?: T;
 }
@@ -2523,46 +2566,6 @@ export interface TaskSchedulePublish {
     user?: (number | null) | User;
   };
   output?: unknown;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ColoredTextBlock".
- */
-export interface ColoredTextBlock {
-  textElements?:
-    | {
-        text: string;
-        /**
-         * When checked, this text element will be rendered with the color effect
-         */
-        useColor?: boolean | null;
-        /**
-         * Convert spaces to non-breaking spaces to preserve formatting
-         */
-        preserveSpaces?: boolean | null;
-        /**
-         * Add a line break after this text element
-         */
-        addLineBreak?: boolean | null;
-        /**
-         * Wrap this text element in its own container
-         */
-        wrapInContainer?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  typographyType?: ('h1' | 'h2' | 'h3' | 'h4' | 'p') | null;
-  color?:
-    | ('default' | 'gradient' | 'purple' | 'red' | 'orange' | 'black' | 'white' | 'grey-400' | 'grey-600' | 'grey-800')
-    | null;
-  alignment?: ('left' | 'center' | 'right' | 'justify') | null;
-  margins?: {
-    top?: ('none' | 'small' | 'medium' | 'large') | null;
-    bottom?: ('none' | 'small' | 'medium' | 'large') | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'coloredTextBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

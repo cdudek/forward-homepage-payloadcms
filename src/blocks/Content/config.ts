@@ -13,9 +13,7 @@ import {
   BoldFeature,
   UnderlineFeature,
   LinkFeature,
-  BlocksFeature,
 } from '@payloadcms/richtext-lexical'
-import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
 
 import { link } from '@/fields/link'
 
@@ -56,7 +54,6 @@ const columnFields: Field[] = [
           ...rootFeatures,
           ...defaultFeatures,
           HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
-          BlocksFeature({ blocks: [ColoredTextBlock] }),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
           BlockquoteFeature(),

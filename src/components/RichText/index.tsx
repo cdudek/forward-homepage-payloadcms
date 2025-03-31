@@ -12,13 +12,11 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
-import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
-  ColoredTextBlock as ColoredTextBlockProps,
   FeatureGridBlock as FeatureGridProps,
 } from '@/payload-types'
 
@@ -29,12 +27,7 @@ import { cn } from '@/utilities/ui'
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      | CTABlockProps
-      | MediaBlockProps
-      | BannerBlockProps
-      | CodeBlockProps
-      | ColoredTextBlockProps
-      | FeatureGridProps
+      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps | FeatureGridProps
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -63,7 +56,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
-    coloredTextBlock: ({ node }) => <ColoredTextBlock {...node.fields} />,
   },
 })
 

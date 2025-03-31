@@ -24,6 +24,7 @@ import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
 import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/config'
 import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/config'
 import { FooterFormBlock } from '@/blocks/FormFooter/config'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
 
 import {
   MetaDescriptionField,
@@ -119,6 +120,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 EngagementModelBlock,
                 SingleCaseStudyBlock,
                 FooterFormBlock,
+                ColoredTextBlock,
               ],
               required: true,
               admin: {

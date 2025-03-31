@@ -19,6 +19,7 @@ import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/Component'
 import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
 import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/Component'
 import { FooterFormBlock } from '@/blocks/FormFooter/Component'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -38,6 +39,7 @@ const blockComponents = {
   engagementModelBlock: EngagementModelBlock,
   singleCaseStudyBlock: SingleCaseStudyBlock,
   footerFormBlock: FooterFormBlock,
+  coloredTextBlock: ColoredTextBlock,
 }
 
 export const RenderBlocks: React.FC<{

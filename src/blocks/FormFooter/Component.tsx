@@ -200,7 +200,7 @@ export const FooterFormBlock: React.FC<
         )}
 
         {/* <div className={`relative px-0 pb-32 pt-8`}> */}
-        <div className="container py-16">
+        <div className="container py-32 md:py-16">
           {/* <div className="container pt-[calc(5vw+2rem)]"> */}
           {/* Main Container with white transparency */}
           <div
@@ -212,7 +212,7 @@ export const FooterFormBlock: React.FC<
             {/* Two Column Grid */}
             <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-12">
               {/* Left Column - Title and Description */}
-              <div className="flex h-full flex-col text-center md:text-left">
+              <div className="flex h-full flex-col py-8 text-center md:py-0 md:text-left">
                 <div className="prose-sm md:prose-md xl:prose-lg">
                   <h2 className="text-white">{title}</h2>
                   <p className="mt-4 text-white/90 md:pl-2">{description}</p>
