@@ -282,3 +282,7 @@ html {
   text-decoration: underline;
   font-weight: 300;
 }
+
+.prose .faq-answer {
+  font-weight: 200;
+}

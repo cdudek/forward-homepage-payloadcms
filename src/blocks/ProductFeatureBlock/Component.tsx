@@ -79,7 +79,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
                           </div>
                         )}
                     </div>
-                    <span className="flex-1 text-base">{feature.usp}</span>
+                    <span className="flex-1 text-left">{feature.usp}</span>
                   </li>
                 ))}
               </ul>

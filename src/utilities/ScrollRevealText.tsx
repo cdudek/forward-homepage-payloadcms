@@ -54,8 +54,8 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: element,
-          start: 'top 60%',
-          end: 'bottom 60%',
+          start: 'top 30%',
+          end: 'bottom 80%',
           scrub: 1,
           toggleActions: 'play none none reverse',
         },

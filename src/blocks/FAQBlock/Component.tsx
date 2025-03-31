@@ -52,7 +52,7 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                 }}
                 onClick={() => toggleItem(item.question || '')}
               >
-                <motion.div className="flex w-full items-center justify-between p-6 pb-2 text-left text-lg font-medium">
+                <motion.div className="flex w-full items-center justify-between p-6 text-left text-lg font-medium">
                   <span>{item.question}</span>
                   <motion.span
                     className="ml-6 flex h-7 w-7 flex-shrink-0 items-center justify-center"
@@ -87,7 +87,7 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                       }}
                     >
                       <div className="p-6 pt-0">
-                        <p className="!font-light">{item.answer}</p>
+                        <p className="faq-answer">{item.answer}</p>
                       </div>
                     </motion.div>
                   )}
