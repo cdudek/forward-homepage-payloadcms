@@ -8,21 +8,13 @@ const textElementFields: Field[] = [
     required: true,
   },
   {
-    name: 'useColor',
-    type: 'checkbox',
-    label: 'Apply Color',
-    defaultValue: true,
-    admin: {
-      description: 'When checked, this text element will be rendered with the color effect',
-    },
-  },
-  {
     name: 'addLineBreak',
     type: 'checkbox',
     label: 'Add Line Break',
     defaultValue: false,
     admin: {
       description: 'Add a line break after this text element',
+      hidden: true,
     },
   },
 ]

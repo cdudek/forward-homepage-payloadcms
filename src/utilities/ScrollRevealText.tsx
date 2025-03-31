@@ -15,7 +15,6 @@ interface ScrollRevealTextProps {
 
 export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
   text,
-  fgColor = '#0A0E15',
   className = '',
   as: Component = 'h3',
   initialOpacity = 0.3,
@@ -41,7 +40,6 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
     if (splitInstance.words && splitInstance.words.length > 0) {
       gsap.set(splitInstance.words, {
         opacity: initialOpacity,
-        color: fgColor,
         display: 'inline-block',
         fontFamily: 'inherit',
         fontSize: 'inherit',
@@ -79,10 +77,10 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
         splitTextRef.current.revert()
       }
     }
-  }, [text, fgColor, initialOpacity])
+  }, [text, initialOpacity])
 
   return (
-    <Component ref={textRef} className={className} style={{ color: fgColor }}>
+    <Component ref={textRef} className={className}>
       {text}
     </Component>
   )

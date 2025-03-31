@@ -1188,10 +1188,6 @@ export interface ColoredTextBlock {
     | {
         text: string;
         /**
-         * When checked, this text element will be rendered with the color effect
-         */
-        useColor?: boolean | null;
-        /**
          * Add a line break after this text element
          */
         addLineBreak?: boolean | null;
@@ -1873,7 +1869,6 @@ export interface ColoredTextBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        useColor?: T;
         addLineBreak?: T;
         id?: T;
       };

@@ -1060,7 +1060,6 @@ export const pages_blocks_colored_text_block_text_elements = pgTable(
     _parentID: varchar('_parent_id').notNull(),
     id: varchar('id').primaryKey(),
     text: varchar('text'),
-    useColor: boolean('use_color').default(true),
     addLineBreak: boolean('add_line_break').default(false),
   },
   (columns) => ({
@@ -1943,7 +1942,6 @@ export const _pages_v_blocks_colored_text_block_text_elements = pgTable(
     _parentID: integer('_parent_id').notNull(),
     id: serial('id').primaryKey(),
     text: varchar('text'),
-    useColor: boolean('use_color').default(true),
     addLineBreak: boolean('add_line_break').default(false),
     _uuid: varchar('_uuid'),
   },

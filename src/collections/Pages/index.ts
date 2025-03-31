@@ -80,14 +80,32 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'pageTheme',
       type: 'select',
       label: 'Page Theme',
-      options: ['light', 'dark'],
+      options: [
+        {
+          label: 'Light',
+          value: 'light',
+        },
+        {
+          label: 'Dark',
+          value: 'dark',
+        },
+      ],
       defaultValue: 'light',
     },
     {
       name: 'headerColor',
       type: 'select',
       label: 'Header Theme',
-      options: ['light', 'dark'],
+      options: [
+        {
+          label: 'Light',
+          value: 'light',
+        },
+        {
+          label: 'Dark',
+          value: 'dark',
+        },
+      ],
       defaultValue: 'light',
     },
     {
