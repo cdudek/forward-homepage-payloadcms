@@ -17,6 +17,8 @@ import { Toaster } from 'sonner'
 const fustat = localFont({
   src: './Fustat.ttf',
   display: 'swap',
+  preload: true,
+  variable: '--font-fustat',
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
