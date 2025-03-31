@@ -49,19 +49,19 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
               <ul className="list-none space-y-4 p-0">
                 {featureList.map((feature) => (
                   <li key={feature.usp} className="flex items-center gap-4">
-                    <div className="relative h-10 w-10 flex-shrink-0">
+                    <div className="not-prose relative h-10 w-10 flex-shrink-0">
                       {/* White circle with 5% opacity background */}
-                      <div className="absolute inset-0 rounded-full bg-white bg-opacity-5"></div>
+                      <div className="not-prose absolute inset-0 rounded-full bg-white bg-opacity-5"></div>
 
                       {/* Icon with gradient using mask technique */}
                       {feature.featureIcon &&
                         typeof feature.featureIcon === 'object' &&
                         'url' in feature.featureIcon &&
                         feature.featureIcon.url && (
-                          <div className="no-prose absolute inset-0 flex items-center justify-center">
-                            <div className="h-5 w-5">
+                          <div className="no-prose not-prose absolute inset-0 flex items-center justify-center">
+                            <div className="not-prose h-5 w-5">
                               <div
-                                className="h-full w-full"
+                                className="not-prose h-full w-full"
                                 style={{
                                   WebkitMaskImage: `url(${feature.featureIcon.url})`,
                                   maskImage: `url(${feature.featureIcon.url})`,

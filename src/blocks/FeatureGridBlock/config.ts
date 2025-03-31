@@ -10,18 +10,6 @@ import { Block } from 'payload'
  * DO NOT REMOVE dbName fields even if TypeScript shows errors
  */
 
-import {
-  lexicalEditor,
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  AlignFeature,
-  ItalicFeature,
-  BoldFeature,
-  LinkFeature,
-  ParagraphFeature,
-} from '@payloadcms/richtext-lexical'
-
 export const FeatureGridBlock: Block = {
   slug: 'featureGridBlock',
   interfaceName: 'FeatureGridBlock',
