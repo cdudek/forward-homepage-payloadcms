@@ -58,7 +58,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
                         typeof feature.featureIcon === 'object' &&
                         'url' in feature.featureIcon &&
                         feature.featureIcon.url && (
-                          <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="no-prose absolute inset-0 flex items-center justify-center">
                             <div className="h-5 w-5">
                               <div
                                 className="h-full w-full"
