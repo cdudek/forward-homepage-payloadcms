@@ -57,8 +57,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" variant={logoVariant} />
         </Link>
-        <button onClick={toggleMobileMenu} className="p-2" aria-label="Toggle menu">
-          <Menu size={24} />
+        <button
+          onClick={toggleMobileMenu}
+          className={clsx(
+            'relative flex items-center justify-center rounded-full p-2',
+            color === 'dark' ? 'text-white' : 'text-fwd-black',
+          )}
+          aria-label="Toggle menu"
+        >
+          <div
+            className={clsx(
+              'absolute inset-0 rounded-full transition-opacity duration-150 active:opacity-10',
+              color === 'dark' ? 'bg-white opacity-0' : 'bg-fwd-black opacity-0',
+            )}
+          />
+          <Menu size={24} className={color === 'light' ? 'text-white' : 'text-fwd-black'} />
         </button>
       </div>
     </header>
@@ -89,52 +102,71 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   )
 
   // Mobile menu overlay
-  const mobileMenuOverlay = isMobileMenuOpen && (
-    <div
-      className={clsx(
-        'fixed inset-0 z-50 flex flex-col transition-opacity duration-300 md:hidden',
-        color === 'dark' ? 'bg-black text-white' : 'bg-white text-black',
+  const mobileMenuOverlay = (
+    <>
+      {/* Backdrop for click-out */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
       )}
-    >
-      <div className="container mx-auto flex items-center justify-between p-4">
-        <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-          <Logo loading="eager" priority="high" variant={logoVariant} />
-        </Link>
-        <button onClick={toggleMobileMenu} className="p-2" aria-label="Close menu">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      {/* Slide-in menu panel */}
+      <div
+        className={clsx(
+          'fixed inset-y-0 left-0 z-50 flex w-3/4 max-w-xs transform flex-col transition-transform duration-300 ease-in-out md:hidden',
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
+          'bg-fwd-black text-white',
+        )}
+      >
+        <div className="container flex items-center justify-between p-4">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+            <Logo loading="eager" priority="high" variant="light" />
+          </Link>
+          <button
+            onClick={toggleMobileMenu}
+            className="relative flex items-center justify-center rounded-full p-2 text-white"
+            aria-label="Close menu"
           >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-4 text-xl">
-        {data?.navItems?.map((item, i) => {
-          const href = item.link.url || '/'
-
-          return (
-            <Link
-              key={i}
-              href={href}
-              className="py-2 transition-colors hover:opacity-70"
-              onClick={() => setIsMobileMenuOpen(false)}
+            <div className="absolute inset-0 rounded-full bg-white opacity-0 transition-opacity duration-150 active:opacity-10" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {item.link.label}
-            </Link>
-          )
-        })}
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex flex-1 flex-col space-y-0 p-4 text-xl">
+          {data?.navItems?.map((item, i) => {
+            const href = item.link.url || '/'
+
+            return (
+              <React.Fragment key={i}>
+                {i > 0 && <div className="my-2 h-px w-full bg-white opacity-10" />}
+                <Link
+                  href={href}
+                  className="relative py-8 transition-colors hover:opacity-70"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div className="absolute inset-0 bg-white opacity-0 transition-opacity duration-150 focus:opacity-20 active:opacity-20" />
+                  <span className="relative pl-4 !text-2xl">{item.link.label}</span>
+                </Link>
+              </React.Fragment>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 
   return (
