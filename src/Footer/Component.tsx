@@ -4,6 +4,7 @@ import React from 'react'
 import type { Footer } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import { SubscribeForm } from './SubscribeForm'
 
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
@@ -52,29 +53,7 @@ export async function Footer() {
 
           <div className="col-span-1 sm:col-span-2 md:col-span-2">
             <div className="mb-3 text-lg font-medium sm:mb-4">Subscribe</div>
-            <div className="mb-3 flex w-full sm:mb-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-gray-800 px-3 py-2 text-white sm:px-4"
-              />
-              <button className="bg-white p-2 text-black sm:p-3" aria-label="Subscribe">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="h-4 w-4 sm:h-5 sm:w-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
-            </div>
+            <SubscribeForm />
             <div className="text-xs text-gray-400 sm:text-sm">
               By subscribing you agree to with our{' '}
               <Link
