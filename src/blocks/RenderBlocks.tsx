@@ -20,6 +20,7 @@ import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
 import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/Component'
 import { FooterFormBlock } from '@/blocks/FormFooter/Component'
 import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
+import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -40,6 +41,7 @@ const blockComponents = {
   singleCaseStudyBlock: SingleCaseStudyBlock,
   footerFormBlock: FooterFormBlock,
   coloredTextBlock: ColoredTextBlock,
+  productFeatureBlock: ProductFeatureBlock,
 }
 
 export const RenderBlocks: React.FC<{

@@ -6,6 +6,8 @@ interface Props {
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
   variant?: 'default' | 'light' | 'color' | 'dark'
+  height?: number
+  width?: number
 }
 
 export const Logo = (props: Props) => {
@@ -14,6 +16,8 @@ export const Logo = (props: Props) => {
     priority: priorityFromProps,
     className,
     variant: variantFromProps = 'default',
+    height = 34,
+    width = 193,
   } = props
 
   const loading = loadingFromProps || 'lazy'
@@ -32,8 +36,8 @@ export const Logo = (props: Props) => {
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="forward Labs Logo"
-      width={193}
-      height={34}
+      width={width}
+      height={height}
       loading={loading}
       fetchPriority={priority}
       decoding="async"

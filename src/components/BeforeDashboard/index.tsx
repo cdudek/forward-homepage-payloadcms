@@ -1,18 +1,28 @@
-import { Banner } from '@payloadcms/ui/elements/Banner'
+// import { Banner } from '@payloadcms/ui/elements/Banner'
 import React from 'react'
 
-import { SeedButton } from './SeedButton'
+// import { SeedButton } from './SeedButton'
 import './index.scss'
+import { Logo } from '@/components/Logo/Logo'
 
 const baseClass = 'before-dashboard'
 
 const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
-      <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
-      </Banner>
-      Here&apos;s what to do next:
+      <div className={'absolute hidden py-6 md:block'}>
+        <div className="container mx-auto md:px-2 lg:px-2 xl:px-0 2xl:px-0">
+          <div
+            className={'grid grid-cols-3 items-center rounded-full p-4 transition-all duration-300'}
+          >
+            <div className="justify-self-start px-4 pb-8">
+              <Logo loading="eager" priority="high" variant="color" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Here&apos;s what to do next:
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
@@ -66,7 +76,7 @@ const BeforeDashboard: React.FC = () => {
       >
         custom component
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      , you can remove it at any time by updating your <strong>payload.config</strong>. */}
     </div>
   )
 }
