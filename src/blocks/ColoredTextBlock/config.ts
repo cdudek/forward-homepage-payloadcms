@@ -28,15 +28,6 @@ export const ColoredTextBlock: Block = {
   },
   fields: [
     {
-      name: 'textElements',
-      type: 'array',
-      label: 'Text Elements',
-      admin: {
-        initCollapsed: true,
-      },
-      fields: textElementFields,
-    },
-    {
       name: 'theme',
       type: 'select',
       label: 'Theme',
@@ -51,6 +42,15 @@ export const ColoredTextBlock: Block = {
           value: 'dark',
         },
       ],
+    },
+    {
+      name: 'textElements',
+      type: 'array',
+      label: 'Text Elements',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: textElementFields,
     },
   ],
 }

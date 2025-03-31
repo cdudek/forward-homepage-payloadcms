@@ -248,6 +248,7 @@ export interface Page {
     | FooterFormBlock
     | ColoredTextBlock
     | ProductFeatureBlock
+    | FAQBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1185,6 +1186,7 @@ export interface FooterFormBlock {
  * via the `definition` "ColoredTextBlock".
  */
 export interface ColoredTextBlock {
+  theme?: ('light' | 'dark') | null;
   textElements?:
     | {
         text: string;
@@ -1195,7 +1197,6 @@ export interface ColoredTextBlock {
         id?: string | null;
       }[]
     | null;
-  theme?: ('light' | 'dark') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'coloredTextBlock';
@@ -1242,6 +1243,26 @@ export interface ProductFeatureBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'productFeatureBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  theme?: ('light' | 'dark') | null;
+  title: string;
+  gradientText?: string | null;
+  description: string;
+  faqItems?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1584,6 +1605,7 @@ export interface PagesSelect<T extends boolean = true> {
         footerFormBlock?: T | FooterFormBlockSelect<T>;
         coloredTextBlock?: T | ColoredTextBlockSelect<T>;
         productFeatureBlock?: T | ProductFeatureBlockSelect<T>;
+        faqBlock?: T | FAQBlockSelect<T>;
       };
   meta?:
     | T
@@ -1910,6 +1932,7 @@ export interface FooterFormBlockSelect<T extends boolean = true> {
  * via the `definition` "ColoredTextBlock_select".
  */
 export interface ColoredTextBlockSelect<T extends boolean = true> {
+  theme?: T;
   textElements?:
     | T
     | {
@@ -1917,7 +1940,6 @@ export interface ColoredTextBlockSelect<T extends boolean = true> {
         addLineBreak?: T;
         id?: T;
       };
-  theme?: T;
   id?: T;
   blockName?: T;
 }
@@ -1948,6 +1970,25 @@ export interface ProductFeatureBlockSelect<T extends boolean = true> {
         url?: T;
         label?: T;
         appearance?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  theme?: T;
+  title?: T;
+  gradientText?: T;
+  description?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
       };
   id?: T;
   blockName?: T;

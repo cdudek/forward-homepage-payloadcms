@@ -26,6 +26,7 @@ import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/config'
 import { FooterFormBlock } from '@/blocks/FormFooter/config'
 import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
 import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/config'
+import { FAQBlock } from '@/blocks/FAQBlock/config'
 
 import {
   MetaDescriptionField,
@@ -141,6 +142,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FooterFormBlock,
                 ColoredTextBlock,
                 ProductFeatureBlock,
+                FAQBlock,
               ],
               required: true,
               admin: {
