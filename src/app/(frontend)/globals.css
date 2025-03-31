@@ -283,6 +283,26 @@ html {
   font-weight: 300;
 }
 
-.prose .faq-answer {
+.prose-sm .faq-answer,
+.prose-md .faq-answer,
+.prose-lg .faq-answer {
   font-weight: 200;
+}
+
+/* Case study author and position styles */
+.case-study-quote {
+  font-weight: 300 !important;
+  line-height: 1.5 !important;
+}
+
+.case-study-author {
+  font-weight: 300 !important;
+  line-height: 1.2 !important;
+  font-size: 1.5rem !important;
+}
+
+.case-study-position {
+  font-weight: 200 !important;
+  line-height: 1.2 !important;
+  font-size: 1.5rem !important;
 }

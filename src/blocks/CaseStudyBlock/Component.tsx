@@ -7,6 +7,79 @@ import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
 
+// Supporting case study card component
+const SupportingCaseStudyCard: React.FC<{
+  study: CaseStudy
+  index: number
+  onClick: (index: number) => void
+  variants: any
+}> = ({ study, index, onClick, variants }) => {
+  if (!study) return null
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={`supporting-${index}`}
+        variants={variants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        onClick={() => onClick(index)}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className={cn(
+          'grid cursor-pointer grid-rows-[auto_1fr_auto] overflow-hidden rounded-3xl border',
+          'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
+          'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
+          'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
+          'transition-shadow duration-500',
+          'will-change-transform',
+          'h-full',
+        )}
+      >
+        {/* Logo with fixed height/width container */}
+        {study.logo && (
+          <div className="not-prose relative my-4 flex h-8 w-32 items-center justify-start overflow-hidden">
+            <Media
+              resource={study.logo}
+              className="flex max-h-full max-w-full justify-start object-contain opacity-80 grayscale"
+              imgClassName="max-h-8 max-w-32 object-left object-contain"
+            />
+          </div>
+        )}
+
+        {/* Quote only - larger, darker text */}
+        {study.testimonial?.quoteText && (
+          <div className="case-study-quote prose line-clamp-4 flex h-full items-center text-base font-medium text-gray-800 md:text-xl">
+            {study.testimonial.quoteText}
+          </div>
+        )}
+
+        {/* "Read how" link at the bottom */}
+        {study.url && (
+          <a
+            href={study.url}
+            className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Read how</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        )}
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
 // Create a separate component for the case study display to handle the logic
 export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   caseStudies,
@@ -150,7 +223,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   return (
     <div
       ref={containerRef}
-      className="container mx-auto hidden py-8 md:block"
+      className="container mx-auto py-8"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -158,8 +231,9 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
         <h2>{header}</h2>
         {description && <p className="pb-8">{description}</p>}
       </div>
-      <div className="grid grid-cols-5 gap-6">
-        <div className="relative col-span-3">
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+        <div className="col-span-1 h-full md:col-span-3">
           <AnimatePresence mode="wait">
             <motion.div
               key={`hero-${activeIndex}`}
@@ -167,49 +241,58 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
               initial="initial"
               animate={isInView ? 'animate' : 'initial'}
               exit="exit"
-              className="relative aspect-[16/10] w-full will-change-transform"
+              className="relative h-full w-full will-change-transform"
             >
               {/* Hero Case Study Card */}
-              <div className="absolute inset-0 overflow-hidden rounded-3xl">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl">
                 {currentStudy.testimonial?.background && (
                   <div className="absolute inset-0 z-0 bg-gray-900">
                     <Media
                       resource={currentStudy.testimonial.background}
                       className="h-full w-full object-cover"
                       imgClassName="h-full w-full object-cover"
+                      fill
                     />
                   </div>
                 )}
 
                 {/* Inner blurry content area that matches screenshot */}
-                <div className="absolute inset-8 z-10 rounded-3xl bg-white/20 backdrop-blur-sm">
-                  <div className="flex h-full flex-col p-8">
+                <div className="prose-sm absolute inset-8 z-10 rounded-3xl bg-white/20 backdrop-blur-sm md:prose-md xl:prose-lg">
+                  <div className="grid h-full grid-rows-[auto_1fr_auto] p-8">
                     {/* Company logo - white color for hero */}
                     {currentStudy.logo && (
-                      <div className="mb-auto flex h-16 w-40 items-center">
+                      // <div className="not-prose relative my-4 mb-auto flex h-16 w-40 items-center justify-start overflow-hidden">
+                      //   <Media
+                      //     resource={currentStudy.logo}
+                      //     className="max-h-full max-w-full object-contain brightness-0 invert"
+                      //     imgClassName="max-h-16 max-w-40 object-contain"
+                      //   />
+                      // </div>
+                      <div className="not-prose relative my-4 flex h-16 w-32 items-center justify-start overflow-hidden">
                         <Media
                           resource={currentStudy.logo}
-                          className="max-h-full max-w-full object-contain brightness-0 invert"
+                          className="flex max-h-full max-w-full justify-start object-contain opacity-80 brightness-0 invert"
+                          imgClassName="max-h-16 max-w-32 object-left object-contain"
                         />
                       </div>
                     )}
 
-                    {/* Quote - left aligned */}
-                    <div className="my-auto">
+                    {/* Quote - properly centered both vertically and horizontally */}
+                    <div className="flex h-full items-center justify-center">
                       {currentStudy.testimonial?.quoteText && (
-                        <div className="text-xl font-light text-white md:text-2xl lg:text-3xl">
+                        <h5 className="case-study-quote my-auto text-white">
                           {currentStudy.testimonial.quoteText}
-                        </div>
+                        </h5>
                       )}
                     </div>
 
                     {/* Author information - right aligned */}
                     <div className="mt-auto flex items-end justify-end">
-                      <div className="text-right text-white">
-                        <div className="font-semibold">
-                          - {currentStudy.testimonial?.author || ''}
+                      <div className="text-right">
+                        <div className="case-study-author text-white">
+                          {currentStudy.testimonial?.author || ''}
                         </div>
-                        <div className="text-sm text-white/80">
+                        <div className="case-study-position text-white/90">
                           {currentStudy.testimonial?.position || ''}
                         </div>
                       </div>
@@ -257,139 +340,23 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
           </AnimatePresence>
         </div>
 
-        <div className="col-span-2 flex flex-col gap-6">
-          {/* First supporting card - ONLY logo and quote */}
+        <div className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6">
           {nextStudy && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`supporting-1-${nextIndex}`}
-                variants={supportingCardVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                onClick={() => handleCardClick(nextIndex)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={cn(
-                  'flex-1 cursor-pointer overflow-hidden rounded-3xl border',
-                  'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
-                  'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
-                  'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
-                  'transition-shadow duration-500',
-                  'will-change-transform',
-                )}
-              >
-                {/* Logo with fixed height/width container */}
-                {nextStudy.logo && (
-                  <div className="mb-6 flex h-8 w-32 items-center">
-                    <Media
-                      resource={nextStudy.logo}
-                      className="max-h-full max-w-full object-contain opacity-80 grayscale"
-                    />
-                  </div>
-                )}
-
-                {/* Quote only - larger, darker text */}
-                {nextStudy.testimonial?.quoteText && (
-                  <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
-                    {nextStudy.testimonial.quoteText}
-                  </div>
-                )}
-
-                {/* "Read how" link at the bottom */}
-                {nextStudy.url && (
-                  <a
-                    href={nextStudy.url}
-                    className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span>Read how</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </motion.div>
-            </AnimatePresence>
+            <SupportingCaseStudyCard
+              study={nextStudy}
+              index={nextIndex}
+              onClick={handleCardClick}
+              variants={supportingCardVariants}
+            />
           )}
 
-          {/* Second supporting card - ONLY logo and quote */}
           {secondNextStudy && totalCaseStudies > 2 && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`supporting-2-${secondNextIndex}`}
-                variants={supportingCardVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                onClick={() => handleCardClick(secondNextIndex)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={cn(
-                  'flex-1 cursor-pointer overflow-hidden rounded-3xl border',
-                  'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
-                  'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
-                  'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
-                  'transition-shadow duration-500',
-                  'will-change-transform',
-                )}
-              >
-                {/* Logo with fixed height/width container */}
-                {secondNextStudy.logo && (
-                  <div className="mb-6 flex h-8 w-32 items-center">
-                    <Media
-                      resource={secondNextStudy.logo}
-                      className="max-h-full max-w-full object-contain opacity-80 grayscale"
-                    />
-                  </div>
-                )}
-
-                {/* Quote only - larger, darker text */}
-                {secondNextStudy.testimonial?.quoteText && (
-                  <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
-                    {secondNextStudy.testimonial.quoteText}
-                  </div>
-                )}
-
-                {/* "Read how" link at the bottom */}
-                {secondNextStudy.url && (
-                  <a
-                    href={secondNextStudy.url}
-                    className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span>Read how</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </motion.div>
-            </AnimatePresence>
+            <SupportingCaseStudyCard
+              study={secondNextStudy}
+              index={secondNextIndex}
+              onClick={handleCardClick}
+              variants={supportingCardVariants}
+            />
           )}
         </div>
       </div>
