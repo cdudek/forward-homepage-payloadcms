@@ -1,27 +1,17 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
-import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
 
-type CaseStudyDisplayProps = {
-  caseStudies: (number | CaseStudy)[]
-  limit?: number
-  title: string
-  gradientText: string
-  description: string
-}
-
 // Create a separate component for the case study display to handle the logic
-const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
+export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   caseStudies,
-  limit = 10,
-  title,
-  gradientText,
+  title = 'Case Studies',
+  gradientText = '',
   description,
 }) => {
   // State for the current active case study
@@ -36,15 +26,13 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
   // Fix for initial render - ensure content is visible immediately
   const [isFirstRender, setIsFirstRender] = useState(true)
 
-  // Ensure we only display up to the limit
-  const displayCaseStudies = caseStudies.slice(0, limit)
-  const totalCaseStudies = displayCaseStudies.length
+  const totalCaseStudies = caseStudies?.length || 0
 
   // Function to advance to the next case study
-  const goToNextCaseStudy = () => {
+  const goToNextCaseStudy = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % totalCaseStudies)
     setProgressPercent(0)
-  }
+  }, [totalCaseStudies])
 
   // Set up intersection observer
   useEffect(() => {
@@ -117,10 +105,10 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
         clearInterval(progressIntervalRef.current)
       }
     }
-  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, isInView])
+  }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, isInView, goToNextCaseStudy])
 
   // Get the current active case study
-  const activeCaseStudy = displayCaseStudies[activeIndex]
+  const activeCaseStudy = caseStudies?.[activeIndex]
 
   // Handle potential non-populated relationships
   const currentStudy = typeof activeCaseStudy === 'number' ? null : (activeCaseStudy as CaseStudy)
@@ -131,14 +119,12 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
   const secondNextIndex = (activeIndex + 2) % totalCaseStudies
 
   const nextStudy =
-    typeof displayCaseStudies[nextIndex] === 'number'
-      ? null
-      : (displayCaseStudies[nextIndex] as CaseStudy)
+    typeof caseStudies?.[nextIndex] === 'number' ? null : (caseStudies?.[nextIndex] as CaseStudy)
 
   const secondNextStudy =
-    typeof displayCaseStudies[secondNextIndex] === 'number'
+    typeof caseStudies?.[secondNextIndex] === 'number'
       ? null
-      : (displayCaseStudies[secondNextIndex] as CaseStudy)
+      : (caseStudies?.[secondNextIndex] as CaseStudy)
 
   // Animation variants for the cards - smoother transitions
   const heroCardVariants = {
@@ -159,7 +145,7 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
     setProgressPercent(0)
   }
 
-  const header = renderedTitle(title, gradientText)
+  const header = renderedTitle(title || '', gradientText || '')
 
   return (
     <div
@@ -210,9 +196,9 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
 
                     {/* Quote - left aligned */}
                     <div className="my-auto">
-                      {currentStudy.testimonial?.quote && (
+                      {currentStudy.testimonial?.quoteText && (
                         <div className="text-xl font-light text-white md:text-2xl lg:text-3xl">
-                          <RichText data={currentStudy.testimonial.quote} enableProse={false} />
+                          {currentStudy.testimonial.quoteText}
                         </div>
                       )}
                     </div>
@@ -304,9 +290,9 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
                 )}
 
                 {/* Quote only - larger, darker text */}
-                {nextStudy.testimonial?.quote && (
+                {nextStudy.testimonial?.quoteText && (
                   <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
-                    <RichText data={nextStudy.testimonial.quote} enableProse={false} />
+                    {nextStudy.testimonial.quoteText}
                   </div>
                 )}
 
@@ -371,9 +357,9 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
                 )}
 
                 {/* Quote only - larger, darker text */}
-                {secondNextStudy.testimonial?.quote && (
+                {secondNextStudy.testimonial?.quoteText && (
                   <div className="line-clamp-4 text-base font-medium text-gray-800 md:text-xl">
-                    <RichText data={secondNextStudy.testimonial.quote} enableProse={false} />
+                    {secondNextStudy.testimonial.quoteText}
                   </div>
                 )}
 
@@ -408,28 +394,6 @@ const CaseStudyDisplay: React.FC<CaseStudyDisplayProps> = ({
         </div>
       </div>
     </div>
-  )
-}
-
-// Main component that handles the empty case check
-export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
-  caseStudies,
-  limit = 10,
-  title = 'Case Studies',
-  gradientText = 'Studies',
-  description = 'Our case studies',
-}) => {
-  // Guard clause for empty case studies
-  if (!caseStudies?.length) return null
-
-  return (
-    <CaseStudyDisplay
-      caseStudies={caseStudies}
-      limit={limit || 10}
-      title={title ?? 'Case Studies'}
-      gradientText={gradientText ?? 'Studies'}
-      description={description ?? 'Our case studies'}
-    />
   )
 }
 
