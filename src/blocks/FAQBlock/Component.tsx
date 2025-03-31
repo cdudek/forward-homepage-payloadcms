@@ -39,15 +39,20 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                   opacity: 1,
                   backgroundColor:
                     openItem === item.question ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+                  filter:
+                    openItem === item.question
+                      ? 'drop-shadow(0 0 5px rgba(255,255,255,0.1))'
+                      : 'transparent',
                 }}
                 transition={{ duration: 0.4, ease: 'easeInOut' }}
                 whileHover={{
                   scale: 1.02,
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.07)',
+                  filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.3))',
                 }}
                 onClick={() => toggleItem(item.question || '')}
               >
-                <motion.div className="flex w-full items-center justify-between p-6 text-left text-lg font-medium">
+                <motion.div className="flex w-full items-center justify-between p-6 pb-2 text-left text-lg font-medium">
                   <span>{item.question}</span>
                   <motion.span
                     className="ml-6 flex h-7 w-7 flex-shrink-0 items-center justify-center"
