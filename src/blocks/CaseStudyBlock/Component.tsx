@@ -26,13 +26,14 @@ const SupportingCaseStudyCard: React.FC<{
         exit="exit"
         onClick={() => onClick(index)}
         whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: 1.01 }}
         className={cn(
           'grid cursor-pointer grid-rows-[auto_1fr_auto] overflow-hidden rounded-3xl border',
-          'border-gray-400 bg-white p-6 transition-colors hover:border-gray-600 active:bg-gray-50',
-          'shadow-[0_1px_1px_rgba(0,0,0,0.21)]',
-          'group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]',
-          'transition-shadow duration-500',
+          'border-gray-400 bg-white p-6 transition-colors hover:border-gray-500 hover:bg-gray-50/50 active:bg-gray-50',
+          'shadow-[0_1px_1px_rgba(0,0,0,0.1)]',
+          'hover:shadow-[0_2px_2px_rgba(0,0,0,0.1)]',
+          'group-hover:shadow-[0_5px_5px_rgba(255,0,130,0.25)]',
+          'transition-shadow duration-300',
           'will-change-transform',
           'h-full',
         )}
@@ -244,7 +245,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
               className="relative h-full w-full will-change-transform"
             >
               {/* Hero Case Study Card */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl">
+              <div className="relative w-full overflow-hidden rounded-3xl md:aspect-[16/10]">
                 {currentStudy.testimonial?.background && (
                   <div className="absolute inset-0 z-0 bg-gray-900">
                     <Media
@@ -257,71 +258,67 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                 )}
 
                 {/* Inner blurry content area that matches screenshot */}
-                <div className="prose-sm absolute inset-8 z-10 rounded-3xl bg-white/20 backdrop-blur-sm md:prose-md xl:prose-lg">
-                  <div className="grid h-full grid-rows-[auto_1fr_auto] p-8">
+                {/* <div className="prose-sm relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:prose-md xl:prose-lg md:absolute md:inset-8 md:p-8"> */}
+                <div className="relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:absolute md:inset-8 md:p-8">
+                  <div className="grid grid-rows-[auto_1fr_auto]">
                     {/* Company logo - white color for hero */}
                     {currentStudy.logo && (
-                      // <div className="not-prose relative my-4 mb-auto flex h-16 w-40 items-center justify-start overflow-hidden">
-                      //   <Media
-                      //     resource={currentStudy.logo}
-                      //     className="max-h-full max-w-full object-contain brightness-0 invert"
-                      //     imgClassName="max-h-16 max-w-40 object-contain"
-                      //   />
-                      // </div>
-                      <div className="not-prose relative my-4 flex h-16 w-32 items-center justify-start overflow-hidden">
+                      <div className="not-prose relative my-3 flex h-12 w-32 items-center justify-start overflow-hidden md:my-4 md:h-16">
                         <Media
                           resource={currentStudy.logo}
                           className="flex max-h-full max-w-full justify-start object-contain opacity-80 brightness-0 invert"
-                          imgClassName="max-h-16 max-w-32 object-left object-contain"
+                          imgClassName="max-h-full max-w-full object-left object-contain"
                         />
                       </div>
                     )}
 
                     {/* Quote - properly centered both vertically and horizontally */}
-                    <div className="flex h-full items-center justify-center">
+                    <div className="py-6 md:py-8">
                       {currentStudy.testimonial?.quoteText && (
-                        <h5 className="case-study-quote my-auto text-white">
+                        <div className="case-study-quote text-lg leading-relaxed text-white md:text-xl lg:text-2xl xl:text-3xl">
                           {currentStudy.testimonial.quoteText}
-                        </h5>
+                        </div>
                       )}
                     </div>
 
                     {/* Author information - right aligned */}
-                    <div className="mt-auto flex items-end justify-end">
+                    <div className="flex items-end justify-end">
                       <div className="text-right">
-                        <div className="case-study-author text-white">
+                        <div className="case-study-author text-md text-white md:text-lg lg:text-xl">
                           {currentStudy.testimonial?.author || ''}
                         </div>
-                        <div className="case-study-position text-white/90">
+                        <div className="case-study-position text-md text-white/90 md:text-lg lg:text-xl">
                           {currentStudy.testimonial?.position || ''}
                         </div>
                       </div>
                     </div>
 
-                    {/* Read story link inside blur window near the bottom left */}
+                    {/* Read story link */}
                     {currentStudy.url && (
-                      <a
-                        href={currentStudy.url}
-                        className="group absolute bottom-8 left-8 flex items-center text-white"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span>Read story</span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      <div className="mt-8">
+                        <a
+                          href={currentStudy.url}
+                          className="group flex items-center text-white"
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </a>
+                          <span>Read story</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>

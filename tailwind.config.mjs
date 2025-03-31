@@ -477,7 +477,6 @@ const config = {
                 marginBottom: '0.25em',
               },
               div: {
-                // fontSize: '1.5rem',
                 fontSize: '1.1875rem',
                 fontWeight: 300,
                 marginBottom: '0.25em',

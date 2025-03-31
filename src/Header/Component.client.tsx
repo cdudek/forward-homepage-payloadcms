@@ -44,6 +44,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   // MOBILE HEADER — absolute so it doesn't push content
   // We do NOT apply scroll logic here; mobile uses the prop directly.
   const logoVariant = color === 'dark' ? 'dark' : 'default'
+
   const mobileHeader = (
     <header
       className={clsx(
@@ -87,13 +88,60 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     </header>
   )
 
+  // Mobile menu overlay
+  const mobileMenuOverlay = isMobileMenuOpen && (
+    <div
+      className={clsx(
+        'fixed inset-0 z-50 flex flex-col transition-opacity duration-300 md:hidden',
+        color === 'dark' ? 'bg-black text-white' : 'bg-white text-black',
+      )}
+    >
+      <div className="container mx-auto flex items-center justify-between p-4">
+        <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+          <Logo loading="eager" priority="high" variant={logoVariant} />
+        </Link>
+        <button onClick={toggleMobileMenu} className="p-2" aria-label="Close menu">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-4 text-xl">
+        {data?.navItems?.map((item, i) => {
+          const href = item.link.url || '/'
+
+          return (
+            <Link
+              key={i}
+              href={href}
+              className="py-2 transition-colors hover:opacity-70"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {item.link.label}
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+
   return (
     <>
       {mobileHeader}
       {desktopHeader}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-white md:hidden">{/* Mobile menu content */}</div>
-      )}
+      {mobileMenuOverlay}
     </>
   )
 }
