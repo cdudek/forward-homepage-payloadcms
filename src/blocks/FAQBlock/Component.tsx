@@ -15,12 +15,12 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
 }) => {
   const [openItem, setOpenItem] = useState<string | null>(null)
   const textColor = theme === 'dark' ? 'text-white' : 'text-fwd-black'
-  const borderColor = theme === 'dark' ? 'border-fwd-grey-50' : 'border-fwd-grey-500'
+  const borderColor = theme === 'dark' ? 'border-fwd-grey-50' : 'border-fwd-grey-200'
   const bgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(107, 114, 128, 0.02)' // fwd-grey-500 with 5% opacity
   // const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(107, 114, 128, 0.02)'
   const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(107, 114, 128, 0.03)'
 
-  const shadowColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(107, 114, 128, 0.02)'
+  const shadowColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(107, 114, 128, 0.01)'
   const hoverShadowColor = theme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(107, 114, 128, 0.03)'
 
   const formattedTitle = renderedTitle(title || '', gradientText || '')
