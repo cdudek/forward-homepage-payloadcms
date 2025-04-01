@@ -38,11 +38,13 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                 animate={{
                   opacity: 1,
                   backgroundColor:
-                    openItem === item.question ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+                    openItem === item.question
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(255, 255, 255, 0.00)',
                   filter:
                     openItem === item.question
                       ? 'drop-shadow(0 0 5px rgba(255,255,255,0.1))'
-                      : 'transparent',
+                      : 'drop-shadow(0 0 5px rgba(255,255,255,0.0))',
                 }}
                 transition={{ duration: 0.4, ease: 'easeInOut' }}
                 whileHover={{

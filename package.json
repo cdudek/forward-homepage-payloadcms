@@ -58,6 +58,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "7.45.4",
+    "react-swipeable": "^7.0.2",
     "sharp": "0.32.6",
     "sonner": "^2.0.2",
     "split-type": "^0.3.4",

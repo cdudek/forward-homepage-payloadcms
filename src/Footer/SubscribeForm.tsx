@@ -53,7 +53,7 @@ export function SubscribeForm() {
           onKeyDown={handleKeyDown}
         />
         <button
-          className="flex items-center justify-center border border-transparent bg-white p-2 text-black outline-none transition-all duration-300 focus:border-fwd-purple focus:[filter:drop-shadow(0_0_3px_rgba(255,0,130,0.4))] active:border-fwd-purple active:[filter:drop-shadow(0_0_3px_rgba(255,0,130,0.4))] sm:p-3"
+          className="flex items-center justify-center border border-transparent bg-white p-2 text-fwd-black outline-none transition-all duration-300 focus:border-fwd-purple focus:[filter:drop-shadow(0_0_3px_rgba(255,0,130,0.4))] active:border-fwd-purple active:[filter:drop-shadow(0_0_3px_rgba(255,0,130,0.4))] sm:p-3"
           aria-label="Subscribe"
           onClick={handleSubscribe}
         >

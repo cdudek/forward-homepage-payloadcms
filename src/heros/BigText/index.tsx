@@ -38,14 +38,14 @@ export const BigTextHero: React.FC<Page['hero']> = ({
       impactClasses = 'min-h-[50vh] md:min-h-[50vh]'
       break
     case 'lowImpact':
-      impactClasses = 'min-h-[25vh] md:min-h-[25vh]'
+      impactClasses = 'min-h-[30vh] md:min-h-[25vh]'
       break
     default:
       impactClasses = 'min-h-[90vh] md:min-h-[75vh]'
   }
 
   return (
-    <div className={cn('relative flex w-full items-center md:mt-28', impactClasses)}>
+    <div className={cn('relative mt-20 flex w-full items-center md:mt-28', impactClasses)}>
       <div className="container mx-auto w-full">
         <div className="w-full">
           <div className="grid w-full grid-cols-12">

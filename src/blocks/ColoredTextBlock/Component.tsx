@@ -20,7 +20,7 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({ textElements
             fgColor={textFgColor}
             className="m-0 !leading-[1.75]"
             as="h3"
-            initialOpacity={0.3}
+            initialOpacity={0.2}
           />
         </div>
       </div>

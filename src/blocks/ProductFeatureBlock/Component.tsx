@@ -48,7 +48,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
             {featureList.length > 0 && (
               <ul className="list-none space-y-4 p-0">
                 {featureList.map((feature) => (
-                  <li key={feature.usp} className="flex items-center gap-4">
+                  <li key={feature.usp} className="flex items-center gap-4 pl-0">
                     <div className="not-prose relative h-10 w-10 flex-shrink-0">
                       {/* White circle with 5% opacity background */}
                       <div className="not-prose absolute inset-0 rounded-full bg-white bg-opacity-5"></div>

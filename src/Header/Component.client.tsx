@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import { clsx } from 'clsx'
+import { useSwipeable } from 'react-swipeable'
 
 import type { Header } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
@@ -18,6 +19,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [hasAdminBar, setHasAdminBar] = useState(false)
   const { color } = useHeaderColor()
 
+  // Configure swipe handlers for the mobile menu
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => setIsMobileMenuOpen(false),
+    trackMouse: false,
+    // Optional: Only registers swipes with higher velocity and longer distance
+    swipeDuration: 500,
+    preventScrollOnSwipe: true,
+    delta: 50,
+  })
+
   useEffect(() => {
     // Check if AdminBar is present
     const adminBar = document.querySelector('[data-payload-admin-bar]')
@@ -26,7 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   // Tailwind classes for each color variant
   const headerColor = {
-    light: 'text-black',
+    light: 'text-fwd-black',
     dark: 'text-white',
     // light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
     // dark: 'bg-black/30 text-white backdrop-blur-sm',
@@ -67,8 +78,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         >
           <div
             className={clsx(
-              'absolute inset-0 rounded-full transition-opacity duration-150 active:opacity-10',
-              color === 'dark' ? 'bg-white opacity-0' : 'bg-fwd-black opacity-0',
+              'absolute inset-0 rounded-full transition-opacity duration-150 active:opacity-15',
+              color === 'dark' ? 'bg-black opacity-10' : 'bg-fwd-white opacity-10',
             )}
           />
           <Menu size={24} className={color === 'light' ? 'text-white' : 'text-fwd-black'} />
@@ -107,16 +118,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* Backdrop for click-out */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/50 md:hidden"
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-500 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
       {/* Slide-in menu panel */}
       <div
+        {...swipeHandlers}
         className={clsx(
-          'fixed inset-y-0 left-0 z-50 flex w-3/4 max-w-xs transform flex-col transition-transform duration-300 ease-in-out md:hidden',
+          'fixed inset-y-0 left-0 z-50 flex w-4/5 max-w-xs transform flex-col transition-transform duration-300 ease-in-out md:hidden',
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
-          'bg-fwd-black text-white',
+          'bg-fwd-black text-white shadow-[5px_0_20px_rgba(0,0,0,0.25)]',
         )}
       >
         <div className="container flex items-center justify-between p-4">
@@ -148,15 +160,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         <div className="flex flex-1 flex-col space-y-0 p-4 text-xl">
           {data?.navItems?.map((item, i) => {
-            const href = item.link.url || '/'
+            const href =
+              item.link.type === 'reference' &&
+              typeof item.link.reference?.value === 'object' &&
+              'slug' in item.link.reference.value
+                ? `${item.link.reference?.relationTo !== 'pages' ? `/${item.link.reference?.relationTo}` : ''}/${
+                    item.link.reference.value.slug
+                  }`
+                : item.link.url || '/'
 
             return (
               <React.Fragment key={i}>
                 {i > 0 && <div className="my-2 h-px w-full bg-white opacity-10" />}
                 <Link
                   href={href}
-                  className="relative py-8 transition-colors hover:opacity-70"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="relative block w-full py-8 transition-colors hover:opacity-70"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsMobileMenuOpen(false)
+                  }}
                 >
                   <div className="absolute inset-0 bg-white opacity-0 transition-opacity duration-150 focus:opacity-20 active:opacity-20" />
                   <span className="relative pl-4 !text-2xl">{item.link.label}</span>
