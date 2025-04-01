@@ -15,10 +15,18 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
 }) => {
   const [openItem, setOpenItem] = useState<string | null>(null)
   const textColor = theme === 'dark' ? 'text-white' : 'text-fwd-black'
+  const borderColor = theme === 'dark' ? 'border-fwd-grey-50' : 'border-fwd-grey-500'
+  const bgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(107, 114, 128, 0.02)' // fwd-grey-500 with 5% opacity
+  // const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(107, 114, 128, 0.02)'
+  const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.07)' : 'rgba(107, 114, 128, 0.03)'
+
+  const shadowColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(107, 114, 128, 0.02)'
+  const hoverShadowColor = theme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(107, 114, 128, 0.03)'
+
   const formattedTitle = renderedTitle(title || '', gradientText || '')
 
-  const toggleItem = (question: string) => {
-    setOpenItem(openItem === question ? null : question)
+  const toggleItem = (id: string) => {
+    setOpenItem(openItem === id ? null : id)
   }
 
   return (
@@ -30,35 +38,35 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
       <div className="col-span-12 mx-auto mt-16 w-full max-w-3xl">
         <div className="flex flex-col space-y-4">
           {faqItems &&
-            faqItems.map((item) => (
+            faqItems.map((item, index) => (
               <motion.div
-                key={item.question}
-                className="border-1 cursor-pointer overflow-hidden rounded-3xl border border-fwd-grey-50"
+                key={index}
+                className={cn(
+                  'border-1 cursor-pointer overflow-hidden rounded-3xl border',
+                  borderColor,
+                )}
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
-                  backgroundColor:
-                    openItem === item.question
-                      ? 'rgba(255, 255, 255, 0.05)'
-                      : 'rgba(255, 255, 255, 0.00)',
+                  backgroundColor: openItem === item.id ? bgColor : 'rgba(255, 255, 255, 0.00)',
                   filter:
-                    openItem === item.question
-                      ? 'drop-shadow(0 0 5px rgba(255,255,255,0.1))'
+                    openItem === item.id
+                      ? `drop-shadow(0 0 5px ${shadowColor})`
                       : 'drop-shadow(0 0 5px rgba(255,255,255,0.0))',
                 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
                 whileHover={{
-                  scale: 1.02,
-                  backgroundColor: 'rgba(255, 255, 255, 0.07)',
-                  filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.3))',
+                  scale: 1.01,
+                  backgroundColor: hoverBgColor,
+                  filter: `drop-shadow(0 0 5px ${hoverShadowColor})`,
                 }}
-                onClick={() => toggleItem(item.question || '')}
+                onClick={() => item.id && toggleItem(item.id)}
               >
                 <motion.div className="flex w-full items-center justify-between p-6 text-left text-lg font-medium">
                   <span>{item.question}</span>
                   <motion.span
                     className="ml-6 flex h-7 w-7 flex-shrink-0 items-center justify-center"
-                    animate={{ rotate: openItem === item.question ? 45 : 0 }}
+                    animate={{ rotate: openItem === item.id ? 45 : 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,7 +80,7 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                   </motion.span>
                 </motion.div>
                 <AnimatePresence initial={false}>
-                  {openItem === item.question && (
+                  {openItem === item.id && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{

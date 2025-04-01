@@ -79,7 +79,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <div
             className={clsx(
               'absolute inset-0 rounded-full transition-opacity duration-150 active:opacity-15',
-              color === 'dark' ? 'bg-black opacity-10' : 'bg-fwd-white opacity-10',
+              color === 'dark' ? 'bg-black opacity-5' : 'bg-fwd-white opacity-5',
             )}
           />
           <Menu size={24} className={color === 'light' ? 'text-white' : 'text-fwd-black'} />

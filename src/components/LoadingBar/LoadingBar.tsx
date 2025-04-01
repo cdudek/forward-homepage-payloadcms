@@ -2,10 +2,12 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
-import { clsx } from 'clsx'
+import { motion, AnimatePresence } from 'framer-motion'
+import { IMAGE_LOADING_EVENT, IMAGE_LOADED_EVENT } from '@/components/Media/ImageMedia'
 
 export const LoadingBar = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [pendingImages, setPendingImages] = useState(0)
   const pathname = usePathname()
 
   // Handle loading state with callbacks to avoid React scheduling issues
@@ -16,14 +18,14 @@ export const LoadingBar = () => {
   const finishLoading = useCallback(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 100)
+    }, 300)
     return () => clearTimeout(timer)
   }, [])
 
-  // Watch for navigation changes
+  // Watch for navigation changes using Next.js router events
   useEffect(() => {
     // Create navigation event listeners
-    const handleBeforeNav = () => {
+    const handleStart = () => {
       startLoading()
     }
 
@@ -31,64 +33,134 @@ export const LoadingBar = () => {
       finishLoading()
     }
 
-    // Setup navigation listeners in a way that doesn't conflict with React
+    const handleError = () => {
+      finishLoading()
+    }
+
+    // Setup navigation listeners
     if (typeof window !== 'undefined') {
-      // Watch for navigation events using a safer approach
-      window.addEventListener('beforeunload', handleBeforeNav)
+      // Listen for Next.js router events
+      window.addEventListener('nextjs:route-start', handleStart)
+      window.addEventListener('nextjs:route-end', handleComplete)
+      window.addEventListener('nextjs:route-error', handleError)
 
-      // Add custom events for Next.js route changes
-      document.addEventListener('nextjs:route-start', handleBeforeNav)
-      document.addEventListener('nextjs:route-end', handleComplete)
+      // Listen for image loading events
+      const handleImageLoading = () => {
+        setPendingImages((prev) => prev + 1)
+        startLoading()
+      }
 
-      // Create a MutationObserver to detect DOM changes that might indicate navigation
-      const observer = new MutationObserver((mutations) => {
-        // If title changes or significant DOM changes, it's likely a navigation
-        if (mutations.some((m) => m.target.nodeName === 'TITLE' || m.addedNodes.length > 5)) {
-          handleComplete()
-        }
-      })
+      const handleImageLoaded = () => {
+        setPendingImages((prev) => {
+          const newCount = prev - 1
+          if (newCount <= 0) {
+            finishLoading()
+            return 0
+          }
+          return newCount
+        })
+      }
 
-      observer.observe(document, { childList: true, subtree: true })
+      window.addEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
+      window.addEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
 
       // Handle initial load
       finishLoading()
 
       return () => {
-        window.removeEventListener('beforeunload', handleBeforeNav)
-        document.removeEventListener('nextjs:route-start', handleBeforeNav)
-        document.removeEventListener('nextjs:route-end', handleComplete)
-        observer.disconnect()
+        window.removeEventListener('nextjs:route-start', handleStart)
+        window.removeEventListener('nextjs:route-end', handleComplete)
+        window.removeEventListener('nextjs:route-error', handleError)
+        window.removeEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
+        window.removeEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
       }
     }
   }, [startLoading, finishLoading])
 
-  // Also use URL changes as a backup way to detect navigation
+  // Watch for route changes
   useEffect(() => {
-    // Pathname or search params changed
-    finishLoading()
-  }, [pathname, finishLoading])
+    startLoading()
+    const cleanup = finishLoading()
+    return () => {
+      cleanup()
+    }
+  }, [pathname, startLoading, finishLoading])
 
   return (
-    <div
-      className={clsx(
-        'fixed bottom-0 left-0 right-0 z-[9999] h-1 transition-transform duration-300',
-        isLoading ? 'translate-y-0' : 'translate-y-full',
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          initial={{ y: -4, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -4, opacity: 0 }}
+          transition={{
+            duration: 0.3,
+            ease: [0.4, 0, 0.2, 1], // Custom cubic-bezier for smooth easing
+          }}
+          className="fixed left-0 right-0 top-0 z-[9999] h-1"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 9999,
+          }}
+        >
+          <div className="relative h-full w-full overflow-hidden">
+            {/* Background gradient with subtle movement */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange"
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                scale: [1, 1.02, 1], // Subtle scale animation
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                times: [0, 0.5, 1], // Control timing of scale animation
+              }}
+              style={{
+                backgroundSize: '200% 100%',
+              }}
+            />
+
+            {/* Animated progress bar with multiple effects */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange"
+              initial={{ x: '-100%', opacity: 0 }}
+              animate={{
+                x: '100%',
+                opacity: [0.5, 1, 0.5],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: [0.4, 0, 0.2, 1], // Custom cubic-bezier for smooth easing
+                times: [0, 0.5, 1], // Control timing of opacity animation
+              }}
+              style={{
+                backgroundSize: '200% 100%',
+                filter: 'blur(1px)', // Subtle blur effect
+              }}
+            />
+
+            {/* Shimmer effect overlay */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+          </div>
+        </motion.div>
       )}
-    >
-      <div className="relative h-full w-full overflow-hidden">
-        {/* Loading bar background with gradient */}
-        <div className="absolute inset-0 animate-gradient bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange bg-[length:200%_100%]" />
-
-        {/* First animation fragment */}
-        <div className="animate-indeterminate1 absolute h-full w-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange bg-[length:200%_100%]" />
-
-        {/* Second animation fragment with delay */}
-        <div
-          className="animate-indeterminate2 absolute h-full w-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange bg-[length:200%_100%]"
-          style={{ animationDelay: '0.5s' }}
-        />
-      </div>
-    </div>
+    </AnimatePresence>
   )
 }
 

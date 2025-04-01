@@ -108,7 +108,7 @@ export const Pages: CollectionConfig<'pages'> = {
           value: 'dark',
         },
       ],
-      defaultValue: 'light',
+      defaultValue: 'dark',
     },
     {
       type: 'tabs',

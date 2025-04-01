@@ -13,6 +13,10 @@ import { getClientSideURL } from '@/utilities/getURL'
 
 const { breakpoints } = cssVariables
 
+// Create a custom event for image loading
+export const IMAGE_LOADING_EVENT = 'next-image-loading'
+export const IMAGE_LOADED_EVENT = 'next-image-loaded'
+
 // A base64 encoded image to use as a placeholder while the image is loading
 
 export const ImageMedia: React.FC<MediaProps> = (props) => {
@@ -61,6 +65,20 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
+  // Dispatch loading events
+  const handleLoadingComplete = () => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event(IMAGE_LOADED_EVENT))
+    }
+  }
+
+  // Dispatch loading start event when the image starts loading
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event(IMAGE_LOADING_EVENT))
+    }
+  }, [src])
+
   return (
     <picture className={fill ? 'relative block h-full w-full' : undefined}>
       <NextImage
@@ -76,6 +94,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
+        onLoadingComplete={handleLoadingComplete}
       />
     </picture>
   )
