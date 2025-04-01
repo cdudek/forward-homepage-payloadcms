@@ -5,7 +5,6 @@ import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { LoadingBar } from '@/components/LoadingBar/LoadingBar'
-import NavigationEvents from '@/components/NavigationEvents'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
@@ -36,7 +35,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers>
           <HeaderColorProvider>
             <LoadingBar />
-            <NavigationEvents />
             <AdminBar
               adminBarProps={{
                 preview: isEnabled,

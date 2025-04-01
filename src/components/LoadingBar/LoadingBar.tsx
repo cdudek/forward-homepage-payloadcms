@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { clsx } from 'clsx'
 
 export const LoadingBar = () => {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   // Handle loading state with callbacks to avoid React scheduling issues
   const startLoading = useCallback(() => {
@@ -67,7 +66,7 @@ export const LoadingBar = () => {
   useEffect(() => {
     // Pathname or search params changed
     finishLoading()
-  }, [pathname, searchParams, finishLoading])
+  }, [pathname, finishLoading])
 
   return (
     <div
