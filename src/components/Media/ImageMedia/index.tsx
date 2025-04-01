@@ -66,7 +66,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   // Dispatch loading events
-  const handleLoadingComplete = () => {
+  const handleLoad = () => {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event(IMAGE_LOADED_EVENT))
     }
@@ -94,7 +94,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         sizes={sizes}
         src={src}
         width={!fill ? width : undefined}
-        onLoadingComplete={handleLoadingComplete}
+        onLoad={handleLoad}
       />
     </picture>
   )

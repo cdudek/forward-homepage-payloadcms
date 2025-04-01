@@ -1,83 +1,149 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IMAGE_LOADING_EVENT, IMAGE_LOADED_EVENT } from '@/components/Media/ImageMedia'
 
+type LoadingState = {
+  isLoading: boolean
+  pendingImages: number
+  isNavigating: boolean
+}
+
+const INITIAL_STATE: LoadingState = {
+  isLoading: false,
+  pendingImages: 0,
+  isNavigating: false,
+}
+
 export const LoadingBar = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [pendingImages, setPendingImages] = useState(0)
+  const [state, setState] = useState<LoadingState>(INITIAL_STATE)
   const pathname = usePathname()
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   const startLoading = useCallback(() => {
-    setIsLoading(true)
+    setState((prev) => ({ ...prev, isLoading: true }))
   }, [])
 
   const finishLoading = useCallback(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+
+    // Set a new timeout
+    timeoutRef.current = setTimeout(() => {
+      setState((prev) => ({ ...prev, isLoading: false }))
     }, 300)
-    return () => clearTimeout(timer)
-  }, [])
 
-  useEffect(() => {
-    const handleImageLoading = () => {
-      setPendingImages((prev) => prev + 1)
-      startLoading()
-    }
-
-    const handleImageLoaded = () => {
-      setPendingImages((prev) => {
-        const newCount = prev - 1
-        if (newCount <= 0) {
-          finishLoading()
-          return 0
-        }
-        return newCount
-      })
-    }
-
-    const handleRouteStart = () => startLoading()
-    const handleRouteEnd = () => finishLoading()
-    const handleRouteError = () => finishLoading()
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
-      window.addEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
-      window.addEventListener('nextjs:route-start', handleRouteStart)
-      window.addEventListener('nextjs:route-end', handleRouteEnd)
-      window.addEventListener('nextjs:route-error', handleRouteError)
-
-      // Handle initial load
-      finishLoading()
-
-      return () => {
-        window.removeEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
-        window.removeEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
-        window.removeEventListener('nextjs:route-start', handleRouteStart)
-        window.removeEventListener('nextjs:route-end', handleRouteEnd)
-        window.removeEventListener('nextjs:route-error', handleRouteError)
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
       }
     }
-  }, [startLoading, finishLoading])
+  }, [])
+
+  const handleImageLoading = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      pendingImages: prev.pendingImages + 1,
+      isLoading: true,
+    }))
+  }, [])
+
+  const handleImageLoaded = useCallback(() => {
+    setState((prev) => {
+      const newCount = prev.pendingImages - 1
+      if (newCount <= 0) {
+        finishLoading()
+        return { ...prev, pendingImages: 0 }
+      }
+      return { ...prev, pendingImages: newCount }
+    })
+  }, [finishLoading])
+
+  const handleRouteStart = useCallback(() => {
+    setState((prev) => ({ ...prev, isNavigating: true, isLoading: true }))
+  }, [])
+
+  const handleRouteEnd = useCallback(() => {
+    setState((prev) => ({ ...prev, isNavigating: false }))
+    finishLoading()
+  }, [finishLoading])
+
+  const handleRouteError = useCallback(() => {
+    setState((prev) => ({ ...prev, isNavigating: false }))
+    finishLoading()
+  }, [finishLoading])
+
+  const handleLinkClick = useCallback(
+    (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a')
+
+      // Only handle internal links (not external links or links with target="_blank")
+      if (link && !link.target && !link.href.startsWith('http')) {
+        startLoading()
+      }
+    },
+    [startLoading],
+  )
+
+  // Set up event listeners
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const cleanup = () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+
+    window.addEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
+    window.addEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
+    window.addEventListener('nextjs:route-start', handleRouteStart)
+    window.addEventListener('nextjs:route-end', handleRouteEnd)
+    window.addEventListener('nextjs:route-error', handleRouteError)
+    document.addEventListener('click', handleLinkClick)
+
+    // Handle initial load
+    finishLoading()
+
+    return () => {
+      window.removeEventListener(IMAGE_LOADING_EVENT, handleImageLoading)
+      window.removeEventListener(IMAGE_LOADED_EVENT, handleImageLoaded)
+      window.removeEventListener('nextjs:route-start', handleRouteStart)
+      window.removeEventListener('nextjs:route-end', handleRouteEnd)
+      window.removeEventListener('nextjs:route-error', handleRouteError)
+      document.removeEventListener('click', handleLinkClick)
+      cleanup()
+    }
+  }, [
+    handleImageLoading,
+    handleImageLoaded,
+    handleRouteStart,
+    handleRouteEnd,
+    handleRouteError,
+    handleLinkClick,
+    finishLoading,
+  ])
 
   // Handle route changes
   useEffect(() => {
     startLoading()
-    const cleanup = finishLoading()
-    return cleanup
+    return finishLoading
   }, [pathname, startLoading, finishLoading])
 
   return (
     <AnimatePresence>
-      {isLoading && (
+      {state.isLoading && (
         <motion.div
           initial={{ y: -4, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -4, opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          className="fixed left-0 right-0 top-0 z-[9999] h-0.5"
+          className="fixed left-0 right-0 top-0 z-[9999] h-1"
         >
           <div className="relative h-full w-full overflow-hidden">
             <motion.div
