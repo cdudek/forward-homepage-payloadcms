@@ -22,9 +22,13 @@ export const LoadingBar = () => {
   const pathname = usePathname()
   const router = useRouter()
   const timeoutRef = useRef<NodeJS.Timeout>()
+  const isNavigatingRef = useRef(false)
 
   const startLoading = useCallback(() => {
-    setState((prev) => ({ ...prev, isLoading: true }))
+    if (!isNavigatingRef.current) {
+      isNavigatingRef.current = true
+      setState((prev) => ({ ...prev, isLoading: true }))
+    }
   }, [])
 
   const finishLoading = useCallback(() => {
@@ -35,6 +39,7 @@ export const LoadingBar = () => {
 
     // Set a new timeout
     timeoutRef.current = setTimeout(() => {
+      isNavigatingRef.current = false
       setState((prev) => ({ ...prev, isLoading: false }))
     }, 300)
 
@@ -96,14 +101,16 @@ export const LoadingBar = () => {
     if (typeof window === 'undefined') return
 
     const handleBeforeUnload = () => {
-      startLoading()
+      isNavigatingRef.current = true
     }
 
     const handlePopState = () => {
+      isNavigatingRef.current = true
       startLoading()
     }
 
     const handlePushState = () => {
+      isNavigatingRef.current = true
       startLoading()
     }
 
@@ -116,11 +123,13 @@ export const LoadingBar = () => {
     const originalReplaceState = window.history.replaceState
 
     window.history.pushState = function (...args) {
+      isNavigatingRef.current = true
       startLoading()
       return originalPushState.apply(this, args)
     }
 
     window.history.replaceState = function (...args) {
+      isNavigatingRef.current = true
       startLoading()
       return originalReplaceState.apply(this, args)
     }
