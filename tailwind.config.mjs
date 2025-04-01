@@ -39,6 +39,8 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         gradient: 'gradient 3s linear infinite',
+        indeterminate1: 'indeterminate1 1.5s infinite cubic-bezier(0.65, 0.815, 0.735, 0.395)',
+        indeterminate2: 'indeterminate2 1.5s infinite cubic-bezier(0.165, 0.84, 0.44, 1)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -243,6 +245,16 @@ const config = {
         gradient: {
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '200% 50%' },
+        },
+        indeterminate1: {
+          '0%': { left: '-35%', right: '100%' },
+          '60%': { left: '100%', right: '-90%' },
+          '100%': { left: '100%', right: '-90%' },
+        },
+        indeterminate2: {
+          '0%': { left: '-200%', right: '100%' },
+          '60%': { left: '107%', right: '-8%' },
+          '100%': { left: '107%', right: '-8%' },
         },
       },
       typography: () => ({

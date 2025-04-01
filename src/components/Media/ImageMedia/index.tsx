@@ -62,10 +62,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .join(', ')
 
   return (
-    <picture className={fill ? 'relative' : undefined}>
+    <picture className={fill ? 'relative block h-full w-full' : undefined}>
       <NextImage
         alt={alt || ''}
-        className={cn(imgClassName)}
+        className={cn(imgClassName, fill ? 'object-cover' : undefined)}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder={blurhash ? 'blur' : 'empty'}
