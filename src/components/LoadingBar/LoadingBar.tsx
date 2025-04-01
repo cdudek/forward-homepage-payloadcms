@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IMAGE_LOADING_EVENT, IMAGE_LOADED_EVENT } from '@/components/Media/ImageMedia'
 
@@ -20,6 +20,7 @@ const INITIAL_STATE: LoadingState = {
 export const LoadingBar = () => {
   const [state, setState] = useState<LoadingState>(INITIAL_STATE)
   const pathname = usePathname()
+  const router = useRouter()
   const timeoutRef = useRef<NodeJS.Timeout>()
 
   const startLoading = useCallback(() => {
@@ -89,6 +90,51 @@ export const LoadingBar = () => {
     },
     [startLoading],
   )
+
+  // Intercept navigation
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleBeforeUnload = () => {
+      startLoading()
+    }
+
+    const handlePopState = () => {
+      startLoading()
+    }
+
+    const handlePushState = () => {
+      startLoading()
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    window.addEventListener('popstate', handlePopState)
+    window.addEventListener('pushstate', handlePushState)
+
+    // Override history methods to catch programmatic navigation
+    const originalPushState = window.history.pushState
+    const originalReplaceState = window.history.replaceState
+
+    window.history.pushState = function (...args) {
+      startLoading()
+      return originalPushState.apply(this, args)
+    }
+
+    window.history.replaceState = function (...args) {
+      startLoading()
+      return originalReplaceState.apply(this, args)
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      window.removeEventListener('popstate', handlePopState)
+      window.removeEventListener('pushstate', handlePushState)
+
+      // Restore original history methods
+      window.history.pushState = originalPushState
+      window.history.replaceState = originalReplaceState
+    }
+  }, [startLoading])
 
   // Set up event listeners
   useEffect(() => {
