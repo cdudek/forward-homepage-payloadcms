@@ -15,3 +15,5 @@ mui-ref/
 
 .env.copy
 db_backups/.env.backup
+.env.backup
+.env.local
