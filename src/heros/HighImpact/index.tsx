@@ -43,9 +43,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
         </div>
       </div>
       <div className="absolute inset-0">
-        {media && typeof media === 'object' && (
-          <Media fill imgClassName="object-cover" priority resource={media} />
-        )}
+        <div className="relative h-full w-full">
+          {media && typeof media === 'object' && (
+            <Media fill imgClassName="object-cover" priority resource={media} />
+          )}
+        </div>
       </div>
     </SlopedEdgeWrapper>
   )

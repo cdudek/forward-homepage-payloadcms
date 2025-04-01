@@ -55,7 +55,7 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
   }, [text, bgColor, fgColor])
 
   return (
-    <p ref={textRef} className={className}>
+    <p ref={textRef} className={`relative ${className}`}>
       {text}
     </p>
   )

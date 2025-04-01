@@ -80,7 +80,7 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
   }, [text, initialOpacity])
 
   return (
-    <Component ref={textRef} className={className}>
+    <Component ref={textRef} className={`${className} relative`}>
       {text}
     </Component>
   )
