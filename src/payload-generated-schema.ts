@@ -1256,7 +1256,7 @@ export const pages = pgTable(
     id: serial('id').primaryKey(),
     title: varchar('title'),
     pageTheme: enum_pages_page_theme('page_theme').default('light'),
-    headerColor: enum_pages_header_color('header_color').default('light'),
+    headerColor: enum_pages_header_color('header_color').default('dark'),
     hero_type: enum_pages_hero_type('hero_type').default('lowImpact'),
     hero_impact: enum_pages_hero_impact('hero_impact').default('highImpact'),
     hero_hasAngledCorner: boolean('hero_has_angled_corner').default(false),
@@ -2267,8 +2267,7 @@ export const _pages_v = pgTable(
     }),
     version_title: varchar('version_title'),
     version_pageTheme: enum__pages_v_version_page_theme('version_page_theme').default('light'),
-    version_headerColor:
-      enum__pages_v_version_header_color('version_header_color').default('light'),
+    version_headerColor: enum__pages_v_version_header_color('version_header_color').default('dark'),
     version_hero_type: enum__pages_v_version_hero_type('version_hero_type').default('lowImpact'),
     version_hero_impact:
       enum__pages_v_version_hero_impact('version_hero_impact').default('highImpact'),
@@ -3173,6 +3172,7 @@ export const forms_blocks_select = pgTable(
     label: varchar('label'),
     width: numeric('width'),
     defaultValue: varchar('default_value'),
+    placeholder: varchar('placeholder'),
     required: boolean('required'),
     blockName: varchar('block_name'),
   },

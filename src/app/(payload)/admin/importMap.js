@@ -36,6 +36,7 @@ import { SocialRowLabel as SocialRowLabel_7301750c868361ace60ca144eb5a30e1 } fro
 import { LegalRowLabel as LegalRowLabel_06a46d974082a28d7949f6a827bd56a1 } from '@/Footer/LegalRowLabel'
 import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -75,5 +76,6 @@ export const importMap = {
   "@/Footer/SocialRowLabel#SocialRowLabel": SocialRowLabel_7301750c868361ace60ca144eb5a30e1,
   "@/Footer/LegalRowLabel#LegalRowLabel": LegalRowLabel_06a46d974082a28d7949f6a827bd56a1,
   "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
-  "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e
+  "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e
 }
