@@ -187,7 +187,9 @@ export const LoadingBar = () => {
   // Handle route changes
   useEffect(() => {
     startLoading()
-    return finishLoading
+    return () => {
+      finishLoading()
+    }
   }, [pathname, startLoading, finishLoading])
 
   return (

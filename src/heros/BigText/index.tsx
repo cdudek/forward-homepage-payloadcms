@@ -34,7 +34,7 @@ export const BigTextHero: React.FC<Page['hero']> = ({
           <div className="grid w-full grid-cols-12">
             <div className="col-span-12 text-center">
               <div className="prose-sm mx-auto max-w-none md:prose-md xl:prose-lg">
-                <p className="text-fwd-grey-400">{subtitle}</p>
+                <p className="text-fwd-grey-500">{subtitle}</p>
                 <h1 className="mt-0">{formattedTitle}</h1>
               </div>
             </div>
