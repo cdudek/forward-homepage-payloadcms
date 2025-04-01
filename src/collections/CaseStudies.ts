@@ -1,3 +1,5 @@
+import type { CollectionConfig } from 'payload'
+
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
@@ -15,13 +17,12 @@ export const CaseStudies: CollectionConfig = {
     update: authenticated,
   },
   fields: [
-    // ...slugField(),
     { name: 'companyName', type: 'text', required: true },
     { name: 'logo', type: 'upload', relationTo: 'media', required: true },
     {
       name: 'url',
       type: 'text',
-      // required: true,
+      required: false,
     },
     {
       name: 'testimonial',

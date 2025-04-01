@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -31,11 +31,13 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const lastUpdateTimeRef = useRef<number>(0)
-  const progressDuration = 4000
+  const progressDuration = 8000
   const transitionDuration = 400
 
-  const servicesData =
-    services?.filter((service): service is Service => typeof service === 'object') || []
+  const servicesData = useMemo(
+    () => services?.filter((service): service is Service => typeof service === 'object') || [],
+    [services],
+  )
 
   // Check if we have data but no active service
   useEffect(() => {
@@ -252,8 +254,9 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                       onMouseLeave={handleMouseLeave}
                       whileHover={{
                         scale: 1.02,
+                        opacity: 0.95,
                       }}
-                      whileTap={{ scale: 0.98 }}
+                      whileTap={{ scale: 1.01, opacity: 0.9 }}
                       transition={springTransition}
                     >
                       {service.titleShort}
@@ -340,7 +343,8 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                         resource={activeService.image}
                         fill={true}
                         priority={true}
-                        imgClassName="object-cover"
+                        imgClassName="absolute inset-0 h-full w-full object-cover"
+                        className="absolute inset-0 h-full w-full"
                         alt={activeService.title}
                       />
                     </div>

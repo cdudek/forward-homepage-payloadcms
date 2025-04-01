@@ -191,7 +191,8 @@ export const FooterFormBlock: React.FC<
           <div className={`absolute inset-0 items-center`}>
             <Media
               fill
-              imgClassName="object-cover w-full h-full"
+              imgClassName="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full"
               priority
               resource={backgroundImage}
             />

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Media } from '@/payload-types'
-import { cn } from '@/utilities/ui'
 import { renderedTitle } from '@/utilities/gradientTitle'
 import Image from 'next/image'
 

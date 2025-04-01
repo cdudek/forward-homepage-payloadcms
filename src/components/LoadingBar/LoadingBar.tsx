@@ -1,14 +1,13 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { clsx } from 'clsx'
 
 export const LoadingBar = () => {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const router = useRouter()
 
   // Handle loading state with callbacks to avoid React scheduling issues
   const startLoading = useCallback(() => {
@@ -18,7 +17,7 @@ export const LoadingBar = () => {
   const finishLoading = useCallback(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 500)
+    }, 100)
     return () => clearTimeout(timer)
   }, [])
 

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
@@ -12,7 +12,7 @@ const SupportingCaseStudyCard: React.FC<{
   study: CaseStudy
   index: number
   onClick: (index: number) => void
-  variants: any
+  variants: Variants
 }> = ({ study, index, onClick, variants }) => {
   if (!study) return null
 
@@ -127,13 +127,15 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       },
     )
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current)
+    const currentRef = containerRef.current
+
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [])
@@ -275,7 +277,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                     {/* Quote - properly centered both vertically and horizontally */}
                     <div className="py-6 md:py-8">
                       {currentStudy.testimonial?.quoteText && (
-                        <div className="case-study-quote text-lg leading-relaxed text-white md:text-xl lg:text-2xl xl:text-3xl">
+                        <div className="case-study-quote text-xl font-extralight text-white md:line-clamp-3 md:text-3xl">
                           {currentStudy.testimonial.quoteText}
                         </div>
                       )}
@@ -283,11 +285,12 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
 
                     {/* Author information - right aligned */}
                     <div className="flex items-end justify-end">
-                      <div className="text-right">
-                        <div className="case-study-author text-md text-white md:text-lg lg:text-xl">
+                      <div className="text-right text-lg text-white/80 md:mt-4 md:text-2xl">
+                        {/* <div className="case-study-author text-md text-white md:text-lg lg:text-xl"> */}
+                        <div className="case-study-author">
                           {currentStudy.testimonial?.author || ''}
                         </div>
-                        <div className="case-study-position text-md text-white/90 md:text-lg lg:text-xl">
+                        <div className="case-study-position">
                           {currentStudy.testimonial?.position || ''}
                         </div>
                       </div>

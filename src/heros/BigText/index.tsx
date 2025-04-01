@@ -10,23 +10,6 @@ export const BigTextHero: React.FC<Page['hero']> = ({
   gradientText,
   impact,
 }) => {
-  const renderTitle = () => {
-    if (!gradientText) return title
-
-    const parts = title?.split(gradientText)
-    if (parts?.length === 1) return title
-
-    return (
-      <>
-        {parts?.[0]}
-        <span className="bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange bg-clip-text text-transparent">
-          {gradientText}
-        </span>
-        {parts?.[1]}
-      </>
-    )
-  }
-
   const formattedTitle = renderedTitle(title || '', gradientText || '')
 
   let impactClasses = ''

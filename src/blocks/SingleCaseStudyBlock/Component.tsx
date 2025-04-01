@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
-import RichText from '@/components/RichText'
 import type {
   Media as MediaType,
   SingleCaseStudyBlock as SingleCaseStudyBlockType,

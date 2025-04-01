@@ -4,7 +4,6 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
 
@@ -61,14 +60,10 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
   return (
     <div className="pb-24 pt-24">
-      <PageClient />
       <div className="container mb-16">
         <div className="prose max-w-none text-center">
           <h1 className="mb-8 lg:mb-16">Search</h1>
-
-          <div className="mx-auto max-w-[50rem]">
-            <Search />
-          </div>
+          <PageClient />
         </div>
       </div>
 

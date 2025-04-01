@@ -1,11 +1,10 @@
 'use client'
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { AudienceTabBlock as AudienceTabBlockProps, Service, Audience } from '@/payload-types'
+import type { AudienceTabBlock as AudienceTabBlockProps, Audience } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
-import { getColorBlends } from '@/utilities/getColorBlends'
 
 // import RichText from '@/components/RichText'
 
@@ -16,7 +15,6 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
   audiences,
 }) => {
   // Get color blends before component state initialization
-  const colors = getColorBlends(audiences?.length || 0, true)
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -31,11 +29,13 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const lastUpdateTimeRef = useRef<number>(0)
-  const progressDuration = 4000
+  const progressDuration = 8000
   const transitionDuration = 400
 
-  const audienceData =
-    audiences?.filter((audience): audience is Audience => typeof audience === 'object') || []
+  const audienceData = useMemo(
+    () => audiences?.filter((audience): audience is Audience => typeof audience === 'object') || [],
+    [audiences],
+  )
 
   // Check if we have data but no active audience
   useEffect(() => {
@@ -230,7 +230,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                   <div key={service.id} className="relative shrink-0">
                     {/* Hover background for inactive tabs */}
                     {!isActive && (
-                      <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white" />
+                      <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white group-hover:opacity-80" />
                     )}
 
                     <motion.button
@@ -252,8 +252,9 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                       onMouseLeave={handleMouseLeave}
                       whileHover={{
                         scale: 1.02,
+                        opacity: 0.95,
                       }}
-                      whileTap={{ scale: 0.98 }}
+                      whileTap={{ scale: 1.01, opacity: 0.9 }}
                       transition={springTransition}
                     >
                       {service.title}
@@ -285,7 +286,8 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                         resource={activeAudience.image}
                         fill={true}
                         priority={true}
-                        imgClassName="object-cover"
+                        imgClassName="absolute inset-0 h-full w-full object-cover"
+                        className="absolute inset-0 h-full w-full"
                         alt={activeAudience.title}
                       />
                     </div>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
