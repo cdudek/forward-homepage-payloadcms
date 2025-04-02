@@ -10,12 +10,12 @@ import { htmlDecode } from '@/utilities/htmlDecode'
 import { ActionTilesBlock as ActionTilesBlockProps } from '@/payload-types'
 
 export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({
-  tiles,
+  tiles = [],
   title,
   description,
   gradient,
 }) => {
-  const isTwoTiles = tiles.length === 2
+  const isTwoTiles = tiles?.length === 2
 
   const formattedTitle = renderedTitle(title, gradient)
 
@@ -35,7 +35,7 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({
             : 'grid-cols-1 md:grid-cols-3',
         )}
       >
-        {tiles.map((tile, i) => {
+        {tiles?.map((tile, i) => {
           const { title, description, backgroundImage, link } = tile
 
           return (
