@@ -32,12 +32,5 @@ export const CaseStudyBlock: Block = {
       hasMany: true,
       label: 'Case studies to show',
     },
-    // {},
-    {
-      name: 'limit',
-      type: 'number',
-      defaultValue: 5,
-      label: 'Limit',
-    },
   ],
 }

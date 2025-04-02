@@ -573,7 +573,6 @@ export interface CaseStudyBlock {
   gradientText?: string | null;
   description?: string | null;
   caseStudies?: (number | CaseStudy)[] | null;
-  limit?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'caseStudyBlock';
@@ -1669,7 +1668,6 @@ export interface CaseStudyBlockSelect<T extends boolean = true> {
   gradientText?: T;
   description?: T;
   caseStudies?: T;
-  limit?: T;
   id?: T;
   blockName?: T;
 }

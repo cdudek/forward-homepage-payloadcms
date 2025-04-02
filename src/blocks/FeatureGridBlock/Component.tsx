@@ -1,58 +1,16 @@
 'use client'
 
 import React from 'react'
-import { Media } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import Image from 'next/image'
 import { renderedTitle } from '@/utilities/gradientTitle'
 import { htmlDecode } from '@/utilities/htmlDecode'
+import { FeatureGridBlock as FeatureGridBlockType } from '@/payload-types'
 
-type IconStyle = 'round' | 'square'
-type IconSize = 'small' | 'medium' | 'large'
-type ColorType =
-  | 'default'
-  | 'gradient'
-  | 'purple'
-  | 'red'
-  | 'orange'
-  | 'black'
-  | 'white'
-  | 'grey'
-  | 'greyLight'
-  | 'greyDark'
-
-type ColumnSize = 'oneThird' | 'oneQuarter'
-type BackgroundTheme = 'default' | 'light' | 'dark'
-
-type Icon = {
-  media: Media | null
-  style: IconStyle
-  size: IconSize
-  iconForeground: ColorType
-  iconBackground: ColorType
-}
-
-type Feature = {
-  icon: Icon
-  title: string
-  description: string
-}
-
-export type FeatureGridBlockType = {
-  blockType: 'featureGridBlock'
-  blockName?: string
-  title: string
-  gradientText: string
-  description?: string
-  columns: ColumnSize
-  features: Feature[]
-  slope?: {
-    enabled?: boolean
-    position?: 'top' | 'bottom' | 'both'
-  }
-  enableBackground?: boolean
-  backgroundTheme?: BackgroundTheme
-}
+type Feature = NonNullable<FeatureGridBlockType['features']>[number]
+type IconSize = Feature['icon']['size']
+type IconStyle = Feature['icon']['style']
+type ColorType = Feature['icon']['iconForeground']
 
 export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   const {
@@ -74,8 +32,11 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   const getStyles = () => {
     const styles: Record<string, string> = {}
 
-    if (slope?.enabled) {
-      switch (slope.position) {
+    const isSlopeEnabled = typeof slope === 'boolean' ? slope : slope?.enabled
+    const slopePosition = typeof slope === 'boolean' ? 'bottom' : slope?.position
+
+    if (isSlopeEnabled) {
+      switch (slopePosition) {
         case 'top':
           styles.clipPath = 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
           break
@@ -123,7 +84,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
   }
 
-  const getIconSizeClasses = (size: IconSize) => {
+  const getIconSizeClasses = (size: IconSize | undefined | null = 'medium') => {
     switch (size) {
       case 'small':
         return 'w-14 h-14'
@@ -136,7 +97,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
   }
 
-  const getIconImageSizeClasses = (size: IconSize) => {
+  const getIconImageSizeClasses = (size: IconSize | undefined | null = 'medium') => {
     switch (size) {
       case 'small':
         return 'w-7 h-7'
@@ -149,17 +110,20 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     }
   }
 
-  const getIconStyleClasses = (style: IconStyle) => {
+  const getIconStyleClasses = (style: IconStyle | undefined | null = 'round') => {
     return style === 'round' ? 'rounded-full' : 'rounded-lg'
   }
 
-  const getColor = (color: ColorType, type: 'foreground' | 'background' = 'foreground') => {
+  const getColor = (
+    color: ColorType | undefined | null = 'default',
+    type: 'foreground' | 'background' = 'foreground',
+  ) => {
     if (color === 'gradient') {
       return 'linear-gradient(90deg, var(--color-fwd-purple), var(--color-fwd-red), var(--color-fwd-orange))'
     }
 
     // Map to project's HSL colors for both foreground and background
-    const colorMap: Record<ColorType, string> = {
+    const colorMap = {
       default: type === 'background' ? '#808080' : '#ffffff',
       purple: 'var(--color-fwd-purple)',
       red: 'var(--color-fwd-red)',
@@ -172,7 +136,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       gradient: '',
     }
 
-    return colorMap[color]
+    return colorMap[color || 'default']
   }
 
   const header = renderedTitle(title, gradientText)
@@ -183,11 +147,19 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
         <div
           className={cn('w-full', {
             'pt-[calc(5vw+2rem)]':
-              slope?.enabled && (slope?.position === 'top' || slope?.position === 'both'),
+              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
+              ((typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'top' ||
+                (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'both'),
             'pb-[calc(5vw+2rem)]':
-              slope?.enabled && (slope?.position === 'bottom' || slope?.position === 'both'),
-            'pb-8': slope?.enabled && slope?.position === 'top',
-            'pt-8': slope?.enabled && slope?.position === 'bottom',
+              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
+              ((typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'bottom' ||
+                (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'both'),
+            'pb-8':
+              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
+              (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'top',
+            'pt-8':
+              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
+              (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'bottom',
           })}
         >
           <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
@@ -222,7 +194,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                       }}
                     >
                       {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
-                      {icon.media?.url ? (
+                      {typeof icon.media === 'object' && 'url' in icon.media && icon.media.url ? (
                         icon.iconForeground === 'default' ? (
                           <Image
                             src={icon.media.url}
