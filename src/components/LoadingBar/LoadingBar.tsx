@@ -20,7 +20,6 @@ const INITIAL_STATE: LoadingState = {
 export const LoadingBar = () => {
   const [state, setState] = useState<LoadingState>(INITIAL_STATE)
   const pathname = usePathname()
-  const router = useRouter()
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const isNavigatingRef = useRef(false)
 

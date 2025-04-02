@@ -2,25 +2,9 @@
 
 import React from 'react'
 import { renderedTitle } from '@/utilities/gradientTitle'
-import {
-  EngagementModelBlock as EngagementModelBlockType,
-  Media as MediaType,
-} from '@/payload-types'
+import { EngagementModelBlock as EngagementModelBlockType } from '@/payload-types'
 import Image from 'next/image'
 import { htmlDecode } from '@/utilities/htmlDecode'
-
-// export interface EngagementModelBlockType {
-//   title: string
-//   gradientText: string
-//   description?: string
-//   tiers: {
-//     title: string
-//     description: string
-//     headlineLabel: string
-//     durationLabel: string
-//     backgroundImage: Media | string
-//   }[]
-// }
 
 export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) => {
   const { title, gradientText, description, tiers } = props

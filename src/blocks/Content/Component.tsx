@@ -1,7 +1,6 @@
 import { cn } from '@/utilities/ui'
 import React from 'react'
 import RichText from '@/components/RichText'
-import { SlopedEdgeWrapper } from '@/components/SlopedEdgeWrapper'
 
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
@@ -36,12 +35,12 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
     large: 'py-16',
   }
 
-  const heightClasses = {
-    none: 'min-h-[10vh]',
-    full: 'min-h-screen',
-    '75': 'min-h-[75vh]',
-    '50': 'min-h-[50vh]',
-  }
+  // const heightClasses = {
+  //   none: 'min-h-[10vh]',
+  //   full: 'min-h-screen',
+  //   '75': 'min-h-[75vh]',
+  //   '50': 'min-h-[50vh]',
+  // }
 
   // Function to map payload link appearance to button variant
   const mapAppearance = (appearance: string | null | undefined) => {
