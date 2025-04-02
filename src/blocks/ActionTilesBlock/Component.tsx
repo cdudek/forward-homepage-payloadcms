@@ -70,7 +70,10 @@ export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({
                   <motion.div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
                     style={{
-                      backgroundImage: `url(${backgroundImage.url})`,
+                      backgroundImage:
+                        typeof backgroundImage === 'object'
+                          ? `url(${backgroundImage.url})`
+                          : 'none',
                     }}
                     initial={false}
                     whileHover={{
