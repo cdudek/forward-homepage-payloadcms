@@ -3,9 +3,11 @@ import type { Block, Field } from 'payload'
 const textElementFields: Field[] = [
   {
     name: 'text',
-    type: 'text',
+    type: 'textarea',
     label: 'Content',
     required: true,
+    defaultValue:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     name: 'addLineBreak',
