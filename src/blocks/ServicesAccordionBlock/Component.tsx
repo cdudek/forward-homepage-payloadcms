@@ -10,6 +10,8 @@ import { cn } from '@/utilities/ui'
 
 import { ServicesAccordionBlock as ServicesAccordionBlockProps } from '@/payload-types'
 
+type BackgroundTheme = 'default' | 'light' | 'dark'
+
 const ROTATION_INTERVAL = 3000
 
 export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
@@ -28,7 +30,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
   const slope = {
     enabled: true,
     position: 'both',
-    backgroundTheme: 'light',
+    backgroundTheme: 'light' as BackgroundTheme,
   }
 
   // Memoize sorted services to prevent re-sorting on every render
