@@ -57,10 +57,10 @@ export async function Footer() {
             <div className="text-xs text-gray-400 sm:text-sm">
               By subscribing you agree to with our{' '}
               <Link
-                href="/privacy-policy"
+                href="/data-privacy-policy"
                 className="text-xs text-gray-200 transition-colors hover:text-white hover:underline sm:text-sm"
               >
-                Privacy Policy
+                Data Policy
               </Link>
             </div>
           </div>

@@ -22,16 +22,16 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     return (
       <div className="relative bg-fwd-black-950" style={{ clipPath: clipPathDark }}>
         {backgroundImage && typeof backgroundImage === 'object' && (
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="container absolute inset-0 overflow-hidden">
             <Media
               fill
-              imgClassName="object-contain w-full h-full"
+              imgClassName="absolute inset-0 h-full w-full object-cover opacity-25"
+              className="absolute inset-0 h-full w-full"
               priority
               resource={backgroundImage}
             />
           </div>
         )}
-
         <div className="relative px-0 py-8">
           <div className="container pt-[calc(5vw+2rem)]">
             <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 border-b border-gray-800 pb-8">

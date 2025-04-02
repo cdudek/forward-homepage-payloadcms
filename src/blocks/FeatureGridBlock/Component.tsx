@@ -61,8 +61,8 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     description,
     columns,
     features,
-    slope,
-    enableBackground,
+    slope = true,
+    enableBackground = true,
     backgroundTheme = 'default',
   } = props
 
