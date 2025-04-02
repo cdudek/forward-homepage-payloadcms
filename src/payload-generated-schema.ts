@@ -643,7 +643,7 @@ export const pages_blocks_logo_grid = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    header: jsonb('header'),
+    title: varchar('title').default('Working with Leaders Across Industries'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -1613,7 +1613,7 @@ export const _pages_v_blocks_logo_grid = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
-    header: jsonb('header'),
+    title: varchar('title').default('Working with Leaders Across Industries'),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },

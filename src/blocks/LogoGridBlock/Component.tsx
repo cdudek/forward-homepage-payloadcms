@@ -21,7 +21,7 @@ export type Logo = {
   } & MediaType
 }
 
-export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = [] }) => {
+export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] }) => {
   const [displayedLogos, setDisplayedLogos] = useState<Logo[]>([])
   const [currentSlotIndex, setCurrentSlotIndex] = useState(0)
   const logoQueue = useRef<Logo[]>([])
@@ -132,8 +132,8 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
 
   return (
     <div className="container relative z-10 my-4 md:my-4 lg:my-4" ref={containerRef}>
-      <div className="col-span-4 lg:col-span-12">
-        {header && <RichText data={header} enableGutter={false} />}
+      <div className="prose-sm col-span-12 text-center md:prose-md xl:prose-lg">
+        {title && <h5 className="text-fwd-grey-600">{title}</h5>}
       </div>
       <div className="relative grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
         {displayedLogos.map((logo, index) => (
@@ -184,7 +184,6 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ header, logos = []
                 <div className="absolute inset-0 flex items-center justify-center p-4">
                   <Media
                     className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
-                    // className="max-h-[50%] max-w-[50%] object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:max-h-[100%] sm:max-w-[100%] md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
                     resource={logo.image}
                   />
                 </div>

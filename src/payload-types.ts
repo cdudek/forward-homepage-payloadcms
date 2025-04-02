@@ -805,21 +805,7 @@ export interface Form {
  * via the `definition` "LogoGridBlock".
  */
 export interface LogoGridBlock {
-  header?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  title: string;
   logos?:
     | {
         image?: (number | null) | Media;
@@ -1731,7 +1717,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "LogoGridBlock_select".
  */
 export interface LogoGridBlockSelect<T extends boolean = true> {
-  header?: T;
+  title?: T;
   logos?:
     | T
     | {

@@ -1,11 +1,11 @@
 import type { Block } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+// import {
+//   FixedToolbarFeature,
+//   HeadingFeature,
+//   InlineToolbarFeature,
+//   lexicalEditor,
+// } from '@payloadcms/richtext-lexical'
 
 export const LogoGridBlock: Block = {
   slug: 'logoGrid',
@@ -15,20 +15,28 @@ export const LogoGridBlock: Block = {
     plural: 'Logo Grids',
   },
   fields: [
+    // {
+    //   name: 'header',
+    //   type: 'richText',
+    //   hidden: true,
+    //   editor: lexicalEditor({
+    //     features: ({ rootFeatures, defaultFeatures }) => {
+    //       return [
+    //         ...rootFeatures,
+    //         ...defaultFeatures,
+    //         HeadingFeature({ enabledHeadingSizes: ['h4', 'h5', 'h6'] }),
+    //         FixedToolbarFeature(),
+    //         InlineToolbarFeature(),
+    //       ]
+    //     },
+    //   }),
+    // },
     {
-      name: 'header',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures, defaultFeatures }) => {
-          return [
-            ...rootFeatures,
-            ...defaultFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h4', 'h5', 'h6'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+      name: 'title',
+      type: 'text',
+      required: true,
+      label: 'Title',
+      defaultValue: 'Working with Leaders Across Industries',
     },
     {
       name: 'logos',
