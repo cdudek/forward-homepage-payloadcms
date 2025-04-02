@@ -2,31 +2,34 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
-import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { LogoGridBlock } from '../../blocks/LogoGridBlock/config'
-import { FeatureGridBlock } from '../../blocks/FeatureGridBlock/config'
-import { NumberGridBlock } from '../../blocks/NumberGridBlock/config'
-import { ActionTilesBlock } from '../../blocks/ActionTilesBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
+
+// Blocks
+import { ActionTilesBlock } from '../../blocks/ActionTilesBlock/config'
+import { Archive } from '../../blocks/ArchiveBlock/config'
+import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
+import { CallToAction } from '../../blocks/CallToAction/config'
+import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
+import { Content } from '../../blocks/Content/config'
+import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/config'
+import { FAQBlock } from '@/blocks/FAQBlock/config'
+import { FeatureGridBlock } from '../../blocks/FeatureGridBlock/config'
+import { FooterFormBlock } from '@/blocks/FormFooter/config'
+import { FormBlock } from '../../blocks/Form/config'
+import { LogoGridBlock } from '../../blocks/LogoGridBlock/config'
+import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { NumberGridBlock } from '../../blocks/NumberGridBlock/config'
+import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
+import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/config'
+import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
+import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
+import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/config'
+
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/config'
-import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/config'
-import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/config'
-import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/config'
-import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/config'
-import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/config'
-import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/config'
-import { FooterFormBlock } from '@/blocks/FormFooter/config'
-import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/config'
-import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/config'
-import { FAQBlock } from '@/blocks/FAQBlock/config'
 
 import {
   MetaDescriptionField,
@@ -123,26 +126,26 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: [
-                CallToAction,
-                Content,
-                MediaBlock,
+                ActionTilesBlock,
                 Archive,
+                AudienceTabBlock,
+                CallToAction,
+                CaseStudyBlock,
+                ColoredTextBlock,
+                Content,
+                EngagementModelBlock,
+                FAQBlock,
+                FeatureGridBlock,
+                FooterFormBlock,
                 FormBlock,
                 LogoGridBlock,
-                FeatureGridBlock,
+                MediaBlock,
                 NumberGridBlock,
-                ServicesTabBlock,
-                CaseStudyBlock,
-                ActionTilesBlock,
-                ServicesAccordionBlock,
-                AudienceTabBlock,
                 PhaseStepperVertical,
-                EngagementModelBlock,
-                SingleCaseStudyBlock,
-                FooterFormBlock,
-                ColoredTextBlock,
                 ProductFeatureBlock,
-                FAQBlock,
+                ServicesAccordionBlock,
+                ServicesTabBlock,
+                SingleCaseStudyBlock,
               ],
               required: true,
               admin: {

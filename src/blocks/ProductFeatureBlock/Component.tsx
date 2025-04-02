@@ -4,6 +4,7 @@ import React from 'react'
 import { ProductFeatureBlock as ProductFeatureBlockProps } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/components/Media'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
   theme,
@@ -40,15 +41,15 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
 
             // <h5 className="text-lg font-medium uppercase tracking-wider">{productName}</h5>
           )}
-          {title && <h2 className="mt-2">{title}</h2>}
-          {description && <p className="mt-4">{description}</p>}
+          {title && <h2 className="mt-2">{htmlDecode(title)}</h2>}
+          {description && <p className="mt-4">{htmlDecode(description)}</p>}
 
           {/* Feature list outside of prose context */}
           <div className="mt-6">
             {featureList.length > 0 && (
               <ul className="list-none space-y-4 p-0">
                 {featureList.map((feature) => (
-                  <li key={feature.usp} className="flex items-center gap-4 pl-0">
+                  <li key={feature.id} className="flex items-center gap-4 pl-0">
                     <div className="not-prose relative h-10 w-10 flex-shrink-0">
                       {/* White circle with 5% opacity background */}
                       <div className="not-prose absolute inset-0 rounded-full bg-white bg-opacity-5"></div>
@@ -58,7 +59,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
                         typeof feature.featureIcon === 'object' &&
                         'url' in feature.featureIcon &&
                         feature.featureIcon.url && (
-                          <div className="no-prose not-prose absolute inset-0 flex items-center justify-center">
+                          <div className="not-prose absolute inset-0 flex items-center justify-center">
                             <div className="not-prose h-5 w-5">
                               <div
                                 className="not-prose h-full w-full"
@@ -79,7 +80,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
                           </div>
                         )}
                     </div>
-                    <span className="flex-1 text-left">{feature.usp}</span>
+                    <span className="flex-1 text-left">{htmlDecode(feature.usp)}</span>
                   </li>
                 ))}
               </ul>

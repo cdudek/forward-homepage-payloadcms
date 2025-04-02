@@ -6,8 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { ServicesTabBlock as ServicesTabBlockProps, Service } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
 import { getColorBlends } from '@/utilities/getColorBlends'
-
-// import RichText from '@/components/RichText'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   title,
@@ -217,7 +216,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
       <div ref={containerRef} className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
         <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
           <h2>{formattedTitle}</h2>
-          {subtitle && <p>{subtitle}</p>}
+          {subtitle && <p>{htmlDecode(subtitle)}</p>}
         </div>
 
         {/* Tabs */}
@@ -281,8 +280,10 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                 exit="exit"
               >
                 <div className="prose prose-sm md:prose-base lg:prose-lg">
-                  <h3 className="mb-2 sm:mb-4">{activeService.header || activeService.title}</h3>
-                  <p className="text-gray-800">{activeService.descriptionShort}</p>
+                  <h3 className="mb-2 sm:mb-4">
+                    {htmlDecode(activeService.header || htmlDecode(activeService.title))}
+                  </h3>
+                  <p className="text-gray-800">{htmlDecode(activeService.descriptionShort)}</p>
 
                   {/* Features/USPs list */}
                   {activeService.usps && activeService.usps.length > 0 && (

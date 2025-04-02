@@ -2,48 +2,48 @@ import React, { Fragment } from 'react'
 import { cn } from '@/utilities/ui'
 import type { Page } from '@/payload-types'
 
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-import { ContentBlock } from '@/blocks/Content/Component'
-import { FormBlock } from '@/blocks/Form/Component'
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { LogoGridBlock } from '@/blocks/LogoGridBlock/Component'
-import { FeatureGridBlock } from '@/blocks/FeatureGridBlock/Component'
-import { NumberGridBlock } from '@/blocks/NumberGridBlock/Component'
 import { ActionTilesBlock } from '@/blocks/ActionTilesBlock/Component'
+import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
+import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/Component'
+import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { CaseStudyBlock } from '@/blocks/CaseStudyBlock/Component'
+import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
+import { ContentBlock } from '@/blocks/Content/Component'
+import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
+import { FAQBlock } from '@/blocks/FAQBlock/Component'
+import { FeatureGridBlock } from '@/blocks/FeatureGridBlock/Component'
+import { FooterFormBlock } from '@/blocks/FormFooter/Component'
+import { FormBlock } from '@/blocks/Form/Component'
+import { LogoGridBlock } from '@/blocks/LogoGridBlock/Component'
+import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { NumberGridBlock } from '@/blocks/NumberGridBlock/Component'
+import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/Component'
+import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/Component'
 import { ServicesAccordionBlock } from '@/blocks/ServicesAccordionBlock/Component'
 import { ServicesTabBlock } from '@/blocks/ServicesTabBlock/Component'
-import { AudienceTabBlock } from '@/blocks/AudienceTabBlock/Component'
-import { PhaseStepperVertical } from '@/blocks/PhaseStepperVertical/Component'
-import { EngagementModelBlock } from '@/blocks/EngagementModelBlock/Component'
 import { SingleCaseStudyBlock } from '@/blocks/SingleCaseStudyBlock/Component'
-import { FooterFormBlock } from '@/blocks/FormFooter/Component'
-import { ColoredTextBlock } from '@/blocks/ColoredTextBlock/Component'
-import { ProductFeatureBlock } from '@/blocks/ProductFeatureBlock/Component'
-import { FAQBlock } from '@/blocks/FAQBlock/Component'
 
 const blockComponents = {
-  archive: ArchiveBlock,
-  content: ContentBlock,
-  cta: CallToActionBlock,
-  formBlock: FormBlock,
-  mediaBlock: MediaBlock,
-  logoGrid: LogoGridBlock,
-  featureGridBlock: FeatureGridBlock,
-  numberGridBlock: NumberGridBlock,
   actionTilesBlock: ActionTilesBlock,
+  archive: ArchiveBlock,
+  audienceTabBlock: AudienceTabBlock,
+  cta: CallToActionBlock,
   caseStudyBlock: CaseStudyBlock,
+  coloredTextBlock: ColoredTextBlock,
+  content: ContentBlock,
+  engagementModelBlock: EngagementModelBlock,
+  faqBlock: FAQBlock,
+  featureGridBlock: FeatureGridBlock,
+  footerFormBlock: FooterFormBlock,
+  formBlock: FormBlock,
+  logoGrid: LogoGridBlock,
+  mediaBlock: MediaBlock,
+  numberGridBlock: NumberGridBlock,
+  phaseStepperVertical: PhaseStepperVertical,
+  productFeatureBlock: ProductFeatureBlock,
   servicesAccordionBlock: ServicesAccordionBlock,
   servicesTabBlock: ServicesTabBlock,
-  audienceTabBlock: AudienceTabBlock,
-  phaseStepperVertical: PhaseStepperVertical,
-  engagementModelBlock: EngagementModelBlock,
   singleCaseStudyBlock: SingleCaseStudyBlock,
-  footerFormBlock: FooterFormBlock,
-  coloredTextBlock: ColoredTextBlock,
-  productFeatureBlock: ProductFeatureBlock,
-  faqBlock: FAQBlock,
 }
 
 export const RenderBlocks: React.FC<{

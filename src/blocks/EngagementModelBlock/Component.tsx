@@ -1,25 +1,29 @@
 'use client'
 
 import React from 'react'
-import { Media } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
+import {
+  EngagementModelBlock as EngagementModelBlockType,
+  Media as MediaType,
+} from '@/payload-types'
 import Image from 'next/image'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
-export interface EngagementModelBlockType {
-  title: string
-  gradientText: string
-  description?: string
-  tiers: {
-    title: string
-    description: string
-    headlineLabel: string
-    durationLabel: string
-    backgroundImage: Media | string
-  }[]
-}
+// export interface EngagementModelBlockType {
+//   title: string
+//   gradientText: string
+//   description?: string
+//   tiers: {
+//     title: string
+//     description: string
+//     headlineLabel: string
+//     durationLabel: string
+//     backgroundImage: Media | string
+//   }[]
+// }
 
 export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) => {
-  const { title, gradientText, description, tiers = [] } = props
+  const { title, gradientText, description, tiers } = props
 
   const header = renderedTitle(title, gradientText)
 
@@ -28,15 +32,19 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
       <div className="grid grid-cols-1 gap-y-16">
         <div className="prose prose-sm mx-auto text-center md:prose-md xl:prose-lg">
           <h2 className="mb-6">{header}</h2>
-          {description && <p className="mx-auto">{description}</p>}
+          {description && <p className="mx-auto">{htmlDecode(description)}</p>}
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {tiers.map((tier, index) => {
+          {tiers?.map((tier, index) => {
             const bgImageUrl =
-              typeof tier.backgroundImage === 'string'
-                ? tier.backgroundImage
-                : tier.backgroundImage?.url
+              typeof tier.backgroundImage === 'object' &&
+              tier.backgroundImage !== null &&
+              'url' in tier.backgroundImage
+                ? tier.backgroundImage.url
+                : typeof tier.backgroundImage === 'string'
+                  ? tier.backgroundImage
+                  : ''
 
             return (
               <div
@@ -47,7 +55,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                   <div className="absolute inset-0 z-0">
                     <Image
                       src={bgImageUrl}
-                      alt={tier.title}
+                      alt={htmlDecode(tier.title)}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       style={{ objectFit: 'cover' }}
@@ -70,8 +78,8 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                 </div>
 
                 <div className="prose-sm relative z-20 md:prose-md xl:prose-lg">
-                  <h3 className="mb-2 text-4xl font-bold text-white">{tier.title}</h3>
-                  <p className="text-white/90">{tier.description}</p>
+                  <h3 className="mb-2 text-4xl font-bold text-white">{htmlDecode(tier.title)}</h3>
+                  <p className="text-white/90">{htmlDecode(tier.description)}</p>
                 </div>
               </div>
             )

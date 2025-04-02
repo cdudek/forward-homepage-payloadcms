@@ -3,23 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
-import type {
-  Media as MediaType,
-  SingleCaseStudyBlock as SingleCaseStudyBlockType,
-} from '@/payload-types'
+import type { SingleCaseStudyBlock as SingleCaseStudyBlockType, CaseStudy } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
-
-type CaseStudy = {
-  logo?: MediaType
-  companyName?: string
-  testimonial?: {
-    background?: MediaType
-    quoteText?: string
-    author?: string
-    position?: string
-  }
-  url?: string
-}
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
   caseStudies = [],
@@ -119,15 +105,16 @@ export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
                       {currentStudy.testimonial?.quoteText && (
                         <div>
                           <div className="text-xl font-extralight text-white md:line-clamp-3 md:text-3xl">
-                            {currentStudy.testimonial?.quoteText}
+                            {htmlDecode(currentStudy.testimonial?.quoteText || '')}
                           </div>
                           <div className="mt-6 text-right text-lg text-white/70 md:mt-8 md:text-2xl">
                             <div className="font-semibold">
-                              {currentStudy.testimonial?.author || ''}
+                              {htmlDecode(currentStudy.testimonial?.author || '')}
                             </div>
                             <div className="font-light">
-                              {currentStudy.testimonial?.position || ''}
-                              {currentStudy?.companyName && `, ${currentStudy?.companyName}`}
+                              {htmlDecode(currentStudy.testimonial?.position || '')}
+                              {currentStudy?.companyName &&
+                                `, ${htmlDecode(currentStudy?.companyName)}`}
                             </div>
                           </div>
                         </div>

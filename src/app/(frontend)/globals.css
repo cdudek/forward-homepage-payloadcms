@@ -289,6 +289,12 @@ html {
   font-weight: 200;
 }
 
+.prose-sm .feature-header,
+.prose-md .feature-header,
+.prose-lg .feature-header {
+  line-height: 1.2;
+}
+
 /* Case study author and position styles */
 .case-study-quote {
   font-weight: 300 !important;

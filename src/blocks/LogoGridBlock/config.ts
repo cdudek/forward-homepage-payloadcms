@@ -15,22 +15,6 @@ export const LogoGridBlock: Block = {
     plural: 'Logo Grids',
   },
   fields: [
-    // {
-    //   name: 'header',
-    //   type: 'richText',
-    //   hidden: true,
-    //   editor: lexicalEditor({
-    //     features: ({ rootFeatures, defaultFeatures }) => {
-    //       return [
-    //         ...rootFeatures,
-    //         ...defaultFeatures,
-    //         HeadingFeature({ enabledHeadingSizes: ['h4', 'h5', 'h6'] }),
-    //         FixedToolbarFeature(),
-    //         InlineToolbarFeature(),
-    //       ]
-    //     },
-    //   }),
-    // },
     {
       name: 'title',
       type: 'text',

@@ -57,7 +57,7 @@ export const FAQBlock: Block = {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'textarea',
       label: 'Description',
       required: true,
       defaultValue: 'Frequently Asked Questions & Answers Description',

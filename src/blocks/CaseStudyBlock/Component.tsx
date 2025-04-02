@@ -1,129 +1,51 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Media } from '@/components/Media'
-import { cn } from '@/utilities/ui'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
+import { SupportingCaseStudyCard } from './SupportingCaseStudyCard'
 
-// Supporting case study card component
-const SupportingCaseStudyCard: React.FC<{
-  study: CaseStudy
-  index: number
-  onClick: (index: number) => void
-  variants: Variants
-}> = ({ study, index, onClick, variants }) => {
-  if (!study) return null
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={`supporting-${index}`}
-        variants={variants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        onClick={() => onClick(index)}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 1.01 }}
-        className={cn(
-          'grid cursor-pointer grid-rows-[auto_1fr_auto] overflow-hidden rounded-3xl border',
-          'border-gray-400 bg-white p-6 transition-colors hover:border-gray-500 hover:bg-gray-50/50 active:bg-gray-50',
-          'shadow-[0_1px_1px_rgba(0,0,0,0.1)]',
-          'hover:shadow-[0_2px_2px_rgba(0,0,0,0.1)]',
-          'group-hover:shadow-[0_5px_5px_rgba(255,0,130,0.25)]',
-          'transition-shadow duration-300',
-          'will-change-transform',
-          'h-full',
-        )}
-      >
-        {/* Logo with fixed height/width container */}
-        {study.logo && (
-          <div className="not-prose relative my-4 flex h-8 w-32 items-center justify-start overflow-hidden">
-            <Media
-              resource={study.logo}
-              className="flex max-h-full max-w-full justify-start object-contain opacity-80 grayscale"
-              imgClassName="max-h-8 max-w-32 object-left object-contain"
-            />
-          </div>
-        )}
-
-        {/* Quote only - larger, darker text */}
-        {study.testimonial?.quoteText && (
-          <div className="case-study-quote prose line-clamp-4 flex h-full items-center text-base font-medium text-gray-800 md:text-xl">
-            {study.testimonial.quoteText}
-          </div>
-        )}
-
-        {/* "Read how" link at the bottom */}
-        {study.url && (
-          <a
-            href={study.url}
-            className="group mt-auto flex items-center pt-4 text-sm text-blue-600"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>Read how</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        )}
-      </motion.div>
-    </AnimatePresence>
-  )
-}
-
-// Create a separate component for the case study display to handle the logic
 export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   caseStudies,
   title = 'Case Studies',
   gradientText = '',
   description,
 }) => {
-  // State for the current active case study
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isInView, setIsInView] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  // Configurable rotation timing in seconds - increased for smoother transitions
+
   const rotationTimingSeconds = 10
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const [progressPercent, setProgressPercent] = useState(0)
-  // Fix for initial render - ensure content is visible immediately
+
   const [isFirstRender, setIsFirstRender] = useState(true)
 
   const totalCaseStudies = caseStudies?.length || 0
 
-  // Function to advance to the next case study
   const goToNextCaseStudy = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % totalCaseStudies)
     setProgressPercent(0)
   }, [totalCaseStudies])
 
-  // Set up intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0]
         if (entry) {
           setIsInView(entry.isIntersecting)
-          // Reset progress when component comes into view
+
           if (entry.isIntersecting) {
             setProgressPercent(0)
           }
         }
       },
       {
-        threshold: 0.1, // Trigger when at least 10% of the component is visible
-        rootMargin: '50px', // Start loading slightly before it comes into view
+        threshold: 0.1,
+        rootMargin: '50px',
       },
     )
 
@@ -140,31 +62,25 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
     }
   }, [])
 
-  // Set isFirstRender to false after component mounts
   useEffect(() => {
     setIsFirstRender(false)
   }, [])
 
-  // Set up rotation timer - only when in view
   useEffect(() => {
-    // Reset animation when index changes
     setProgressPercent(0)
 
-    // Clear any existing intervals
     if (progressIntervalRef.current) {
       clearInterval(progressIntervalRef.current)
     }
 
-    // Only start rotation if not paused, in view, and we have multiple case studies
     if (!isPaused && isInView && totalCaseStudies > 1) {
-      const interval = 100 // Update progress every 100ms instead of 50ms for better performance
+      const interval = 100
       const totalSteps = (rotationTimingSeconds * 1000) / interval
 
       progressIntervalRef.current = setInterval(() => {
         setProgressPercent((prev) => {
           const nextValue = prev + 100 / totalSteps
 
-          // Move to next case study when progress reaches 100%
           if (nextValue >= 100) {
             goToNextCaseStudy()
             return 0
@@ -175,7 +91,6 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       }, interval)
     }
 
-    // Cleanup function
     return () => {
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current)
@@ -183,14 +98,11 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
     }
   }, [activeIndex, isPaused, totalCaseStudies, rotationTimingSeconds, isInView, goToNextCaseStudy])
 
-  // Get the current active case study
   const activeCaseStudy = caseStudies?.[activeIndex]
 
-  // Handle potential non-populated relationships
   const currentStudy = typeof activeCaseStudy === 'number' ? null : (activeCaseStudy as CaseStudy)
   if (!currentStudy) return null
 
-  // Get the next two case studies for the supporting cards
   const nextIndex = (activeIndex + 1) % totalCaseStudies
   const secondNextIndex = (activeIndex + 2) % totalCaseStudies
 
@@ -202,7 +114,6 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       ? null
       : (caseStudies?.[secondNextIndex] as CaseStudy)
 
-  // Animation variants for the cards - smoother transitions
   const heroCardVariants = {
     initial: isFirstRender ? { opacity: 1 } : { opacity: 0, scale: 1.03 },
     animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: 'easeInOut' } },
@@ -215,7 +126,6 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
     exit: { opacity: 0, y: -10, transition: { duration: 0.6, ease: 'easeInOut' } },
   }
 
-  // Function to handle clicking on a supporting card
   const handleCardClick = (index: number) => {
     setActiveIndex(index)
     setProgressPercent(0)

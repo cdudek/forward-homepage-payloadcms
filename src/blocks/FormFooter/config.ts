@@ -33,7 +33,7 @@ export const FooterFormBlock: Block = {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Description',
       defaultValue: 'We would love to hear from you',

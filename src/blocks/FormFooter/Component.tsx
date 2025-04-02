@@ -13,6 +13,7 @@ import { cn } from '@/utilities/ui'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 export type FooterFormBlockType = {
   blockName?: string
@@ -215,8 +216,8 @@ export const FooterFormBlock: React.FC<
               {/* Left Column - Title and Description */}
               <div className="flex h-full flex-col py-8 text-center md:py-0 md:text-left">
                 <div className="prose-sm md:prose-md xl:prose-lg">
-                  <h2 className="text-white">{title}</h2>
-                  <p className="mt-4 text-white/90 md:pl-2">{description}</p>
+                  <h2 className="text-white">{htmlDecode(title)}</h2>
+                  <p className="mt-4 text-white/90 md:pl-2">{htmlDecode(description)}</p>
                 </div>
 
                 {/* Address - visible at bottom on desktop, below description on mobile */}

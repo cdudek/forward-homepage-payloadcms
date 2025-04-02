@@ -20,7 +20,7 @@ export const SingleCaseStudyBlock: Block = {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'textarea',
       label: 'Description',
       required: false,
       defaultValue: 'Our case studies',

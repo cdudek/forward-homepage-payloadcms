@@ -4,10 +4,10 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import RichText from '@/components/RichText'
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { LogoGridBlock as LogoGridBlockProps } from '@/payload-types'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 const GRID_SIZE = 6
 const MIN_INTERVAL = 3000
@@ -133,7 +133,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
   return (
     <div className="container relative z-10 my-4 md:my-4 lg:my-4" ref={containerRef}>
       <div className="prose-sm col-span-12 text-center md:prose-md xl:prose-lg">
-        {title && <h5 className="text-fwd-grey-600">{title}</h5>}
+        {title && <h5 className="text-fwd-grey-600">{htmlDecode(title)}</h5>}
       </div>
       <div className="relative grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
         {displayedLogos.map((logo, index) => (

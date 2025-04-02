@@ -122,7 +122,6 @@ export const NumberGridBlock: React.FC<Props> = ({ columns, items, subheader }) 
             'flex flex-col',
             getAlignmentClasses(number.alignment),
             getColSpanClasses(columns),
-            // 'sm:py-8',
           )
 
           return (
@@ -131,7 +130,7 @@ export const NumberGridBlock: React.FC<Props> = ({ columns, items, subheader }) 
                 <StyledNumber number={number} />
               </div>
               {content && (
-                <div className="text-fwd-grey-700 prose prose-sm w-full max-w-none md:prose-md xl:prose-lg prose-p:mt-0">
+                <div className="prose prose-sm w-full max-w-none text-fwd-grey-700 md:prose-md xl:prose-lg prose-p:mt-0">
                   {content && <RichText data={content} />}
                 </div>
               )}

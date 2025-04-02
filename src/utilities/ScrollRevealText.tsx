@@ -2,6 +2,7 @@ import React, { useEffect, useRef, ElementType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -81,7 +82,7 @@ export const ScrollRevealText: React.FC<ScrollRevealTextProps> = ({
 
   return (
     <Component ref={textRef} className={`${className} relative`}>
-      {text}
+      {htmlDecode(text)}
     </Component>
   )
 }

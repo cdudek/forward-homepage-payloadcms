@@ -207,49 +207,26 @@ export interface Page {
     subtitle?: string | null;
   };
   layout: (
-    | CallToActionBlock
-    | ContentBlock
-    | MediaBlock
+    | ActionTilesBlock
     | ArchiveBlock
+    | AudienceTabBlock
+    | CallToActionBlock
+    | CaseStudyBlock
+    | ColoredTextBlock
+    | ContentBlock
+    | EngagementModelBlock
+    | FAQBlock
+    | FeatureGridBlock
+    | FooterFormBlock
     | FormBlock
     | LogoGridBlock
-    | FeatureGridBlock
+    | MediaBlock
     | NumberGridBlock
-    | ServicesTabBlock
-    | CaseStudyBlock
-    | ActionTilesBlock
-    | {
-        services: (number | Service)[];
-        title: string;
-        gradient?: string | null;
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        limit: number;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'servicesAccordionBlock';
-      }
-    | AudienceTabBlock
     | PhaseStepperVertical
-    | EngagementModelBlock
-    | SingleCaseStudyBlock
-    | FooterFormBlock
-    | ColoredTextBlock
     | ProductFeatureBlock
-    | FAQBlock
+    | ServicesAccordionBlock
+    | ServicesTabBlock
+    | SingleCaseStudyBlock
   )[];
   meta?: {
     title?: string | null;
@@ -447,6 +424,105 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActionTilesBlock".
+ */
+export interface ActionTilesBlock {
+  tiles?:
+    | {
+        title: string;
+        description: string;
+        backgroundImage: number | Media;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'actionTilesBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArchiveBlock".
+ */
+export interface ArchiveBlock {
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: 'posts' | null;
+  categories?: (number | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceTabBlock".
+ */
+export interface AudienceTabBlock {
+  title: string;
+  gradientText?: string | null;
+  subtitle?: string | null;
+  audiences: (number | Audience)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'audienceTabBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audiences".
+ */
+export interface Audience {
+  id: number;
+  audienceName: string;
+  title: string;
+  image?: (number | null) | Media;
+  contentHeader?: string | null;
+  contentDescription: string;
+  usps?:
+    | {
+        usp?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -484,6 +560,72 @@ export interface CallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyBlock".
+ */
+export interface CaseStudyBlock {
+  title: string;
+  gradientText?: string | null;
+  description?: string | null;
+  caseStudies?: (number | CaseStudy)[] | null;
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudyBlock';
+}
+/**
+ * Customer case studies and testimonials
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies".
+ */
+export interface CaseStudy {
+  id: number;
+  companyName: string;
+  logo: number | Media;
+  url?: string | null;
+  testimonial: {
+    quoteText: string;
+    author: string;
+    position: string;
+    /**
+     * Background image for Case Studies or Testimonials
+     */
+    background: number | Media;
+  };
+  metrics?:
+    | {
+        value: string;
+        prefix?: string | null;
+        suffix?: string | null;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColoredTextBlock".
+ */
+export interface ColoredTextBlock {
+  theme?: ('light' | 'dark') | null;
+  textElements?:
+    | {
+        text: string;
+        /**
+         * Add a line break after this text element
+         */
+        addLineBreak?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'coloredTextBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -550,73 +692,119 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
+ * via the `definition` "EngagementModelBlock".
  */
-export interface MediaBlock {
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'mediaBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock".
- */
-export interface ArchiveBlock {
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
-  categories?: (number | Category)[] | null;
-  limit?: number | null;
-  selectedDocs?:
+export interface EngagementModelBlock {
+  title: string;
+  gradientText: string;
+  description?: string | null;
+  tiers?:
     | {
-        relationTo: 'posts';
-        value: number | Post;
+        title: string;
+        description: string;
+        headlineLabel: string;
+        durationLabel: string;
+        backgroundImage: number | Media;
+        id?: string | null;
       }[]
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'archive';
+  blockType: 'engagementModelBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock".
+ * via the `definition` "FAQBlock".
  */
-export interface FormBlock {
-  form: number | Form;
-  enableIntro?: boolean | null;
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+export interface FAQBlock {
+  theme?: ('light' | 'dark') | null;
+  title: string;
+  gradientText?: string | null;
+  description: string;
+  faqItems?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'formBlock';
+  blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock".
+ */
+export interface FeatureGridBlock {
+  title: string;
+  gradientText: string;
+  description?: string | null;
+  features?:
+    | {
+        icon: {
+          media: number | Media;
+          style?: ('round' | 'square') | null;
+          size?: ('small' | 'medium' | 'large') | null;
+          iconForeground?:
+            | (
+                | 'default'
+                | 'gradient'
+                | 'purple'
+                | 'red'
+                | 'orange'
+                | 'black'
+                | 'white'
+                | 'grey'
+                | 'greyLight'
+                | 'greyDark'
+              )
+            | null;
+          iconBackground?:
+            | (
+                | 'default'
+                | 'gradient'
+                | 'purple'
+                | 'red'
+                | 'orange'
+                | 'black'
+                | 'white'
+                | 'grey'
+                | 'greyLight'
+                | 'greyDark'
+              )
+            | null;
+        };
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  columns: 'oneThird' | 'oneQuarter';
+  enableBackground?: boolean | null;
+  backgroundTheme?: ('default' | 'light' | 'dark') | null;
+  slope?: {
+    enabled?: boolean | null;
+    position?: ('top' | 'bottom' | 'both') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureGridBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FooterFormBlock".
+ */
+export interface FooterFormBlock {
+  form: number | Form;
+  isFooterForm?: boolean | null;
+  isFullHeight?: boolean | null;
+  title: string;
+  description: string;
+  backgroundImage: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'footerFormBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -802,6 +990,32 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock".
+ */
+export interface FormBlock {
+  form: number | Form;
+  enableIntro?: boolean | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "LogoGridBlock".
  */
 export interface LogoGridBlock {
@@ -818,62 +1032,13 @@ export interface LogoGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeatureGridBlock".
+ * via the `definition` "MediaBlock".
  */
-export interface FeatureGridBlock {
-  title: string;
-  gradientText: string;
-  description?: string | null;
-  features?:
-    | {
-        icon: {
-          media: number | Media;
-          style?: ('round' | 'square') | null;
-          size?: ('small' | 'medium' | 'large') | null;
-          iconForeground?:
-            | (
-                | 'default'
-                | 'gradient'
-                | 'purple'
-                | 'red'
-                | 'orange'
-                | 'black'
-                | 'white'
-                | 'grey'
-                | 'greyLight'
-                | 'greyDark'
-              )
-            | null;
-          iconBackground?:
-            | (
-                | 'default'
-                | 'gradient'
-                | 'purple'
-                | 'red'
-                | 'orange'
-                | 'black'
-                | 'white'
-                | 'grey'
-                | 'greyLight'
-                | 'greyDark'
-              )
-            | null;
-        };
-        title: string;
-        description: string;
-        id?: string | null;
-      }[]
-    | null;
-  columns: 'oneThird' | 'oneQuarter';
-  enableBackground?: boolean | null;
-  backgroundTheme?: ('default' | 'light' | 'dark') | null;
-  slope?: {
-    enabled?: boolean | null;
-    position?: ('top' | 'bottom' | 'both') | null;
-  };
+export interface MediaBlock {
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'featureGridBlock';
+  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -943,168 +1108,6 @@ export interface NumberGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesTabBlock".
- */
-export interface ServicesTabBlock {
-  title: string;
-  gradientText?: string | null;
-  subtitle?: string | null;
-  services: (number | Service)[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'servicesTabBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  serviceName: string;
-  title: string;
-  titleShort: string;
-  descriptionShort: string;
-  icon?: (number | null) | Media;
-  image?: (number | null) | Media;
-  header?: string | null;
-  position?: number | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  usps?:
-    | {
-        usp?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CaseStudyBlock".
- */
-export interface CaseStudyBlock {
-  title: string;
-  gradientText?: string | null;
-  description?: string | null;
-  caseStudies?: (number | CaseStudy)[] | null;
-  limit?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'caseStudyBlock';
-}
-/**
- * Customer case studies and testimonials
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "case-studies".
- */
-export interface CaseStudy {
-  id: number;
-  companyName: string;
-  logo: number | Media;
-  url?: string | null;
-  testimonial: {
-    quoteText: string;
-    author: string;
-    position: string;
-    /**
-     * Background image for Case Studies or Testimonials
-     */
-    background: number | Media;
-  };
-  metrics?:
-    | {
-        value: string;
-        prefix?: string | null;
-        suffix?: string | null;
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ActionTilesBlock".
- */
-export interface ActionTilesBlock {
-  tiles?:
-    | {
-        title: string;
-        description: string;
-        backgroundImage: number | Media;
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'actionTilesBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AudienceTabBlock".
- */
-export interface AudienceTabBlock {
-  title: string;
-  gradientText?: string | null;
-  subtitle?: string | null;
-  audiences: (number | Audience)[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'audienceTabBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audiences".
- */
-export interface Audience {
-  id: number;
-  audienceName: string;
-  title: string;
-  image?: (number | null) | Media;
-  contentHeader?: string | null;
-  contentDescription: string;
-  usps?:
-    | {
-        usp?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PhaseStepperVertical".
  */
 export interface PhaseStepperVertical {
@@ -1118,76 +1121,6 @@ export interface PhaseStepperVertical {
   id?: string | null;
   blockName?: string | null;
   blockType: 'phaseStepperVertical';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EngagementModelBlock".
- */
-export interface EngagementModelBlock {
-  title: string;
-  gradientText: string;
-  description?: string | null;
-  tiers?:
-    | {
-        title: string;
-        description: string;
-        headlineLabel: string;
-        durationLabel: string;
-        backgroundImage: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'engagementModelBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SingleCaseStudyBlock".
- */
-export interface SingleCaseStudyBlock {
-  title?: string | null;
-  gradientText?: string | null;
-  description?: string | null;
-  caseStudies?: (number | CaseStudy)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'singleCaseStudyBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FooterFormBlock".
- */
-export interface FooterFormBlock {
-  form: number | Form;
-  isFooterForm?: boolean | null;
-  isFullHeight?: boolean | null;
-  title: string;
-  description: string;
-  backgroundImage: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'footerFormBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ColoredTextBlock".
- */
-export interface ColoredTextBlock {
-  theme?: ('light' | 'dark') | null;
-  textElements?:
-    | {
-        text: string;
-        /**
-         * Add a line break after this text element
-         */
-        addLineBreak?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'coloredTextBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1234,23 +1167,95 @@ export interface ProductFeatureBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQBlock".
+ * via the `definition` "ServicesAccordionBlock".
  */
-export interface FAQBlock {
-  theme?: ('light' | 'dark') | null;
+export interface ServicesAccordionBlock {
   title: string;
-  gradientText?: string | null;
-  description: string;
-  faqItems?:
+  description?: string | null;
+  gradient?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  services: (number | Service)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'servicesAccordionBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  serviceName: string;
+  title: string;
+  titleShort: string;
+  descriptionShort: string;
+  icon?: (number | null) | Media;
+  image?: (number | null) | Media;
+  header?: string | null;
+  position?: number | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  usps?:
     | {
-        question: string;
-        answer: string;
+        usp?: string | null;
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesTabBlock".
+ */
+export interface ServicesTabBlock {
+  title: string;
+  gradientText?: string | null;
+  subtitle?: string | null;
+  services: (number | Service)[];
   id?: string | null;
   blockName?: string | null;
-  blockType: 'faqBlock';
+  blockType: 'servicesTabBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SingleCaseStudyBlock".
+ */
+export interface SingleCaseStudyBlock {
+  title?: string | null;
+  gradientText?: string | null;
+  description?: string | null;
+  caseStudies?: (number | CaseStudy)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'singleCaseStudyBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1556,44 +1561,26 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        cta?: T | CallToActionBlockSelect<T>;
-        content?: T | ContentBlockSelect<T>;
-        mediaBlock?: T | MediaBlockSelect<T>;
+        actionTilesBlock?: T | ActionTilesBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
+        audienceTabBlock?: T | AudienceTabBlockSelect<T>;
+        cta?: T | CallToActionBlockSelect<T>;
+        caseStudyBlock?: T | CaseStudyBlockSelect<T>;
+        coloredTextBlock?: T | ColoredTextBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        engagementModelBlock?: T | EngagementModelBlockSelect<T>;
+        faqBlock?: T | FAQBlockSelect<T>;
+        featureGridBlock?: T | FeatureGridBlockSelect<T>;
+        footerFormBlock?: T | FooterFormBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         logoGrid?: T | LogoGridBlockSelect<T>;
-        featureGridBlock?: T | FeatureGridBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
         numberGridBlock?: T | NumberGridBlockSelect<T>;
-        servicesTabBlock?: T | ServicesTabBlockSelect<T>;
-        caseStudyBlock?: T | CaseStudyBlockSelect<T>;
-        actionTilesBlock?: T | ActionTilesBlockSelect<T>;
-        servicesAccordionBlock?:
-          | T
-          | {
-              services?: T;
-              title?: T;
-              gradient?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                  };
-              limit?: T;
-              id?: T;
-              blockName?: T;
-            };
-        audienceTabBlock?: T | AudienceTabBlockSelect<T>;
         phaseStepperVertical?: T | PhaseStepperVerticalSelect<T>;
-        engagementModelBlock?: T | EngagementModelBlockSelect<T>;
-        singleCaseStudyBlock?: T | SingleCaseStudyBlockSelect<T>;
-        footerFormBlock?: T | FooterFormBlockSelect<T>;
-        coloredTextBlock?: T | ColoredTextBlockSelect<T>;
         productFeatureBlock?: T | ProductFeatureBlockSelect<T>;
-        faqBlock?: T | FAQBlockSelect<T>;
+        servicesAccordionBlock?: T | ServicesAccordionBlockSelect<T>;
+        servicesTabBlock?: T | ServicesTabBlockSelect<T>;
+        singleCaseStudyBlock?: T | SingleCaseStudyBlockSelect<T>;
       };
   meta?:
     | T
@@ -1608,6 +1595,57 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActionTilesBlock_select".
+ */
+export interface ActionTilesBlockSelect<T extends boolean = true> {
+  tiles?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        backgroundImage?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArchiveBlock_select".
+ */
+export interface ArchiveBlockSelect<T extends boolean = true> {
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceTabBlock_select".
+ */
+export interface AudienceTabBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  subtitle?: T;
+  audiences?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1632,6 +1670,35 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
               label?: T;
               appearance?: T;
             };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyBlock_select".
+ */
+export interface CaseStudyBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  description?: T;
+  caseStudies?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColoredTextBlock_select".
+ */
+export interface ColoredTextBlockSelect<T extends boolean = true> {
+  theme?: T;
+  textElements?:
+    | T
+    | {
+        text?: T;
+        addLineBreak?: T;
         id?: T;
       };
   id?: T;
@@ -1680,48 +1747,39 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock_select".
+ * via the `definition` "EngagementModelBlock_select".
  */
-export interface MediaBlockSelect<T extends boolean = true> {
-  media?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock_select".
- */
-export interface ArchiveBlockSelect<T extends boolean = true> {
-  introContent?: T;
-  populateBy?: T;
-  relationTo?: T;
-  categories?: T;
-  limit?: T;
-  selectedDocs?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FormBlock_select".
- */
-export interface FormBlockSelect<T extends boolean = true> {
-  form?: T;
-  enableIntro?: T;
-  introContent?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LogoGridBlock_select".
- */
-export interface LogoGridBlockSelect<T extends boolean = true> {
+export interface EngagementModelBlockSelect<T extends boolean = true> {
   title?: T;
-  logos?:
+  gradientText?: T;
+  description?: T;
+  tiers?:
     | T
     | {
-        image?: T;
+        title?: T;
+        description?: T;
+        headlineLabel?: T;
+        durationLabel?: T;
+        backgroundImage?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  theme?: T;
+  title?: T;
+  gradientText?: T;
+  description?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   id?: T;
@@ -1765,6 +1823,55 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FooterFormBlock_select".
+ */
+export interface FooterFormBlockSelect<T extends boolean = true> {
+  form?: T;
+  isFooterForm?: T;
+  isFullHeight?: T;
+  title?: T;
+  description?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  form?: T;
+  enableIntro?: T;
+  introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoGridBlock_select".
+ */
+export interface LogoGridBlockSelect<T extends boolean = true> {
+  title?: T;
+  logos?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  media?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "NumberGridBlock_select".
  */
 export interface NumberGridBlockSelect<T extends boolean = true> {
@@ -1791,68 +1898,6 @@ export interface NumberGridBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ServicesTabBlock_select".
- */
-export interface ServicesTabBlockSelect<T extends boolean = true> {
-  title?: T;
-  gradientText?: T;
-  subtitle?: T;
-  services?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CaseStudyBlock_select".
- */
-export interface CaseStudyBlockSelect<T extends boolean = true> {
-  title?: T;
-  gradientText?: T;
-  description?: T;
-  caseStudies?: T;
-  limit?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ActionTilesBlock_select".
- */
-export interface ActionTilesBlockSelect<T extends boolean = true> {
-  tiles?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        backgroundImage?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "AudienceTabBlock_select".
- */
-export interface AudienceTabBlockSelect<T extends boolean = true> {
-  title?: T;
-  gradientText?: T;
-  subtitle?: T;
-  audiences?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PhaseStepperVertical_select".
  */
 export interface PhaseStepperVerticalSelect<T extends boolean = true> {
@@ -1863,69 +1908,6 @@ export interface PhaseStepperVerticalSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EngagementModelBlock_select".
- */
-export interface EngagementModelBlockSelect<T extends boolean = true> {
-  title?: T;
-  gradientText?: T;
-  description?: T;
-  tiers?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        headlineLabel?: T;
-        durationLabel?: T;
-        backgroundImage?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SingleCaseStudyBlock_select".
- */
-export interface SingleCaseStudyBlockSelect<T extends boolean = true> {
-  title?: T;
-  gradientText?: T;
-  description?: T;
-  caseStudies?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FooterFormBlock_select".
- */
-export interface FooterFormBlockSelect<T extends boolean = true> {
-  form?: T;
-  isFooterForm?: T;
-  isFullHeight?: T;
-  title?: T;
-  description?: T;
-  backgroundImage?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ColoredTextBlock_select".
- */
-export interface ColoredTextBlockSelect<T extends boolean = true> {
-  theme?: T;
-  textElements?:
-    | T
-    | {
-        text?: T;
-        addLineBreak?: T;
         id?: T;
       };
   id?: T;
@@ -1964,20 +1946,46 @@ export interface ProductFeatureBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FAQBlock_select".
+ * via the `definition` "ServicesAccordionBlock_select".
  */
-export interface FAQBlockSelect<T extends boolean = true> {
-  theme?: T;
+export interface ServicesAccordionBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  gradient?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  services?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesTabBlock_select".
+ */
+export interface ServicesTabBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradientText?: T;
+  subtitle?: T;
+  services?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SingleCaseStudyBlock_select".
+ */
+export interface SingleCaseStudyBlockSelect<T extends boolean = true> {
   title?: T;
   gradientText?: T;
   description?: T;
-  faqItems?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
+  caseStudies?: T;
   id?: T;
   blockName?: T;
 }

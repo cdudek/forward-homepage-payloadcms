@@ -41,7 +41,7 @@ export const ProductFeatureBlock: Block = {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'textarea',
       label: 'Description',
       defaultValue: 'This is a product feature',
       required: true,

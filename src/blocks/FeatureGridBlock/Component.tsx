@@ -5,6 +5,7 @@ import { Media } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import Image from 'next/image'
 import { renderedTitle } from '@/utilities/gradientTitle'
+import { htmlDecode } from '@/utilities/htmlDecode'
 
 type IconStyle = 'round' | 'square'
 type IconSize = 'small' | 'medium' | 'large'
@@ -164,7 +165,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       red: 'var(--color-fwd-red)',
       orange: 'var(--color-fwd-orange)',
       black: 'var(--color-fwd-black)',
-      white: 'var(--color-fwd-white)',
+      white: 'var(--color-white)',
       grey: 'var(--color-fwd-grey-600)',
       greyLight: 'var(--color-fwd-grey-200)',
       greyDark: 'var(--color-fwd-grey-800)',
@@ -215,7 +216,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                   <div key={index} className={featureClasses}>
                     {/* Outer icon container with background color */}
                     <div
-                      className={iconContainerClasses}
+                      className={cn(iconContainerClasses, 'not-prose')}
                       style={{
                         backgroundColor: getColor(icon.iconBackground || 'default', 'background'),
                       }}
@@ -259,8 +260,10 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                     </div>
 
                     <div className="w-full text-center">
-                      <h3 className="mb-4 text-xl font-medium">{title}</h3>
-                      <p className="text-fwd-grey-600">{description}</p>
+                      <h3 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
+                        {htmlDecode(title)}
+                      </h3>
+                      <p className="text-fwd-grey-600">{htmlDecode(description)}</p>
                     </div>
                   </div>
                 )

@@ -3,46 +3,20 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { CMSLink } from '@/components/Link'
-import type { Service, Page, Post } from '@/payload-types'
+import type { Service } from '@/payload-types'
 import { getColorBlends } from '@/utilities/getColorBlends'
 import renderedTitle from '@/utilities/gradientTitle'
 import { cn } from '@/utilities/ui'
 
-type Props = {
-  services: Service[]
-  title: string
-  gradient?: string
-  link?: {
-    type?: 'reference' | 'custom' | null
-    reference?: {
-      relationTo: 'pages' | 'posts'
-      value: string | number | Page | Post
-    } | null
-    url?: string | null
-    label: string
-  } | null
-  limit?: number
-  slope?: {
-    enabled?: boolean
-    position?: 'top' | 'bottom' | 'both'
-    backgroundTheme?: 'default' | 'light' | 'dark'
-  }
-}
+import { ServicesAccordionBlock as ServicesAccordionBlockProps } from '@/payload-types'
 
-// const MotionHeader = motion.h2
 const ROTATION_INTERVAL = 3000
 
-export const ServicesAccordionBlock: React.FC<Props> = ({
+export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
   services,
   title = '',
   gradient = '',
   link,
-  limit = 5,
-  slope = {
-    enabled: true,
-    position: 'both',
-    backgroundTheme: 'light',
-  },
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -51,14 +25,16 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
+  const slope = {
+    enabled: true,
+    position: 'both',
+    backgroundTheme: 'light',
+  }
+
   // Memoize sorted services to prevent re-sorting on every render
-  const sortedServices = useMemo(
-    () => [...services].sort((a, b) => (a.position || 0) - (b.position || 0)).slice(0, limit),
-    [services, limit],
-  )
 
   // Memoize colors to prevent regeneration on every render
-  const colors = useMemo(() => getColorBlends(sortedServices.length, true), [sortedServices.length])
+  const colors = useMemo(() => getColorBlends(services.length, true), [services.length])
 
   // Memoize animation variants
   const itemVariants = useMemo(
@@ -132,7 +108,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
     const animate = (currentTime: number) => {
       if (currentTime - lastTime >= ROTATION_INTERVAL) {
-        setActiveIndex((current) => (current + 1) % sortedServices.length)
+        setActiveIndex((current) => (current + 1) % services.length)
         lastTime = currentTime
       }
       rafId = requestAnimationFrame(animate)
@@ -140,7 +116,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
 
     rafId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafId)
-  }, [sortedServices.length, isHovered, hoveredIndex])
+  }, [services.length, isHovered, hoveredIndex])
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -273,7 +249,7 @@ export const ServicesAccordionBlock: React.FC<Props> = ({
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <div className="relative w-full">
-                  {sortedServices.map((service, index) => (
+                  {services.map((service, index) => (
                     <AccordionItem
                       key={service.id}
                       service={service}

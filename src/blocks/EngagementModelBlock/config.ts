@@ -24,7 +24,7 @@ export const EngagementModelBlock: Block = {
     },
     {
       name: 'description',
-      type: 'text',
+      type: 'textarea',
       label: 'Description',
       required: false,
       defaultValue: 'Engagement Model Block Description',
