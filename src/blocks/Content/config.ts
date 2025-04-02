@@ -135,71 +135,71 @@ export const Content: Block = {
                 },
               ],
             },
-            {
-              name: 'enableBackground',
-              type: 'checkbox',
-              label: 'Enable Background',
-              defaultValue: false,
-            },
-            {
-              name: 'backgroundTheme',
-              type: 'select',
-              label: 'Background Theme',
-              defaultValue: 'default',
-              options: [
-                {
-                  label: 'Default',
-                  value: 'default',
-                },
-                {
-                  label: 'Light',
-                  value: 'light',
-                },
-                {
-                  label: 'Dark',
-                  value: 'dark',
-                },
-              ],
-              admin: {
-                condition: (_, { enableBackground }) => Boolean(enableBackground),
-              },
-            },
-            {
-              name: 'slope',
-              type: 'group',
-              label: 'Sloped Edge',
-              fields: [
-                {
-                  name: 'enabled',
-                  type: 'checkbox',
-                  label: 'Enable sloped edge',
-                  defaultValue: false,
-                },
-                {
-                  name: 'position',
-                  type: 'select',
-                  defaultValue: 'bottom',
-                  label: 'Slope Position',
-                  admin: {
-                    condition: (_, { enabled }) => Boolean(enabled),
-                  },
-                  options: [
-                    {
-                      label: 'Top',
-                      value: 'top',
-                    },
-                    {
-                      label: 'Bottom',
-                      value: 'bottom',
-                    },
-                    {
-                      label: 'Both',
-                      value: 'both',
-                    },
-                  ],
-                },
-              ],
-            },
+            // {
+            //   name: 'enableBackground',
+            //   type: 'checkbox',
+            //   label: 'Enable Background',
+            //   defaultValue: false,
+            // },
+            // {
+            //   name: 'backgroundTheme',
+            //   type: 'select',
+            //   label: 'Background Theme',
+            //   defaultValue: 'default',
+            //   options: [
+            //     {
+            //       label: 'Default',
+            //       value: 'default',
+            //     },
+            //     {
+            //       label: 'Light',
+            //       value: 'light',
+            //     },
+            //     {
+            //       label: 'Dark',
+            //       value: 'dark',
+            //     },
+            //   ],
+            //   admin: {
+            //     condition: (_, { enableBackground }) => Boolean(enableBackground),
+            //   },
+            // },
+            // {
+            //   name: 'slope',
+            //   type: 'group',
+            //   label: 'Sloped Edge',
+            //   fields: [
+            //     {
+            //       name: 'enabled',
+            //       type: 'checkbox',
+            //       label: 'Enable sloped edge',
+            //       defaultValue: false,
+            //     },
+            //     {
+            //       name: 'position',
+            //       type: 'select',
+            //       defaultValue: 'bottom',
+            //       label: 'Slope Position',
+            //       admin: {
+            //         condition: (_, { enabled }) => Boolean(enabled),
+            //       },
+            //       options: [
+            //         {
+            //           label: 'Top',
+            //           value: 'top',
+            //         },
+            //         {
+            //           label: 'Bottom',
+            //           value: 'bottom',
+            //         },
+            //         {
+            //           label: 'Both',
+            //           value: 'both',
+            //         },
+            //       ],
+            //     },
+            //   ],
+            // },
             {
               name: 'padding',
               type: 'group',

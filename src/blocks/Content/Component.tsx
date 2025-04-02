@@ -12,14 +12,7 @@ type ColumnSize = 'full' | 'half' | 'oneThird' | 'twoThirds' | 'centeredThree'
 
 export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
   // Use optional chaining to safely access properties
-  const {
-    columns = [],
-    sectionHeight,
-    padding,
-    slope,
-    enableBackground = false,
-    backgroundTheme = 'default',
-  } = props || {}
+  const { columns = [], padding } = props || {}
 
   const colsSpanClasses: Record<ColumnSize, string> = {
     full: 'col-span-12',
@@ -73,43 +66,34 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
   }
 
   return (
-    <SlopedEdgeWrapper
-      enabled={slope?.enabled ?? false}
-      position={slope?.position ?? undefined}
-      backgroundTheme={enableBackground ? backgroundTheme : undefined}
-      className={cn('flex items-center', heightClasses[sectionHeight || 'none'])}
+    <div
+      className={cn(
+        'container w-full',
+        paddingX[padding?.x || 'medium'],
+        paddingY[padding?.y || 'medium'],
+      )}
     >
-      <div
-        className={cn(
-          'container w-full',
-          paddingX[padding?.x || 'medium'],
-          paddingY[padding?.y || 'medium'],
-        )}
-      >
-        <div className="w-full grid-cols-12 gap-x-8 gap-y-8">
-          {/* <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8"> */}
-          {columns &&
-            columns.length > 0 &&
-            columns.map((col, index) => {
-              // Safely access column properties with defaults
-              const { enableLink = false, link, richText, size } = col || {}
+      <div className="w-full grid-cols-12 gap-x-8 gap-y-8">
+        {columns &&
+          columns.length > 0 &&
+          columns.map((col, index) => {
+            const { enableLink = false, link, richText, size } = col || {}
 
-              return (
-                <div
-                  className={cn('col-span-12', {
-                    [colsSpanClasses[size as ColumnSize]]: size,
-                  })}
-                  key={index}
-                >
-                  {richText && <RichText data={richText} enableGutter={false} />}
-                  {enableLink && link && (
-                    <CMSLink {...link} appearance={mapAppearance(link.appearance)} />
-                  )}
-                </div>
-              )
-            })}
-        </div>
+            return (
+              <div
+                className={cn('col-span-12', {
+                  [colsSpanClasses[size as ColumnSize]]: size,
+                })}
+                key={index}
+              >
+                {richText && <RichText data={richText} enableGutter={false} />}
+                {enableLink && link && (
+                  <CMSLink {...link} appearance={mapAppearance(link.appearance)} />
+                )}
+              </div>
+            )
+          })}
       </div>
-    </SlopedEdgeWrapper>
+    </div>
   )
 }

@@ -75,14 +75,6 @@ export const enum_pages_blocks_content_section_height = pgEnum(
   'enum_pages_blocks_content_section_height',
   ['none', 'full', '75', '50'],
 )
-export const enum_pages_blocks_content_background_theme = pgEnum(
-  'enum_pages_blocks_content_background_theme',
-  ['default', 'light', 'dark'],
-)
-export const enum_pages_blocks_content_slope_position = pgEnum(
-  'enum_pages_blocks_content_slope_position',
-  ['top', 'bottom', 'both'],
-)
 export const enum_pages_blocks_content_padding_x = pgEnum('enum_pages_blocks_content_padding_x', [
   'none',
   'small',
@@ -244,14 +236,6 @@ export const enum__pages_v_blocks_content_columns_link_appearance = pgEnum(
 export const enum__pages_v_blocks_content_section_height = pgEnum(
   'enum__pages_v_blocks_content_section_height',
   ['none', 'full', '75', '50'],
-)
-export const enum__pages_v_blocks_content_background_theme = pgEnum(
-  'enum__pages_v_blocks_content_background_theme',
-  ['default', 'light', 'dark'],
-)
-export const enum__pages_v_blocks_content_slope_position = pgEnum(
-  'enum__pages_v_blocks_content_slope_position',
-  ['top', 'bottom', 'both'],
 )
 export const enum__pages_v_blocks_content_padding_x = pgEnum(
   'enum__pages_v_blocks_content_padding_x',
@@ -689,11 +673,6 @@ export const pages_blocks_content = pgTable(
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
     sectionHeight: enum_pages_blocks_content_section_height('section_height').default('none'),
-    enableBackground: boolean('enable_background').default(false),
-    backgroundTheme:
-      enum_pages_blocks_content_background_theme('background_theme').default('default'),
-    slope_enabled: boolean('slope_enabled').default(false),
-    slope_position: enum_pages_blocks_content_slope_position('slope_position').default('bottom'),
     padding_x: enum_pages_blocks_content_padding_x('padding_x').default('none'),
     padding_y: enum_pages_blocks_content_padding_y('padding_y').default('none'),
     blockName: varchar('block_name'),
@@ -1666,11 +1645,6 @@ export const _pages_v_blocks_content = pgTable(
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
     sectionHeight: enum__pages_v_blocks_content_section_height('section_height').default('none'),
-    enableBackground: boolean('enable_background').default(false),
-    backgroundTheme:
-      enum__pages_v_blocks_content_background_theme('background_theme').default('default'),
-    slope_enabled: boolean('slope_enabled').default(false),
-    slope_position: enum__pages_v_blocks_content_slope_position('slope_position').default('bottom'),
     padding_x: enum__pages_v_blocks_content_padding_x('padding_x').default('none'),
     padding_y: enum__pages_v_blocks_content_padding_y('padding_y').default('none'),
     _uuid: varchar('_uuid'),
@@ -2907,8 +2881,11 @@ export const services = pgTable(
       onDelete: 'set null',
     }),
     header: varchar('header'),
-    position: numeric('position'),
-    description: jsonb('description'),
+    descriptionText: varchar('description_text')
+      .notNull()
+      .default(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      ),
     updatedAt: timestamp('updated_at', { mode: 'string', withTimezone: true, precision: 3 })
       .defaultNow()
       .notNull(),
@@ -5534,8 +5511,6 @@ type DatabaseSchema = {
   enum_pages_blocks_content_columns_link_type: typeof enum_pages_blocks_content_columns_link_type
   enum_pages_blocks_content_columns_link_appearance: typeof enum_pages_blocks_content_columns_link_appearance
   enum_pages_blocks_content_section_height: typeof enum_pages_blocks_content_section_height
-  enum_pages_blocks_content_background_theme: typeof enum_pages_blocks_content_background_theme
-  enum_pages_blocks_content_slope_position: typeof enum_pages_blocks_content_slope_position
   enum_pages_blocks_content_padding_x: typeof enum_pages_blocks_content_padding_x
   enum_pages_blocks_content_padding_y: typeof enum_pages_blocks_content_padding_y
   enum_pages_blocks_faq_block_theme: typeof enum_pages_blocks_faq_block_theme
@@ -5573,8 +5548,6 @@ type DatabaseSchema = {
   enum__pages_v_blocks_content_columns_link_type: typeof enum__pages_v_blocks_content_columns_link_type
   enum__pages_v_blocks_content_columns_link_appearance: typeof enum__pages_v_blocks_content_columns_link_appearance
   enum__pages_v_blocks_content_section_height: typeof enum__pages_v_blocks_content_section_height
-  enum__pages_v_blocks_content_background_theme: typeof enum__pages_v_blocks_content_background_theme
-  enum__pages_v_blocks_content_slope_position: typeof enum__pages_v_blocks_content_slope_position
   enum__pages_v_blocks_content_padding_x: typeof enum__pages_v_blocks_content_padding_x
   enum__pages_v_blocks_content_padding_y: typeof enum__pages_v_blocks_content_padding_y
   enum__pages_v_blocks_faq_block_theme: typeof enum__pages_v_blocks_faq_block_theme

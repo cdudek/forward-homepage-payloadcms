@@ -679,12 +679,6 @@ export interface ContentBlock {
       }[]
     | null;
   sectionHeight?: ('none' | 'full' | '75' | '50') | null;
-  enableBackground?: boolean | null;
-  backgroundTheme?: ('default' | 'light' | 'dark') | null;
-  slope?: {
-    enabled?: boolean | null;
-    position?: ('top' | 'bottom' | 'both') | null;
-  };
   padding?: {
     x?: ('none' | 'small' | 'medium' | 'large') | null;
     y?: ('none' | 'small' | 'medium' | 'large') | null;
@@ -1209,22 +1203,7 @@ export interface Service {
   icon?: (number | null) | Media;
   image?: (number | null) | Media;
   header?: string | null;
-  position?: number | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  descriptionText: string;
   usps?:
     | {
         usp?: string | null;
@@ -1734,14 +1713,6 @@ export interface ContentBlockSelect<T extends boolean = true> {
         id?: T;
       };
   sectionHeight?: T;
-  enableBackground?: T;
-  backgroundTheme?: T;
-  slope?:
-    | T
-    | {
-        enabled?: T;
-        position?: T;
-      };
   padding?:
     | T
     | {
@@ -2196,8 +2167,7 @@ export interface ServicesSelect<T extends boolean = true> {
   icon?: T;
   image?: T;
   header?: T;
-  position?: T;
-  description?: T;
+  descriptionText?: T;
   usps?:
     | T
     | {

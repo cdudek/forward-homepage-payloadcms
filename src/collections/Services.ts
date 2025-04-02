@@ -29,15 +29,13 @@ export const Services: CollectionConfig = {
     { name: 'icon', type: 'upload', relationTo: 'media', required: false },
     { name: 'image', type: 'upload', relationTo: 'media', required: false },
     { name: 'header', type: 'text', required: false },
-    { name: 'position', type: 'number' },
     {
-      name: 'description',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
+      name: 'descriptionText',
+      type: 'textarea',
+      required: true,
+      label: 'Description',
+      defaultValue:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
     {
       name: 'usps',

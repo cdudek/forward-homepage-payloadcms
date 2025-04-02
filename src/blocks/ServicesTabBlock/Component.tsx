@@ -283,7 +283,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                   <h3 className="mb-2 sm:mb-4">
                     {htmlDecode(activeService.header || htmlDecode(activeService.title))}
                   </h3>
-                  <p className="text-gray-800">{htmlDecode(activeService.descriptionShort)}</p>
+                  <p className="text-gray-800">{htmlDecode(activeService.descriptionText)}</p>
 
                   {/* Features/USPs list */}
                   {activeService.usps && activeService.usps.length > 0 && (
