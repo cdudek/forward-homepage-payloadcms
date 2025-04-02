@@ -462,6 +462,11 @@ export const pages_blocks_action_tiles_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
+    title: varchar('title').default('Our Proposition'),
+    gradient: varchar('gradient').default('Proposition'),
+    description: varchar('description').default(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    ),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -1423,6 +1428,11 @@ export const _pages_v_blocks_action_tiles_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
+    title: varchar('title').default('Our Proposition'),
+    gradient: varchar('gradient').default('Proposition'),
+    description: varchar('description').default(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    ),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },

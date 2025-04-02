@@ -10,6 +10,25 @@ export const ActionTilesBlock: Block = {
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      required: true,
+      defaultValue: 'Our Proposition',
+    },
+    {
+      name: 'gradient',
+      type: 'text',
+      required: true,
+      defaultValue: 'Proposition',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: true,
+      defaultValue:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    },
+    {
       name: 'tiles',
       type: 'array',
       minRows: 1,

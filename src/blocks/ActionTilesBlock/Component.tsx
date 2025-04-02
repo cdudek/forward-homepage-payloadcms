@@ -5,30 +5,28 @@ import { CMSLink } from '@/components/Link'
 import { motion } from 'framer-motion'
 import { cn } from '@/utilities/ui'
 import { Media } from '@/payload-types'
+import renderedTitle from '@/utilities/gradientTitle'
+import { htmlDecode } from '@/utilities/htmlDecode'
+import { ActionTilesBlock as ActionTilesBlockProps } from '@/payload-types'
 
-type ActionTilesBlockProps = {
-  tiles: {
-    title: string
-    description: string
-    backgroundImage: Media
-    link: {
-      type: 'reference' | 'custom'
-      label?: string
-      reference?: {
-        relationTo: 'pages' | 'posts'
-        value: string
-      }
-      url?: string
-      newTab?: boolean
-    }
-  }[]
-}
-
-export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({ tiles }) => {
+export const ActionTilesBlock: React.FC<ActionTilesBlockProps> = ({
+  tiles,
+  title,
+  description,
+  gradient,
+}) => {
   const isTwoTiles = tiles.length === 2
+
+  const formattedTitle = renderedTitle(title, gradient)
 
   return (
     <div className="container py-8">
+      <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
+        <div className="mx-auto pb-8">
+          <h2>{formattedTitle}</h2>
+          {description && <p className="pb-8">{htmlDecode(description)}</p>}
+        </div>
+      </div>
       <div
         className={cn(
           'grid w-full gap-8',

@@ -120,17 +120,6 @@ export const FeatureGridBlock: Block = {
                         { label: 'Grey dark', value: 'greyDark' },
                       ],
                     },
-                    // {
-                    //   name: 'alignment',
-                    //   type: 'select',
-                    //   dbName: 'fg_icon_align',
-                    //   defaultValue: 'center',
-                    //   options: [
-                    //     { label: 'Left', value: 'left' },
-                    //     { label: 'Center', value: 'center' },
-                    //     { label: 'Right', value: 'right' },
-                    //   ],
-                    // },
                   ],
                 },
                 {
@@ -141,7 +130,7 @@ export const FeatureGridBlock: Block = {
                 },
                 {
                   name: 'description',
-                  type: 'text',
+                  type: 'textarea',
                   label: 'Description',
                   required: true,
                 },

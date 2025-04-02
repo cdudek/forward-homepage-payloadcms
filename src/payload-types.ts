@@ -427,6 +427,9 @@ export interface User {
  * via the `definition` "ActionTilesBlock".
  */
 export interface ActionTilesBlock {
+  title: string;
+  gradient: string;
+  description: string;
   tiles?:
     | {
         title: string;
@@ -1601,6 +1604,9 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "ActionTilesBlock_select".
  */
 export interface ActionTilesBlockSelect<T extends boolean = true> {
+  title?: T;
+  gradient?: T;
+  description?: T;
   tiles?:
     | T
     | {
