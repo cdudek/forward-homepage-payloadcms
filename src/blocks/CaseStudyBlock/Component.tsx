@@ -178,7 +178,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                       <div className="not-prose relative my-3 flex h-12 w-32 items-center justify-start overflow-hidden md:my-4 md:h-16">
                         <Media
                           resource={currentStudy.logo}
-                          className="flex max-h-full max-w-full justify-start object-contain opacity-80 brightness-0 invert"
+                          className="flex max-h-full max-w-full justify-start object-contain opacity-80 [filter:brightness(0)_invert(1)_drop-shadow(0_0_0_white)]"
                           imgClassName="max-h-full max-w-full object-left object-contain"
                         />
                       </div>
