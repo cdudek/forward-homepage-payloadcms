@@ -38,6 +38,12 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
   // Memoize colors to prevent regeneration on every render
   const colors = useMemo(() => getColorBlends(services.length, true), [services.length])
 
+  // Filter out numbers and ensure we only work with Service objects
+  const servicesData = useMemo(
+    () => services?.filter((service): service is Service => typeof service === 'object') || [],
+    [services],
+  )
+
   // Memoize animation variants
   const itemVariants = useMemo(
     () => ({
@@ -251,7 +257,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <div className="relative w-full">
-                  {services.map((service, index) => (
+                  {servicesData.map((service, index) => (
                     <AccordionItem
                       key={service.id}
                       service={service}
