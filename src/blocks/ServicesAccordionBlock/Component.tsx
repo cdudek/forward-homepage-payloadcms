@@ -33,16 +33,14 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
     backgroundTheme: 'light' as BackgroundTheme,
   }
 
-  // Memoize sorted services to prevent re-sorting on every render
-
-  // Memoize colors to prevent regeneration on every render
-  const colors = useMemo(() => getColorBlends(services.length, true), [services.length])
-
   // Filter out numbers and ensure we only work with Service objects
   const servicesData = useMemo(
     () => services?.filter((service): service is Service => typeof service === 'object') || [],
     [services],
   )
+
+  // Memoize colors to prevent regeneration on every render
+  const colors = useMemo(() => getColorBlends(servicesData.length, true), [servicesData.length])
 
   // Memoize animation variants
   const itemVariants = useMemo(
@@ -116,7 +114,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
 
     const animate = (currentTime: number) => {
       if (currentTime - lastTime >= ROTATION_INTERVAL) {
-        setActiveIndex((current) => (current + 1) % services.length)
+        setActiveIndex((current) => (current + 1) % servicesData.length)
         lastTime = currentTime
       }
       rafId = requestAnimationFrame(animate)
@@ -124,7 +122,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
 
     rafId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafId)
-  }, [services.length, isHovered, hoveredIndex])
+  }, [servicesData.length, isHovered, hoveredIndex])
 
   // Cleanup timeout on unmount
   useEffect(() => {
