@@ -178,8 +178,8 @@ export const FooterFormBlock: React.FC<
   }
 
   return (
-    // <div className="relative bg-fwd-black-950">
-    <div className={cn('relative bg-fwd-black-950', isFullHeight && 'flex flex-1 flex-col')}>
+    // <div className="relative bg-fwd-black">
+    <div className={cn('relative bg-fwd-black', isFullHeight && 'flex flex-1 flex-col')}>
       <div
         className={cn(
           'relative flex flex-col items-center justify-center',
@@ -197,7 +197,7 @@ export const FooterFormBlock: React.FC<
               priority
               resource={backgroundImage}
             />
-            <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black-950 to-95%" />
+            <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black to-95%" />
           </div>
         )}
 

@@ -20,7 +20,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
 
   if (isDark) {
     return (
-      <div className="relative bg-fwd-black-950" style={{ clipPath: clipPathDark }}>
+      <div className="relative bg-fwd-black" style={{ clipPath: clipPathDark }}>
         {backgroundImage && typeof backgroundImage === 'object' && (
           <div className="container absolute inset-0 overflow-hidden">
             <Media
@@ -57,7 +57,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
   } else {
     // Light version - slant at bottom
     return (
-      <div className="relative bg-fwd-black-950">
+      <div className="relative bg-fwd-black">
         <div className="relative bg-white" style={{ clipPath: clipPathLight }}>
           {backgroundImage && typeof backgroundImage === 'object' && (
             <div className="absolute inset-0 overflow-hidden">

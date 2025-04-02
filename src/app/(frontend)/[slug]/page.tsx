@@ -68,8 +68,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout, headerColor, pageTheme } = page
 
-  const bgColor = pageTheme === 'dark' ? 'bg-fwd-black-950' : 'bg-white'
-  const textColor = pageTheme === 'dark' ? 'text-white' : 'text-fwd-black-950'
+  const bgColor = pageTheme === 'dark' ? 'bg-fwd-black' : 'bg-white'
+  const textColor = pageTheme === 'dark' ? 'text-white' : 'text-fwd-black'
 
   return (
     <>
