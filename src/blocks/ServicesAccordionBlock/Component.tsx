@@ -214,7 +214,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
           >
             <div
               ref={containerRef}
-              className="relative grid grid-cols-1 gap-12 py-8 md:py-24 lg:min-h-[60vh] lg:grid-cols-2"
+              className="relative grid grid-cols-1 gap-12 py-8 md:py-24 lg:grid-cols-2"
             >
               {/* Left side - Main display */}
               <div className="flex flex-col justify-center">
