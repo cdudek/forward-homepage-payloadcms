@@ -58,10 +58,6 @@ export const RenderBlocks: React.FC<{
       <Fragment>
         {blocks.map((block, index) => {
           const { blockType } = block
-          const hasBackground = 'enableBackground' in block && block.enableBackground
-          const hasSlope =
-            'slope' in block &&
-            (typeof block.slope === 'boolean' ? block.slope : block.slope?.enabled)
           const noMargin = 'noMargin' in block && block.noMargin
 
           if (blockType && blockType in blockComponents) {
@@ -71,8 +67,8 @@ export const RenderBlocks: React.FC<{
               <div
                 className={cn(
                   {
-                    'my-16': !hasBackground && !hasSlope,
-                    'py-0': hasBackground || hasSlope,
+                    'my-16':
+                      !['logoGrid', 'footerFormBlock'].includes(block.blockType) && !noMargin,
                     'my-0': ['logoGrid', 'footerFormBlock'].includes(block.blockType) || noMargin,
                   },
                   block.blockType === 'footerFormBlock' && block.isFullHeight
