@@ -160,10 +160,10 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
         onClick={() => setActiveIndex(index)}
       >
         <div className="prose prose-sm relative z-10 flex w-full flex-col gap-2 py-4 pl-6 text-left !font-light md:prose-base lg:prose-lg">
-          <h3 className="transition-colors duration-200 ease-out will-change-transform">
-            {/* <h3 className="text-3xl font-medium transition-colors duration-200 ease-out will-change-transform"> */}
+          <h4 className="transition-colors duration-200 ease-out will-change-transform">
+            {/* <h4 className="text-3xl font-medium transition-colors duration-200 ease-out will-change-transform"> */}
             {service.title}
-          </h3>
+          </h4>
         </div>
 
         {/* Expandable content with smooth animation */}
