@@ -34,9 +34,23 @@ export const BigTextHero: React.FC<BigTextHeroProps> = ({
       impactClasses = 'min-h-[90vh] md:min-h-[75vh]'
   }
 
+  // Get padding class based on impact
+  const getPaddingClass = (
+    impact: 'highImpact' | 'mediumImpact' | 'lowImpact' | null | undefined,
+  ) => {
+    switch (impact) {
+      case 'highImpact':
+        return 'pb-24'
+      case 'mediumImpact':
+        return 'pb-16'
+      default:
+        return ''
+    }
+  }
+
   return (
     <div className={cn('relative mt-20 flex w-full items-center md:mt-28', impactClasses)}>
-      <div className="container mx-auto w-full">
+      <div className={cn('container mx-auto w-full', getPaddingClass(impact))}>
         <div className="w-full">
           <div className="grid w-full grid-cols-12">
             <div className="col-span-12 text-center">
