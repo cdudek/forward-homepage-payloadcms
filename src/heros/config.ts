@@ -84,6 +84,9 @@ export const hero: Field = {
         },
       }),
       label: false,
+      admin: {
+        condition: (_, { type } = {}) => ['lowImpact', 'mediumImpact', 'highImpact'].includes(type),
+      },
     },
     linkGroup({
       appearances: [
