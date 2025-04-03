@@ -113,7 +113,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       black: 'var(--color-fwd-black)',
       white: 'var(--color-white)',
       grey: 'var(--color-fwd-grey-600)',
-      greyLight: 'var(--color-fwd-grey-200)',
+      greyLight: 'var(--color-fwd-grey-100)',
       greyDark: 'var(--color-fwd-grey-800)',
       gradient: '',
     }
