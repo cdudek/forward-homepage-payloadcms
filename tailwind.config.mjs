@@ -270,35 +270,74 @@ const config = {
             },
           ],
         },
-        // base: {
-        //   css: [
-        //     {
-        //       h1: {
-        //         fontSize: '2.5rem',
-        //         fontWeight: 300,
-        //       },
-        //       h2: {
-        //         fontSize: '1.25rem',
-        //         fontWeight: 300,
-        //       },
-        //       h3: {
-        //         fontWeight: 300,
-        //       },
-        //       h4: {
-        //         fontWeight: 300,
-        //       },
-        //       p: {
-        //         fontWeight: 200,
-        //       },
-        //       div: {
-        //         fontWeight: 200,
-        //       },
-        //       a: {
-        //         fontWeight: 300,
-        //       },
-        //     },
-        //   ],
-        // },
+        base: {
+          css: [
+            {
+              h1: {
+                fontSize: '2.5rem',
+                fontWeight: 600,
+                lineHeight: 1.3,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              h2: {
+                fontSize: '2.25rem',
+                fontWeight: 600,
+                lineHeight: 1.3,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              h3: {
+                fontSize: '1.75rem',
+                fontWeight: 600,
+                lineHeight: 1.5,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              h4: {
+                fontSize: '1.5rem',
+                fontWeight: 400,
+                lineHeight: 1.5,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              h5: {
+                fontSize: '1.25rem',
+                fontWeight: 400,
+                lineHeight: 1.5,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              h6: {
+                fontSize: '1.125rem',
+                fontWeight: 400,
+                lineHeight: 1.5,
+                marginBottom: '0.25em',
+                marginTop: '0.25em',
+              },
+              p: {
+                fontSize: '1rem',
+                fontWeight: 300,
+                lineHeight: '1.5',
+                marginBottom: '0.25em',
+              },
+              div: {
+                fontSize: '1rem',
+                fontWeight: 300,
+              },
+              a: {
+                fontWeight: 300,
+              },
+              ul: {
+                paddingLeft: '0.0rem',
+              },
+              li: {
+                fontSize: '0.875rem',
+                fontWeight: 300,
+              },
+            },
+          ],
+        },
 
         sm: {
           css: [
