@@ -184,6 +184,7 @@ export const FooterFormBlock: React.FC<
         className={cn(
           'relative flex flex-col items-center justify-center',
           isFullHeight && 'flex-1',
+          !isFullHeight && 'py-24',
         )}
         style={isFooterForm ? { clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' } : {}}
       >
