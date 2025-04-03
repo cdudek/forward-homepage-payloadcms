@@ -81,7 +81,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         {draft && <LivePreviewListener />}
 
         <HeaderColorSetter color={headerColor || 'light'} />
-        <RenderHero {...hero} />
+        <RenderHero {...hero} theme={pageTheme} />
         <RenderBlocks blocks={layout} />
       </article>
     </>

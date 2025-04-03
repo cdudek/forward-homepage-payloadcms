@@ -8,6 +8,8 @@ import {
   BlockquoteFeature,
   ParagraphFeature,
   AlignFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
   IndentFeature,
   ItalicFeature,
   BoldFeature,
@@ -64,6 +66,8 @@ const columnFields: Field[] = [
           BoldFeature(),
           UnderlineFeature(),
           LinkFeature(),
+          OrderedListFeature(),
+          UnorderedListFeature(),
         ]
       },
     }),
