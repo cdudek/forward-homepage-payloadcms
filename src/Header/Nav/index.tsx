@@ -22,12 +22,21 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, color }) => {
     <nav className="flex items-center gap-8 pt-1">
       {navItems.map(({ link }, i) => {
         return (
-          <CMSLink key={i} {...link} appearance="link" className={cn(textColor, 'md:text-lg')} />
+          <CMSLink
+            key={i}
+            {...link}
+            appearance="link"
+            className={cn(
+              textColor,
+              'md:text-lg',
+              // 'transition-colors duration-100'
+            )}
+          />
         )
       })}
       {/* <Link href="/search">
         <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
+        <SearchIcon className={cn('w-5 text-primary', textColor)} />
       </Link> */}
     </nav>
   )
