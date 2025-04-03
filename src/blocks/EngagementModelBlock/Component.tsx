@@ -51,8 +51,8 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
 
                 <div className="relative z-20 flex min-h-full flex-col">
                   {/* Top section with labels and title */}
-                  <div className="flex flex-1 flex-col justify-end">
-                    <div className="mb-auto flex flex-wrap gap-3">
+                  <div className="flex h-full flex-col">
+                    <div className="flex flex-wrap gap-3">
                       <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
                         {tier.headlineLabel}
                       </span>
@@ -64,7 +64,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                       </span>
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mt-auto">
                       <h3 className="text-4xl font-medium leading-tight text-white">
                         {htmlDecode(tier.title)}
                       </h3>
@@ -72,7 +72,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                   </div>
 
                   {/* Bottom section with description */}
-                  <div className="min-h-[4.5rem]">
+                  <div className="mt-4">
                     <p className="line-clamp-3 text-base leading-normal text-white/90">
                       {htmlDecode(tier.description)}
                     </p>
