@@ -76,7 +76,7 @@ const columnFields: Field[] = [
   {
     name: 'className',
     type: 'text',
-    label: 'Class Name',
+    label: 'Custom className',
     defaultValue: '',
   },
   {
