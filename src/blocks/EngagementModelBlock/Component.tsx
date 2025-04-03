@@ -49,30 +49,26 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                   </div>
                 )}
 
-                <div className="relative z-20 flex min-h-full flex-col">
-                  {/* Top section with labels and title */}
-                  <div className="flex h-full flex-col">
-                    <div className="flex flex-wrap gap-3">
-                      <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-                        {tier.headlineLabel}
-                      </span>
-                      <span className="flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-                        <svg className="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2.8-1.3-4-2.4V7z" />
-                        </svg>
-                        {tier.durationLabel}
-                      </span>
-                    </div>
-
-                    <div className="mt-auto">
-                      <h3 className="text-4xl font-medium leading-tight text-white">
-                        {htmlDecode(tier.title)}
-                      </h3>
-                    </div>
+                <div className="relative z-20 flex h-full flex-col">
+                  {/* Top section with labels */}
+                  <div className="flex flex-wrap gap-3">
+                    <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
+                      {tier.headlineLabel}
+                    </span>
+                    <span className="flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
+                      <svg className="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2.8-1.3-4-2.4V7z" />
+                      </svg>
+                      {tier.durationLabel}
+                    </span>
                   </div>
 
-                  {/* Bottom section with description */}
-                  <div className="mt-4">
+                  {/* Bottom section with title and description */}
+                  <div className="mt-auto">
+                    <h3 className="text-4xl font-medium leading-tight text-white">
+                      {htmlDecode(tier.title)}
+                    </h3>
+
                     <p className="line-clamp-3 text-base leading-normal text-white/90">
                       {htmlDecode(tier.description)}
                     </p>
