@@ -45,15 +45,15 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                       style={{ objectFit: 'cover' }}
                       className="mix-blend-overlay"
                     />
-                    <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent to-[rgba(30,30,30,0.8)]"></div>
+                    <div className="absolute inset-0 z-10 bg-gradient-to-b from-[rgba(30,30,30,0.0)] via-[rgba(30,30,30,0.1)] to-[rgba(30,30,30,0.6)]"></div>
                   </div>
                 )}
 
                 <div className="relative z-20 flex flex-row flex-wrap gap-3">
-                  <span className="rounded-full bg-white/30 px-4 py-2 text-sm font-medium text-white">
+                  <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
                     {tier.headlineLabel}
                   </span>
-                  <span className="flex items-center rounded-full bg-white/30 px-4 py-2 text-sm font-medium text-white">
+                  <span className="flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
                     <svg className="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2.8-1.3-4-2.4V7z" />
                     </svg>

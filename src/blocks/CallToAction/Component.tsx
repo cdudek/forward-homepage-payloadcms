@@ -91,7 +91,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             </div>
           </div>
         </div>
-        <div className="container pb-8 pt-16">
+        <div className="container pb-16 pt-16">
           <div className="border-t border-gray-800"></div>
         </div>
       </div>
