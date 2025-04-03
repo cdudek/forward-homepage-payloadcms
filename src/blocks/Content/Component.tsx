@@ -76,7 +76,7 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
-            const { enableLink = false, link, richText, size } = col || {}
+            const { enableLink = false, link, richText, size, className = '' } = col || {}
 
             return (
               <div
@@ -85,7 +85,13 @@ export const ContentBlock: React.FC<Partial<ContentBlockProps>> = (props) => {
                 })}
                 key={index}
               >
-                {richText && <RichText data={richText} enableGutter={false} />}
+                {richText && (
+                  <RichText
+                    data={richText}
+                    enableGutter={false}
+                    className={className || undefined}
+                  />
+                )}
                 {enableLink && link && (
                   <CMSLink {...link} appearance={mapAppearance(link.appearance)} />
                 )}
