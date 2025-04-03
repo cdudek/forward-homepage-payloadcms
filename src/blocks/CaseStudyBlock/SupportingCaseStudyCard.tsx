@@ -47,6 +47,7 @@ export const SupportingCaseStudyCard: React.FC<SupportingCaseStudyCardProps> = (
               resource={study.logo}
               className="flex max-h-full max-w-full justify-start object-contain opacity-80 grayscale"
               imgClassName="max-h-8 max-w-32 object-left object-contain"
+              loading="lazy"
             />
           </div>
         )}

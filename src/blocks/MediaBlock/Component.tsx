@@ -58,6 +58,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
             imgClassName={cn(!fullWidth && !slope && 'rounded-3xl', imgClassName)}
             resource={media}
             src={staticImage}
+            loading="eager"
           />
         )}
         {caption && (

@@ -185,6 +185,8 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
                   <Media
                     className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
                     resource={logo.image}
+                    priority={true}
+                    loading="eager"
                   />
                 </div>
               )}

@@ -165,6 +165,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                       className="h-full w-full object-cover"
                       imgClassName="h-full w-full object-cover"
                       fill
+                      loading="lazy"
                     />
                   </div>
                 )}
@@ -180,6 +181,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                           resource={currentStudy.logo}
                           className="flex max-h-full max-w-full justify-start object-contain opacity-80 [filter:brightness(0)_invert(1)]"
                           imgClassName="max-h-full max-w-full object-left object-contain"
+                          loading="lazy"
                         />
                       </div>
                     )}

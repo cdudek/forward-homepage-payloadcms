@@ -28,6 +28,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
               imgClassName="absolute inset-0 h-full w-full object-cover opacity-25"
               className="absolute inset-0 h-full w-full"
               priority
+              loading="lazy"
               resource={backgroundImage}
             />
           </div>

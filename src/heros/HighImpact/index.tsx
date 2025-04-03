@@ -31,6 +31,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
               className="!absolute inset-0 h-full w-full"
               priority
               resource={media}
+              loading="eager"
             />
           </div>
         )}

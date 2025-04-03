@@ -288,6 +288,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                         priority={true}
                         imgClassName="absolute inset-0 h-full w-full object-cover"
                         className="absolute inset-0 h-full w-full"
+                        loading="lazy"
                         alt={activeAudience.title}
                       />
                     </div>
