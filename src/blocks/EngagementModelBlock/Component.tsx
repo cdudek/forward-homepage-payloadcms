@@ -33,7 +33,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
             return (
               <div
                 key={index}
-                className="relative flex aspect-square w-full flex-col justify-between overflow-hidden rounded-3xl p-8 text-white"
+                className="relative flex aspect-square w-full flex-col overflow-hidden rounded-3xl p-8 text-white"
               >
                 {bgImageUrl && (
                   <div className="absolute inset-0 z-0">
@@ -49,21 +49,34 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                   </div>
                 )}
 
-                <div className="relative z-20 flex flex-row flex-wrap gap-3">
-                  <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-                    {tier.headlineLabel}
-                  </span>
-                  <span className="flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-                    <svg className="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2.8-1.3-4-2.4V7z" />
-                    </svg>
-                    {tier.durationLabel}
-                  </span>
-                </div>
+                <div className="relative z-20 flex min-h-full flex-col">
+                  {/* Top section with labels and title */}
+                  <div className="flex flex-1 flex-col justify-end">
+                    <div className="mb-auto flex flex-wrap gap-3">
+                      <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
+                        {tier.headlineLabel}
+                      </span>
+                      <span className="flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
+                        <svg className="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2.8-1.3-4-2.4V7z" />
+                        </svg>
+                        {tier.durationLabel}
+                      </span>
+                    </div>
 
-                <div className="prose-sm relative z-20 md:prose-md xl:prose-lg">
-                  <h3 className="mb-2 text-4xl font-bold text-white">{htmlDecode(tier.title)}</h3>
-                  <p className="text-white/90">{htmlDecode(tier.description)}</p>
+                    <div className="mb-4">
+                      <h3 className="text-4xl font-medium leading-tight text-white">
+                        {htmlDecode(tier.title)}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Bottom section with description */}
+                  <div className="min-h-[4.5rem]">
+                    <p className="line-clamp-3 text-base leading-normal text-white/90">
+                      {htmlDecode(tier.description)}
+                    </p>
+                  </div>
                 </div>
               </div>
             )
