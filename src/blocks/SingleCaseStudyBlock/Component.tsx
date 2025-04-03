@@ -52,7 +52,8 @@ export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
   const header = renderedTitle(title || '', gradientText || '')
 
   return (
-    <div className="container my-16 bg-background py-16">
+    // <div className="container my-16 bg-background py-16">
+    <div className="container my-16 py-16">
       <div className="grid grid-cols-1 gap-8">
         {/* Header Section */}
         {title ||
