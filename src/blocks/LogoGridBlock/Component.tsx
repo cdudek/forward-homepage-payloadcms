@@ -135,7 +135,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
       <div className="prose-sm col-span-12 text-center md:prose-md xl:prose-lg">
         {title && <h5 className="text-fwd-grey-600">{htmlDecode(title)}</h5>}
       </div>
-      <div className="relative grid grid-cols-3 gap-5 md:grid-cols-6 md:gap-8">
+      <div className="relative grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-5 md:gap-8">
         {displayedLogos.map((logo, index) => (
           <AnimatePresence mode="wait" key={`container-${index}`}>
             <motion.div

@@ -29,7 +29,6 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
 
   const slope = {
     enabled: true,
-    position: 'both',
     backgroundTheme: 'light' as BackgroundTheme,
   }
 
@@ -79,21 +78,11 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
     const styles: Record<string, string> = {}
 
     if (slope.enabled) {
-      switch (slope.position) {
-        case 'top':
-          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
-          break
-        case 'bottom':
-          styles.clipPath = 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
-          break
-        case 'both':
-          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
-          break
-      }
+      styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
     }
 
     return styles
-  }, [slope.enabled, slope.position])
+  }, [slope.enabled])
 
   // Get background theme class
   const getBackgroundTheme = useCallback(() => {
@@ -215,22 +204,17 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
   )
 
   return (
-    <div className="py-16 md:py-32">
+    <div className="py-4 md:py-32">
       <div className={cn('relative w-full', getBackgroundTheme())} style={getSlopeStyles()}>
         <div className="container mx-auto">
           <div
             className={cn('w-full', {
-              'pt-[calc(5vw+2rem)]':
-                slope.enabled && (slope.position === 'top' || slope.position === 'both'),
-              'pb-[calc(5vw+2rem)]':
-                slope.enabled && (slope.position === 'bottom' || slope.position === 'both'),
-              'pb-8': slope.enabled && slope.position === 'top',
-              'pt-8': slope.enabled && slope.position === 'bottom',
+              'py-[calc(5vw+2rem)]': slope.enabled,
             })}
           >
             <div
               ref={containerRef}
-              className="relative grid grid-cols-1 gap-12 py-24 lg:min-h-[60vh] lg:grid-cols-2"
+              className="relative grid grid-cols-1 gap-12 py-8 md:py-24 lg:min-h-[60vh] lg:grid-cols-2"
             >
               {/* Left side - Main display */}
               <div className="flex flex-col justify-center">

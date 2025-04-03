@@ -203,7 +203,7 @@ export const FooterFormBlock: React.FC<
         )}
 
         {/* <div className={`relative px-0 pb-32 pt-8`}> */}
-        <div className="container py-32 md:py-16">
+        <div className="container py-8 md:py-16">
           {/* <div className="container pt-[calc(5vw+2rem)]"> */}
           {/* Main Container with white transparency */}
           <div
@@ -248,9 +248,9 @@ export const FooterFormBlock: React.FC<
                       <p className="text-base font-medium text-white/90 md:text-lg">
                         forward Labs AG
                       </p>
-                      <p className="text-sm md:text-base">Dammstrasse 19</p>
-                      <p className="text-sm md:text-base">6300 Zug</p>
-                      <p className="text-sm md:text-base">Switzerland</p>
+                      <p className="text-base">Dammstrasse 19</p>
+                      <p className="text-base">6300 Zug</p>
+                      <p className="text-base">Switzerland</p>
                     </div>
                   </div>
                 </div>

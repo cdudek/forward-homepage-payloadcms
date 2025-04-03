@@ -346,13 +346,13 @@ const config = {
                 marginTop: '0.25em',
               },
               p: {
-                fontSize: '0.875rem',
+                fontSize: '1rem',
                 fontWeight: 300,
                 lineHeight: '1.5',
                 marginBottom: '0.25em',
               },
               div: {
-                fontSize: '0.875rem',
+                fontSize: '1rem',
                 fontWeight: 300,
               },
               a: {

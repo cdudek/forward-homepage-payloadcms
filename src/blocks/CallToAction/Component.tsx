@@ -34,7 +34,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
         )}
         <div className="relative px-0 py-8">
           <div className="container pt-[calc(5vw+2rem)]">
-            <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 border-b border-gray-800 pb-8">
+            <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 border-b border-gray-800 pb-24 md:pb-16">
               <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
                 <h2 className={textColor}>{title}</h2>
                 {subtitle && <p className={subtitleColor}>{subtitle}</p>}
