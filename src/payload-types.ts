@@ -1032,6 +1032,8 @@ export interface LogoGridBlock {
  */
 export interface MediaBlock {
   media: number | Media;
+  fullWidth?: boolean | null;
+  slope?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1842,6 +1844,8 @@ export interface LogoGridBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  fullWidth?: T;
+  slope?: T;
   id?: T;
   blockName?: T;
 }
