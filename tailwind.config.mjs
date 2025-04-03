@@ -316,13 +316,13 @@ const config = {
                 marginTop: '0.25em',
               },
               p: {
-                fontSize: '1rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
                 lineHeight: '1.5',
                 marginBottom: '0.25em',
               },
               div: {
-                fontSize: '1rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
               },
               a: {
@@ -332,7 +332,7 @@ const config = {
                 paddingLeft: '0.0rem',
               },
               li: {
-                fontSize: '0.875rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
               },
             },
@@ -385,13 +385,13 @@ const config = {
                 marginTop: '0.25em',
               },
               p: {
-                fontSize: '1rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
                 lineHeight: '1.5',
                 marginBottom: '0.25em',
               },
               div: {
-                fontSize: '1rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
               },
               a: {
@@ -401,7 +401,7 @@ const config = {
                 paddingLeft: '0.0rem',
               },
               li: {
-                fontSize: '0.875rem',
+                fontSize: '1.125rem',
                 fontWeight: 300,
               },
             },
