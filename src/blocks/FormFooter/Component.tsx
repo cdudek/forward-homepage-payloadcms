@@ -197,14 +197,19 @@ export const FooterFormBlock: React.FC<
               className="absolute inset-0 h-full w-full"
               priority
               resource={backgroundImage}
-              loading="eager"
             />
             <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black to-95%" />
           </div>
         )}
 
         {/* <div className={`relative px-0 pb-32 pt-8`}> */}
-        <div className="container py-8 md:py-16">
+        <div
+          className={cn(
+            'container py-8 md:py-16',
+            isFullHeight && 'py-24',
+            !isFullHeight && 'py-8',
+          )}
+        >
           {/* <div className="container pt-[calc(5vw+2rem)]"> */}
           {/* Main Container with white transparency */}
           <div
@@ -214,9 +219,9 @@ export const FooterFormBlock: React.FC<
             )}
           >
             {/* Two Column Grid */}
-            <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-12">
+            <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-12">
               {/* Left Column - Title and Description */}
-              <div className="flex h-full flex-col py-8 text-center md:py-0 md:text-left">
+              <div className="flex h-full flex-col py-4 text-center md:py-0 md:text-left">
                 <div className="prose-sm md:prose-md xl:prose-lg">
                   <h2 className="text-white">{htmlDecode(title)}</h2>
                   <p className="mt-4 text-white/90 md:pl-2">{htmlDecode(description)}</p>
