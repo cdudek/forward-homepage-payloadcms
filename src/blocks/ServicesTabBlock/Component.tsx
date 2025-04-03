@@ -347,7 +347,6 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                         imgClassName="absolute inset-0 h-full w-full object-cover"
                         className="absolute inset-0 h-full w-full"
                         alt={activeService.title}
-                        loading="lazy"
                       />
                     </div>
                   </motion.div>

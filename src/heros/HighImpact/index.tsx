@@ -4,6 +4,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { cn } from '@/utilities/ui'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({
   links,
@@ -18,7 +19,14 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
 
   return (
     <div
-      className="relative min-h-[70vh] overflow-hidden md:min-h-[72vh] 2xl:min-h-[80vh]"
+      className={cn(
+        'relative flex overflow-hidden',
+        'min-h-[calc(100vh-294px)]',
+        'md:min-h-[calc(100vh-208px)]',
+        'lg:min-h-[calc(100vh-190px)]',
+        'xl:min-h-[calc(100vh-240px)]',
+        '2xl:min-h-[calc(100vh-260px)]',
+      )}
       style={clipPathStyle}
     >
       {/* Background image positioned absolutely */}
@@ -38,7 +46,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
       </div>
 
       {/* Content */}
-      <div className="container mx-auto flex h-full min-h-[70vh] items-center justify-center text-white md:min-h-[72vh] 2xl:min-h-[80vh]">
+      <div
+        className={cn(
+          'container mx-auto flex flex-1 flex-col items-center justify-center text-white',
+        )}
+      >
         <div className="w-full">
           <div className="relative z-10 grid w-full grid-cols-12">
             <div className="col-span-12 text-center md:col-span-12 md:text-left">

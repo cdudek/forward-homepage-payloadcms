@@ -98,7 +98,6 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
                 resource={media}
                 className="absolute inset-0 h-full w-full"
                 fill
-                loading="lazy"
               />
             </div>
           )}
