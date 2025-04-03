@@ -7,6 +7,7 @@ import type { ServicesTabBlock as ServicesTabBlockProps, Service } from '@/paylo
 import renderedTitle from '@/utilities/gradientTitle'
 import { getColorBlends } from '@/utilities/getColorBlends'
 import { htmlDecode } from '@/utilities/htmlDecode'
+import { useSwipeable } from 'react-swipeable'
 
 export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   title,
@@ -18,6 +19,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   const colors = getColorBlends(services?.length || 0, true)
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
+  const tabsContainerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -77,13 +79,31 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     return () => observer.disconnect()
   }, [])
 
+  // Auto-scroll to active tab only on mobile and when visible, but only horizontally
   useEffect(() => {
-    if (isMobile && isVisible && buttonRefs.current[activeServiceIndex]) {
-      buttonRefs.current[activeServiceIndex]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      })
+    if (
+      isMobile &&
+      isVisible &&
+      buttonRefs.current[activeServiceIndex] &&
+      tabsContainerRef.current
+    ) {
+      const button = buttonRefs.current[activeServiceIndex]
+      if (button) {
+        // Get the parent container that has horizontal scrolling
+        const scrollContainer = tabsContainerRef.current
+        if (scrollContainer) {
+          // Calculate the position to scroll to (centering the button horizontally)
+          const buttonRect = button.getBoundingClientRect()
+          const containerRect = scrollContainer.getBoundingClientRect()
+          const scrollLeft = button.offsetLeft - containerRect.width / 2 + buttonRect.width / 2
+
+          // Smooth scroll horizontally only
+          scrollContainer.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth',
+          })
+        }
+      }
     }
   }, [activeServiceIndex, isMobile, isVisible])
 
@@ -183,6 +203,22 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     setIsHovering(false)
   }, [])
 
+  // Swipe handlers for mobile
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (activeServiceIndex < servicesData.length - 1) {
+        handleTabClick(activeServiceIndex + 1)
+      }
+    },
+    onSwipedRight: () => {
+      if (activeServiceIndex > 0) {
+        handleTabClick(activeServiceIndex - 1)
+      }
+    },
+    trackMouse: false,
+    trackTouch: true,
+  })
+
   const activeService = servicesData[activeServiceIndex]
 
   // Animation variants
@@ -221,14 +257,23 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
 
         {/* Tabs */}
         <div className="relative col-span-12 mt-4">
-          <div className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0">
+          <div
+            ref={tabsContainerRef}
+            className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0"
+          >
             <div className="mx-auto flex gap-2 sm:gap-4">
               {servicesData.map((service, index) => {
                 const isActive = activeServiceIndex === index
                 const colorName = colors[index]
 
                 return (
-                  <div key={service.id} className="relative shrink-0">
+                  <div
+                    key={service.id}
+                    className={cn(
+                      'relative shrink-0',
+                      isMobile && 'w-[120px] sm:w-auto', // Fixed width on mobile for consistent sizing
+                    )}
+                  >
                     {/* Hover background for inactive tabs */}
                     {!isActive && (
                       <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white" />
@@ -243,6 +288,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                         isActive
                           ? 'text-white'
                           : 'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
+                        isMobile && 'w-full text-center', // Full width on mobile
                       )}
                       style={{
                         backgroundColor: isActive ? `var(--color-${colorName})` : undefined,
@@ -268,7 +314,10 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
         </div>
 
         {/* Content Box */}
-        <div className="col-span-12 grid grid-cols-1 gap-4 rounded-3xl border-2 border-fwd-grey-100 p-4 sm:gap-8 sm:p-8 md:grid-cols-5">
+        <div
+          className="col-span-12 grid grid-cols-1 gap-4 rounded-3xl border-2 border-fwd-grey-100 p-4 sm:gap-8 sm:p-8 md:grid-cols-5"
+          {...swipeHandlers} // Add swipe handlers to content area
+        >
           <AnimatePresence mode="wait">
             {activeService && (
               <motion.div
