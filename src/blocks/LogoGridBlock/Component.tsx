@@ -136,10 +136,10 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
         {title && <h5 className="text-fwd-grey-600">{htmlDecode(title)}</h5>}
       </div>
       <div className="relative grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-5 md:gap-8">
-        {displayedLogos.map((logo, index) => (
+        {Array.from({ length: GRID_SIZE }).map((_, index) => (
           <AnimatePresence mode="wait" key={`container-${index}`}>
             <motion.div
-              key={`logo-${logo?.image?.id}-${index}`}
+              key={`logo-${displayedLogos[index]?.image?.id || index}-${index}`}
               className="relative aspect-square w-full overflow-hidden rounded bg-white will-change-transform"
               initial={{
                 opacity: 0,
@@ -180,13 +180,17 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
                 ease: 'easeInOut',
               }}
             >
-              {logo?.image && (
+              {displayedLogos[index]?.image ? (
                 <div className="absolute inset-0 flex items-center justify-center p-4">
                   <Media
                     className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
-                    resource={logo.image}
+                    resource={displayedLogos[index].image}
                     priority={true}
                   />
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
                 </div>
               )}
             </motion.div>
