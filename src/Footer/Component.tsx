@@ -15,7 +15,7 @@ export async function Footer() {
   return (
     <footer className="mt-auto bg-fwd-black text-white">
       <div className="container py-6 sm:py-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-6 md:gap-8">
           <div className="col-span-1 sm:col-span-1 md:col-span-1">
             <Link href="/" className="mb-4 inline-block sm:mb-0">
               <Logo variant="color" />
