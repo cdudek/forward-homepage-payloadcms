@@ -49,6 +49,8 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         className="col-span-3 col-start-1"
         imgClassName="m-0"
         {...node.fields}
+        fullWidth={node.fields.fullWidth ?? undefined}
+        slope={node.fields.slope ?? undefined}
         captionClassName="mx-auto max-w-[48rem]"
         enableGutter={false}
         disableInnerContainer={true}
