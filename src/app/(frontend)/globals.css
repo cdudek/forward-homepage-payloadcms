@@ -320,14 +320,22 @@ html {
   list-style-type: disc;
   padding-left: 1.25rem; /* Tailwind's pl-5 */
   margin-top: 0.5rem; /* mt-2 */
-  margin-bottom: 0.5rem; /* mb-2 */
+  margin-bottom: 2rem; /* mb-2 */
 }
 
 .data-privacy.prose li,
 .data-privacy.prose-sm li,
 .data-privacy.prose-md li,
 .data-privacy.prose-lg li {
-  margin-top: 0.25rem; /* mt-1 */
+  margin-top: 1rem; /* mt-1 */
+  margin-bottom: 0.25rem; /* mb-1 */
+  line-height: 1.5; /* approx leading-6 */
+}
+.data-privacy.prose p,
+.data-privacy.prose-sm p,
+.data-privacy.prose-md p,
+.data-privacy.prose-lg p {
+  margin-top: 1rem; /* mt-1 */
   margin-bottom: 0.25rem; /* mb-1 */
   line-height: 1.5; /* approx leading-6 */
 }
