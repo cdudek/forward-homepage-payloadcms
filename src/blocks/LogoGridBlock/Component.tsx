@@ -131,9 +131,9 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
   }, [logos, currentSlotIndex, displayedLogos, isInView])
 
   return (
-    <div className="container relative z-10 my-4 md:my-4 lg:my-4" ref={containerRef}>
+    <div className="container relative z-10 my-6" ref={containerRef}>
       <div className="prose-sm col-span-12 text-center md:prose-md xl:prose-lg">
-        {title && <h5 className="text-fwd-grey-600">{htmlDecode(title)}</h5>}
+        {title && <h6 className="text-fwd-grey-600">{htmlDecode(title)}</h6>}
       </div>
       <div className="relative grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-5 md:gap-8">
         {Array.from({ length: GRID_SIZE }).map((_, index) => (
