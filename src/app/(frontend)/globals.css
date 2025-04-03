@@ -313,51 +313,51 @@ html {
   /* font-size: 1.5rem !important; */
 }
 
-.data-privacy.prose ul,
-.data-privacy.prose-sm ul,
-.data-privacy.prose-md ul,
-.data-privacy.prose-lg ul {
+.legal-pages.prose ul,
+.legal-pages.prose-sm ul,
+.legal-pages.prose-md ul,
+.legal-pages.prose-lg ul {
   list-style-type: disc;
   padding-left: 1.25rem; /* Tailwind's pl-5 */
   margin-top: 0.5rem; /* mt-2 */
   margin-bottom: 2rem; /* mb-2 */
 }
 
-.data-privacy.prose li,
-.data-privacy.prose-sm li,
-.data-privacy.prose-md li,
-.data-privacy.prose-lg li {
+.legal-pages.prose li,
+.legal-pages.prose-sm li,
+.legal-pages.prose-md li,
+.legal-pages.prose-lg li {
   margin-top: 1rem; /* mt-1 */
   margin-bottom: 0.25rem; /* mb-1 */
   line-height: 1.5; /* approx leading-6 */
 }
-.data-privacy.prose p,
-.data-privacy.prose-sm p,
-.data-privacy.prose-md p,
-.data-privacy.prose-lg p {
+.legal-pages.prose p,
+.legal-pages.prose-sm p,
+.legal-pages.prose-md p,
+.legal-pages.prose-lg p {
   margin-top: 1rem; /* mt-1 */
   margin-bottom: 0.25rem; /* mb-1 */
   line-height: 1.5; /* approx leading-6 */
 }
 
 /* Anchor links in content */
-.data-privacy.prose a,
-.data-privacy.prose-sm a,
-.data-privacy.prose-md a,
-.data-privacy.prose-lg a {
+.legal-pages.prose a,
+.legal-pages.prose-sm a,
+.legal-pages.prose-md a,
+.legal-pages.prose-lg a {
   @apply text-fwd-grey-300 underline transition-colors duration-150 hover:text-fwd-red-400;
 }
 
-.data-privacy.prose a:visited,
-.data-privacy.prose-sm a:visited,
-.data-privacy.prose-md a:visited,
-.data-privacy.prose-lg a:visited {
+.legal-pages.prose a:visited,
+.legal-pages.prose-sm a:visited,
+.legal-pages.prose-md a:visited,
+.legal-pages.prose-lg a:visited {
   @apply text-fwd-grey-300;
 }
 
-.data-privacy.prose a:active,
-.data-privacy.prose-sm a:active,
-.data-privacy.prose-md a:active,
-.data-privacy.prose-lg a:active {
+.legal-pages.prose a:active,
+.legal-pages.prose-sm a:active,
+.legal-pages.prose-md a:active,
+.legal-pages.prose-lg a:active {
   @apply text-fwd-grey-300;
 }
