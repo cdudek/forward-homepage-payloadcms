@@ -4,13 +4,20 @@ import type { Page } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
 import { cn } from '@/utilities/ui'
 
-export const BigTextHero: React.FC<Page['hero']> = ({
+type BigTextHeroProps = Page['hero'] & {
+  theme: 'light' | 'dark'
+}
+
+export const BigTextHero: React.FC<BigTextHeroProps> = ({
   title = '',
   subtitle,
   gradientText,
   impact,
+  theme = 'light',
 }) => {
   const formattedTitle = renderedTitle(title || '', gradientText || '')
+  const textColor = theme === 'dark' ? 'text-white' : 'text-fwd-black'
+  const subtitleColor = theme === 'dark' ? 'text-fwd-grey-300' : 'text-fwd-grey-500'
 
   let impactClasses = ''
   switch (impact) {
@@ -34,8 +41,8 @@ export const BigTextHero: React.FC<Page['hero']> = ({
           <div className="grid w-full grid-cols-12">
             <div className="col-span-12 text-center">
               <div className="prose-sm mx-auto max-w-none md:prose-md xl:prose-lg">
-                <p className="text-fwd-grey-500">{subtitle}</p>
-                <h1 className="mt-0">{formattedTitle}</h1>
+                <p className={subtitleColor}>{subtitle}</p>
+                <h1 className={cn('mt-0', textColor)}>{formattedTitle}</h1>
               </div>
             </div>
           </div>

@@ -14,7 +14,11 @@ const heroes = {
   bigText: BigTextHero,
 }
 
-export const RenderHero: React.FC<Page['hero']> = (props) => {
+type HeroProps = Page['hero'] & {
+  theme: 'light' | 'dark'
+}
+
+export const RenderHero: React.FC<HeroProps> = (props) => {
   const { type } = props || {}
 
   if (!type || type === 'none') return null

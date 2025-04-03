@@ -119,10 +119,6 @@ export const fg_icon_background = pgEnum('fg_icon_background', [
 ])
 export const fg_grid_cols = pgEnum('fg_grid_cols', ['oneThird', 'oneQuarter'])
 export const fg_bg_color = pgEnum('fg_bg_color', ['default', 'light', 'dark'])
-export const enum_pages_blocks_feature_grid_block_slope_position = pgEnum(
-  'enum_pages_blocks_feature_grid_block_slope_position',
-  ['top', 'bottom', 'both'],
-)
 export const enum_pages_blocks_number_grid_block_items_number_size = pgEnum(
   'enum_pages_blocks_number_grid_block_items_number_size',
   ['small', 'medium', 'large'],
@@ -249,10 +245,6 @@ export const enum__pages_v_blocks_faq_block_theme = pgEnum('enum__pages_v_blocks
   'light',
   'dark',
 ])
-export const enum__pages_v_blocks_feature_grid_block_slope_position = pgEnum(
-  'enum__pages_v_blocks_feature_grid_block_slope_position',
-  ['top', 'bottom', 'both'],
-)
 export const enum__pages_v_blocks_number_grid_block_items_number_size = pgEnum(
   'enum__pages_v_blocks_number_grid_block_items_number_size',
   ['small', 'medium', 'large'],
@@ -579,7 +571,6 @@ export const pages_blocks_case_study_block = pgTable(
     title: varchar('title').default('Case Studies'),
     gradientText: varchar('gradient_text').default('Studies'),
     description: varchar('description').default('Our case studies'),
-    limit: numeric('limit').default('5'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -600,7 +591,9 @@ export const pages_blocks_colored_text_block_text_elements = pgTable(
     _order: integer('_order').notNull(),
     _parentID: varchar('_parent_id').notNull(),
     id: varchar('id').primaryKey(),
-    text: varchar('text'),
+    text: varchar('text').default(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    ),
     addLineBreak: boolean('add_line_break').default(false),
   },
   (columns) => ({
@@ -833,9 +826,6 @@ export const pages_blocks_feature_grid_block = pgTable(
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
     backgroundTheme: fg_bg_color('background_theme').default('light'),
-    slope_enabled: boolean('slope_enabled').default(false),
-    slope_position:
-      enum_pages_blocks_feature_grid_block_slope_position('slope_position').default('bottom'),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -970,6 +960,8 @@ export const pages_blocks_media_block = pgTable(
     media: integer('media_id').references(() => media.id, {
       onDelete: 'set null',
     }),
+    fullWidth: boolean('full_width').default(false),
+    slope: boolean('slope').default(false),
     blockName: varchar('block_name'),
   },
   (columns) => ({
@@ -1545,7 +1537,6 @@ export const _pages_v_blocks_case_study_block = pgTable(
     title: varchar('title').default('Case Studies'),
     gradientText: varchar('gradient_text').default('Studies'),
     description: varchar('description').default('Our case studies'),
-    limit: numeric('limit').default('5'),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },
@@ -1567,7 +1558,9 @@ export const _pages_v_blocks_colored_text_block_text_elements = pgTable(
     _order: integer('_order').notNull(),
     _parentID: integer('_parent_id').notNull(),
     id: serial('id').primaryKey(),
-    text: varchar('text'),
+    text: varchar('text').default(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    ),
     addLineBreak: boolean('add_line_break').default(false),
     _uuid: varchar('_uuid'),
   },
@@ -1813,9 +1806,6 @@ export const _pages_v_blocks_feature_grid_block = pgTable(
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
     backgroundTheme: fg_bg_color('background_theme').default('light'),
-    slope_enabled: boolean('slope_enabled').default(false),
-    slope_position:
-      enum__pages_v_blocks_feature_grid_block_slope_position('slope_position').default('bottom'),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },
@@ -1957,6 +1947,8 @@ export const _pages_v_blocks_media_block = pgTable(
     media: integer('media_id').references(() => media.id, {
       onDelete: 'set null',
     }),
+    fullWidth: boolean('full_width').default(false),
+    slope: boolean('slope').default(false),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
   },
@@ -5520,7 +5512,6 @@ type DatabaseSchema = {
   fg_icon_background: typeof fg_icon_background
   fg_grid_cols: typeof fg_grid_cols
   fg_bg_color: typeof fg_bg_color
-  enum_pages_blocks_feature_grid_block_slope_position: typeof enum_pages_blocks_feature_grid_block_slope_position
   enum_pages_blocks_number_grid_block_items_number_size: typeof enum_pages_blocks_number_grid_block_items_number_size
   enum_pages_blocks_number_grid_block_items_number_color_type: typeof enum_pages_blocks_number_grid_block_items_number_color_type
   enum_pages_blocks_number_grid_block_items_number_alignment: typeof enum_pages_blocks_number_grid_block_items_number_alignment
@@ -5551,7 +5542,6 @@ type DatabaseSchema = {
   enum__pages_v_blocks_content_padding_x: typeof enum__pages_v_blocks_content_padding_x
   enum__pages_v_blocks_content_padding_y: typeof enum__pages_v_blocks_content_padding_y
   enum__pages_v_blocks_faq_block_theme: typeof enum__pages_v_blocks_faq_block_theme
-  enum__pages_v_blocks_feature_grid_block_slope_position: typeof enum__pages_v_blocks_feature_grid_block_slope_position
   enum__pages_v_blocks_number_grid_block_items_number_size: typeof enum__pages_v_blocks_number_grid_block_items_number_size
   enum__pages_v_blocks_number_grid_block_items_number_color_type: typeof enum__pages_v_blocks_number_grid_block_items_number_color_type
   enum__pages_v_blocks_number_grid_block_items_number_alignment: typeof enum__pages_v_blocks_number_grid_block_items_number_alignment
