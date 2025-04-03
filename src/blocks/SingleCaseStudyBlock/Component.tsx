@@ -9,9 +9,9 @@ import { htmlDecode } from '@/utilities/htmlDecode'
 
 export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
   caseStudies = [],
-  title = 'Case Studies',
-  gradientText = 'Studies',
-  description = 'Our case studies',
+  title = '',
+  gradientText = '',
+  description = '',
 }) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isFirstRender, setIsFirstRender] = useState(true)
@@ -55,10 +55,13 @@ export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
     <div className="container bg-background py-8">
       <div className="grid grid-cols-1 gap-8">
         {/* Header Section */}
-        <div className="w-full text-left">
-          <h2 className="text-4xl font-bold md:text-5xl lg:text-6xl">{header}</h2>
-          {description && <p className="mt-4 text-xl md:text-2xl">{description}</p>}
-        </div>
+        {title ||
+          (description && (
+            <div className="w-full text-left">
+              <h2 className="text-4xl font-bold md:text-5xl lg:text-6xl">{header}</h2>
+              {description && <p className="mt-4 text-xl md:text-2xl">{description}</p>}
+            </div>
+          ))}
 
         {/* Case Study Card */}
         <div className="w-full">

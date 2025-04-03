@@ -35,7 +35,7 @@ export const PhaseStepperVertical: Block = {
         },
         {
           name: 'description',
-          type: 'text',
+          type: 'textarea',
           label: 'Phase Description',
           required: true,
         },
