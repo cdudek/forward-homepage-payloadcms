@@ -59,7 +59,9 @@ export const RenderBlocks: React.FC<{
         {blocks.map((block, index) => {
           const { blockType } = block
           const hasBackground = 'enableBackground' in block && block.enableBackground
-          const hasSlope = 'slope' in block && block.slope?.enabled
+          const hasSlope =
+            'slope' in block &&
+            (typeof block.slope === 'boolean' ? block.slope : block.slope?.enabled)
           const noMargin = 'noMargin' in block && block.noMargin
 
           if (blockType && blockType in blockComponents) {

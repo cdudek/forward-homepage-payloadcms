@@ -779,10 +779,6 @@ export interface FeatureGridBlock {
   columns: 'oneThird' | 'oneQuarter';
   enableBackground?: boolean | null;
   backgroundTheme?: ('default' | 'light' | 'dark') | null;
-  slope?: {
-    enabled?: boolean | null;
-    position?: ('top' | 'bottom' | 'both') | null;
-  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'featureGridBlock';
@@ -1789,12 +1785,6 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
   columns?: T;
   enableBackground?: T;
   backgroundTheme?: T;
-  slope?:
-    | T
-    | {
-        enabled?: T;
-        position?: T;
-      };
   id?: T;
   blockName?: T;
 }

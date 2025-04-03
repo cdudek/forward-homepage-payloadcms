@@ -19,12 +19,10 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
     description,
     columns,
     features,
-    slope = true,
     enableBackground = true,
     backgroundTheme = 'default',
   } = props
 
-  // Check if features exist and have the expected structure
   if (!features || features.length === 0) {
     return null
   }
@@ -32,22 +30,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   const getStyles = () => {
     const styles: Record<string, string> = {}
 
-    const isSlopeEnabled = typeof slope === 'boolean' ? slope : slope?.enabled
-    const slopePosition = typeof slope === 'boolean' ? 'bottom' : slope?.position
-
-    if (isSlopeEnabled) {
-      switch (slopePosition) {
-        case 'top':
-          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)'
-          break
-        case 'bottom':
-          styles.clipPath = 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
-          break
-        case 'both':
-          styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
-          break
-      }
-    }
+    styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
 
     return styles
   }
@@ -122,7 +105,6 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       return 'linear-gradient(90deg, var(--color-fwd-purple), var(--color-fwd-red), var(--color-fwd-orange))'
     }
 
-    // Map to project's HSL colors for both foreground and background
     const colorMap = {
       default: type === 'background' ? '#808080' : '#ffffff',
       purple: 'var(--color-fwd-purple)',
@@ -144,24 +126,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   return (
     <div className={cn('relative w-full', backgroundColor)} style={getStyles()}>
       <div className="container mx-auto">
-        <div
-          className={cn('w-full', {
-            'pt-[calc(5vw+2rem)]':
-              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
-              ((typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'top' ||
-                (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'both'),
-            'pb-[calc(5vw+2rem)]':
-              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
-              ((typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'bottom' ||
-                (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'both'),
-            'pb-8':
-              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
-              (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'top',
-            'pt-8':
-              (typeof slope === 'boolean' ? slope : slope?.enabled) &&
-              (typeof slope === 'boolean' ? 'bottom' : slope?.position) === 'bottom',
-          })}
-        >
+        <div className={cn('w-full', 'py-[calc(5vw+2rem)]')}>
           <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
             <div className="mx-auto pb-16 pt-8">
               <h2>{header}</h2>
@@ -171,7 +136,6 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
               {features.map((feature, index) => {
                 const { icon, title, description } = feature
 
-                // Create icon container classes, removing background from inner elements
                 const iconContainerClasses = [
                   'flex justify-center items-center mb-6',
                   getIconSizeClasses(icon.size),

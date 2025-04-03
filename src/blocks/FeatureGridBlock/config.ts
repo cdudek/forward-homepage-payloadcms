@@ -185,46 +185,6 @@ export const FeatureGridBlock: Block = {
                 condition: (_, { enableBackground }) => Boolean(enableBackground),
               },
             },
-            {
-              name: 'slope',
-              type: 'group',
-              label: 'Sloped Edge',
-              defaultValue: {
-                enabled: false,
-                position: 'both',
-              },
-              fields: [
-                {
-                  name: 'enabled',
-                  type: 'checkbox',
-                  label: 'Enable sloped edge',
-                  defaultValue: false,
-                },
-                {
-                  name: 'position',
-                  type: 'select',
-                  defaultValue: 'bottom',
-                  label: 'Slope Position',
-                  admin: {
-                    condition: (_, { enabled }) => Boolean(enabled),
-                  },
-                  options: [
-                    {
-                      label: 'Top',
-                      value: 'top',
-                    },
-                    {
-                      label: 'Bottom',
-                      value: 'bottom',
-                    },
-                    {
-                      label: 'Both',
-                      value: 'both',
-                    },
-                  ],
-                },
-              ],
-            },
           ],
         },
       ],
