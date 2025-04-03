@@ -67,7 +67,7 @@ export const RenderBlocks: React.FC<{
               <div
                 className={cn(
                   {
-                    'my-16':
+                    'my-32':
                       !['logoGrid', 'footerFormBlock'].includes(block.blockType) && !noMargin,
                     'my-0': ['logoGrid', 'footerFormBlock'].includes(block.blockType) || noMargin,
                   },
