@@ -18,7 +18,7 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({ textElements
           <ScrollRevealText
             text={textElements.map((element) => element.text).join('')}
             fgColor={textFgColor}
-            className="sm:prose-xs m-0 md:prose-md lg:prose-lg md:!leading-[1.75]"
+            className="sm:prose-xs m-0 !leading-[1.5] md:prose-md lg:prose-lg md:!leading-[1.75]"
             as="h3"
             initialOpacity={0.2}
           />

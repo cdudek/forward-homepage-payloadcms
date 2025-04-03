@@ -5,7 +5,6 @@ import { Media } from '@/components/Media'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { AudienceTabBlock as AudienceTabBlockProps, Audience } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
-import { useSwipeable } from 'react-swipeable'
 
 // import RichText from '@/components/RichText'
 
@@ -18,7 +17,6 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
   // Get color blends before component state initialization
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
-  const tabsContainerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -78,31 +76,14 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
     return () => observer.disconnect()
   }, [])
 
-  // Auto-scroll to active tab only on mobile and when visible, but only horizontally
+  // Auto-scroll to active tab only on mobile and when visible
   useEffect(() => {
-    if (
-      isMobile &&
-      isVisible &&
-      buttonRefs.current[activeAudienceIndex] &&
-      tabsContainerRef.current
-    ) {
-      const button = buttonRefs.current[activeAudienceIndex]
-      if (button) {
-        // Get the parent container that has horizontal scrolling
-        const scrollContainer = tabsContainerRef.current
-        if (scrollContainer) {
-          // Calculate the position to scroll to (centering the button horizontally)
-          const buttonRect = button.getBoundingClientRect()
-          const containerRect = scrollContainer.getBoundingClientRect()
-          const scrollLeft = button.offsetLeft - containerRect.width / 2 + buttonRect.width / 2
-
-          // Smooth scroll horizontally only
-          scrollContainer.scrollTo({
-            left: scrollLeft,
-            behavior: 'smooth',
-          })
-        }
-      }
+    if (isMobile && isVisible && buttonRefs.current[activeAudienceIndex]) {
+      buttonRefs.current[activeAudienceIndex]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      })
     }
   }, [activeAudienceIndex, isMobile, isVisible])
 
@@ -202,22 +183,6 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
     setIsHovering(false)
   }, [])
 
-  // Swipe handlers for mobile
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (activeAudienceIndex < audienceData.length - 1) {
-        handleTabClick(activeAudienceIndex + 1)
-      }
-    },
-    onSwipedRight: () => {
-      if (activeAudienceIndex > 0) {
-        handleTabClick(activeAudienceIndex - 1)
-      }
-    },
-    trackMouse: false,
-    trackTouch: true,
-  })
-
   const activeAudience = audienceData[activeAudienceIndex]
 
   // Animation variants
@@ -256,22 +221,13 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
 
         {/* Tabs */}
         <div className="relative col-span-12 mt-4">
-          <div
-            ref={tabsContainerRef}
-            className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0"
-          >
+          <div className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0">
             <div className="mx-auto flex gap-2 sm:gap-4">
               {audienceData.map((service, index) => {
                 const isActive = activeAudienceIndex === index
 
                 return (
-                  <div
-                    key={service.id}
-                    className={cn(
-                      'relative shrink-0',
-                      isMobile && 'w-[120px] sm:w-auto', // Fixed width on mobile for consistent sizing
-                    )}
-                  >
+                  <div key={service.id} className="relative shrink-0">
                     {/* Hover background for inactive tabs */}
                     {!isActive && (
                       <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white group-hover:opacity-80" />
@@ -286,7 +242,6 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                         isActive
                           ? 'text-white'
                           : 'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
-                        isMobile && 'w-full text-center', // Full width on mobile
                       )}
                       style={{
                         backgroundColor: isActive ? 'var(--color-fwd-black)' : undefined,
@@ -312,10 +267,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
         </div>
 
         {/* Content Box */}
-        <div
-          className="col-span-12 grid grid-cols-1 gap-4 rounded-3xl border-2 border-fwd-grey-100 p-4 sm:gap-8 sm:p-8 md:grid-cols-5"
-          {...swipeHandlers} // Add swipe handlers to content area
-        >
+        <div className="col-span-12 grid grid-cols-1 gap-4 rounded-3xl border-2 border-fwd-grey-100 p-4 sm:gap-8 sm:p-8 md:grid-cols-5">
           {/* Service image - moved to first position */}
           <div className="order-2 col-span-1 mt-6 md:order-1 md:col-span-2 md:mt-0">
             <div className="relative aspect-square w-full">
