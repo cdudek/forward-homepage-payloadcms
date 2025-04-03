@@ -344,6 +344,7 @@ html {
   margin-bottom: 0.25rem; /* mb-1 */
   line-height: 1.5; /* approx leading-6 */
 }
+
 .legal-pages.prose p,
 .legal-pages.prose-sm p,
 .legal-pages.prose-md p,
@@ -351,6 +352,20 @@ html {
   margin-top: 1rem; /* mt-1 */
   margin-bottom: 0.25rem; /* mb-1 */
   line-height: 1.5; /* approx leading-6 */
+}
+
+.legal-pages.prose strong,
+.legal-pages.prose-sm strong,
+.legal-pages.prose-md strong,
+.legal-pages.prose-lg strong {
+  color: white;
+}
+
+.legal-pages.prose,
+.legal-pages.prose-sm,
+.legal-pages.prose-md,
+.legal-pages.prose-lg {
+  color: white;
 }
 
 /* Anchor links in content */
