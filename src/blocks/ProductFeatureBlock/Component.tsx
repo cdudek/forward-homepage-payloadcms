@@ -16,13 +16,11 @@ export const ProductFeatureBlock: React.FC<ProductFeatureBlockProps> = ({
   featureList,
 }) => {
   const textColor = theme === 'dark' ? 'text-white' : 'text-fwd-black'
-  const bgColor = theme === 'dark' ? 'bg-fwd-black' : 'bg-white'
+  // const bgColor = theme === 'dark' ? 'bg-fwd-black' : 'bg-white'
 
   if (!featureList?.length) return null
   return (
-    <div
-      className={cn('container mx-auto flex min-h-screen items-center py-16', textColor, bgColor)}
-    >
+    <div className={cn('container mx-auto flex min-h-screen items-center py-16', textColor)}>
       <div className="grid w-full grid-cols-12 gap-8 md:gap-12">
         <div
           className={cn(

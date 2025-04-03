@@ -69,7 +69,7 @@ export const ProductFeatureBlock: Block = {
       fields: [
         {
           name: 'usp',
-          type: 'text',
+          type: 'textarea',
           label: 'USP',
           required: true,
           defaultValue: 'Feature',
