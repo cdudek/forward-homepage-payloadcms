@@ -15,7 +15,7 @@ export const BigTextHero: React.FC<Page['hero']> = ({
   let impactClasses = ''
   switch (impact) {
     case 'highImpact':
-      impactClasses = 'min-h-[90vh] md:min-h-[75vh]'
+      impactClasses = 'min-h-[100vh] md:min-h-[100vh]'
       break
     case 'mediumImpact':
       impactClasses = 'min-h-[50vh] md:min-h-[50vh]'
