@@ -46,20 +46,20 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
                   'border-1 cursor-pointer overflow-hidden rounded-3xl border',
                   borderColor,
                 )}
-                initial={{ opacity: 0 }}
+                // initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
                   backgroundColor: openItem === item.id ? bgColor : 'rgba(255, 255, 255, 0.00)',
                   filter:
                     openItem === item.id
-                      ? `drop-shadow(0 0 5px ${shadowColor})`
-                      : 'drop-shadow(0 0 5px rgba(255,255,255,0.0))',
+                      ? `drop-shadow(0 0 2px ${shadowColor})`
+                      : 'drop-shadow(0 0 2px rgba(255,255,255,0.0))',
                 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 whileHover={{
                   scale: 1.01,
                   backgroundColor: hoverBgColor,
-                  filter: `drop-shadow(0 0 5px ${hoverShadowColor})`,
+                  filter: `drop-shadow(0 0 2px ${hoverShadowColor})`,
                 }}
                 onClick={() => item.id && toggleItem(item.id)}
               >
