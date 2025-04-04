@@ -136,7 +136,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   return (
     <div
       ref={containerRef}
-      className="container mx-auto py-8"
+      className="container mx-auto pb-16 pt-8 md:pb-32 md:pt-24"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

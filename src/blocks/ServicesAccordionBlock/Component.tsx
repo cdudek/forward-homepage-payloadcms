@@ -204,7 +204,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
   )
 
   return (
-    <div className="py-4 md:py-32">
+    <div className="py-4 md:py-16">
       <div className={cn('relative w-full', getBackgroundTheme())} style={getSlopeStyles()}>
         <div className="container mx-auto">
           <div
