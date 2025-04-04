@@ -72,7 +72,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       >
         <div
           className={clsx(
-            'absolute inset-0 rounded-full shadow-sm',
+            'absolute inset-0 rounded-full shadow-md',
             mobileMenuTheme === 'dark' ? 'bg-white/20' : 'bg-gray-50/30',
           )}
         />
