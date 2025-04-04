@@ -12,7 +12,7 @@ type HeaderNavProps = {
   color: 'light' | 'dark'
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = ({ data, color }) => {
+export const HeaderNav: React.FC<HeaderNavProps> = ({ data, color = 'dark' }) => {
   const navItems = data?.navItems || []
   const textColor = color === 'light' ? 'text-fwd-black' : 'text-white'
   return (

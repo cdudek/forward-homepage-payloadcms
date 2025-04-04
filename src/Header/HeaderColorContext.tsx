@@ -12,7 +12,7 @@ type HeaderColorContextType = {
 const HeaderColorContext = createContext<HeaderColorContextType | undefined>(undefined)
 
 export function HeaderColorProvider({ children }: { children: React.ReactNode }) {
-  const [color, setColor] = useState<'light' | 'dark'>('light')
+  const [color, setColor] = useState<'light' | 'dark'>('dark')
   const [mobileMenuTheme, setMobileMenuTheme] = useState<'light' | 'dark'>('light')
 
   return (
