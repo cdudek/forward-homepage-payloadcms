@@ -329,7 +329,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                             },
                           }}
                         >
-                          <span className="mr-2 mt-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-gray-800 sm:mr-3 sm:h-5 sm:w-5">
+                          <span className="my-auto mr-2 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-gray-800 sm:mr-3 sm:h-5 sm:w-5">
                             <svg
                               className="h-4 w-4 sm:h-5 sm:w-5"
                               viewBox="0 0 24 24"

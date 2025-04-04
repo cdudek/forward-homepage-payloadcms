@@ -30,7 +30,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const lastUpdateTimeRef = useRef<number>(0)
-  const progressDuration = 8000
+  const progressDuration = 80000
   const transitionDuration = 400
 
   const servicesData = useMemo(
@@ -303,7 +303,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                             },
                           }}
                         >
-                          <span className="mr-2 mt-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-gray-800 sm:mr-3 sm:h-5 sm:w-5">
+                          <span className="my-auto mr-2 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center text-gray-800 sm:mr-3 sm:h-5 sm:w-5">
                             <svg
                               className="h-4 w-4 sm:h-5 sm:w-5"
                               viewBox="0 0 24 24"
