@@ -140,9 +140,9 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="prose-sm mx-auto pb-8 pt-8 text-center md:prose-md xl:prose-lg">
+      <div className="prose-sm mx-auto pb-8 pt-8 text-center md:prose-md xl:prose-lg md:pb-16">
         <h2>{header}</h2>
-        {description && <p className="pb-8">{description}</p>}
+        {description && <p className="">{description}</p>}
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
