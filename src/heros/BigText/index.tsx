@@ -41,8 +41,6 @@ export const BigTextHero: React.FC<BigTextHeroProps> = ({
     switch (impact) {
       case 'highImpact':
         return 'pb-24'
-      case 'mediumImpact':
-        return 'pb-16'
       default:
         return ''
     }

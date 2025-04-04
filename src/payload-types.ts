@@ -1167,8 +1167,8 @@ export interface ProductFeatureBlock {
  */
 export interface ServicesAccordionBlock {
   title: string;
-  description?: string | null;
   gradient?: string | null;
+  description?: string | null;
   link: {
     type?: ('reference' | 'custom') | null;
     newTab?: boolean | null;
@@ -1923,8 +1923,8 @@ export interface ProductFeatureBlockSelect<T extends boolean = true> {
  */
 export interface ServicesAccordionBlockSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
   gradient?: T;
+  description?: T;
   link?:
     | T
     | {

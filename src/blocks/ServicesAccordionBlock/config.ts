@@ -16,17 +16,18 @@ export const ServicesAccordionBlock: Block = {
       defaultValue: 'Our Value Creation Services',
     },
     {
-      name: 'description',
-      type: 'textarea',
-      required: false,
-      defaultValue: '',
-    },
-    {
       name: 'gradient',
       label: 'Gradient Text',
       type: 'text',
       defaultValue: 'Value Creation',
     },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: false,
+      defaultValue: '',
+    },
+
     link({
       appearances: false,
     }),
