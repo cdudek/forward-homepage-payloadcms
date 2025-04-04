@@ -19,7 +19,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [hasAdminBar, setHasAdminBar] = useState(false)
   const { color, mobileMenuTheme } = useHeaderColor()
 
-  // Configure swipe handlers for the mobile menu
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => setIsMobileMenuOpen(false),
     trackMouse: false,
@@ -35,25 +34,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     setHasAdminBar(!!adminBar)
   }, [])
 
-  // Tailwind classes for each color variant
   const headerColor = {
     dark: 'text-fwd-black',
     light: 'text-white',
-    // light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
-    // dark: 'bg-black/30 text-white backdrop-blur-sm',
   }
 
-  // Handler for burger menu click
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-    // implement the actual mobile menu later
   }
 
-  // Common header positioning classes
   const headerPositioning = clsx('left-0 right-0 z-50 w-full', hasAdminBar ? 'top-10' : 'top-0')
 
-  // MOBILE HEADER — absolute so it doesn't push content
-  // We do NOT apply scroll logic here; mobile uses the prop directly.
   const logoVariant = color === 'dark' ? 'light' : 'dark'
 
   const mobileHeader = (
@@ -74,14 +65,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       <button
         onClick={toggleMobileMenu}
         className={clsx(
-          'flex items-center justify-center rounded-full p-2', // Slightly larger padding
+          'flex items-center justify-center rounded-full p-2',
           'fixed right-4 top-4 z-50 md:hidden',
         )}
         aria-label="Toggle menu"
       >
         <div
           className={clsx(
-            'absolute inset-0 rounded-full shadow-md',
+            'absolute inset-0 rounded-full shadow-sm',
             mobileMenuTheme === 'dark' ? 'bg-white/20' : 'bg-gray-50/30',
           )}
         />
