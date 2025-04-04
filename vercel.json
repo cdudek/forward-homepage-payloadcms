@@ -19,8 +19,18 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/admin/(.*)",
+      "dest": "/admin/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
