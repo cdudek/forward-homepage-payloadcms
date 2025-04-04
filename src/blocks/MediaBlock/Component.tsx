@@ -40,7 +40,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
   if (slope) {
     styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
   }
-  const disableGutter = fullWidth
+  const disableGutter = !fullWidth
 
   return (
     <div style={styles} className="w-full">
