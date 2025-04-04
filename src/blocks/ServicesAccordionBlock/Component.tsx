@@ -156,7 +156,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
         onHoverStart={() => handleHoverStart(index)}
         onHoverEnd={handleHoverEnd}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-        className="group relative cursor-pointer border-b border-gray-200 will-change-transform"
+        className="group relative cursor-pointer border-b border-gray-200 py-4 will-change-transform"
         onClick={() => setActiveIndex(index)}
       >
         <div className="prose prose-sm relative z-10 flex w-full flex-col gap-2 py-4 pl-6 text-left !font-light md:prose-base lg:prose-lg">
