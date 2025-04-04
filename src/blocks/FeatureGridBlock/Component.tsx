@@ -126,7 +126,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
   return (
     <div className={cn('relative w-full', backgroundColor)} style={getStyles()}>
       <div className="container mx-auto">
-        <div className={cn('w-full', 'py-[calc(5vw+2rem)]')}>
+        <div className={cn('w-full py-32')}>
           <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
             <div className="mx-auto pb-16 pt-8">
               <h2>{header}</h2>

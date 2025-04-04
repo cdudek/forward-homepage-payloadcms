@@ -209,7 +209,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
         <div className="container mx-auto">
           <div
             className={cn('w-full', {
-              'py-[calc(5vw+2rem)]': slope.enabled,
+              'py-32': slope.enabled,
             })}
           >
             <div
