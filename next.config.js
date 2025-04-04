@@ -23,12 +23,12 @@ const nextConfig = {
   },
   reactStrictMode: true,
   output: 'standalone',
-  compress: true,
-  http2: true,
   experimental: {
-    serverActions: true,
-    serverComponentsExternalPackages: ['payload'],
+    serverActions: {
+      allowedOrigins: ['localhost:3000', '*.vercel.app', '*.forwardlabs.ch'],
+    },
   },
+  serverExternalPackages: ['payload'],
   redirects,
   async headers() {
     return [
