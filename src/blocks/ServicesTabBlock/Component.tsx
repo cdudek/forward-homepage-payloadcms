@@ -30,7 +30,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const animationFrameRef = useRef<number | null>(null)
   const lastUpdateTimeRef = useRef<number>(0)
-  const progressDuration = 80000
+  const progressDuration = 8000
   const transitionDuration = 400
 
   const servicesData = useMemo(
