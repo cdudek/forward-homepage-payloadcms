@@ -632,14 +632,14 @@ const config = {
                 marginTop: '0.25em',
               },
               h3: {
-                fontSize: '3rem',
+                fontSize: '3.25rem',
                 fontWeight: 600,
                 lineHeight: 1.5,
                 marginBottom: '0.25em',
                 marginTop: '0.25em',
               },
               h4: {
-                fontSize: '2rem',
+                fontSize: '2.25rem',
                 fontWeight: 400,
                 lineHeight: 1.5,
                 marginBottom: '0.25em',

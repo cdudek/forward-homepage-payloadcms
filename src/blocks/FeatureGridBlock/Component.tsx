@@ -132,7 +132,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
               <h2>{header}</h2>
               {description && <p className="pb-8">{description}</p>}
             </div>
-            <div className={cn('grid w-full gap-x-8 gap-y-8', getGridColsClasses())}>
+            <div className={cn('grid w-full gap-x-[4rem] gap-y-8', getGridColsClasses())}>
               {features.map((feature, index) => {
                 const { icon, title, description } = feature
 
@@ -196,9 +196,9 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                     </div>
 
                     <div className="w-full text-center">
-                      <h3 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
+                      <h4 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
                         {htmlDecode(title)}
-                      </h3>
+                      </h4>
                       <p className="text-fwd-black">{htmlDecode(description)}</p>
                     </div>
                   </div>
