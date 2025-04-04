@@ -203,13 +203,7 @@ export const FooterFormBlock: React.FC<
         )}
 
         {/* <div className={`relative px-0 pb-32 pt-8`}> */}
-        <div
-          className={cn(
-            'container py-8 md:py-16',
-            isFullHeight && 'py-24',
-            !isFullHeight && 'py-8',
-          )}
-        >
+        <div className={cn('container md:py-32', isFullHeight && 'py-24', !isFullHeight && 'py-8')}>
           {/* <div className="container pt-[calc(5vw+2rem)]"> */}
           {/* Main Container with white transparency */}
           <div
