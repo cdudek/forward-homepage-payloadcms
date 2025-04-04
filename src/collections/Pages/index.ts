@@ -111,7 +111,23 @@ export const Pages: CollectionConfig<'pages'> = {
           value: 'dark',
         },
       ],
-      defaultValue: 'dark',
+      defaultValue: 'light',
+    },
+    {
+      name: 'mobileMenuTheme',
+      type: 'select',
+      label: 'Mobile Menu Theme',
+      options: [
+        {
+          label: 'Light',
+          value: 'light',
+        },
+        {
+          label: 'Dark',
+          value: 'dark',
+        },
+      ],
+      defaultValue: 'light',
     },
     {
       type: 'tabs',

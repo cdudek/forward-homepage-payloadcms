@@ -156,6 +156,7 @@ export interface Page {
   title: string;
   pageTheme?: ('light' | 'dark') | null;
   headerColor?: ('light' | 'dark') | null;
+  mobileMenuTheme?: ('light' | 'dark') | null;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'bigText';
     impact?: ('highImpact' | 'mediumImpact' | 'lowImpact') | null;
@@ -1511,6 +1512,7 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   pageTheme?: T;
   headerColor?: T;
+  mobileMenuTheme?: T;
   hero?:
     | T
     | {

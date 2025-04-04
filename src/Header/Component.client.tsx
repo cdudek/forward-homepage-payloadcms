@@ -17,7 +17,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [hasAdminBar, setHasAdminBar] = useState(false)
-  const { color } = useHeaderColor()
+  const { color, mobileMenuTheme } = useHeaderColor()
 
   // Configure swipe handlers for the mobile menu
   const swipeHandlers = useSwipeable({
@@ -37,8 +37,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   // Tailwind classes for each color variant
   const headerColor = {
-    light: 'text-fwd-black',
-    dark: 'text-white',
+    dark: 'text-fwd-black',
+    light: 'text-white',
     // light: 'bg-white/10 text-gray-900 shadow-sm backdrop-blur-md',
     // dark: 'bg-black/30 text-white backdrop-blur-sm',
   }
@@ -54,38 +54,46 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   // MOBILE HEADER — absolute so it doesn't push content
   // We do NOT apply scroll logic here; mobile uses the prop directly.
-  const logoVariant = color === 'dark' ? 'dark' : 'default'
+  const logoVariant = color === 'dark' ? 'light' : 'dark'
 
   const mobileHeader = (
-    <header
-      className={clsx(
-        headerPositioning,
-        'absolute py-2 md:hidden',
-        color === 'dark' ? headerColor.dark : headerColor.light,
-      )}
-    >
-      <div className="container mx-auto flex items-center justify-between rounded-xl p-2 px-4">
-        <Link href="/">
-          <Logo loading="eager" priority="high" variant={logoVariant} />
-        </Link>
-        <button
-          onClick={toggleMobileMenu}
+    <>
+      <header
+        className={clsx(
+          headerPositioning,
+          'absolute py-2 md:hidden',
+          color === 'dark' ? headerColor.light : headerColor.dark,
+        )}
+      >
+        <div className="container mx-auto flex items-center justify-between rounded-xl p-4 px-4">
+          <Link href="/">
+            <Logo loading="eager" priority="high" variant={logoVariant} />
+          </Link>
+        </div>
+      </header>
+      <button
+        onClick={toggleMobileMenu}
+        className={clsx(
+          'flex items-center justify-center rounded-full p-2', // Slightly larger padding
+          'fixed right-4 top-4 z-50 md:hidden',
+        )}
+        aria-label="Toggle menu"
+      >
+        <div
           className={clsx(
-            'relative flex items-center justify-center rounded-full p-2',
-            color === 'dark' ? 'text-white' : 'text-fwd-black',
+            'absolute inset-0 rounded-full shadow-md',
+            mobileMenuTheme === 'dark' ? 'bg-white/20' : 'bg-gray-50/30',
           )}
-          aria-label="Toggle menu"
-        >
-          <div
-            className={clsx(
-              'absolute inset-0 rounded-full transition-opacity duration-150 active:opacity-15',
-              color === 'dark' ? 'bg-black opacity-5' : 'bg-fwd-white opacity-5',
-            )}
-          />
-          <Menu size={24} className={color === 'light' ? 'text-white' : 'text-fwd-black'} />
-        </button>
-      </div>
-    </header>
+        />
+        <Menu
+          size={24}
+          className={clsx(
+            'relative z-10',
+            mobileMenuTheme === 'dark' ? 'text-white' : 'text-fwd-black',
+          )}
+        />
+      </button>
+    </>
   )
 
   // DESKTOP HEADER — fixed at the top, color changes when scrolled
@@ -95,7 +103,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <div
           className={clsx(
             'grid grid-cols-3 items-center rounded-full p-4 transition-all duration-300',
-            color === 'dark' ? headerColor.dark : headerColor.light,
+            color === 'dark' ? headerColor.light : headerColor.dark,
           )}
         >
           <div className="justify-self-start px-4">

@@ -17,7 +17,7 @@ export const BigTextHero: React.FC<BigTextHeroProps> = ({
 }) => {
   const formattedTitle = renderedTitle(title || '', gradientText || '')
   const textColor = theme === 'dark' ? 'text-white' : 'text-fwd-black'
-  const subtitleColor = theme === 'dark' ? 'text-fwd-grey-300' : 'text-fwd-grey-500'
+  const subtitleColor = theme === 'dark' ? 'text-fwd-grey-300' : 'text-fwd-grey-600'
 
   let impactClasses = ''
   switch (impact) {

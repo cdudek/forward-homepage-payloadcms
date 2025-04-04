@@ -3,12 +3,20 @@
 import { useEffect } from 'react'
 import { useHeaderColor } from './HeaderColorContext'
 
-export function HeaderColorSetter({ color }: { color: 'light' | 'dark' }) {
-  const { setColor } = useHeaderColor()
+type HeaderColorSetterProps = {
+  color: 'light' | 'dark'
+  mobileMenuTheme?: 'light' | 'dark'
+}
+
+export function HeaderColorSetter({ color, mobileMenuTheme }: HeaderColorSetterProps) {
+  const { setColor, setMobileMenuTheme } = useHeaderColor()
 
   useEffect(() => {
     setColor(color)
-  }, [color, setColor])
+    if (mobileMenuTheme) {
+      setMobileMenuTheme(mobileMenuTheme)
+    }
+  }, [color, mobileMenuTheme, setColor, setMobileMenuTheme])
 
   return null
 }

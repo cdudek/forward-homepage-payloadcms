@@ -3,10 +3,8 @@ import type { Metadata } from 'next'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-// import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-// import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
@@ -51,22 +49,15 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
-  // let page: RequiredDataFromCollectionSlug<'pages'> | null
-
   const page = await queryPageBySlug({
     slug,
   })
-
-  // Remove this code once your website is seeded
-  // if (!page && slug === 'home') {
-  //   page = homeStatic
-  // }
 
   if (!page) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout, headerColor, pageTheme } = page
+  const { hero, layout, headerColor, pageTheme, mobileMenuTheme } = page
 
   const bgColor = pageTheme === 'dark' ? 'bg-fwd-black' : 'bg-white'
   const textColor = pageTheme === 'dark' ? 'text-white' : 'text-fwd-black'
@@ -75,12 +66,14 @@ export default async function Page({ params: paramsPromise }: Args) {
     <>
       <article className={cn('flex flex-1 flex-col', bgColor, textColor)}>
         <PageClient />
-        {/* Allows redirects for valid pages too */}
         <PayloadRedirects disableNotFound url={url} />
 
         {draft && <LivePreviewListener />}
 
-        <HeaderColorSetter color={headerColor || 'light'} />
+        <HeaderColorSetter
+          color={headerColor || 'light'}
+          mobileMenuTheme={mobileMenuTheme || 'light'}
+        />
         <RenderHero {...hero} theme={pageTheme || 'light'} />
         <RenderBlocks blocks={layout} />
       </article>
