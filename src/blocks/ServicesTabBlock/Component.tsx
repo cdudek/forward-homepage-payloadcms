@@ -341,7 +341,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
                   >
                     <div className="relative h-full w-full overflow-hidden rounded-2xl sm:rounded-3xl">
                       <Media
-                        resource={activeService.image}
+                        resource={activeService.image.sizes.square}
                         fill={true}
                         priority={true}
                         imgClassName="absolute inset-0 h-full w-full object-cover"

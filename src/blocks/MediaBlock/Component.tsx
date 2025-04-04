@@ -40,13 +40,13 @@ export const MediaBlock: React.FC<Props> = (props) => {
   if (slope) {
     styles.clipPath = 'polygon(0 5vw, 100% 0, 100% calc(100% - 5vw), 0 100%)'
   }
-  const disableGutter = !fullWidth
+  const disableGutter = fullWidth
 
   return (
-    <div style={styles}>
+    <div style={styles} className="w-full">
       <div
         className={cn(
-          '',
+          'w-full',
           {
             container: disableGutter,
           },
@@ -55,7 +55,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
       >
         {(media || staticImage) && (
           <Media
-            imgClassName={cn(!fullWidth && !slope && 'rounded-3xl', imgClassName)}
+            imgClassName={cn('w-full', !fullWidth && !slope && 'rounded-3xl', imgClassName)}
             resource={media}
             src={staticImage}
             loading="eager"
