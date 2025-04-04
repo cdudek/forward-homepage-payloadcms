@@ -21,7 +21,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
     <div
       className={cn(
         'relative flex overflow-hidden',
-        'min-h-[80vh]',
+        'min-h-[85vh]',
         // 'sm:min-h-[calc(100vh-294px)]',
         'md:min-h-[calc(100vh-208px)]',
         'md:min-h-[calc(100vh-sm:208px)]',
