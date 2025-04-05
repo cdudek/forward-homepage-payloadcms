@@ -486,6 +486,7 @@ const config = {
                 fontSize: '3.25rem',
                 fontWeight: 600,
                 lineHeight: 1.3,
+                paddingBottom: '1rem',
                 marginBottom: '0.25rem',
                 marginTop: '0.25rem',
               },
@@ -548,6 +549,7 @@ const config = {
             {
               h1: {
                 fontSize: '6.0rem',
+                paddingBottom: '1rem',
                 fontWeight: 600,
                 lineHeight: 1.3,
                 marginBottom: '0.25rem',

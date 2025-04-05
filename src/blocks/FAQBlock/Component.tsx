@@ -33,7 +33,7 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
   return (
     <div className={cn('container mx-auto py-16 md:py-24', textColor)}>
       <div className="prose prose-sm col-span-12 max-w-none text-center md:prose-base lg:prose-lg">
-        <h2>{formattedTitle}</h2>
+        <h2 className="pb-4">{formattedTitle}</h2>
         {description && <p>{htmlDecode(description)}</p>}
       </div>
       <div className="col-span-12 mx-auto mt-16 w-full max-w-3xl">
