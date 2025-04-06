@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "pnpm build-prod",
-  "installCommand": "pnpm install --force",
+  "buildCommand": "pnpm generate:types && pnpm generate:importmap && pnpm build",
+  "installCommand": "pnpm install",
   "framework": "nextjs",
+  "outputDirectory": ".next",
+  "devCommand": "pnpm dev",
+  "ignoreCommand": "",
   "regions": ["iad1"],
   "env": {
     "NODE_ENV": "production"
