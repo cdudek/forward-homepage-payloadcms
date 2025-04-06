@@ -208,7 +208,7 @@ export const FooterFormBlock: React.FC<
           {/* Main Container with white transparency */}
           <div
             className={cn(
-              'rounded-3xl bg-white/10 p-2 backdrop-blur-md',
+              'rounded-3xl bg-white/10 p-2 md:backdrop-blur-md',
               isFullHeight ? 'md:p-16' : 'md:p-8',
             )}
           >
@@ -257,7 +257,7 @@ export const FooterFormBlock: React.FC<
               </div>
 
               {/* Right Column - Form */}
-              <div className="rounded-3xl bg-white/40 p-4 backdrop-blur-md md:p-6">
+              <div className="rounded-3xl bg-white/40 p-4 md:p-6 md:backdrop-blur-md">
                 <FormProvider {...formMethods}>
                   {isLoading && <p className="text-white">Loading, please wait...</p>}
                   {error && (
