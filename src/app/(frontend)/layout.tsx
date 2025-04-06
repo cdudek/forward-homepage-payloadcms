@@ -11,6 +11,10 @@ import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import { clsx } from 'clsx'
 import { HeaderColorProvider } from '@/Header/HeaderColorContext'
+import { GoogleTagManager } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/react'
+
+const GTM_ID = 'GTM-PM8JR2WL'
 
 const fustat = localFont({
   src: './Fustat.ttf',
@@ -43,6 +47,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </div>
           </HeaderColorProvider>
         </Providers>
+        <GoogleTagManager gtmId={GTM_ID} />
+        <Analytics mode="production" />
       </body>
     </html>
   )
