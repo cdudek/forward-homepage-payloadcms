@@ -61,7 +61,6 @@
     "payload-admin-bar": "^1.0.6",
     "plaiceholder": "^3.0.0",
     "prism-react-renderer": "^2.4.1",
-    "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "7.45.4",
     "react-swipeable": "^7.0.2",
