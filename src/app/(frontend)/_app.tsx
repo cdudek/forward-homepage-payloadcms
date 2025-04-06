@@ -6,9 +6,10 @@ const GTM_ID = 'GTM-PM8JR2WL'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <GoogleTagManager gtmId={GTM_ID}>
+    <>
       {children}
+      <GoogleTagManager gtmId={GTM_ID} />
       <Analytics mode="production" />
-    </GoogleTagManager>
+    </>
   )
 }
