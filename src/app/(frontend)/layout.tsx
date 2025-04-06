@@ -4,7 +4,7 @@ import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
-import { Providers } from '@/providers'
+import { Providers } from '@/providers/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import './globals.css'
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </HeaderColorProvider>
         </Providers>
         <GoogleTagManager gtmId={GTM_ID} />
-        <Analytics mode="production" />
+        <Analytics mode="production" debug={false} />
       </body>
     </html>
   )

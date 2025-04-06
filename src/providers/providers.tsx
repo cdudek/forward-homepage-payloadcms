@@ -2,6 +2,7 @@
 
 import { AppProgressProvider } from '@bprogress/next'
 import { Toaster } from 'sonner'
+import { CookieConsent } from './CookieConsent'
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -17,7 +18,9 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       }}
       shallowRouting
     >
+      <CookieConsent />
       {children}
+
       <Toaster
         position="bottom-center"
         className="text-white"
