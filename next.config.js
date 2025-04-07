@@ -18,8 +18,11 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      {
+        protocol: 'https',
+        hostname: 'imagedelivery.net',
+      },
     ],
-    domains: ['imagedelivery.net'],
   },
   reactStrictMode: true,
   output: 'standalone',

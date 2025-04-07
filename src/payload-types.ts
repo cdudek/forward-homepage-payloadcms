@@ -736,7 +736,7 @@ export interface FAQBlock {
  */
 export interface FeatureGridBlock {
   title: string;
-  gradientText: string;
+  gradientText?: string | null;
   description?: string | null;
   features?:
     | {
