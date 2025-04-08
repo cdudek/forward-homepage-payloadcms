@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { renderedTitle } from '@/utilities/gradientTitle'
 import { htmlDecode } from '@/utilities/htmlDecode'
 import { FeatureGridBlock as FeatureGridBlockType } from '@/payload-types'
+import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 type Feature = NonNullable<FeatureGridBlockType['features']>[number]
 type IconSize = Feature['icon']['size']
@@ -120,91 +122,108 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
 
     return colorMap[color || 'default']
   }
+  const featureStepStart = description ? 3 : 2
 
-  const header = renderedTitle(title, gradientText)
+  const header = renderedTitle(title, gradientText || '')
 
   return (
     <div className={cn('relative w-full', backgroundColor)} style={getStyles()}>
       <div className="container mx-auto">
         <div className={cn('w-full py-32')}>
           <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
-            <div className="mx-auto pb-16 pt-8">
-              <h2>{header}</h2>
-              {description && <p className="pb-8">{description}</p>}
-            </div>
-            <div className={cn('grid w-full gap-x-[4rem] gap-y-8', getGridColsClasses())}>
-              {features.map((feature, index) => {
-                const { icon, title, description } = feature
+            <ParallaxContainer offset={50}>
+              <div className="mx-auto pb-16 pt-8">
+                <FadeInView animationStep={1}>
+                  <h2>{header}</h2>
+                </FadeInView>
 
-                const iconContainerClasses = [
-                  'flex justify-center items-center mb-6',
-                  getIconSizeClasses(icon.size),
-                  getIconStyleClasses(icon.style),
-                ].join(' ')
+                {description && (
+                  <FadeInView animationStep={2}>
+                    <p className="pb-8">{description}</p>
+                  </FadeInView>
+                )}
+              </div>
+              <div className={cn('grid w-full gap-x-[4rem] gap-y-8', getGridColsClasses())}>
+                {features.map((feature, index) => {
+                  const { icon, title, description } = feature
 
-                const featureClasses = [
-                  'flex flex-col',
-                  'items-center text-center',
-                  getColSpanClasses(),
-                ].join(' ')
+                  const iconContainerClasses = [
+                    'flex justify-center items-center mb-6',
+                    getIconSizeClasses(icon.size),
+                    getIconStyleClasses(icon.style),
+                  ].join(' ')
 
-                return (
-                  <div key={index} className={featureClasses}>
-                    {/* Outer icon container with background color */}
-                    <div
-                      className={cn(iconContainerClasses, 'not-prose')}
-                      style={{
-                        backgroundColor: getColor(icon.iconBackground || 'default', 'background'),
-                      }}
-                    >
-                      {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
-                      {typeof icon.media === 'object' && 'url' in icon.media && icon.media.url ? (
-                        icon.iconForeground === 'default' ? (
-                          <Image
-                            src={icon.media.url}
-                            alt={icon.media.alt || ''}
-                            width={100}
-                            height={100}
-                            className={getIconImageSizeClasses(icon.size)}
-                          />
-                        ) : (
-                          <div className={getIconImageSizeClasses(icon.size)}>
-                            <div
-                              className="h-full w-full"
-                              style={{
-                                WebkitMaskImage: `url(${icon.media.url})`,
-                                maskImage: `url(${icon.media.url})`,
-                                WebkitMaskSize: 'contain',
-                                maskSize: 'contain',
-                                WebkitMaskRepeat: 'no-repeat',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskPosition: 'center',
-                                maskPosition: 'center',
-                                background:
-                                  icon.iconForeground === 'gradient'
-                                    ? getColor(icon.iconForeground, 'foreground')
-                                    : undefined,
-                                backgroundColor:
-                                  icon.iconForeground !== 'gradient'
-                                    ? getColor(icon.iconForeground, 'foreground')
-                                    : undefined,
-                              }}
-                            />
-                          </div>
-                        )
-                      ) : null}
-                    </div>
+                  const featureClasses = [
+                    'flex flex-col',
+                    'items-center text-center',
+                    getColSpanClasses(),
+                  ].join(' ')
 
-                    <div className="w-full text-center">
-                      <h4 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
-                        {htmlDecode(title)}
-                      </h4>
-                      <p className="text-fwd-black">{htmlDecode(description)}</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+                  return (
+                    <FadeInView key={'icon-fade-' + index} animationStep={featureStepStart + index}>
+                      <div className={featureClasses}>
+                        {/* Outer icon container with background color */}
+                        <div
+                          className={cn(iconContainerClasses, 'not-prose')}
+                          style={{
+                            backgroundColor: getColor(
+                              icon.iconBackground || 'default',
+                              'background',
+                            ),
+                          }}
+                        >
+                          {/* Replace IconWithColor with a direct implementation to avoid nested backgrounds */}
+                          {typeof icon.media === 'object' &&
+                          'url' in icon.media &&
+                          icon.media.url ? (
+                            icon.iconForeground === 'default' ? (
+                              <Image
+                                src={icon.media.url}
+                                alt={icon.media.alt || ''}
+                                width={100}
+                                height={100}
+                                className={getIconImageSizeClasses(icon.size)}
+                              />
+                            ) : (
+                              <div className={getIconImageSizeClasses(icon.size)}>
+                                <div
+                                  className="h-full w-full"
+                                  style={{
+                                    WebkitMaskImage: `url(${icon.media.url})`,
+                                    maskImage: `url(${icon.media.url})`,
+                                    WebkitMaskSize: 'contain',
+                                    maskSize: 'contain',
+                                    WebkitMaskRepeat: 'no-repeat',
+                                    maskRepeat: 'no-repeat',
+                                    WebkitMaskPosition: 'center',
+                                    maskPosition: 'center',
+                                    background:
+                                      icon.iconForeground === 'gradient'
+                                        ? getColor(icon.iconForeground, 'foreground')
+                                        : undefined,
+                                    backgroundColor:
+                                      icon.iconForeground !== 'gradient'
+                                        ? getColor(icon.iconForeground, 'foreground')
+                                        : undefined,
+                                  }}
+                                />
+                              </div>
+                            )
+                          ) : null}
+                        </div>
+
+                        <div className="w-full text-center">
+                          <h4 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
+                            {htmlDecode(title)}
+                          </h4>
+                          <p className="text-fwd-black">{htmlDecode(description)}</p>
+                        </div>
+                      </div>
+                    </FadeInView>
+                  )
+                })}
+              </div>
+            </ParallaxContainer>
           </div>
         </div>
       </div>

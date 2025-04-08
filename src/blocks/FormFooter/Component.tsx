@@ -14,6 +14,7 @@ import { cn } from '@/utilities/ui'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import { htmlDecode } from '@/utilities/htmlDecode'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 export type FooterFormBlockType = {
   blockName?: string
@@ -197,6 +198,7 @@ export const FooterFormBlock: React.FC<
               className="absolute inset-0 h-full w-full"
               priority
               resource={backgroundImage}
+              hasParallax={true}
             />
             <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black to-95%" />
           </div>

@@ -12,6 +12,11 @@
   },
   "routes": [
     {
+      "src": "/_vercel/insights/(.*)",
+      "dest": "/_vercel/insights/$1",
+      "continue": true
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },

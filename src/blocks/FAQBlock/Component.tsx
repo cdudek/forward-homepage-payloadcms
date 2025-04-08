@@ -6,6 +6,7 @@ import { cn } from '@/utilities/ui'
 import { renderedTitle } from '@/utilities/gradientTitle'
 import { motion, AnimatePresence } from 'framer-motion'
 import htmlDecode from '@/utilities/htmlDecode'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 export const FAQBlock: React.FC<FAQBlockProps> = ({
   theme,
@@ -30,80 +31,95 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
     setOpenItem(openItem === id ? null : id)
   }
 
+  const faqStepStart = description ? 3 : 2
+
   return (
     <div className={cn('container mx-auto py-16 md:py-24', textColor)}>
       <div className="prose prose-sm col-span-12 max-w-none text-center md:prose-base lg:prose-lg">
-        <h2 className="pb-4">{formattedTitle}</h2>
-        {description && <p>{htmlDecode(description)}</p>}
+        <FadeInView animationStep={1}>
+          <h2 className="pb-4">{formattedTitle}</h2>
+        </FadeInView>
+        {description && (
+          <FadeInView animationStep={2}>
+            <p>{htmlDecode(description)}</p>
+          </FadeInView>
+        )}
       </div>
       <div className="col-span-12 mx-auto mt-16 w-full max-w-3xl">
         <div className="flex flex-col space-y-4">
           {faqItems &&
             faqItems.map((item, index) => (
-              <motion.div
-                key={index}
-                className={cn(
-                  'border-1 cursor-pointer overflow-hidden rounded-3xl border',
-                  borderColor,
-                )}
-                // initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  backgroundColor: openItem === item.id ? bgColor : 'rgba(255, 255, 255, 0.00)',
-                  filter:
-                    openItem === item.id
-                      ? `drop-shadow(0 0 2px ${shadowColor})`
-                      : 'drop-shadow(0 0 2px rgba(255,255,255,0.0))',
-                }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                whileHover={{
-                  scale: 1.01,
-                  backgroundColor: hoverBgColor,
-                  filter: `drop-shadow(0 0 2px ${hoverShadowColor})`,
-                }}
-                onClick={() => item.id && toggleItem(item.id)}
-              >
-                <motion.div className="flex w-full items-center justify-between p-6 text-left text-lg font-medium">
-                  <span>{item.question}</span>
-                  <motion.span
-                    className="ml-6 flex h-7 w-7 flex-shrink-0 items-center justify-center"
-                    animate={{ rotate: openItem === item.id ? 45 : 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  >
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6v12M6 12h12"
-                      />
-                    </svg>
-                  </motion.span>
-                </motion.div>
-                <AnimatePresence initial={false}>
-                  {openItem === item.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{
-                        height: 'auto',
-                        opacity: 1,
-                      }}
-                      exit={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      transition={{
-                        duration: 0.3,
-                        ease: 'easeInOut',
-                      }}
-                    >
-                      <div className="p-6 pt-0">
-                        <p className="faq-answer">{item.answer}</p>
-                      </div>
-                    </motion.div>
+              <FadeInView animationStep={faqStepStart + index} key={'item-fade-' + index}>
+                <motion.div
+                  key={'item-' + index}
+                  className={cn(
+                    'border-1 cursor-pointer overflow-hidden rounded-3xl border',
+                    borderColor,
                   )}
-                </AnimatePresence>
-              </motion.div>
+                  // initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    backgroundColor: openItem === item.id ? bgColor : 'rgba(255, 255, 255, 0.00)',
+                    filter:
+                      openItem === item.id
+                        ? `drop-shadow(0 0 2px ${shadowColor})`
+                        : 'drop-shadow(0 0 2px rgba(255,255,255,0.0))',
+                  }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  whileHover={{
+                    scale: 1.01,
+                    backgroundColor: hoverBgColor,
+                    filter: `drop-shadow(0 0 2px ${hoverShadowColor})`,
+                  }}
+                  onClick={() => item.id && toggleItem(item.id)}
+                >
+                  <motion.div className="flex w-full items-center justify-between p-6 text-left text-lg font-medium">
+                    <span>{item.question}</span>
+                    <motion.span
+                      className="ml-6 flex h-7 w-7 flex-shrink-0 items-center justify-center"
+                      animate={{ rotate: openItem === item.id ? 45 : 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    >
+                      <svg
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 6v12M6 12h12"
+                        />
+                      </svg>
+                    </motion.span>
+                  </motion.div>
+                  <AnimatePresence initial={false}>
+                    {openItem === item.id && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{
+                          height: 'auto',
+                          opacity: 1,
+                        }}
+                        exit={{
+                          height: 0,
+                          opacity: 0,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                          ease: 'easeInOut',
+                        }}
+                      >
+                        <div className="p-6 pt-0">
+                          <p className="faq-answer">{item.answer}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </FadeInView>
             ))}
         </div>
       </div>

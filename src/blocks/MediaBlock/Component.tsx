@@ -1,3 +1,5 @@
+'use client'
+
 import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
@@ -7,6 +9,8 @@ import RichText from '@/components/RichText'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
 import { Media } from '../../components/Media'
+import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -44,37 +48,41 @@ export const MediaBlock: React.FC<Props> = (props) => {
 
   return (
     <div style={styles} className="w-full">
-      <div
-        className={cn(
-          'w-full',
-          {
-            container: disableGutter,
-          },
-          className,
-        )}
-      >
-        {(media || staticImage) && (
-          <Media
-            imgClassName={cn('w-full', !fullWidth && !slope && 'rounded-3xl', imgClassName)}
-            resource={media}
-            src={staticImage}
-            loading="eager"
-          />
-        )}
-        {caption && (
+      <FadeInView animationStep={1}>
+        <ParallaxContainer>
           <div
             className={cn(
-              'mt-6',
+              'w-full',
               {
-                container: !disableInnerContainer,
+                container: disableGutter,
               },
-              captionClassName,
+              className,
             )}
           >
-            <RichText data={caption} enableGutter={false} />
+            {(media || staticImage) && (
+              <Media
+                imgClassName={cn('w-full', !fullWidth && !slope && 'rounded-3xl', imgClassName)}
+                resource={media}
+                src={staticImage}
+                loading="eager"
+              />
+            )}
+            {caption && (
+              <div
+                className={cn(
+                  'mt-6',
+                  {
+                    container: !disableInnerContainer,
+                  },
+                  captionClassName,
+                )}
+              >
+                <RichText data={caption} enableGutter={false} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </ParallaxContainer>
+      </FadeInView>
     </div>
   )
 }

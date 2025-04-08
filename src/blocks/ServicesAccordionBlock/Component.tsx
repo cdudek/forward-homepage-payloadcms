@@ -7,6 +7,7 @@ import type { Service } from '@/payload-types'
 import { getColorBlends } from '@/utilities/getColorBlends'
 import renderedTitle from '@/utilities/gradientTitle'
 import { cn } from '@/utilities/ui'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 import { ServicesAccordionBlock as ServicesAccordionBlockProps } from '@/payload-types'
 
@@ -220,13 +221,17 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
               <div className="flex flex-col justify-center">
                 <div className="flex w-full flex-col gap-6 text-center lg:text-left">
                   <div className="prose prose-sm md:prose-base lg:prose-lg">
-                    <h2 className="m-0 bg-none p-0 leading-tight">{formattedTitle}</h2>
+                    <FadeInView animationStep={1}>
+                      <h2 className="m-0 bg-none p-0 leading-tight">{formattedTitle}</h2>
+                    </FadeInView>
                   </div>
 
                   {/* Button - Only visible on desktop */}
-                  <div className="hidden lg:inline-flex">
-                    {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
-                  </div>
+                  <FadeInView animationStep={2}>
+                    <div className="hidden lg:inline-flex">
+                      {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
+                    </div>
+                  </FadeInView>
                 </div>
               </div>
 
@@ -238,14 +243,19 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
               >
                 <div className="relative w-full">
                   {servicesData.map((service, index) => (
-                    <AccordionItem
-                      key={service.id}
-                      service={service}
-                      index={index}
-                      isActive={index === activeIndex}
-                      isHovered={index === hoveredIndex}
-                      colorClass={colors[index] || 'fwd-purple'}
-                    />
+                    <FadeInView
+                      animationStep={index + 3}
+                      key={'service-fade-' + service.id}
+                      negativeOffset
+                    >
+                      <AccordionItem
+                        service={service}
+                        index={index}
+                        isActive={index === activeIndex}
+                        isHovered={index === hoveredIndex}
+                        colorClass={colors[index] || 'fwd-purple'}
+                      />
+                    </FadeInView>
                   ))}
                 </div>
               </div>

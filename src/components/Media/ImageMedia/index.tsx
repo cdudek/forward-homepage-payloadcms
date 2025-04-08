@@ -10,7 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
-
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 const { breakpoints } = cssVariables
 
 // Create a custom event for image loading
@@ -29,6 +29,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
+    hasParallax = false,
   } = props
 
   let width: number | undefined
@@ -80,22 +81,46 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   }, [src])
 
   return (
-    <picture className={fill ? 'relative block h-full w-full' : undefined}>
-      <NextImage
-        alt={alt || ''}
-        className={cn(imgClassName, fill ? 'object-cover' : undefined)}
-        fill={fill}
-        height={!fill ? height : undefined}
-        placeholder={blurhash ? 'blur' : 'empty'}
-        blurDataURL={blurhash || undefined}
-        priority={priority}
-        quality={80}
-        loading={loading}
-        sizes={sizes}
-        src={src}
-        width={!fill ? width : undefined}
-        onLoad={handleLoad}
-      />
-    </picture>
+    <>
+      {hasParallax ? (
+        <ParallaxContainer className={fill ? 'relative block h-full w-full' : undefined}>
+          <picture className={fill ? 'relative block h-full w-full' : undefined}>
+            <NextImage
+              alt={alt || ''}
+              className={cn(imgClassName, fill ? 'object-cover' : undefined)}
+              fill={fill}
+              height={!fill ? height : undefined}
+              placeholder={blurhash ? 'blur' : 'empty'}
+              blurDataURL={blurhash || undefined}
+              priority={priority}
+              quality={80}
+              loading={loading}
+              sizes={sizes}
+              src={src}
+              width={!fill ? width : undefined}
+              onLoad={handleLoad}
+            />
+          </picture>
+        </ParallaxContainer>
+      ) : (
+        <picture className={fill ? 'relative block h-full w-full' : undefined}>
+          <NextImage
+            alt={alt || ''}
+            className={cn(imgClassName, fill ? 'object-cover' : undefined)}
+            fill={fill}
+            height={!fill ? height : undefined}
+            placeholder={blurhash ? 'blur' : 'empty'}
+            blurDataURL={blurhash || undefined}
+            priority={priority}
+            quality={80}
+            loading={loading}
+            sizes={sizes}
+            src={src}
+            width={!fill ? width : undefined}
+            onLoad={handleLoad}
+          />
+        </picture>
+      )}
+    </>
   )
 }

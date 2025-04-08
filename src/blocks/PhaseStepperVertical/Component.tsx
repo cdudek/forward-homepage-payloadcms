@@ -3,6 +3,7 @@ import { cn } from '@/utilities/ui'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { htmlDecode } from '@/utilities/htmlDecode'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 type Phase = {
   title: string
@@ -72,6 +73,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
 
   // Very subtle glow only for active colored elements
   const subtleGlowStyle = '[filter:drop-shadow(0_0_5px_rgba(255,0,130,0.5))]'
+  const phaseStepStart = description ? 3 : 2
 
   return (
     <>
@@ -88,8 +90,14 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
             <div className="prose-sm prose-invert col-span-12 mx-auto max-w-none text-center text-white md:prose-md xl:prose-lg">
-              <h2>{htmlDecode(title)}</h2>
-              {description && <p>{htmlDecode(description)}</p>}
+              <FadeInView animationStep={1}>
+                <h2>{htmlDecode(title)}</h2>
+              </FadeInView>
+              {description && (
+                <FadeInView animationStep={2}>
+                  <p>{htmlDecode(description)}</p>
+                </FadeInView>
+              )}
             </div>
 
             <div className="relative col-span-12 mt-16">
@@ -200,18 +208,26 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                               {isEven && (
                                 <motion.div style={{ opacity }}>
                                   {/* Phase label with gradient border */}
-                                  <div className="mb-4 inline-block">
-                                    <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
-                                      <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
-                                        <span className="text-sm text-white">
-                                          Phase {index + 1}
+                                  <FadeInView animationStep={phaseStepStart + index}>
+                                    <div className="mb-4 inline-block">
+                                      <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
+                                        <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
+                                          <span className="text-sm text-white">
+                                            Phase {index + 1}
+                                          </span>
                                         </span>
                                       </span>
-                                    </span>
-                                  </div>
+                                    </div>
+                                  </FadeInView>
                                   <div className="prose-invert prose-md xl:prose-lg">
-                                    <h3 className="text-white">{htmlDecode(phase.title)}</h3>
-                                    <p className="text-gray-300">{htmlDecode(phase.description)}</p>
+                                    <FadeInView animationStep={phaseStepStart + index + 1}>
+                                      <h3 className="text-white">{htmlDecode(phase.title)}</h3>
+                                    </FadeInView>
+                                    <FadeInView animationStep={phaseStepStart + index + 2}>
+                                      <p className="text-gray-300">
+                                        {htmlDecode(phase.description)}
+                                      </p>
+                                    </FadeInView>
                                   </div>
                                 </motion.div>
                               )}
@@ -242,18 +258,24 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
                               {!isEven && (
                                 <motion.div style={{ opacity }}>
                                   {/* Phase label with gradient border */}
-                                  <div className="mb-4 inline-block">
-                                    <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
-                                      <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
-                                        <span className="text-sm text-white">
-                                          Phase {index + 1}
+                                  <FadeInView animationStep={phaseStepStart + index}>
+                                    <div className="mb-4 inline-block">
+                                      <span className="inline-block rounded-full bg-gradient-to-r from-fwd-purple via-fwd-red to-fwd-orange p-[1px]">
+                                        <span className="flex items-center justify-center rounded-full bg-fwd-black px-6 py-2">
+                                          <span className="text-sm text-white">
+                                            Phase {index + 1}
+                                          </span>
                                         </span>
                                       </span>
-                                    </span>
-                                  </div>
+                                    </div>
+                                  </FadeInView>
                                   <div className="prose-invert prose-md xl:prose-lg">
-                                    <h3 className="text-white">{phase.title}</h3>
-                                    <p className="text-gray-300">{phase.description}</p>
+                                    <FadeInView animationStep={phaseStepStart + index + 1}>
+                                      <h3 className="text-white">{phase.title}</h3>
+                                    </FadeInView>
+                                    <FadeInView animationStep={phaseStepStart + index + 2}>
+                                      <p className="text-gray-300">{phase.description}</p>
+                                    </FadeInView>
                                   </div>
                                 </motion.div>
                               )}
