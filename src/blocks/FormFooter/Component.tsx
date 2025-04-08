@@ -14,7 +14,7 @@ import { cn } from '@/utilities/ui'
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import { htmlDecode } from '@/utilities/htmlDecode'
-import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 export type FooterFormBlockType = {
   blockName?: string
@@ -224,8 +224,12 @@ export const FooterFormBlock: React.FC<
               {/* Left Column - Title and Description */}
               <div className="flex h-full flex-col py-4 text-center md:py-0 md:text-left">
                 <div className="prose-sm md:prose-md xl:prose-lg">
-                  <h2 className="text-white">{htmlDecode(title)}</h2>
-                  <p className="mt-4 text-white/90 md:pl-2">{htmlDecode(description)}</p>
+                  <FadeInView animationStep={1}>
+                    <h2 className="text-white">{htmlDecode(title)}</h2>
+                  </FadeInView>
+                  <FadeInView animationStep={2}>
+                    <p className="mt-4 text-white/90 md:pl-2">{htmlDecode(description)}</p>
+                  </FadeInView>
                 </div>
 
                 {/* Address - visible at bottom on desktop, below description on mobile */}
@@ -252,86 +256,99 @@ export const FooterFormBlock: React.FC<
                       />
                     </svg>
                     <div className="space-y-1 md:space-y-2">
-                      <p className="text-base font-medium text-white/90 md:text-lg">
-                        forward Labs AG
-                      </p>
-                      <p className="text-base">Dammstrasse 19</p>
-                      <p className="text-base">6300 Zug</p>
-                      <p className="text-base">Switzerland</p>
+                      <FadeInView animationStep={3}>
+                        <p className="text-base font-medium text-white/90 md:text-lg">
+                          forward Labs AG
+                        </p>
+                      </FadeInView>
+                      <FadeInView animationStep={4}>
+                        <p className="text-base">Dammstrasse 19</p>
+                      </FadeInView>
+                      <FadeInView animationStep={5}>
+                        <p className="text-base">6300 Zug</p>
+                      </FadeInView>
+                      <FadeInView animationStep={6}>
+                        <p className="text-base">Switzerland</p>
+                      </FadeInView>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Right Column - Form */}
-              <div className="rounded-3xl bg-white/40 p-4 md:p-6 md:backdrop-blur-md">
-                <FormProvider {...formMethods}>
-                  {isLoading && <p className="text-white">Loading, please wait...</p>}
-                  {error && (
-                    <div className="text-fwd-red-600">{`${error.status || '500'}: ${error.message || ''}`}</div>
-                  )}
-                  <form onSubmit={preventSubmit} noValidate>
-                    <div className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2">
-                      {formFromProps &&
-                        formFromProps.fields &&
-                        formFromProps.fields?.map((field, index) => {
-                          const Field: React.FC<any> =
-                            fields?.[field.blockType as keyof typeof fields]
-                          if (Field) {
-                            const gridSpanClass =
-                              'gridSpan' in field && field.gridSpan
-                                ? field.gridSpan === 'half'
-                                  ? 'md:col-span-1'
-                                  : field.gridSpan === 'halfEmpty'
+              <FadeInView animationStep={1}>
+                <div className="rounded-3xl bg-white/30 p-4 md:p-6">
+                  <FormProvider {...formMethods}>
+                    {isLoading && <p className="text-white">Loading, please wait...</p>}
+                    {error && (
+                      <div className="text-fwd-red-600">{`${error.status || '500'}: ${error.message || ''}`}</div>
+                    )}
+                    <form onSubmit={preventSubmit} noValidate>
+                      <div className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2">
+                        {formFromProps &&
+                          formFromProps.fields &&
+                          formFromProps.fields?.map((field, index) => {
+                            const Field: React.FC<any> =
+                              fields?.[field.blockType as keyof typeof fields]
+                            if (Field) {
+                              const gridSpanClass =
+                                'gridSpan' in field && field.gridSpan
+                                  ? field.gridSpan === 'half'
                                     ? 'md:col-span-1'
-                                    : 'md:col-span-2'
-                                : 'md:col-span-2'
+                                    : field.gridSpan === 'halfEmpty'
+                                      ? 'md:col-span-1'
+                                      : 'md:col-span-2'
+                                  : 'md:col-span-2'
 
-                            return (
-                              <div key={index} className={`form-field-container ${gridSpanClass}`}>
-                                <Field
-                                  form={formFromProps}
-                                  {...field}
-                                  {...formMethods}
-                                  control={control}
-                                  errors={errors}
-                                  register={register}
-                                  fieldErrorClass="border-fwd-red-600 focus-visible:ring-fwd-red-600"
-                                />
-                              </div>
-                            )
-                          }
-                          return null
-                        })}
-                    </div>
+                              return (
+                                <div
+                                  key={index}
+                                  className={`form-field-container ${gridSpanClass}`}
+                                >
+                                  <Field
+                                    form={formFromProps}
+                                    {...field}
+                                    {...formMethods}
+                                    control={control}
+                                    errors={errors}
+                                    register={register}
+                                    fieldErrorClass="border-fwd-red-600 focus-visible:ring-fwd-red-600"
+                                  />
+                                </div>
+                              )
+                            }
+                            return null
+                          })}
+                      </div>
 
-                    <div className="mt-6 flex justify-end">
-                      <Button
-                        type="button"
-                        variant="primary"
-                        size="lg"
-                        className="w-full md:w-auto"
-                        disabled={isLoading}
-                        onClick={handleButtonClick}
-                      >
-                        {submitButtonLabel}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="ml-2 h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                      <div className="mt-6 flex justify-end">
+                        <Button
+                          type="button"
+                          variant="primary"
+                          size="lg"
+                          className="w-full md:w-auto"
+                          disabled={isLoading}
+                          onClick={handleButtonClick}
                         >
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      </Button>
-                    </div>
-                  </form>
-                </FormProvider>
-              </div>
+                          {submitButtonLabel}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ml-2 h-4 w-4"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        </Button>
+                      </div>
+                    </form>
+                  </FormProvider>
+                </div>
+              </FadeInView>
               {/* </div> */}
             </div>
           </div>
