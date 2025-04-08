@@ -191,15 +191,20 @@ export const FooterFormBlock: React.FC<
       >
         {/* Background Image with Gradient Overlay */}
         {backgroundImage && (
-          <div className={`absolute inset-0 items-center`}>
-            <Media
-              fill
-              imgClassName="absolute inset-0 h-full w-full object-cover"
-              className="absolute inset-0 h-full w-full"
-              priority
-              resource={backgroundImage}
-              hasParallax={true}
-            />
+          <div
+            className={`absolute inset-0 overflow-hidden`}
+            style={isFooterForm ? { clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' } : {}}
+          >
+            <div className="absolute inset-0 h-[120%] w-full -translate-y-[10%]">
+              <Media
+                fill
+                imgClassName="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full"
+                priority
+                resource={backgroundImage}
+                hasParallax={true}
+              />
+            </div>
             <div className="via-66% absolute inset-0 bg-gradient-to-b from-transparent from-0% via-transparent to-fwd-black to-95%" />
           </div>
         )}
