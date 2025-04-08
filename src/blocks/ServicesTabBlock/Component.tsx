@@ -8,6 +8,7 @@ import renderedTitle from '@/utilities/gradientTitle'
 import { getColorBlends } from '@/utilities/getColorBlends'
 import { htmlDecode } from '@/utilities/htmlDecode'
 import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
   title,
@@ -218,14 +219,16 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
       <div ref={containerRef} className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
         {/* Header */}
         <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
-          <FadeInView animationStep={1}>
-            <h2>{formattedTitle}</h2>
-          </FadeInView>
-          {subtitle && (
-            <FadeInView animationStep={2}>
-              <p>{htmlDecode(subtitle)}</p>
+          <ParallaxContainer size="small">
+            <FadeInView animationStep={1}>
+              <h2>{formattedTitle}</h2>
             </FadeInView>
-          )}
+            {subtitle && (
+              <FadeInView animationStep={2}>
+                <p>{htmlDecode(subtitle)}</p>
+              </FadeInView>
+            )}
+          </ParallaxContainer>
         </div>
 
         {/* Tabs */}

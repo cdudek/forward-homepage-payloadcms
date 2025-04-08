@@ -7,6 +7,7 @@ import { renderedTitle } from '@/utilities/gradientTitle'
 import { motion, AnimatePresence } from 'framer-motion'
 import htmlDecode from '@/utilities/htmlDecode'
 import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 export const FAQBlock: React.FC<FAQBlockProps> = ({
   theme,
@@ -36,14 +37,16 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
   return (
     <div className={cn('container mx-auto py-16 md:py-24', textColor)}>
       <div className="prose prose-sm col-span-12 max-w-none text-center md:prose-base lg:prose-lg">
-        <FadeInView animationStep={1}>
-          <h2 className="pb-4">{formattedTitle}</h2>
-        </FadeInView>
-        {description && (
-          <FadeInView animationStep={2}>
-            <p>{htmlDecode(description)}</p>
+        <ParallaxContainer size="small">
+          <FadeInView animationStep={1}>
+            <h2 className="pb-4">{formattedTitle}</h2>
           </FadeInView>
-        )}
+          {description && (
+            <FadeInView animationStep={2}>
+              <p>{htmlDecode(description)}</p>
+            </FadeInView>
+          )}
+        </ParallaxContainer>
       </div>
       <div className="col-span-12 mx-auto mt-16 w-full max-w-3xl">
         <div className="flex flex-col space-y-4">

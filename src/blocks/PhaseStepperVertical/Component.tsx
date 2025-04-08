@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { htmlDecode } from '@/utilities/htmlDecode'
 import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 type Phase = {
   title: string
@@ -90,14 +91,16 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
             <div className="prose-sm prose-invert col-span-12 mx-auto max-w-none text-center text-white md:prose-md xl:prose-lg">
-              <FadeInView animationStep={1}>
-                <h2>{htmlDecode(title)}</h2>
-              </FadeInView>
-              {description && (
-                <FadeInView animationStep={2}>
-                  <p>{htmlDecode(description)}</p>
+              <ParallaxContainer size="small">
+                <FadeInView animationStep={1}>
+                  <h2>{htmlDecode(title)}</h2>
                 </FadeInView>
-              )}
+                {description && (
+                  <FadeInView animationStep={2}>
+                    <p>{htmlDecode(description)}</p>
+                  </FadeInView>
+                )}
+              </ParallaxContainer>
             </div>
 
             <div className="relative col-span-12 mt-16">

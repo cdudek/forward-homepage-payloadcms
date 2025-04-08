@@ -20,4 +20,6 @@ export interface Props {
   src?: StaticImageData // for static media
   videoClassName?: string
   hasParallax?: boolean
+  parallaxSpeed?: number
+  parallaxDirection?: 'x' | 'y'
 }

@@ -5,6 +5,7 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({
   links,
@@ -57,23 +58,27 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
           <div className="relative z-10 grid w-full grid-cols-12">
             <div className="col-span-12 text-center md:col-span-12 md:text-left">
               {richText && (
-                <div className="md:max-w-[80%]">
-                  <RichText className="mb-6" data={richText} enableGutter={false} />
-                </div>
+                <FadeInView animationStep={1} offset={0}>
+                  <div className="md:max-w-[80%]">
+                    <RichText className="mb-6" data={richText} enableGutter={false} />
+                  </div>
+                </FadeInView>
               )}
               {Array.isArray(links) && links.length > 0 && (
-                <ul className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center md:justify-start">
-                  {links.map(({ link }, i) => {
-                    const { appearance, ...restLink } = link
-                    const modifiedAppearance = appearance === 'default' ? undefined : appearance
+                <FadeInView animationStep={2} offset={0}>
+                  <ul className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center md:justify-start">
+                    {links.map(({ link }, index) => {
+                      const { appearance, ...restLink } = link
+                      const modifiedAppearance = appearance === 'default' ? undefined : appearance
 
-                    return (
-                      <li key={i}>
-                        <CMSLink {...restLink} appearance={modifiedAppearance} size="xl" />
-                      </li>
-                    )
-                  })}
-                </ul>
+                      return (
+                        <li key={'link-' + index}>
+                          <CMSLink {...restLink} appearance={modifiedAppearance} size="xl" />
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </FadeInView>
               )}
             </div>
           </div>

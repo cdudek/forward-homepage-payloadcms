@@ -6,6 +6,8 @@ interface ParallaxContainerProps {
   offset?: number
   className?: string
   negativeOffset?: boolean
+  parallaxSpeed?: number
+  size?: 'small' | 'medium' | 'large'
 }
 
 export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
@@ -13,13 +15,26 @@ export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
   offset = 50,
   className,
   negativeOffset = false,
+  parallaxSpeed = 1,
+  size = 'medium',
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
 
   const [elementTop, setElementTop] = useState(0)
   const [clientHeight, setClientHeight] = useState(0)
-  const offsetValue = negativeOffset ? -offset : offset
+
+  const offsetValues = {
+    small: 25,
+    medium: 50,
+    large: 100,
+  }
+
+  let offsetValue = size ? offsetValues[size] : offset
+
+  if (negativeOffset) {
+    offsetValue = -offsetValue
+  }
 
   useEffect(() => {
     const element = ref.current
@@ -36,10 +51,14 @@ export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // Calculate a larger scroll range based on speed
+  // Lower speed = longer scrolling distance needed to complete the effect
+  const scrollRange = clientHeight / parallaxSpeed
+
   const y = useSpring(
     useTransform(
       scrollY,
-      [elementTop - clientHeight, elementTop + clientHeight],
+      [elementTop - scrollRange, elementTop + scrollRange],
       [offsetValue, -offsetValue],
     ),
     { mass: 0.1, stiffness: 100, damping: 20 },

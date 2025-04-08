@@ -8,6 +8,7 @@ import { getColorBlends } from '@/utilities/getColorBlends'
 import renderedTitle from '@/utilities/gradientTitle'
 import { cn } from '@/utilities/ui'
 import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 import { ServicesAccordionBlock as ServicesAccordionBlockProps } from '@/payload-types'
 
@@ -220,18 +221,19 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
               {/* Left side - Main display */}
               <div className="flex flex-col justify-center">
                 <div className="flex w-full flex-col gap-6 text-center lg:text-left">
-                  <div className="prose prose-sm md:prose-base lg:prose-lg">
-                    <FadeInView animationStep={1}>
-                      <h2 className="m-0 bg-none p-0 leading-tight">{formattedTitle}</h2>
-                    </FadeInView>
-                  </div>
-
-                  {/* Button - Only visible on desktop */}
-                  <FadeInView animationStep={2}>
-                    <div className="hidden lg:inline-flex">
-                      {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
+                  <ParallaxContainer size="small">
+                    <div className="prose prose-sm md:prose-base lg:prose-lg">
+                      <FadeInView animationStep={1}>
+                        <h2 className="m-0 bg-none p-0 leading-tight">{formattedTitle}</h2>
+                      </FadeInView>
                     </div>
-                  </FadeInView>
+                    {/* Button - Only visible on desktop */}
+                    <FadeInView animationStep={2}>
+                      <div className="hidden lg:inline-flex">
+                        {link && <CMSLink {...link} appearance="outlineDarkIcon" />}
+                      </div>
+                    </FadeInView>
+                  </ParallaxContainer>
                 </div>
               </div>
 

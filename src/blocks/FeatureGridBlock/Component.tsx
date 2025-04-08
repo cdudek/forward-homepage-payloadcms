@@ -131,7 +131,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
       <div className="container mx-auto">
         <div className={cn('w-full py-32')}>
           <div className="container prose-sm px-0 py-8 text-center md:prose-md xl:prose-lg">
-            <ParallaxContainer offset={50}>
+            <ParallaxContainer size="small">
               <div className="mx-auto pb-16 pt-8">
                 <FadeInView animationStep={1}>
                   <h2>{header}</h2>

@@ -29,6 +29,7 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
   const timeoutRef = useRef<NodeJS.Timeout>()
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: false, amount: 0.2 })
+  const startStep = 2
 
   const getRandomInterval = () =>
     Math.floor(Math.random() * (MAX_INTERVAL - MIN_INTERVAL + 1)) + MIN_INTERVAL
@@ -135,71 +136,73 @@ export const LogoGridBlock: React.FC<LogoGridBlockProps> = ({ title, logos = [] 
     <div className="container relative z-10 my-6" ref={containerRef}>
       <div className="prose-sm col-span-12 text-center md:prose-md xl:prose-lg">
         {title && (
-          <FadeInView animationStep={1}>
+          <FadeInView animationStep={startStep + 1}>
             <h6 className="text-fwd-grey-600">{htmlDecode(title)}</h6>
           </FadeInView>
         )}
       </div>
-      <FadeInView animationStep={2}>
+      <FadeInView animationStep={startStep + 2}>
         <div className="relative grid grid-cols-3 gap-1 md:grid-cols-6 md:gap-5 md:gap-8">
           {Array.from({ length: GRID_SIZE }).map((_, index) => (
             <AnimatePresence mode="wait" key={`container-${index}`}>
-              <motion.div
-                key={`logo-${displayedLogos[index]?.image?.id || index}-${index}`}
-                className="relative aspect-square w-full overflow-hidden rounded bg-white will-change-transform"
-                initial={{
-                  opacity: 0,
-                  scale: 0.9,
-                  filter: 'blur(10px)',
-                }}
-                animate={
-                  isInView
-                    ? {
-                        opacity: 1,
-                        scale: 1,
-                        filter: 'blur(0px)',
-                      }
-                    : {
-                        opacity: 0,
-                        scale: 0.9,
-                        filter: 'blur(10px)',
-                      }
-                }
-                exit={{
-                  opacity: 0,
-                  scale: 0.9,
-                  filter: 'blur(10px)',
-                }}
-                whileHover={
-                  isInView
-                    ? {
-                        scale: 1.05,
-                        transition: {
-                          duration: 0.2,
-                          ease: 'easeOut',
-                        },
-                      }
-                    : {}
-                }
-                transition={{
-                  duration: 0.4,
-                  ease: 'easeInOut',
-                }}
-              >
-                {displayedLogos[index]?.image ? (
-                  <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <Media
-                      className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
-                      resource={displayedLogos[index].image}
-                      priority={true}
-                    />
-                  </div>
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                    <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
-                  </div>
-                )}
-              </motion.div>
+              <FadeInView animationStep={startStep + index + 3} key={`logo-fade-${index}`}>
+                <motion.div
+                  key={`logo-${displayedLogos[index]?.image?.id || index}-${index}`}
+                  className="relative aspect-square w-full overflow-hidden rounded bg-white will-change-transform"
+                  initial={{
+                    opacity: 0,
+                    scale: 0.9,
+                    filter: 'blur(10px)',
+                  }}
+                  animate={
+                    isInView
+                      ? {
+                          opacity: 1,
+                          scale: 1,
+                          filter: 'blur(0px)',
+                        }
+                      : {
+                          opacity: 0,
+                          scale: 0.9,
+                          filter: 'blur(10px)',
+                        }
+                  }
+                  exit={{
+                    opacity: 0,
+                    scale: 0.9,
+                    filter: 'blur(10px)',
+                  }}
+                  whileHover={
+                    isInView
+                      ? {
+                          scale: 1.05,
+                          transition: {
+                            duration: 0.2,
+                            ease: 'easeOut',
+                          },
+                        }
+                      : {}
+                  }
+                  transition={{
+                    duration: 0.4,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  {displayedLogos[index]?.image ? (
+                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                      <Media
+                        className="max-h-[90%] max-w-[90%] object-contain grayscale transition-all duration-300 hover:grayscale-0 md:max-h-[50%] md:max-w-[50%] 2xl:max-h-[70%] 2xl:max-w-[70%]"
+                        resource={displayedLogos[index].image}
+                        priority={true}
+                      />
+                    </div>
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                      <div className="h-12 w-12 animate-pulse rounded-full bg-gray-200"></div>
+                    </div>
+                  )}
+                </motion.div>
+              </FadeInView>
             </AnimatePresence>
           ))}
         </div>

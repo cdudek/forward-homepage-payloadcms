@@ -30,6 +30,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     src: srcFromProps,
     loading: loadingFromProps,
     hasParallax = false,
+    parallaxSpeed = 1,
   } = props
 
   let width: number | undefined
@@ -83,7 +84,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   return (
     <>
       {hasParallax ? (
-        <ParallaxContainer className={fill ? 'relative block h-full w-full' : undefined}>
+        <ParallaxContainer
+          className={fill ? 'relative block h-full w-full' : undefined}
+          parallaxSpeed={parallaxSpeed}
+        >
           <picture className={fill ? 'relative block h-full w-full' : undefined}>
             <NextImage
               alt={alt || ''}

@@ -3,6 +3,7 @@ import React from 'react'
 import type { Page } from '@/payload-types'
 import renderedTitle from '@/utilities/gradientTitle'
 import { cn } from '@/utilities/ui'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 type BigTextHeroProps = Page['hero'] & {
   theme: 'light' | 'dark'
@@ -53,8 +54,12 @@ export const BigTextHero: React.FC<BigTextHeroProps> = ({
           <div className="grid w-full grid-cols-12">
             <div className="col-span-12 text-center">
               <div className="prose-sm mx-auto max-w-none md:prose-md xl:prose-lg">
-                <p className={subtitleColor}>{subtitle}</p>
-                <h1 className={cn('mt-0', textColor)}>{formattedTitle}</h1>
+                <FadeInView animationStep={1}>
+                  <p className={subtitleColor}>{subtitle}</p>
+                </FadeInView>
+                <FadeInView animationStep={2}>
+                  <h1 className={cn('mt-0', textColor)}>{formattedTitle}</h1>
+                </FadeInView>
               </div>
             </div>
           </div>

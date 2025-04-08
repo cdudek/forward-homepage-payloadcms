@@ -1,9 +1,9 @@
+'use client'
 import React from 'react'
 import { Media } from '@/components/Media'
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
-
-// import RichText from '@/components/RichText'
+import { FadeInView } from '@/utilities/animations/FadeInView'
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({
   links,
@@ -17,7 +17,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
   const clipPathLight = 'polygon(0 0, 100% 0, 100% calc(100% - 5vw), 0 100%)'
   const textColor = isDark ? 'text-white' : 'text-fwd-black'
   const subtitleColor = isDark ? 'text-gray-300' : 'text-fwd-black'
-
+  const duration = 0.5
   if (isDark) {
     return (
       <div className="relative bg-fwd-black" style={{ clipPath: clipPathDark }}>
@@ -35,15 +35,25 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
           <div className="container pt-[calc(5vw+2rem)]">
             <div className="grid w-full grid-cols-12 gap-x-8 gap-y-8 border-b border-gray-800 pb-24 md:pb-16">
               <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
-                <h2 className={textColor}>{title}</h2>
-                {subtitle && <p className={subtitleColor}>{subtitle}</p>}
+                <FadeInView duration={duration} animationStep={1}>
+                  <h2 className={textColor}>{title}</h2>
+                </FadeInView>
+                {subtitle && (
+                  <FadeInView duration={duration} animationStep={2}>
+                    <p className={subtitleColor}>{subtitle}</p>
+                  </FadeInView>
+                )}
                 <ul className="flex flex-col items-center gap-4">
-                  {(links || []).map(({ link }, i) => {
+                  {(links || []).map(({ link }, index) => {
                     return (
-                      <li key={i}>
+                      <FadeInView
+                        duration={duration}
+                        animationStep={3 + index}
+                        key={'link-fade-' + index}
+                      >
                         {/* @ts-expect-error Async Server Component */}
                         <CMSLink size="lg" {...link} appearance={link.appearance || 'default'} />
-                      </li>
+                      </FadeInView>
                     )
                   })}
                 </ul>

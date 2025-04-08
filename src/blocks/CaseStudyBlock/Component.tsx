@@ -6,6 +6,8 @@ import { Media } from '@/components/Media'
 import type { CaseStudyBlock as CaseStudyBlockType, CaseStudy } from '@/payload-types'
 import { renderedTitle } from '@/utilities/gradientTitle'
 import { SupportingCaseStudyCard } from './SupportingCaseStudyCard'
+import { FadeInView } from '@/utilities/animations/FadeInView'
+import { ParallaxContainer } from '@/utilities/animations/ParallaxContainer'
 
 export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
   caseStudies,
@@ -141,137 +143,152 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="prose-sm mx-auto pb-8 pt-8 text-center md:prose-md xl:prose-lg md:pb-16">
-        <h2>{header}</h2>
-        {description && <p className="">{description}</p>}
+        <ParallaxContainer size="small">
+          <FadeInView animationStep={1}>
+            <h2>{header}</h2>
+          </FadeInView>
+          {description && (
+            <FadeInView animationStep={2}>
+              <p className="">{description}</p>
+            </FadeInView>
+          )}
+        </ParallaxContainer>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
-        <div className="col-span-1 h-full md:col-span-3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`hero-${activeIndex}`}
-              variants={heroCardVariants}
-              initial="initial"
-              animate={isInView ? 'animate' : 'initial'}
-              exit="exit"
-              className="relative h-full w-full will-change-transform"
-            >
-              {/* Hero Case Study Card */}
-              <div className="relative w-full overflow-hidden rounded-3xl md:aspect-[16/10]">
-                {currentStudy.testimonial?.background && (
-                  <div className="absolute inset-0 z-0 bg-gray-900">
-                    <Media
-                      resource={currentStudy.testimonial.background}
-                      className="h-full w-full object-cover"
-                      imgClassName="h-full w-full object-cover"
-                      fill
-                      loading="lazy"
-                    />
-                  </div>
-                )}
+      <FadeInView animationStep={3}>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+          <div className="col-span-1 h-full md:col-span-3">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`hero-${activeIndex}`}
+                variants={heroCardVariants}
+                initial="initial"
+                animate={isInView ? 'animate' : 'initial'}
+                exit="exit"
+                className="relative h-full w-full will-change-transform"
+              >
+                {/* Hero Case Study Card */}
+                <div className="relative w-full overflow-hidden rounded-3xl md:aspect-[16/10]">
+                  {currentStudy.testimonial?.background && (
+                    <div className="absolute inset-0 z-0 h-[120%] -translate-y-[10%] bg-gray-900">
+                      <Media
+                        resource={currentStudy.testimonial.background}
+                        className="h-full w-full object-cover"
+                        imgClassName="h-full w-full object-cover"
+                        fill
+                        loading="lazy"
+                        hasParallax
+                      />
+                    </div>
+                  )}
 
-                {/* Inner blurry content area that matches screenshot */}
-                {/* <div className="prose-sm relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:prose-md xl:prose-lg md:absolute md:inset-8 md:p-8"> */}
-                <div className="relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:absolute md:inset-8 md:p-8">
-                  <div className="grid grid-rows-[auto_1fr_auto]">
-                    {/* Company logo - white color for hero */}
-                    {currentStudy.logo && (
-                      <div className="not-prose relative my-3 flex h-12 w-32 items-center justify-start overflow-hidden md:my-4 md:h-16">
-                        <Media
-                          resource={currentStudy.logo}
-                          className="flex max-h-full max-w-full justify-start object-contain opacity-80 [filter:brightness(0)_invert(1)]"
-                          imgClassName="max-h-full max-w-full object-left object-contain"
-                          loading="lazy"
-                        />
+                  {/* Inner blurry content area that matches screenshot */}
+                  {/* <div className="prose-sm relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:prose-md xl:prose-lg md:absolute md:inset-8 md:p-8"> */}
+                  <div className="relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:absolute md:inset-8 md:p-8">
+                    <div className="grid grid-rows-[auto_1fr_auto]">
+                      {/* Company logo - white color for hero */}
+                      {currentStudy.logo && (
+                        <div className="not-prose relative my-3 flex h-12 w-32 items-center justify-start overflow-hidden md:my-4 md:h-16">
+                          <Media
+                            resource={currentStudy.logo}
+                            className="flex max-h-full max-w-full justify-start object-contain opacity-80 [filter:brightness(0)_invert(1)]"
+                            imgClassName="max-h-full max-w-full object-left object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+
+                      {/* Quote - properly centered both vertically and horizontally */}
+                      <div className="py-6 md:py-8">
+                        {currentStudy.testimonial?.quoteText && (
+                          <div className="case-study-quote text-xl font-extralight text-white md:line-clamp-3 md:text-3xl">
+                            {currentStudy.testimonial.quoteText}
+                          </div>
+                        )}
                       </div>
-                    )}
 
-                    {/* Quote - properly centered both vertically and horizontally */}
-                    <div className="py-6 md:py-8">
-                      {currentStudy.testimonial?.quoteText && (
-                        <div className="case-study-quote text-xl font-extralight text-white md:line-clamp-3 md:text-3xl">
-                          {currentStudy.testimonial.quoteText}
+                      {/* Author information - right aligned */}
+                      <div className="flex items-end justify-end">
+                        <div className="text-right text-lg text-white/80 md:mt-4 md:text-2xl">
+                          {/* <div className="case-study-author text-md text-white md:text-lg lg:text-xl"> */}
+                          <div className="case-study-author">
+                            {currentStudy.testimonial?.author || ''}
+                          </div>
+                          <div className="case-study-position">
+                            {currentStudy.testimonial?.position || ''}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Read story link */}
+                      {currentStudy.url && (
+                        <div className="mt-8">
+                          <a
+                            href={currentStudy.url}
+                            className="group flex items-center text-white"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <span>Read story</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </a>
                         </div>
                       )}
                     </div>
+                  </div>
 
-                    {/* Author information - right aligned */}
-                    <div className="flex items-end justify-end">
-                      <div className="text-right text-lg text-white/80 md:mt-4 md:text-2xl">
-                        {/* <div className="case-study-author text-md text-white md:text-lg lg:text-xl"> */}
-                        <div className="case-study-author">
-                          {currentStudy.testimonial?.author || ''}
-                        </div>
-                        <div className="case-study-position">
-                          {currentStudy.testimonial?.position || ''}
-                        </div>
-                      </div>
+                  {/* Progress indicator */}
+                  {totalCaseStudies > 1 && (
+                    <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/10">
+                      <div
+                        className="h-full bg-white/40 transition-all"
+                        style={{ width: `${progressPercent}%` }}
+                      />
                     </div>
-
-                    {/* Read story link */}
-                    {currentStudy.url && (
-                      <div className="mt-8">
-                        <a
-                          href={currentStudy.url}
-                          className="group flex items-center text-white"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span>Read story</span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-                {/* Progress indicator */}
-                {totalCaseStudies > 1 && (
-                  <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/10">
-                    <div
-                      className="h-full bg-white/40 transition-all"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          <div className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6">
+            {nextStudy && (
+              <FadeInView animationStep={3}>
+                <SupportingCaseStudyCard
+                  study={nextStudy}
+                  index={nextIndex}
+                  onClick={handleCardClick}
+                  variants={supportingCardVariants}
+                />
+              </FadeInView>
+            )}
+
+            {secondNextStudy && totalCaseStudies > 2 && (
+              <FadeInView animationStep={4}>
+                <SupportingCaseStudyCard
+                  study={secondNextStudy}
+                  index={secondNextIndex}
+                  onClick={handleCardClick}
+                  variants={supportingCardVariants}
+                />
+              </FadeInView>
+            )}
+          </div>
         </div>
-
-        <div className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6">
-          {nextStudy && (
-            <SupportingCaseStudyCard
-              study={nextStudy}
-              index={nextIndex}
-              onClick={handleCardClick}
-              variants={supportingCardVariants}
-            />
-          )}
-
-          {secondNextStudy && totalCaseStudies > 2 && (
-            <SupportingCaseStudyCard
-              study={secondNextStudy}
-              index={secondNextIndex}
-              onClick={handleCardClick}
-              variants={supportingCardVariants}
-            />
-          )}
-        </div>
-      </div>
+      </FadeInView>
     </div>
   )
 }

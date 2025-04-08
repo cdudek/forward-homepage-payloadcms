@@ -389,3 +389,10 @@ html {
 .legal-pages.prose-lg a:active {
   @apply text-fwd-grey-300;
 }
+
+.prose li,
+.prose-sm li,
+.prose-md li,
+.prose-lg li {
+  line-height: 1.3;
+}
