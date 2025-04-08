@@ -49,7 +49,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                 >
                   {bgImageUrl && (
                     <div
-                      className="absolute inset-0 z-0 h-[120%] -translate-y-[10%]"
+                      className="absolute inset-0 z-0 h-[calc(100%+50px)] -translate-y-[50px]"
                       key={`model-bg-${index}`}
                     >
                       <Media

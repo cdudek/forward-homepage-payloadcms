@@ -79,8 +79,8 @@ export const SingleCaseStudyBlock: React.FC<SingleCaseStudyBlockType> = ({
                 {/* Hero Case Study Card */}
                 <div className="relative overflow-hidden rounded-3xl md:absolute md:inset-0">
                   {currentStudy.testimonial?.background && (
-                    <div className="absolute inset-0 z-0 h-[110%] overflow-hidden">
-                      <div className="relative h-full w-full -translate-y-[10%]">
+                    <div className="absolute inset-0 z-0 h-[calc(100%+50px)] overflow-hidden">
+                      <div className="relative h-[calc(100%+50px)] w-full -translate-y-[50px]">
                         <Media
                           resource={currentStudy.testimonial.background}
                           className="h-full w-full object-cover"

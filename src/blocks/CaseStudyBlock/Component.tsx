@@ -170,20 +170,21 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                 {/* Hero Case Study Card */}
                 <div className="relative w-full overflow-hidden rounded-3xl md:aspect-[16/10]">
                   {currentStudy.testimonial?.background && (
-                    <div className="absolute inset-0 z-0 h-[120%] -translate-y-[10%] bg-gray-900">
-                      <Media
-                        resource={currentStudy.testimonial.background}
-                        className="h-full w-full object-cover"
-                        imgClassName="h-full w-full object-cover"
-                        fill
-                        loading="lazy"
-                        hasParallax
-                      />
+                    <div className="absolute inset-0 z-0 overflow-hidden bg-gray-900">
+                      <div className="relative h-[calc(100%+50px)] w-full -translate-y-[50px]">
+                        <Media
+                          resource={currentStudy.testimonial.background}
+                          className="h-full w-full object-cover"
+                          imgClassName="h-full w-full object-cover"
+                          fill
+                          loading="lazy"
+                          hasParallax
+                        />
+                      </div>
                     </div>
                   )}
 
-                  {/* Inner blurry content area that matches screenshot */}
-                  {/* <div className="prose-sm relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:prose-md xl:prose-lg md:absolute md:inset-8 md:p-8"> */}
+                  {/* Inner blurry content area */}
                   <div className="relative z-10 rounded-3xl bg-white/20 p-6 backdrop-blur-sm md:absolute md:inset-8 md:p-8">
                     <div className="grid grid-rows-[auto_1fr_auto]">
                       {/* Company logo - white color for hero */}

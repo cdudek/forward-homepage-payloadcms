@@ -52,8 +52,6 @@ export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  // Calculate a larger scroll range based on speed
-  // Lower speed = longer scrolling distance needed to complete the effect
   const scrollRange = clientHeight / parallaxSpeed
 
   const y = useSpring(

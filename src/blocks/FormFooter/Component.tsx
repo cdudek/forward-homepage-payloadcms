@@ -195,7 +195,7 @@ export const FooterFormBlock: React.FC<
             className={`absolute inset-0 overflow-hidden`}
             style={isFooterForm ? { clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)' } : {}}
           >
-            <div className="absolute inset-0 h-[120%] w-full -translate-y-[10%]">
+            <div className="absolute inset-0 h-[calc(100%+50px)] w-full -translate-y-[50px]">
               <Media
                 fill
                 imgClassName="absolute inset-0 h-full w-full object-cover"
