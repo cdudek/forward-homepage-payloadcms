@@ -209,9 +209,7 @@ export const FooterFormBlock: React.FC<
           </div>
         )}
 
-        {/* <div className={`relative px-0 pb-32 pt-8`}> */}
         <div className={cn('container md:py-32', isFullHeight && 'py-24', !isFullHeight && 'py-8')}>
-          {/* <div className="container pt-[calc(5vw+2rem)]"> */}
           {/* Main Container with white transparency */}
           <div
             className={cn(
@@ -224,10 +222,10 @@ export const FooterFormBlock: React.FC<
               {/* Left Column - Title and Description */}
               <div className="flex h-full flex-col py-4 text-center md:py-0 md:text-left">
                 <div className="prose-sm md:prose-md xl:prose-lg">
-                  <FadeInView animationStep={1}>
+                  <FadeInView animationStep={0}>
                     <h2 className="text-white">{htmlDecode(title)}</h2>
                   </FadeInView>
-                  <FadeInView animationStep={2}>
+                  <FadeInView animationStep={1}>
                     <p className="mt-4 text-white/90 md:pl-2">{htmlDecode(description)}</p>
                   </FadeInView>
                 </div>
@@ -256,18 +254,18 @@ export const FooterFormBlock: React.FC<
                       />
                     </svg>
                     <div className="space-y-1 md:space-y-2">
-                      <FadeInView animationStep={3}>
+                      <FadeInView animationStep={2}>
                         <p className="text-base font-medium text-white/90 md:text-lg">
                           forward Labs AG
                         </p>
                       </FadeInView>
-                      <FadeInView animationStep={4}>
+                      <FadeInView animationStep={3}>
                         <p className="text-base">Dammstrasse 19</p>
                       </FadeInView>
-                      <FadeInView animationStep={5}>
+                      <FadeInView animationStep={4}>
                         <p className="text-base">6300 Zug</p>
                       </FadeInView>
-                      <FadeInView animationStep={6}>
+                      <FadeInView animationStep={5}>
                         <p className="text-base">Switzerland</p>
                       </FadeInView>
                     </div>
@@ -276,7 +274,7 @@ export const FooterFormBlock: React.FC<
               </div>
 
               {/* Right Column - Form */}
-              <FadeInView animationStep={1}>
+              <FadeInView animationStep={0}>
                 <div className="rounded-3xl bg-white/30 p-4 md:p-6">
                   <FormProvider {...formMethods}>
                     {isLoading && <p className="text-white">Loading, please wait...</p>}
