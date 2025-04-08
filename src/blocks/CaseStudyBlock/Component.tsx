@@ -264,31 +264,32 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
             </AnimatePresence>
           </div>
 
-          <div className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6">
+          {/* <div className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6"> */}
+          <FadeInView
+            animationStep={3}
+            className="hidden h-full md:col-span-2 md:grid md:grid-rows-2 md:gap-6"
+          >
             {nextStudy && (
-              <FadeInView animationStep={3}>
-                <SupportingCaseStudyCard
-                  study={nextStudy}
-                  index={nextIndex}
-                  onClick={handleCardClick}
-                  variants={supportingCardVariants}
-                />
-              </FadeInView>
+              <SupportingCaseStudyCard
+                study={nextStudy}
+                index={nextIndex}
+                onClick={handleCardClick}
+                variants={supportingCardVariants}
+              />
             )}
 
             {secondNextStudy && totalCaseStudies > 2 && (
-              <FadeInView animationStep={4}>
-                <SupportingCaseStudyCard
-                  study={secondNextStudy}
-                  index={secondNextIndex}
-                  onClick={handleCardClick}
-                  variants={supportingCardVariants}
-                />
-              </FadeInView>
+              <SupportingCaseStudyCard
+                study={secondNextStudy}
+                index={secondNextIndex}
+                onClick={handleCardClick}
+                variants={supportingCardVariants}
+              />
             )}
-          </div>
+          </FadeInView>
         </div>
       </FadeInView>
+      {/* </div> */}
     </div>
   )
 }
