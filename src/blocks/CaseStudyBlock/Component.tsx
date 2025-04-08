@@ -171,7 +171,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
                 <div className="relative w-full overflow-hidden rounded-3xl md:aspect-[16/10]">
                   {currentStudy.testimonial?.background && (
                     <div className="absolute inset-0 z-0 overflow-hidden bg-gray-900">
-                      <div className="relative h-[calc(100%+50px)] w-full -translate-y-[50px]">
+                      <div className="relative h-[calc(100%+75px)] w-full -translate-y-[50px]">
                         <Media
                           resource={currentStudy.testimonial.background}
                           className="h-full w-full object-cover"
