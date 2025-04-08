@@ -21,5 +21,5 @@ export interface Props {
   videoClassName?: string
   hasParallax?: boolean
   parallaxSpeed?: number
-  parallaxDirection?: 'x' | 'y'
+  parallaxOffset?: number
 }

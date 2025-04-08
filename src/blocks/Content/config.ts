@@ -217,7 +217,7 @@ export const Content: Block = {
                 {
                   name: 'x',
                   type: 'select',
-                  defaultValue: 'none',
+                  defaultValue: 'medium',
                   options: [
                     {
                       label: 'None',

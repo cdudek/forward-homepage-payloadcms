@@ -301,7 +301,7 @@ html {
 .prose-lg .faq-answer {
   font-weight: 200;
 }
-
+.prose .feature-header,
 .prose-sm .feature-header,
 .prose-md .feature-header,
 .prose-lg .feature-header {

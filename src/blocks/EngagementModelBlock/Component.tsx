@@ -58,8 +58,8 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
                         imgClassName="h-full w-full object-cover"
                         fill
                         loading="lazy"
-                        // hasParallax
-                        // parallaxSpeed={1 / (index + 2)}
+                        hasParallax
+                        parallaxOffset={25}
                       />
                       <div className="absolute inset-0 z-10 bg-gradient-to-b from-[rgba(30,30,30,0.0)] via-[rgba(30,30,30,0.1)] to-[rgba(30,30,30,0.6)]"></div>
                     </div>

@@ -168,6 +168,10 @@ export const enum_pages_blocks_services_accordion_block_link_type = pgEnum(
 )
 export const enum_pages_page_theme = pgEnum('enum_pages_page_theme', ['light', 'dark'])
 export const enum_pages_header_color = pgEnum('enum_pages_header_color', ['light', 'dark'])
+export const enum_pages_mobile_menu_theme = pgEnum('enum_pages_mobile_menu_theme', [
+  'light',
+  'dark',
+])
 export const enum_pages_hero_type = pgEnum('enum_pages_hero_type', [
   'none',
   'highImpact',
@@ -300,6 +304,10 @@ export const enum__pages_v_version_header_color = pgEnum('enum__pages_v_version_
   'light',
   'dark',
 ])
+export const enum__pages_v_version_mobile_menu_theme = pgEnum(
+  'enum__pages_v_version_mobile_menu_theme',
+  ['light', 'dark'],
+)
 export const enum__pages_v_version_hero_type = pgEnum('enum__pages_v_version_hero_type', [
   'none',
   'highImpact',
@@ -639,6 +647,7 @@ export const pages_blocks_content_columns = pgTable(
     id: varchar('id').primaryKey(),
     size: enum_pages_blocks_content_columns_size('size').default('oneThird'),
     richText: jsonb('rich_text'),
+    className: varchar('class_name').default(''),
     enableLink: boolean('enable_link'),
     link_type: enum_pages_blocks_content_columns_link_type('link_type').default('reference'),
     link_newTab: boolean('link_new_tab'),
@@ -666,7 +675,7 @@ export const pages_blocks_content = pgTable(
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
     sectionHeight: enum_pages_blocks_content_section_height('section_height').default('none'),
-    padding_x: enum_pages_blocks_content_padding_x('padding_x').default('none'),
+    padding_x: enum_pages_blocks_content_padding_x('padding_x').default('medium'),
     padding_y: enum_pages_blocks_content_padding_y('padding_y').default('none'),
     blockName: varchar('block_name'),
   },
@@ -794,8 +803,8 @@ export const pages_blocks_feature_grid_block_features = pgTable(
     icon_size: fg_icon_size('icon_size').default('medium'),
     icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('gradient'),
     icon_iconBackground: fg_icon_background('icon_icon_background').default('greyLight'),
-    title: varchar('title'),
-    description: varchar('description'),
+    title: varchar('title').default(''),
+    description: varchar('description').default(''),
   },
   (columns) => ({
     _orderIdx: index('pages_blocks_feature_grid_block_features_order_idx').on(columns._order),
@@ -820,8 +829,8 @@ export const pages_blocks_feature_grid_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
-    title: varchar('title').default(''),
-    gradientText: varchar('gradient_text').default(''),
+    title: varchar('title').default('Your value creation partner for growth&nbsp;&nbsp;innovation'),
+    gradientText: varchar('gradient_text').default('growth&nbsp;&nbsp;innovation'),
     description: varchar('description').default(''),
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
@@ -1155,8 +1164,8 @@ export const pages_blocks_services_accordion_block = pgTable(
     _path: text('_path').notNull(),
     id: varchar('id').primaryKey(),
     title: varchar('title').default('Our Value Creation Services'),
-    description: varchar('description').default(''),
     gradient: varchar('gradient').default('Value Creation'),
+    description: varchar('description').default(''),
     link_type:
       enum_pages_blocks_services_accordion_block_link_type('link_type').default('reference'),
     link_newTab: boolean('link_new_tab'),
@@ -1232,7 +1241,8 @@ export const pages = pgTable(
     id: serial('id').primaryKey(),
     title: varchar('title'),
     pageTheme: enum_pages_page_theme('page_theme').default('light'),
-    headerColor: enum_pages_header_color('header_color').default('dark'),
+    headerColor: enum_pages_header_color('header_color').default('light'),
+    mobileMenuTheme: enum_pages_mobile_menu_theme('mobile_menu_theme').default('light'),
     hero_type: enum_pages_hero_type('hero_type').default('lowImpact'),
     hero_impact: enum_pages_hero_impact('hero_impact').default('highImpact'),
     hero_hasAngledCorner: boolean('hero_has_angled_corner').default(false),
@@ -1610,6 +1620,7 @@ export const _pages_v_blocks_content_columns = pgTable(
     id: serial('id').primaryKey(),
     size: enum__pages_v_blocks_content_columns_size('size').default('oneThird'),
     richText: jsonb('rich_text'),
+    className: varchar('class_name').default(''),
     enableLink: boolean('enable_link'),
     link_type: enum__pages_v_blocks_content_columns_link_type('link_type').default('reference'),
     link_newTab: boolean('link_new_tab'),
@@ -1638,7 +1649,7 @@ export const _pages_v_blocks_content = pgTable(
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
     sectionHeight: enum__pages_v_blocks_content_section_height('section_height').default('none'),
-    padding_x: enum__pages_v_blocks_content_padding_x('padding_x').default('none'),
+    padding_x: enum__pages_v_blocks_content_padding_x('padding_x').default('medium'),
     padding_y: enum__pages_v_blocks_content_padding_y('padding_y').default('none'),
     _uuid: varchar('_uuid'),
     blockName: varchar('block_name'),
@@ -1773,8 +1784,8 @@ export const _pages_v_blocks_feature_grid_block_features = pgTable(
     icon_size: fg_icon_size('icon_size').default('medium'),
     icon_iconForeground: fg_icon_foreground('icon_icon_foreground').default('gradient'),
     icon_iconBackground: fg_icon_background('icon_icon_background').default('greyLight'),
-    title: varchar('title'),
-    description: varchar('description'),
+    title: varchar('title').default(''),
+    description: varchar('description').default(''),
     _uuid: varchar('_uuid'),
   },
   (columns) => ({
@@ -1800,8 +1811,8 @@ export const _pages_v_blocks_feature_grid_block = pgTable(
     _parentID: integer('_parent_id').notNull(),
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
-    title: varchar('title').default(''),
-    gradientText: varchar('gradient_text').default(''),
+    title: varchar('title').default('Your value creation partner for growth&nbsp;&nbsp;innovation'),
+    gradientText: varchar('gradient_text').default('growth&nbsp;&nbsp;innovation'),
     description: varchar('description').default(''),
     columns: fg_grid_cols('columns').default('oneThird'),
     enableBackground: boolean('enable_background').default(false),
@@ -2158,8 +2169,8 @@ export const _pages_v_blocks_services_accordion_block = pgTable(
     _path: text('_path').notNull(),
     id: serial('id').primaryKey(),
     title: varchar('title').default('Our Value Creation Services'),
-    description: varchar('description').default(''),
     gradient: varchar('gradient').default('Value Creation'),
+    description: varchar('description').default(''),
     link_type:
       enum__pages_v_blocks_services_accordion_block_link_type('link_type').default('reference'),
     link_newTab: boolean('link_new_tab'),
@@ -2243,7 +2254,11 @@ export const _pages_v = pgTable(
     }),
     version_title: varchar('version_title'),
     version_pageTheme: enum__pages_v_version_page_theme('version_page_theme').default('light'),
-    version_headerColor: enum__pages_v_version_header_color('version_header_color').default('dark'),
+    version_headerColor:
+      enum__pages_v_version_header_color('version_header_color').default('light'),
+    version_mobileMenuTheme: enum__pages_v_version_mobile_menu_theme(
+      'version_mobile_menu_theme',
+    ).default('light'),
     version_hero_type: enum__pages_v_version_hero_type('version_hero_type').default('lowImpact'),
     version_hero_impact:
       enum__pages_v_version_hero_impact('version_hero_impact').default('highImpact'),
@@ -5523,6 +5538,7 @@ type DatabaseSchema = {
   enum_pages_blocks_services_accordion_block_link_type: typeof enum_pages_blocks_services_accordion_block_link_type
   enum_pages_page_theme: typeof enum_pages_page_theme
   enum_pages_header_color: typeof enum_pages_header_color
+  enum_pages_mobile_menu_theme: typeof enum_pages_mobile_menu_theme
   enum_pages_hero_type: typeof enum_pages_hero_type
   enum_pages_hero_impact: typeof enum_pages_hero_impact
   enum_pages_status: typeof enum_pages_status
@@ -5553,6 +5569,7 @@ type DatabaseSchema = {
   enum__pages_v_blocks_services_accordion_block_link_type: typeof enum__pages_v_blocks_services_accordion_block_link_type
   enum__pages_v_version_page_theme: typeof enum__pages_v_version_page_theme
   enum__pages_v_version_header_color: typeof enum__pages_v_version_header_color
+  enum__pages_v_version_mobile_menu_theme: typeof enum__pages_v_version_mobile_menu_theme
   enum__pages_v_version_hero_type: typeof enum__pages_v_version_hero_type
   enum__pages_v_version_hero_impact: typeof enum__pages_v_version_hero_impact
   enum__pages_v_version_status: typeof enum__pages_v_version_status

@@ -213,7 +213,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockType> = (props) => {
                         </div>
 
                         <div className="w-full text-center">
-                          <h4 className="feature-header mb-2 flex min-h-[3em] items-center justify-center">
+                          <h4 className="feature-header mb-2 flex min-h-[1.3em] items-center justify-center md:min-h-[3em]">
                             {htmlDecode(title)}
                           </h4>
                           <p className="text-fwd-black">{htmlDecode(description)}</p>
