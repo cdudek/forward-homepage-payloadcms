@@ -221,7 +221,7 @@ export const ServicesAccordionBlock: React.FC<ServicesAccordionBlockProps> = ({
               {/* Left side - Main display */}
               <div className="flex flex-col justify-center">
                 <div className="flex w-full flex-col gap-6 text-center lg:text-left">
-                  <ParallaxContainer size="small">
+                  <ParallaxContainer size="title">
                     <div className="prose prose-sm md:prose-base lg:prose-lg">
                       <FadeInView animationStep={1}>
                         <h2 className="m-0 bg-none p-0 leading-tight">{formattedTitle}</h2>

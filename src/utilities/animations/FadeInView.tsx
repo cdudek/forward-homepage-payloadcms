@@ -17,7 +17,7 @@ export const FadeInView: React.FC<FadeInViewProps> = ({
   delay = 0,
   stepDelay = 0.1,
   duration = 0.75,
-  offset = 20,
+  offset = 10,
   className,
   animationStep = 1,
   negativeOffset = false,

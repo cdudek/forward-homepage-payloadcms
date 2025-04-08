@@ -219,7 +219,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
       <div ref={containerRef} className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
         {/* Header */}
         <div className="prose-sm col-span-12 mx-auto max-w-none text-center md:prose-md xl:prose-lg">
-          <ParallaxContainer size="small">
+          <ParallaxContainer size="title">
             <FadeInView animationStep={1}>
               <h2>{formattedTitle}</h2>
             </FadeInView>

@@ -37,7 +37,7 @@ export const FAQBlock: React.FC<FAQBlockProps> = ({
   return (
     <div className={cn('container mx-auto py-16 md:py-24', textColor)}>
       <div className="prose prose-sm col-span-12 max-w-none text-center md:prose-base lg:prose-lg">
-        <ParallaxContainer size="small">
+        <ParallaxContainer size="title">
           <FadeInView animationStep={1}>
             <h2 className="pb-4">{formattedTitle}</h2>
           </FadeInView>

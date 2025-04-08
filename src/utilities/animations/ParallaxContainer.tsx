@@ -7,7 +7,7 @@ interface ParallaxContainerProps {
   className?: string
   negativeOffset?: boolean
   parallaxSpeed?: number
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'medium' | 'large' | 'title'
 }
 
 export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
@@ -25,6 +25,7 @@ export const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
   const [clientHeight, setClientHeight] = useState(0)
 
   const offsetValues = {
+    title: 10,
     small: 25,
     medium: 50,
     large: 100,

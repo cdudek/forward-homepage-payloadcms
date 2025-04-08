@@ -91,7 +91,7 @@ export const PhaseStepperVertical: React.FC<PhaseStepperVerticalProps> = ({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto grid w-full grid-cols-12 gap-x-8 gap-y-8">
             <div className="prose-sm prose-invert col-span-12 mx-auto max-w-none text-center text-white md:prose-md xl:prose-lg">
-              <ParallaxContainer size="small">
+              <ParallaxContainer size="title">
                 <FadeInView animationStep={1}>
                   <h2>{htmlDecode(title)}</h2>
                 </FadeInView>

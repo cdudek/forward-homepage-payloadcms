@@ -18,7 +18,7 @@ export const EngagementModelBlock: React.FC<EngagementModelBlockType> = (props) 
     <div className="container mx-auto py-16 md:py-24">
       <div className="grid grid-cols-1 gap-y-16">
         <div className="prose prose-sm mx-auto text-center md:prose-md xl:prose-lg">
-          <ParallaxContainer size="small">
+          <ParallaxContainer size="title">
             <FadeInView animationStep={1}>
               <h2>{header}</h2>
             </FadeInView>

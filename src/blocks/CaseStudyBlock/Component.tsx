@@ -143,7 +143,7 @@ export const CaseStudyBlock: React.FC<CaseStudyBlockType> = ({
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="prose-sm mx-auto pb-8 pt-8 text-center md:prose-md xl:prose-lg md:pb-16">
-        <ParallaxContainer size="small">
+        <ParallaxContainer size="title">
           <FadeInView animationStep={1}>
             <h2>{header}</h2>
           </FadeInView>

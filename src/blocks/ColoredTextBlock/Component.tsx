@@ -17,7 +17,7 @@ export const ColoredTextBlock: React.FC<ColoredTextBlockProps> = ({ textElements
     <div className={cn('container mx-auto flex min-h-screen items-center', textColor)}>
       <div className="grid w-full grid-cols-12 gap-4">
         <div className="prose prose-sm col-span-12 max-w-none text-center md:prose-base lg:prose-lg">
-          <ParallaxContainer size="small">
+          <ParallaxContainer size="title">
             <FadeInView>
               <ScrollRevealText
                 text={textElements.map((element) => element.text).join('')}
