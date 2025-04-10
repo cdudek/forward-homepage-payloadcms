@@ -57,7 +57,7 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [tabsScrollContainer, setTabsScrollContainer] = useState<HTMLDivElement | null>(null)
 
-  const progressDuration = 80000
+  const progressDuration = 8000
   const transitionDuration = 400
 
   const tabItems = useMemo(
