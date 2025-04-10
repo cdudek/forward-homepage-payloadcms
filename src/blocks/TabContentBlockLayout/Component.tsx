@@ -57,7 +57,7 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [tabsScrollContainer, setTabsScrollContainer] = useState<HTMLDivElement | null>(null)
 
-  const progressDuration = 8000
+  const progressDuration = 80000
   const transitionDuration = 400
 
   const tabItems = useMemo(
@@ -364,12 +364,13 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
                       className="relative flex shrink-0 items-center px-1 md:px-2"
                       style={{
                         scrollSnapAlign: 'center',
-                        width: isMobile ? '80%' : 'auto',
+                        width: isMobile ? '90%' : 'auto',
+                        minWidth: isMobile ? '90%' : '',
                       }}
                     >
                       <motion.button
                         className={cn(
-                          'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-3 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
+                          'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-4 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
                           'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
                         )}
                         onClick={() => handleTabClick(tabItems.length - 1)}
@@ -398,8 +399,7 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
                         className="relative flex shrink-0 items-center px-1 md:px-2"
                         style={{
                           scrollSnapAlign: 'center',
-                          // Make tabs wider on mobile (80% of container width)
-                          width: isMobile ? '80%' : 'auto',
+                          width: isMobile ? '90%' : 'auto',
                         }}
                       >
                         <motion.button
@@ -407,7 +407,7 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
                             if (el) buttonRefs.current[index] = el
                           }}
                           className={cn(
-                            'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-3 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
+                            'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-4 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
                             isActive
                               ? 'text-white'
                               : 'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
@@ -435,12 +435,12 @@ export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
                       className="relative flex shrink-0 items-center px-1 md:px-2"
                       style={{
                         scrollSnapAlign: 'center',
-                        width: isMobile ? '80%' : 'auto',
+                        width: isMobile ? '90%' : 'auto',
                       }}
                     >
                       <motion.button
                         className={cn(
-                          'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-3 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
+                          'group relative z-0 flex h-10 w-full flex-1 items-center justify-center whitespace-nowrap rounded-3xl px-4 py-2 text-sm font-medium sm:h-12 sm:px-6 sm:py-3 sm:text-base',
                           'border-2 border-fwd-grey-100 bg-fwd-white text-fwd-grey-800 hover:bg-fwd-grey-100',
                         )}
                         onClick={() => handleTabClick(0)}

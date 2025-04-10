@@ -88,18 +88,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     </>
   )
 
-  // const navItems = data?.filter((item) => !item.link.isCTA)
-  // const ctaItem = data?.navItems?.filter((item) => item.link.isCTA)?.[0]
-  // console.log(JSON.stringify(navItems, null, 2))
-  // console.log(JSON.stringify(ctaItem, null, 2))
-  console.log(JSON.stringify(data, null, 2))
   const newData = {
     id: data.id,
     navItems: data.navItems?.filter((item) => !item.link.isCTA),
   }
-  console.log(JSON.stringify(newData, null, 2))
   const ctaItem = data.navItems?.filter((item) => item.link.isCTA)?.[0]
-  console.log(JSON.stringify(ctaItem, null, 2))
+
   // DESKTOP HEADER — fixed at the top, color changes when scrolled
   const desktopHeader = (
     <header className={clsx(headerPositioning, 'absolute hidden py-6 md:block')}>
