@@ -27,7 +27,13 @@ const buttonVariants = cva(
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         ghost:
           'hover:bg-semantic-background-secondary hover:text-semantic-text-primary rounded-3xl',
-        link: "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange after:transition-all after:duration-300 hover:after:w-full",
+        link: 'text-semantic-text-primary items-start justify-start hover:underline underline-offset-8 underline-transparent transition-all duration-300',
+        linkLight:
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-fwd-black after:transition-all after:duration-300 hover:after:w-full",
+        linkDark:
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full",
+        linkGradient:
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange after:transition-all after:duration-300 hover:after:w-full",
         nav: 'text-semantic-text-primary items-start justify-start',
         outline: `border border-white text-white bg-transparent hover:bg-white/10 rounded-3xl`,
         outlineIcon: `border border-white text-white bg-transparent hover:bg-white/10 group rounded-3xl`,
@@ -52,8 +58,8 @@ const fillStyles = {
       transition-all
       duration-300 ease-in-out
       after:transition-opacity after:duration-300
-      hover:after:opacity-90
-      active:after:opacity-80`,
+      hover:after:opacity-80
+      active:after:opacity-70`,
     outline: `relative bg-transparent p-0 border-0 transition-all duration-300 
       before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] 
       after:absolute after:rounded-3xl after:inset-[1px] after:bg-transparent after:content-[""] after:z-[0] 
@@ -73,8 +79,8 @@ const fillStyles = {
       duration-300 ease-in-out
       active:after:inset-shadow-md
       after:transition-opacity after:duration-300
-      hover:after:opacity-90
-      active:after:opacity-80`,
+      hover:after:opacity-80
+      active:after:opacity-70`,
     outline: `relative bg-transparent p-0 border-0 transition-all duration-300 
       before:absolute before:inset-0 before:rounded-3xl before:${GRADIENT_CLASSES} before:z-[-1] 
       after:absolute after:rounded-3xl after:inset-[1px] after:bg-transparent after:content-[""] after:z-[0] 
