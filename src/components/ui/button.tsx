@@ -5,7 +5,7 @@ import * as React from 'react'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 
 const buttonVariants = cva(
-  `inline-flex items-center justify-center whitespace-nowrap relative rounded-3xl text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-semantic-background-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer w-auto`,
+  `inline-flex items-center justify-center whitespace-nowrap relative text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-semantic-background-primary disabled:pointer-events-none disabled:opacity-50 cursor-pointer w-auto`,
   {
     defaultVariants: {
       size: 'default',
@@ -22,17 +22,20 @@ const buttonVariants = cva(
         xl: 'h-12 px-6',
       },
       variant: {
-        primary: 'text-white overflow-hidden',
-        primaryIcon: 'text-white overflow-hidden group',
+        primary: 'text-white overflow-hidden rounded-3xl',
+        primaryIcon: 'text-white overflow-hidden group rounded-3xl',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        ghost: 'hover:bg-semantic-background-secondary hover:text-semantic-text-primary',
-        link: 'text-semantic-text-primary items-start justify-start underline-offset-4 hover:underline',
-        outline: `border border-white text-white bg-transparent hover:bg-white/10`,
-        outlineIcon: `border border-white text-white bg-transparent hover:bg-white/10 group`,
-        outlineDark: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300`,
-        outlineDarkIcon: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 group transition-all duration-300`,
-        secondary: 'text-white overflow-hidden hover:opacity-90 transition-opacity',
-        secondaryIcon: 'text-white overflow-hidden hover:opacity-90 transition-opacity group',
+        ghost:
+          'hover:bg-semantic-background-secondary hover:text-semantic-text-primary rounded-3xl',
+        link: "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange after:transition-all after:duration-300 hover:after:w-full",
+        nav: 'text-semantic-text-primary items-start justify-start',
+        outline: `border border-white text-white bg-transparent hover:bg-white/10 rounded-3xl`,
+        outlineIcon: `border border-white text-white bg-transparent hover:bg-white/10 group rounded-3xl`,
+        outlineDark: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300 rounded-3xl`,
+        outlineDarkIcon: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 group transition-all duration-300 rounded-3xl`,
+        secondary: 'text-white overflow-hidden hover:opacity-90 transition-opacity rounded-3xl',
+        secondaryIcon:
+          'text-white overflow-hidden hover:opacity-90 transition-opacity group rounded-3xl',
       },
     },
   },
@@ -48,7 +51,7 @@ const fillStyles = {
       active:after:inset-shadow-md
       transition-all
       duration-300 ease-in-out
-      after:transition-colors after:duration-300
+      after:transition-opacity after:duration-300
       hover:after:opacity-90
       active:after:opacity-80`,
     outline: `relative bg-transparent p-0 border-0 transition-all duration-300 
@@ -69,7 +72,7 @@ const fillStyles = {
       transition-all
       duration-300 ease-in-out
       active:after:inset-shadow-md
-      after:transition-colors after:duration-300
+      after:transition-opacity after:duration-300
       hover:after:opacity-90
       active:after:opacity-80`,
     outline: `relative bg-transparent p-0 border-0 transition-all duration-300 

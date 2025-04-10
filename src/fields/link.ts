@@ -89,6 +89,17 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
             },
             label: 'Open in new tab',
           },
+          {
+            name: 'isCTA',
+            type: 'checkbox',
+            admin: {
+              width: '50%',
+              style: {
+                alignSelf: 'flex-end',
+              },
+            },
+            label: 'Is CTA',
+          },
         ],
       },
     ],

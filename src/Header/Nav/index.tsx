@@ -17,9 +17,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, color = 'dark' }) =>
   const textColor = color === 'light' ? 'text-fwd-black' : 'text-white'
   return (
     <nav className="flex items-center gap-8 pt-1">
-      {navItems.map(({ link }, i) => {
+      {navItems.map(({ link }, index) => {
         return (
-          <CMSLink key={i} {...link} appearance="link" className={cn(textColor, 'md:text-lg')} />
+          <CMSLink
+            key={`nav-${index}`}
+            {...link}
+            appearance="link"
+            className={cn(textColor, 'md:text-lg')}
+          />
         )
       })}
     </nav>

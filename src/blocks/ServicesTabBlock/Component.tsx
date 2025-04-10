@@ -79,6 +79,7 @@ export const ServicesTabBlock: React.FC<ServicesTabBlockProps> = ({
     return () => observer.disconnect()
   }, [])
 
+  // Auto-scroll to active tab only on mobile and when visible
   useEffect(() => {
     if (isMobile && isVisible && buttonRefs.current[activeServiceIndex]) {
       buttonRefs.current[activeServiceIndex]?.scrollIntoView({

@@ -181,6 +181,7 @@ export interface Page {
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
+            isCTA?: boolean | null;
             reference?:
               | ({
                   relationTo: 'pages';
@@ -439,6 +440,7 @@ export interface ActionTilesBlock {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -540,6 +542,7 @@ export interface CallToActionBlock {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -658,6 +661,7 @@ export interface ContentBlock {
         link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -1139,6 +1143,7 @@ export interface ProductFeatureBlock {
   link: {
     type?: ('reference' | 'custom') | null;
     newTab?: boolean | null;
+    isCTA?: boolean | null;
     reference?:
       | ({
           relationTo: 'pages';
@@ -1172,6 +1177,7 @@ export interface ServicesAccordionBlock {
   link: {
     type?: ('reference' | 'custom') | null;
     newTab?: boolean | null;
+    isCTA?: boolean | null;
     reference?:
       | ({
           relationTo: 'pages';
@@ -1528,6 +1534,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | {
                     type?: T;
                     newTab?: T;
+                    isCTA?: T;
                     reference?: T;
                     url?: T;
                     label?: T;
@@ -1597,6 +1604,7 @@ export interface ActionTilesBlockSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -1650,6 +1658,7 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -1705,6 +1714,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -1909,6 +1919,7 @@ export interface ProductFeatureBlockSelect<T extends boolean = true> {
     | {
         type?: T;
         newTab?: T;
+        isCTA?: T;
         reference?: T;
         url?: T;
         label?: T;
@@ -1930,6 +1941,7 @@ export interface ServicesAccordionBlockSelect<T extends boolean = true> {
     | {
         type?: T;
         newTab?: T;
+        isCTA?: T;
         reference?: T;
         url?: T;
         label?: T;
@@ -2465,6 +2477,7 @@ export interface Header {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -2494,6 +2507,7 @@ export interface Footer {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -2514,6 +2528,7 @@ export interface Footer {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -2534,6 +2549,7 @@ export interface Footer {
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
+          isCTA?: boolean | null;
           reference?:
             | ({
                 relationTo: 'pages';
@@ -2565,6 +2581,7 @@ export interface HeaderSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -2588,6 +2605,7 @@ export interface FooterSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -2602,6 +2620,7 @@ export interface FooterSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;
@@ -2616,6 +2635,7 @@ export interface FooterSelect<T extends boolean = true> {
           | {
               type?: T;
               newTab?: T;
+              isCTA?: T;
               reference?: T;
               url?: T;
               label?: T;

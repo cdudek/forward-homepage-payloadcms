@@ -233,11 +233,11 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
             <div className="relative col-span-12 mt-4">
               <div className="no-scrollbar -mx-4 flex overflow-x-auto px-4 sm:mx-0 sm:px-0">
                 <div className="mx-auto flex gap-2 sm:gap-4">
-                  {audienceData.map((service, index) => {
+                  {audienceData.map((audience, index) => {
                     const isActive = activeAudienceIndex === index
 
                     return (
-                      <div key={service.id} className="relative shrink-0">
+                      <div key={audience.id} className="relative shrink-0">
                         {/* Hover background for inactive tabs */}
                         {!isActive && (
                           <div className="absolute inset-0 rounded-3xl border-2 border-fwd-grey-50 transition-colors duration-200 group-hover:bg-white group-hover:opacity-80" />
@@ -267,7 +267,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = ({
                           whileTap={{ scale: 1.01, opacity: 0.9 }}
                           transition={springTransition}
                         >
-                          {service.title}
+                          {audience.title}
                         </motion.button>
                       </div>
                     )
