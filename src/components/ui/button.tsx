@@ -29,11 +29,11 @@ const buttonVariants = cva(
           'hover:bg-semantic-background-secondary hover:text-semantic-text-primary rounded-3xl',
         link: 'text-semantic-text-primary items-start justify-start hover:underline underline-offset-8 underline-transparent transition-all duration-300',
         linkLight:
-          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-fwd-black after:transition-all after:duration-300 hover:after:w-full",
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-fwd-black after:transition-all after:duration-300",
         linkDark:
-          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full",
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-white after:transition-all after:duration-300",
         linkGradient:
-          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange after:transition-all after:duration-300 hover:after:w-full",
+          "text-semantic-text-primary items-start justify-start relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange after:transition-all after:duration-300",
         nav: 'text-semantic-text-primary items-start justify-start',
         outline: `border border-white text-white bg-transparent hover:bg-white/10 rounded-3xl`,
         outlineIcon: `border border-white text-white bg-transparent hover:bg-white/10 group rounded-3xl`,
@@ -123,6 +123,18 @@ const fillStyles = {
     filled: `border border-fwd-black text-fwd-black bg-white hover:bg-fwd-black/20 active:bg-fwd-black/30 transition-all duration-300`,
     outline: 'transition-all duration-300 ease-in-out',
   },
+  linkLight: {
+    filled: 'after:bg-fwd-black',
+    outline: 'after:bg-fwd-black',
+  },
+  linkDark: {
+    filled: 'after:bg-white',
+    outline: 'after:bg-white',
+  },
+  linkGradient: {
+    filled: 'after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange',
+    outline: 'after:bg-gradient-to-r after:from-fwd-purple after:via-fwd-red after:to-fwd-orange',
+  },
 }
 
 export interface ButtonProps
@@ -131,6 +143,7 @@ export interface ButtonProps
   asChild?: boolean
   noFill?: boolean
   ref?: React.Ref<HTMLButtonElement>
+  persistHover?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -141,12 +154,16 @@ const Button: React.FC<ButtonProps> = ({
   noFill = false,
   ref,
   children,
+  persistHover = false,
   ...props
 }) => {
   const Comp = asChild ? Slot : 'button'
+  const [isHovered, setIsHovered] = React.useState(false)
 
   const isIconVariant =
     variant && ['primaryIcon', 'outlineIcon', 'secondaryIcon', 'outlineDarkIcon'].includes(variant)
+
+  const isLinkVariant = variant && ['linkLight', 'linkDark', 'linkGradient'].includes(variant)
 
   const needsZIndexedContent = [
     'primary',
@@ -170,14 +187,25 @@ const Button: React.FC<ButtonProps> = ({
   const fillStyle = variantToUse ? (noFill ? variantToUse.outline : variantToUse.filled) : ''
 
   const effectiveVariant = isIconVariant ? (baseVariant as typeof variant) : variant
+
+  // Link hover state classes
+  const linkHoverStateClass = isLinkVariant
+    ? isHovered || persistHover
+      ? 'after:w-full'
+      : 'after:w-0 hover:after:w-full'
+    : ''
+
   return (
     <Comp
       className={cn(
         buttonVariants({ className, size, variant: effectiveVariant }),
         fillStyle,
         isIconVariant ? 'group' : '',
+        linkHoverStateClass,
       )}
       ref={ref}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       {...props}
     >
       {isIconVariant ? (
