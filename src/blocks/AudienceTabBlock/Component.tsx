@@ -1,6 +1,6 @@
 'use client'
 import React, { useMemo } from 'react'
-import { TabContentBlock } from '../TabContentBlock/Component'
+import { TabContentBlockLayout } from '../TabContentBlockLayout/Component'
 import type { Audience, AudienceTabBlock as AudienceTabBlockProps } from '@/payload-types'
 import { htmlDecode } from '@/utilities/htmlDecode'
 
@@ -28,7 +28,7 @@ export const AudienceTabBlock: React.FC<AudienceTabBlockProps> = (props) => {
   }, [audienceItems])
 
   return (
-    <TabContentBlock
+    <TabContentBlockLayout
       tabBlockItems={tabBlockItems}
       useColorBlends={false}
       darkMode={true}

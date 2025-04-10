@@ -20,7 +20,7 @@ export interface TabBlockItem {
   itemBullets?: Array<{ id?: string | null; text: string }>
 }
 
-export interface TabContentBlockProps {
+export interface TabContentBlockLayoutProps {
   title?: string
   subtitle?: string | null
   gradientText?: string | null
@@ -30,7 +30,7 @@ export interface TabContentBlockProps {
   // Always use the service version (with carousel on mobile)
 }
 
-export const TabContentBlock: React.FC<TabContentBlockProps> = ({
+export const TabContentBlockLayout: React.FC<TabContentBlockLayoutProps> = ({
   title,
   subtitle,
   gradientText,
@@ -603,4 +603,4 @@ export const TabContentBlock: React.FC<TabContentBlockProps> = ({
   )
 }
 
-export default TabContentBlock
+export default TabContentBlockLayout
