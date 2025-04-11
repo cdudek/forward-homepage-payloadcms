@@ -159,6 +159,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const Comp = asChild ? Slot : 'button'
   const [isHovered, setIsHovered] = React.useState(false)
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
   const isIconVariant =
     variant && ['primaryIcon', 'outlineIcon', 'secondaryIcon', 'outlineDarkIcon'].includes(variant)
@@ -188,6 +189,34 @@ const Button: React.FC<ButtonProps> = ({
 
   const effectiveVariant = isIconVariant ? (baseVariant as typeof variant) : variant
 
+  // Handle hover with exit delay for link variants
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+      hoverTimeoutRef.current = null
+    }
+    setIsHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (isLinkVariant) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setIsHovered(false)
+      }, 100)
+    } else {
+      setIsHovered(false)
+    }
+  }
+
+  // Clean up timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
+  }, [])
+
   // Link hover state classes
   const linkHoverStateClass = isLinkVariant
     ? isHovered || persistHover
@@ -204,8 +233,8 @@ const Button: React.FC<ButtonProps> = ({
         linkHoverStateClass,
       )}
       ref={ref}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       {...props}
     >
       {isIconVariant ? (
